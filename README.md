@@ -4,7 +4,7 @@ kld-intersections
 A library of intersection algorithms covering all SVG shape types.  
 Possible to intersect rotated/scaled/skewed shapes. 
 
-Test page can be found on [http://www.quazistax.com](http://www.quazistax.com).
+Test page can be found at [http://www.quazistax.com](http://www.quazistax.com).
 
 Install
 -------
