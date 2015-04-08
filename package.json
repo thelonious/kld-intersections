@@ -6,6 +6,10 @@
     "name": "Kevin Lindsey",
     "email": "kevin@kevlindev.com"
   },
+  "contributors": [{
+    "name": "Robert Benko (Quazistax)",
+    "email": "quazistax@gmail.com"
+  }],
   "license": "BSD",
   "repository": {
     "type": "git",
