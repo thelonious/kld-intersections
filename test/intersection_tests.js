@@ -16,8 +16,6 @@ exports.testLineLineIntersection = function(beforeExit, assert) {
     assert.equal(result.points[0].equals(new Point2D(60, 60)), true);
 };
 
-
-
 exports.testIntersectRectLine = function(beforeExit, assert) {
   var line = IntersectionParams.newShape(IPTYPE.LINE, {x1: 10, y1:10, x2:110, y2:110});
   var rect = IntersectionParams.newShape(IPTYPE.RECT, {x:20, y:10, width:300, height:200});
@@ -29,7 +27,7 @@ exports.testIntersectRectLine = function(beforeExit, assert) {
 
 exports.testIntersectRoundRectLine = function(beforeExit, assert) {
   var line = IntersectionParams.newShape(IPTYPE.LINE, {x1: 10, y1:10, x2:110, y2:110});
-  var rect = IntersectionParams.newShape(IPTYPE.RECT, {x:20, y:10, width:300, height:200, rx:10, ry:10});
+  var rect = IntersectionParams.newShape(IPTYPE.RECT, {x:20, y:20, width:300, height:200, rx:10, ry:10});
   var result = intersect(rect, line);
 
   assert.equal(1, result.points.length);
