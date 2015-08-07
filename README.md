@@ -1,10 +1,14 @@
-kld-intersections
+svg-intersections
 =================
 
 A library of intersection algorithms covering all SVG shape types.  
-Possible to intersect rotated/scaled/skewed shapes. 
+Possible to intersect rotated/scaled/skewed shapes.
 
-Test page can be found at [http://www.quazistax.com](http://www.quazistax.com).
+
+Installation
+-------
+    npm install svg-intersections
+
 
 Usage example
 -------------
@@ -14,37 +18,22 @@ Usage example
 ![Example image](./images/UsageExample1.png)
 
 ```javascript
+    
+    var svgIntersections = require('svg-intersections');
+    var intersect = svgIntersections.intersect;
+    var IntersectionParams = svgIntersections.IntersectionParams;
 
-    Intersection.intersectShapes(  
-    		  IntersectionParams.newCircle(new Point2D(0,0), 50)  
-    		, IntersectionParams.newRect(0, 0, 60, 30))  
-    )
-
-```
-
-result points: ```[Point2D { x=50, y=0}, Point2D { x=40.00000000000001, y=30}]```
-
-*x* of second point is not exactly 40 because of floating point imprecision / calculation error.
-
-**Example 2:**
-
-![Example image](./images/UsageExample2.png)
-
-```javascript
-
-    Intersection.intersectShapes(
-    		  IntersectionParams.newCircle(new Point2D(0,0), 50)  
-    		, IntersectionParams.newRect(0, 0, 60, 30)  
-    		, Matrix2D.IDENTITY  
-    		, Matrix2D.IDENTITY.translate(-20, -50).rotate(Math.PI/2)  
-    )
+    var intersections = intersect(  
+        IntersectionParams.newShape("Circle", { cx: 0, cy: 0, r: 50 }),
+        IntersectionParams.newShape("Rect", { x: 0, y: 0, width: 60, height: 30 })  
+    );
 
 ```
 
-result points: ```[Point2D { x=-20, y=-45.8257569495584}
-, Point2D { x=-48.98979485566357, y=9.999999999999998}
-, Point2D { x=-49.99999999999999, y=5.551115123125783e-15}]```
 
-Install
+Credits
 -------
-    npm install kld-intersections
+
+The implementation is based on the intersection procedures by Kevin Lindsey 
+([http://www.kevlindev.com](www.kevlindev.com)) with contributions by 
+Robert Benko [http://www.quazistax.com](www.quazistax.com).
