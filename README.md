@@ -36,4 +36,4 @@ Credits
 
 The implementation is based on the intersection procedures by Kevin Lindsey 
 ([http://www.kevlindev.com](www.kevlindev.com)) with contributions by 
-Robert Benko [http://www.quazistax.com](www.quazistax.com).
+Robert Benko ([http://www.quazistax.com](www.quazistax.com)).
