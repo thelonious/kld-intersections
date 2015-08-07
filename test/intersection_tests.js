@@ -1,6 +1,6 @@
 var bezier = require('../lib/functions/bezier');
 
-var intersect = require('../lib/intersect')(bezier);
+var intersect = require('../lib/intersect');
 var IntersectionParams = require('../lib/IntersectionParams');
 
 var Point2D = require('kld-affine/lib/Point2D');
