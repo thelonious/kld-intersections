@@ -1,4 +1,4 @@
 // expose module classes
 
-exports.intersect = require('./intersect');
+exports.intersect = require('./lib/intersect');
 exports.IntersectionParams = require('./lib/IntersectionParams');
