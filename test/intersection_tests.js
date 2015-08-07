@@ -33,3 +33,12 @@ exports.testIntersectRoundRectLine = function(beforeExit, assert) {
   assert.equal(1, result.points.length);
   assert.equal(result.points[0].equals(new Point2D(22.928932188134524, 22.928932188134524)), true);
 };
+
+exports.testIntersectDiamondLine = function(beforeExit, assert) {
+  var diamond = IntersectionParams.newShape(IPTYPE.PATH, {d: "M -4.5,16 L 16,-4.5 L 35.5,16 L 16,35.5z"});
+  var line = IntersectionParams.newShape(IPTYPE.LINE, {x1: 0, y1:0, x2:20, y2:20});
+  var result = intersect(diamond, line);
+
+  assert.equal(1, result.points.length);
+  assert.equal(result.points[0].equals(new Point2D(5.75, 5.75)), true);
+}
