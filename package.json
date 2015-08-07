@@ -13,7 +13,7 @@
   "license": "BSD",
   "repository": {
     "type": "git",
-    "url": "git://github.com/jfschwarz/svg-intersections.git"
+    "url": "git://github.com/effektif/svg-intersections.git"
   },
   "main": "index.js",
   "scripts": {
