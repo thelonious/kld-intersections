@@ -10,6 +10,25 @@ Installation
     npm install svg-intersections
 
 
+
+API
+---
+
+This module exports two functions: 
+
+The `intersect` function takes two shapes as an input an returns an result 
+object providing a result status, and all intersection points of the two shapes.
+
+```intersect (shape1, shape2)```
+
+
+The `shape` function wraps the necessary input parameters for each of 
+the two shapes. It requires the SVG element name of the shape as a string 
+and an object of the SVG element's attributes.
+
+```shape (svgElementName, svgAttributes)```
+
+
 Usage example
 -------------
 
@@ -21,11 +40,11 @@ Usage example
     
     var svgIntersections = require('svg-intersections');
     var intersect = svgIntersections.intersect;
-    var IntersectionParams = svgIntersections.IntersectionParams;
+    var shape = svgIntersections.shape;
 
     var intersections = intersect(  
-        IntersectionParams.newShape("Circle", { cx: 0, cy: 0, r: 50 }),
-        IntersectionParams.newShape("Rect", { x: 0, y: 0, width: 60, height: 30 })  
+        shape("circle", { cx: 0, cy: 0, r: 50 }),
+        shape("rect", { x: 0, y: 0, width: 60, height: 30 })  
     );
 
 ```
