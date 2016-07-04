@@ -40,3 +40,13 @@ exports.testIntersectDiamondLine = function(beforeExit, assert) {
   assert.equal(1, result.points.length);
   assert.equal(result.points[0].equals(new Point2D(5.75, 5.75)), true);
 }
+
+exports.testIntersectArcLine = function(beforeExit, assert) {
+  var arc = shape("path", {d: "M0 20 A 20 20, 0, 0, 0, 20 0"});
+  var line = shape("line", {x1: 0, y1:0, x2:20, y2:20});
+  var result = intersect(arc, line);
+
+  assert.equal(1, result.points.length);
+  assert.equal(result.points[0].distanceFrom(new Point2D(0, 0)), 20);
+  assert.equal(result.points[0].x, result.points[0].y);
+}
