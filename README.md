@@ -13,7 +13,7 @@ WARNING: Please note that the bézier intersections are not well-behaved. Unfort
 **Example:**
 
 ```javascript
-let lib = require('../index'),
+let lib = require('kld-intersections'),
     Point2D = lib.Point2D,
     Intersection = lib.Intersection;
 
