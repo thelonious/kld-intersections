@@ -13,32 +13,27 @@ let line = {
 
 // define rectangle
 let rect = {
-    x: 10,
-    y: 10,
-    width: 100,
-    height: 100
+    topLeft: new Point2D(10, 10),
+    bottomRight: new Point2D(110, 110)
 };
 
 // convert rectangle corners to polygon (list of points)
 let poly = [
-    new Point2D(rect.x,              rect.y),
-    new Point2D(rect.x + rect.width, rect.y),
-    new Point2D(rect.x + rect.width, rect.y + rect.height),
-    new Point2D(rect.x,              rect.y + rect.height)
+    rect.topLeft,
+    new Point2D(rect.bottomRight.x, rect.topLeft.y),
+    rect.bottomRight,
+    new Point2D(rect.topLeft.x, rect.bottomRight.y)
 ];
 
 // find center point of rectangle
-let center = new Point2D(rect.x + rect.width * 0.5, rect.y + rect.height * 0.5);
+let center = rect.topLeft.lerp(rect.bottomRight, 0.5);
 
 // define rotation in radians
 let angle = 45.0 * Math.PI / 180.0;
 
 // create matrix for rotating around center of rectangle
 let matrix = new Matrix2D();
-let rotation = matrix
-    .translate(center.x, center.y)
-    .rotate(angle)
-    .translate(-center.x, -center.y);
+let rotation = matrix.rotateAt(angle, center);
 
 // create new rotated polygon
 rotatedPoly = poly.map(p => p.transform(rotation));
@@ -46,8 +41,9 @@ rotatedPoly = poly.map(p => p.transform(rotation));
 // find intersections
 let result = Intersection.intersectLinePolygon(line.p1, line.p2, rotatedPoly);
 
+// build SVG file showing the shapes, the center point, and intersection points
 let intersectionSVG = result.points.map(p => {
-    return `<circle cx="${p.x}" cy="${p.y}" r="2" stroke="red" fill="none"/>`
+    return `<circle cx="${p.x.toFixed(3)}" cy="${p.y.toFixed(3)}" r="2" stroke="red" fill="none"/>`
 }).join("\n    ");
 
 let svg = `<svg xmlns="http://www.w3.org/2000/svg">
