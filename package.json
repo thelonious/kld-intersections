@@ -6,7 +6,7 @@
     "name": "Kevin Lindsey",
     "email": "kevin@kevlindev.com"
   },
-  "license": "BSD",
+  "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
     "url": "git://github.com/thelonious/kld-intersections.git"
