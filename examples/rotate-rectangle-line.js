@@ -32,7 +32,7 @@ let center = rect.topLeft.lerp(rect.bottomRight, 0.5);
 let angle = 45.0 * Math.PI / 180.0;
 
 // create matrix for rotating around center of rectangle
-let rotation = (new Matrix2D()).rotateAt(angle, center);
+let rotation = Matrix2D.rotationAt(angle, center);
 
 // create new rotated polygon
 rotatedPoly = poly.map(p => p.transform(rotation));
