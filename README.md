@@ -10,7 +10,7 @@ A library of intersection algorithms covering all permutations of the following 
 - Polygon
 - Rectangle
 
-WARNING: Please note that the bézier intersections are not well-behaved. Unfortunately, over the past decade since I wrote this code, I have not been able to address those issues due to time constraints. I've made this code public in the hopes that someone with better math abilities than me might be able see what those issues are.
+WARNING: Please note that the bézier-bézier intersections are not well-behaved. There is work being done to make these more stable, but no eta is available at this time. As a workaround, bézier shapes can be approximated using polygons and then the appropriate polygon intersection method can be used with that result.
 
 ## Install
 
