@@ -25,7 +25,7 @@ let p1 = b1.tesselate();
 let p2 = b2.tesselate();
 
 // find intersections
-let result = Intersection.intersectPolygonPolygon(p1.points, p2.points);
+let result = Intersection.intersectPolylinePolyline(p1.points, p2.points);
 
 // build SVG file showing beziers, polylines, and intersection points
 let intersectionSVG = result.points.map(p => {
