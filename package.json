@@ -30,7 +30,7 @@
     "kld-polynomial": "^0.1.0"
   },
   "devDependencies": {
-    "kld-contours": "^0.1.1",
+    "kld-contours": "^0.1.2",
     "mocha": "^3.4.2"
   },
   "engines": {
