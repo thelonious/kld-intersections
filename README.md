@@ -4,6 +4,7 @@
 - [Install](#install)
 - [Usage](#usage)
 - [Example](#usage-example)
+- [Known Issues](#known-issues)
 - [Links](#links)
 
 ---
@@ -19,14 +20,14 @@ A library of intersection algorithms covering all permutations of the following 
 - Polyline
 - Rectangle
 
-WARNING: Please note that the bézier-bézier intersections are not well-behaved. There is work being done to make these more stable, but no eta is available at this time. As a workaround, bézier shapes can be approximated using polylines and then intersected with an appropriate polyline intersection method. See [tessellate-cubic-beziers.js](examples/tessellate-cubic-beziers.js) as an example of how you might do this.
-
 ## Goals
 
 - Cover intersections for all types of curves and shapes in SVG
 - Minimize external dependencies
 - Make it easier to port to other languages
-- Assume this is a low-level API upon which other simpler and richer API wills be built
+  - Each intersection type should be able to standalone
+- Assume this is a low-level API upon which other simpler and richer API will be built
+- Be a potential educational resource by demonstrating each intersection type separately
 
 ## Install
 
@@ -39,7 +40,7 @@ In order to determine which intersection routine to invoke, you will need to det
 1. The name the library uses to refer to the given curve type
 2. The arguments, their order and their types, used to represent the curve parameters to the library
 
-Below is a table listing each of the support curve types. The `Name` column is the name you will need to use to refer to the shape of the given type. `Arguments` lists the parameters you will use to describe the shape of the given curve.
+Below is a table listing each of the supported curve types. The `Name` column is the name you will need to use to refer to the shape of the given type. `Arguments` lists the parameters you will use to describe the shape of the given curve.
 
 | Shape            | Name      | Arguments                                                                    |
 | ---              | ---       | ---                                                                          |
@@ -48,8 +49,8 @@ Below is a table listing each of the support curve types. The `Name` column is t
 | Circle           | Circle    | **center** : *Point2D*, **radius** : Number                                  |
 | Ellipse          | Ellipse   | **center** : *Point2D*, **radiusX** : Number, **radiusY** : Number           |
 | Line             | Line      | **p1** : *Point2D*, **p2** : *Point2D*                                       |
-| Polygon          | Polygon   | **points** : *Array<Point2D>*                                                |
-| Polyline         | Polyline  | **points** : *Array<Point2D>*                                                |
+| Polygon          | Polygon   | **points** : *Array< Point2D >*                                                |
+| Polyline         | Polyline  | **points** : *Array< Point2D >*                                                |
 | Rectangle        | Rectangle | **topLeft** : *Point2D*, **bottomRight** : *Point2D*                         |
 
 Once you've determined the names and arguments, you can build the intersection method name like so:
@@ -120,6 +121,10 @@ Intersection {
 If we were to plot the results, we would end up with an image like the following.
 
 ![Example image 1](./images/usage-example-1.png)
+
+## Known Issues
+
+Please note that the bézier-bézier intersections are not well-behaved. There is work being done to make these more stable, but no eta is available at this time. As a workaround, bézier shapes can be approximated using polylines and then intersected with an appropriate polyline intersection method. See [tessellate-cubic-beziers.js](examples/tessellate-cubic-beziers.js) as an example of how you might do this.
 
 ## Links
 
