@@ -1,6 +1,6 @@
 {
   "name": "kld-intersections",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A library of intersection algorithms covering all SVG shape types",
   "author": {
     "name": "Kevin Lindsey",
