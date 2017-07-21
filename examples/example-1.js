@@ -5,18 +5,18 @@ let lib = require('../index'),
     Intersection = lib.Intersection;
 
 let circle = {
-    cx: new Point2D(0, 0),
-    r: 50,
+    center: new Point2D(0, 0),
+    radius: 50,
 };
 
 let rectangle = {
-    p1: new Point2D(0, 0),
-    p2: new Point2D(60, 30)
+    topLeft: new Point2D(0, 0),
+    bottomRight: new Point2D(60, 30)
 };
 
 let result = Intersection.intersectCircleRectangle(
-    circle.cx, circle.r,
-    rectangle.p1, rectangle.p2
+    circle.center, circle.radius,
+    rectangle.topLeft, rectangle.bottomRight
 );
 
 console.log(result);
