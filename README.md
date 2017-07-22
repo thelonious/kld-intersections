@@ -1,9 +1,12 @@
 # kld-intersections
 
 - [Goals](#goals)
-- [Install](#install)
+- [Installation](#installation)
 - [Usage](#usage)
-- [Example](#usage-example)
+    - [Intersection API](#intersection-api)
+    - [Shapes API](#shapes-api)
+    - [Affine Shapes API](#affine-shapes-api)
+    - [Use Your Own Objects](#use-your-own-objects)
 - [Known Issues](#known-issues)
 - [Links](#links)
 
@@ -20,21 +23,28 @@ A library of intersection algorithms covering all permutations for any two of th
 - Polyline
 - Rectangle
 
-## Goals
+# Goals
 
 - Cover intersections for all types of curves and shapes in SVG
 - Minimize external dependencies
 - Make it easier to port to other languages
-- Assume this is a low-level API upon which other simpler and richer APIs will be built
+- Assume this is a low-level API upon which other APIs will be built
 - Be a potential educational resource by demonstrating each intersection type independently, without relying on the results of other intersection types
 
-## Install
+# Installation
 
     npm install kld-intersections
 
-## Usage
+# Usage
 
-In order to determine which intersection routine to invoke, you will need to determine two bits of information for each curve involved in the intersection:
+kld-intersection allows you to find intersections using two general approaches:
+
+- By calling the intersection methods directly
+- By creating simple descriptors of shapes and then letting the library determine which method to invoke
+
+## Intersection API
+
+At the lowest level, you can invoke intersection methods directly in the `Intersection` class. In order to determine which intersection routine to invoke, you will need to determine two bits of information for each curve involved in the intersection:
 
 1. The name the library uses to refer to the given curve type
 2. The arguments, their order and their types, used to represent the curve parameters to the library
@@ -72,7 +82,7 @@ Now that you know the method name, you need to pass in arguments to describe the
 2. Add all arguments for the first curve in the specified order to the method call
 3. Add all arguments for the second curve in the specified order to the method call
 
-## Example
+### Example
 
 Lets say that we wish to intersect a `circle` and a `rectangle`. We see that the circle's name is, unsurprisingly, `Circle`, and the name of the rectangle is `Rectangle`. This means our method name is:
 
@@ -119,12 +129,109 @@ Intersection {
 
 If we were to plot the results, we would end up with an image like the following.
 
-![Example image 1](./images/usage-example-1.png)
+![Example image 1](./examples/example-1.svg)
 
-## Known Issues
+## Shapes API
+
+The Shapes API allows you to create descriptions of shapes and curves which the intersection library can then use to determine which intersection method to invoke. This API allows you to create the following shapes:
+
+- quadraticBezier
+- cubicBezier
+- circle
+- ellipse
+- line
+- path
+- polygon
+- polyline
+- rectangle
+
+To create these shapes, invoke the method name, passing in the arguments as described in the table in [Intersection API](#intersection-api). However, passing in, for example, a `Point2D`, you will need to pass in the `x` and `y` values separately. This allows code to utilize the intersection library without having to commit to the kld-affine classes.
+
+### Example
+
+```javascript
+let lib          = require('kld-intersections'),
+    Point2D      = lib.Point2D,
+    Intersection = lib.Intersection,
+    Shapes       = lib.Shapes;
+
+
+let circle    = Shapes.circle(0, 0, 50);
+let rectangle = Shapes.rectangle(0, 0, 60, 30);
+let result    = Intersection.intersect(circle, rectangle);
+
+console.log(result);
+```
+
+### Result
+
+```javascript
+Intersection {
+  status: 'Intersection',
+  points: 
+   [ Point2D { x: 50, y: 0 },
+     Point2D { x: 40.00000000000001, y: 30.000000000000004 } ] }
+```
+
+### Visual Representation
+
+![Example image 2](./examples/example-2.svg)
+
+## Affine Shapes API
+
+The Affine Shapes API is very similar to the Shapes API but it allows you to use a slightly higher level of abstraction by utilizing the kld-affine classes. This API allows you to create the following shapes:
+
+- quadraticBezier
+- cubicBezier
+- circle
+- ellipse
+- line
+- path
+- polygon
+- polyline
+- rectangle
+
+To create these shapes, invoke the method name, passing in the arguments as described in the table in [Intersection API](#intersection-api).
+
+### Example
+
+```javascript
+let lib          = require('../index'),
+    Point2D      = lib.Point2D,
+    Vector2D     = lib.Vector2D,
+    Intersection = lib.Intersection,
+    AffineShapes = lib.AffineShapes;
+
+
+let circle    = AffineShapes.circle(new Point2D(0, 0), 50);
+let rectangle = AffineShapes.rectangle(new Point2D(0, 0), new Vector2D(60, 30));
+let result    = Intersection.intersect(circle, rectangle);
+
+console.log(result);
+```
+
+### Result
+
+```javascript
+Intersection {
+  status: 'Intersection',
+  points: 
+   [ Point2D { x: 50, y: 0 },
+     Point2D { x: 40.00000000000001, y: 30.000000000000004 } ] }
+```
+
+### Visual Representation
+
+![Example image 3](./examples/example-3.svg)
+
+## Use Your Own Objects
+
+If you have a look at the code, you'll find that the Shapes and Affine Shapes APIs are quite simple. These APIs create instances of the IntersectionArgs class. In turn the IntersectionArgs class is quite simple too, consisting of two properties: `name` and `args`. `name` is the name of the shape or curve as defined in the table describing the [Intersection API](#intersection-api). Likewise, `args` is an array of the arguments described in arguments column in that same table. So, you can pass in any object to `Intersection.intersect` as long as it contains those two properties which need to follow the name and argument conventions just described.
+
+# Known Issues
 
 Please note that the bézier-bézier intersections are not well-behaved. There is work being done to make these more stable, but no eta is available at this time. As a workaround, bézier shapes can be approximated using polylines and then intersected with an appropriate polyline intersection method. See [tessellate-cubic-beziers.js](examples/tessellate-cubic-beziers.js) as an example of how you might do this.
 
-## Links
+# Links
 
 - A test page can be found at [http://www.quazistax.com](http://www.quazistax.com/testIntersection.html)
