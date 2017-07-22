@@ -247,7 +247,7 @@ Intersection {
 
 ## Use Your Own Objects
 
-If you have a look at the code, you'll find that the Shapes and Affine Shapes APIs are quite simple. These APIs create instances of the IntersectionArgs class. In turn the IntersectionArgs class is quite simple too, consisting of two properties: `name` and `args`. `name` is the name of the shape or curve as defined in the table describing the [Intersection API](#intersection-api). Likewise, `args` is an array of the arguments described in arguments column in that same table. So, you can pass in any object to `Intersection.intersect` as long as it contains those two properties which need to follow the name and argument conventions just described.
+If you have a look at the code, you'll find that the Shapes and Affine Shapes APIs are quite simple. These APIs create instances of the `IntersectionArgs` class. In turn the `IntersectionArgs` class is quite simple too, consisting of two properties: `name` and `args`. `name` is the name of the shape or curve as defined in the table describing the [Intersection API](#intersection-api). Likewise, `args` is an array of the arguments described in the arguments column in that same table. So, you can pass in any object to `Intersection.intersect` as long as it contains those two properties which need to follow the name and argument conventions just described.
 
 # Known Issues
 
