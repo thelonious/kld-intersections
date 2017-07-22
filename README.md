@@ -66,7 +66,7 @@ If we intersect `a rectangle with a circle` or `a circle with a rectangle`, we w
 
 In our earlier example of intersecting a `Rectangle` and a `Circle`, we will need to list `Circle` before `Rectangle` giving us `intersectCircleRectangle` and not `intersectRectangleCircle`.
 
-Now that you know the method name, you need to pass in arguments to describe the shape of each curve. You do that like the following:
+Now that you know the method name, you need to pass in arguments to describe the shape of each curve. You do that as below:
 
 1. Review the `Arguments` list in the table above
 2. Add all arguments for the first curve in the specified order to the method call
