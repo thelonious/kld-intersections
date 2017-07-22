@@ -47,7 +47,7 @@ kld-intersection allows you to find intersections using two general approaches:
 At the lowest level, you can invoke intersection methods directly in the `Intersection` class. In order to determine which intersection routine to invoke, you will need to determine two bits of information for each curve involved in the intersection:
 
 1. The name the library uses to refer to the given curve type
-2. The arguments, their order and their types, used to represent the curve parameters to the library
+2. The arguments used to represent the curve parameters to the library
 
 Below is a table listing each of the supported curve types. The `Name` column is the name you will need to use to refer to the shape of the given type. `Arguments` lists the parameters you will use to describe the shape of the given curve.
 
