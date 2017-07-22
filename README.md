@@ -60,9 +60,9 @@ Once you've determined the names and arguments, you can build the intersection m
 
 It is important to note that not all combinations of names are available in the API. The current implementation supports 8 types of curves. If we count all combinations of any two curves, we end up needing `8 * 8 = 64` methods to cover all cases. And when we add `Arc` and `Path` to our list, we will need `10 * 10 = 100` methods to be written. Fortunately, the order that we specify the curves is not important.
 
-If I intersect `a rectangle with a circle` or `the same circle with the same rectangle`, we will get the same results, regardless of their order. Recognizing this allows use to reduce the number of methods to `8 + 7 + 6 + 5 + 4 + 3 + 2 + 1 = 36`. This adds one more restriction when determining the intersection method name:
+If we intersect `a rectangle with a circle` or `the same circle with the same rectangle`, we will get the same results, regardless of their order. Recognizing this allows us to reduce the number of methods to `8 + 7 + 6 + 5 + 4 + 3 + 2 + 1 = 36`. Due to this reduction, one more restriction applies when determining the intersection method name:
 
-> The shape names must be listed in alphabetical order in the method name
+> Shape names must be appended to the method name in alphabetical order
 
 In our earlier example of intersecting a `Rectangle` and a `Circle`, we will need to list `Circle` before `Rectangle` giving us `intersectCircleRectangle` and not `intersectRectangleCircle`.
 
