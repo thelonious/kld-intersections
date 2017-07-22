@@ -142,7 +142,7 @@ Intersection {
      Point2D { x: 40.00000000000001, y: 30.000000000000004 } ] }
 ```
 
-`x` and `y` in the second point are not exactly 40 and 30 due to floating point imprecision.
+Note that `x` and `y` in the second point are not exactly 40 and 30 due to floating point imprecision.
 
 ### Visual Representation
 
@@ -164,7 +164,9 @@ The Shapes API allows you to create descriptions of shapes and curves which the 
 - polyline
 - rectangle
 
-To create these shapes, invoke the method name, passing in the arguments as described in the table in [Intersection API](#intersection-api). However, passing in, for example, a `Point2D`, you will need to pass in the `x` and `y` values separately. This allows code to utilize the intersection library without having to commit to the kld-affine classes.
+To create these shapes, invoke the method name from the list above, passing in the arguments as described in the table in [Intersection API](#intersection-api). However, when passing in, for example, a `Point2D`, you will need to pass in the `x` and `y` values separately. This allows your code to utilize the intersection library without having to commit to the kld-affine classes.
+
+To find the intersections of these shapes, invoke `Intersection.intersect` passing in your two shape descriptors, in any order.
 
 ### Example
 
@@ -173,7 +175,6 @@ let lib          = require('kld-intersections'),
     Point2D      = lib.Point2D,
     Intersection = lib.Intersection,
     Shapes       = lib.Shapes;
-
 
 let circle    = Shapes.circle(0, 0, 50);
 let rectangle = Shapes.rectangle(0, 0, 60, 30);
@@ -210,7 +211,9 @@ The Affine Shapes API is very similar to the Shapes API but it allows you to use
 - polyline
 - rectangle
 
-To create these shapes, invoke the method name, passing in the arguments as described in the table in [Intersection API](#intersection-api).
+To create these shapes, invoke the method name from the list above, passing in the arguments as described in the table in [Intersection API](#intersection-api).
+
+To find the intersections of these shapes, invoke `Intersection.intersect` passing in your two shape descriptors, in any order.
 
 ### Example
 
@@ -220,7 +223,6 @@ let lib          = require('../index'),
     Vector2D     = lib.Vector2D,
     Intersection = lib.Intersection,
     AffineShapes = lib.AffineShapes;
-
 
 let circle    = AffineShapes.circle(new Point2D(0, 0), 50);
 let rectangle = AffineShapes.rectangle(new Point2D(0, 0), new Vector2D(60, 30));
