@@ -1,7 +1,7 @@
 // expose module classes
-
 exports.Intersection = require('./lib/Intersection');
-exports.IntersectionParams = require('./lib/IntersectionParams');
+exports.IntersectionArgs = require('./lib/IntersectionArgs');
+exports.Shapes = require('./lib/Shapes');
 
 // expose affine module classes
 exports.Point2D = require('kld-affine').Point2D;

@@ -3,7 +3,7 @@
 let lib          = require('../index'),
     Point2D      = lib.Point2D,
     Intersection = lib.Intersection,
-    Shapes       = lib.IntersectionParams;
+    Shapes       = lib.Shapes;
 
 
 let circle = Shapes.circle(0, 0, 50);
