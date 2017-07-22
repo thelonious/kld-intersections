@@ -74,9 +74,9 @@ If we intersect `a rectangle with a circle` or `a circle with a rectangle`, we w
 
 > Shape names must be appended to the method name in alphabetical order
 
-In our earlier example of intersecting a `Rectangle` and a `Circle`, we will need to list `Circle` before `Rectangle` giving us `intersectCircleRectangle` and not `intersectRectangleCircle`.
+In our earlier example of intersecting a `Rectangle` and a `Circle`, we will need to append `Circle` before `Rectangle` giving us `intersectCircleRectangle` instead of `intersectRectangleCircle`.
 
-Now that you know the method name, you need to pass in arguments to describe the shape of each curve. You do that as below:
+Now that you have determined the method name, you need to pass in arguments to describe the shape of each curve. You do that as below:
 
 1. Review the `Arguments` list in the table above
 2. Add all arguments for the first curve in the specified order to the method call
@@ -84,15 +84,19 @@ Now that you know the method name, you need to pass in arguments to describe the
 
 ### Example
 
-Lets say that we wish to intersect a `circle` and a `rectangle`. We see that the circle's name is, unsurprisingly, `Circle`, and the name of the rectangle is `Rectangle`. This means our method name is:
+Lets intersect our `circle` and `rectangle`. From the table above, we see that the circle's name is, unsurprisingly, `Circle`, and the name of the rectangle is `Rectangle`. Following the rules stated above, this means our method name is:
 
 ```intersectCircleRectangle```
 
-A circle is described with a center point and a radius. Those are our first two arguments. A rectangle is described with two points: the top-left corner and the bottom-right corner. Those are our final arguments. Lets see this in action.
+A circle is described with a center point and a radius. Those are our first two arguments.
+
+A rectangle is described with two points: the top-left corner and the bottom-right corner. Those are our final arguments.
+
+Putting this all together, we end up with something like the following:
 
 ```javascript
-let lib = require('kld-intersections'),
-    Point2D = lib.Point2D,
+let lib          = require('kld-intersections'),
+    Point2D      = lib.Point2D,
     Intersection = lib.Intersection;
 
 let circle = {
@@ -108,6 +112,21 @@ let rectangle = {
 let result = Intersection.intersectCircleRectangle(
     circle.center, circle.radius,
     rectangle.topLeft, rectangle.bottomRight
+);
+
+console.log(result);
+```
+
+Note that the `circle` and `rectangle` variables were used to make the code more readable. You could easily remove those objects, passing in their arguments directly. That would make a minimal example like the following:
+
+```javascript
+let lib          = require('kld-intersections'),
+    Point2D      = lib.Point2D,
+    Intersection = lib.Intersection;
+
+let result = Intersection.intersectCircleRectangle(
+    new Point2D(0, 0), 50,
+    new Point2D(0, 0), new Point2D(60, 30)
 );
 
 console.log(result);
