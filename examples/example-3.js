@@ -7,9 +7,9 @@ let lib          = require('../index'),
     AffineShapes = lib.AffineShapes;
 
 
-let circle = AffineShapes.circle(new Point2D(0, 0), 50);
+let circle    = AffineShapes.circle(new Point2D(0, 0), 50);
 let rectangle = AffineShapes.rectangle(new Point2D(0, 0), new Vector2D(60, 30));
-let result = Intersection.intersect(circle, rectangle);
+let result    = Intersection.intersect(circle, rectangle);
 
 // build SVG file showing the shapes, the center point, and intersection points
 let intersectionSVG = result.points.map(p => {

@@ -6,9 +6,9 @@ let lib          = require('../index'),
     Shapes       = lib.Shapes;
 
 
-let circle = Shapes.circle(0, 0, 50);
+let circle    = Shapes.circle(0, 0, 50);
 let rectangle = Shapes.rectangle(0, 0, 60, 30);
-let result = Intersection.intersect(circle, rectangle);
+let result    = Intersection.intersect(circle, rectangle);
 
 // build SVG file showing the shapes, the center point, and intersection points
 let intersectionSVG = result.points.map(p => {
