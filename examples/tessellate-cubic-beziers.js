@@ -33,9 +33,9 @@ let intersectionSVG = result.points.map(p => {
 }).join("\n    ");
 
 let svg = `<svg xmlns="http://www.w3.org/2000/svg">
-  <g transform="translate(50,50)">
+  <g transform="translate(150,150) scale(2) translate(-150,-150)">
     <path d="${b1.toString()}" fill="none" stroke="blue" stroke-width="3"/>
-    <path d="${b2.toString()}" fill="none" stroke="red" stroke-width="3"/>
+    <path d="${b2.toString()}" fill="none" stroke="green" stroke-width="3"/>
     <polyline points="${p1.toString()}" fill="none" stroke="white"/>
     <polyline points="${p2.toString()}" fill="none" stroke="white"/>
     ${intersectionSVG}

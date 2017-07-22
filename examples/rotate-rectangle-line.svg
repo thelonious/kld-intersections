@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(50,50)">
+    <polygon points="60.000,-10.711 130.711,60.000 60.000,130.711 -10.711,60.000" fill="none" stroke="blue"/>
+    <line x1="40" y1="0" x2="70" y2="130" stroke="green"/>
+    <circle cx="60" cy="60" r="2" stroke="blue" fill="none"/>
+    <circle cx="68.258" cy="122.452" r="2" stroke="red" fill="none"/>
+    <circle cx="41.742" cy="7.548" r="2" stroke="red" fill="none"/>
+  </g>
+</svg>

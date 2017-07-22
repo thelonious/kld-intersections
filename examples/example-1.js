@@ -19,4 +19,17 @@ let result = Intersection.intersectCircleRectangle(
     rectangle.topLeft, rectangle.bottomRight
 );
 
-console.log(result);
+// build SVG file showing the shapes, the center point, and intersection points
+let intersectionSVG = result.points.map(p => {
+    return `<circle cx="${p.x.toFixed(3)}" cy="${p.y.toFixed(3)}" r="2" stroke="red" fill="none"/>`
+}).join("\n    ");
+
+let svg = `<svg xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(75,75)">
+    <circle cx="${circle.center.x}" cy="${circle.center.y}" r="${circle.radius}" stroke="blue" fill="none"/>
+    <rect x="${rectangle.topLeft.x}" y="${rectangle.topLeft.y}" width="${rectangle.bottomRight.x - rectangle.topLeft.x}" height="${rectangle.bottomRight.y - rectangle.topLeft.y}" fill="none" stroke="green"/>
+    ${intersectionSVG}
+  </g>
+</svg>`
+
+console.log(svg);
