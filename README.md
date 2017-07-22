@@ -148,7 +148,7 @@ Note that `x` and `y` in the second point are not exactly 40 and 30 due to float
 
 If we were to plot the results, we would end up with an image like the following.
 
-![Example image 1](./examples/example-1.svg)
+![Example image 1](./images/example-1.png)
 
 ## Shapes API
 
@@ -195,7 +195,7 @@ Intersection {
 
 ### Visual Representation
 
-![Example image 2](./examples/example-2.svg)
+![Example image 2](./images/example-2.png)
 
 ## Affine Shapes API
 
@@ -243,7 +243,7 @@ Intersection {
 
 ### Visual Representation
 
-![Example image 3](./examples/example-3.svg)
+![Example image 3](./images/example-3.png)
 
 ## Use Your Own Objects
 
