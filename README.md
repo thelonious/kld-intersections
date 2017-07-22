@@ -25,9 +25,8 @@ A library of intersection algorithms covering all permutations of the following 
 - Cover intersections for all types of curves and shapes in SVG
 - Minimize external dependencies
 - Make it easier to port to other languages
-  - Each intersection type should be able to standalone
 - Assume this is a low-level API upon which other simpler and richer API will be built
-- Be a potential educational resource by demonstrating each intersection type separately
+- Be a potential educational resource by demonstrating each intersection type independently, without relying on the results of other intersection types
 
 ## Install
 
