@@ -9,7 +9,7 @@ let lib          = require('../index'),
     PathHandler  = require('./PathHandler');
 
 // parser path data
-let pathData = "M0,0 C100,0 100,100 0,100 100,100 100,200 0,200";
+let pathData = "M0,0 c100,0 100,100 0,100z m20,0 c100,0 100,100 0,100z";
 let parser = new PathParser();
 let handler = new PathHandler();
 
@@ -20,7 +20,7 @@ parser.parseData(pathData);
 let path = Shapes.path(handler.shapes);
 
 // create line
-let line = Shapes.line(50, 0, 50, 200);
+let line = Shapes.line(0, -10, 110, 110);
 
 // intersect
 let result = Intersection.intersect(path, line);
@@ -33,7 +33,7 @@ let intersectionSVG = result.points.map(p => {
 let svg = `<svg xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(75,75)">
     <path d="${pathData}" stroke="blue" fill="none"/>
-    <line x1="50" y1="0" x2="50" y2="200" stroke="green"/>
+    <line x1="0" y1="-10" x2="110" y2="110" stroke="green"/>
     ${intersectionSVG}
   </g>
 </svg>`
