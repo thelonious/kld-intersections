@@ -15,6 +15,8 @@ if (typeof module !== "undefine") {
  */
 function PathHandler() {
     this.shapes = [];
+    this.firstX = null;
+    this.firstY = null;
     this.lastX = null;
     this.lastY = null;
     this.lastCommand = null;
@@ -27,7 +29,9 @@ PathHandler.prototype.beginParse = function() {
     // zero out the sub-path array
     this.shapes = [];
 
-    // clear lastX and lastY
+    // clear firstX, firstY, lastX, and lastY
+    this.firstX = null;
+    this.firstY = null;
     this.lastX = null;
     this.lastY = null;
 
@@ -194,6 +198,8 @@ PathHandler.prototype.linetoRel = function(x, y) {
  *  @param {Number} y
  */
 PathHandler.prototype.movetoAbs = function(x, y) {
+    this.firstX = x;
+    this.firstY = y;
     this.lastX = x;
     this.lastY = y;
     this.lastCommand = "M";
@@ -206,6 +212,8 @@ PathHandler.prototype.movetoAbs = function(x, y) {
  *  @param {Number} y
  */
 PathHandler.prototype.movetoRel = function(x, y) {
+    this.firstX += x;
+    this.firstY += y;
     this.lastX += x;
     this.lastY += y;
     this.lastCommand = "m";
@@ -384,6 +392,7 @@ PathHandler.prototype.curvetoQuadraticSmoothRel = function(x, y) {
  */
 PathHandler.prototype.linetoVerticalAbs = function(y) {
     this.addShape(Shapes.line(
+        this.lastX, this.lastY,
         this.lastX, y
     ));
 
@@ -399,6 +408,7 @@ PathHandler.prototype.linetoVerticalAbs = function(y) {
  */
 PathHandler.prototype.linetoVerticalRel = function(y) {
     this.addShape(Shapes.line(
+        this.lastX, this.lastY,
         this.lastX, this.lastY + y
     ));
 
@@ -411,7 +421,13 @@ PathHandler.prototype.linetoVerticalRel = function(y) {
  *  closePath - z or Z
  */
 PathHandler.prototype.closePath = function() {
-    // TODO: I think we should move to the first point in the subpath
+    this.addShape(Shapes.line(
+        this.lastX, this.lastY,
+        this.firstX, this.firstY
+    ));
+
+    this.lastX = this.firstX,
+    this.lastY = this.firstY;
     this.lastCommand = "z";
 };
 
