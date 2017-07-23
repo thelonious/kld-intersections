@@ -250,7 +250,7 @@ PathHandler.prototype.curvetoQuadraticAbs = function(x1, y1, x, y) {
 PathHandler.prototype.curvetoQuadraticRel = function(x1, y1, x, y) {
     this.addShape(Shapes.quadraticBezier(
         this.lastX, this.lastY,
-        this.lastX + x1, this.lastY + y,
+        this.lastX + x1, this.lastY + y1,
         this.lastX + x, this.lastY + y
     ));
 
