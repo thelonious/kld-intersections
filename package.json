@@ -27,6 +27,7 @@
   ],
   "dependencies": {
     "kld-affine": "^2.0.4",
+    "kld-path-parser": "0.0.2",
     "kld-polynomial": "^0.1.2"
   },
   "devDependencies": {
