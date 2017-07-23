@@ -9,7 +9,9 @@ let lib          = require('../index'),
     PathHandler  = require('./PathHandler');
 
 // parser path data
-let pathData = "M0,0 c100,0 100,100 0,100z m20,0 c100,0 100,100 0,100z";
+let pathData = "M0,0 C100,0 100,100 0,100z m20,0 c100,0 100,100 0,100z";
+// let pathData = "M0,0 Q100,50 0,100z m10,0 q100,50 0,100z";
+// let pathData = "M0,0 H100 V100 H0z m5,5 h100 v100 h-100z";
 let parser = new PathParser();
 let handler = new PathHandler();
 
@@ -17,6 +19,7 @@ parser.setHandler(handler);
 parser.parseData(pathData);
 
 // create path
+// console.error(JSON.stringify(handler.shapes, null, 2));
 let path = Shapes.path(handler.shapes);
 
 // create line
