@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(75,75)">
-    <path d="M0,0 C100,0 100,100 0,100 100,100 100,200 0,200" stroke="blue" fill="none"/>
-    <line x1="50" y1="0" x2="50" y2="200" stroke="green"/>
-    <circle cx="50.000" cy="88.490" r="2" stroke="red" fill="none"/>
-    <circle cx="50.000" cy="11.510" r="2" stroke="red" fill="none"/>
-    <circle cx="50.000" cy="188.490" r="2" stroke="red" fill="none"/>
-    <circle cx="50.000" cy="111.510" r="2" stroke="red" fill="none"/>
+    <path d="M0,0 c100,0 100,100 0,100z m20,0 c100,0 100,100 0,100z" stroke="blue" fill="none"/>
+    <line x1="0" y1="-10" x2="110" y2="110" stroke="green"/>
+    <circle cx="9.452" cy="0.311" r="2" stroke="red" fill="none"/>
+    <circle cx="70.858" cy="67.300" r="2" stroke="red" fill="none"/>
+    <circle cx="81.984" cy="79.437" r="2" stroke="red" fill="none"/>
+    <circle cx="20.000" cy="11.818" r="2" stroke="red" fill="none"/>
   </g>
 </svg>
