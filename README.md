@@ -7,6 +7,7 @@
     - [Shapes API](#shapes-api)
     - [Affine Shapes API](#affine-shapes-api)
     - [Use Your Own Objects](#use-your-own-objects)
+- [Queries](#queries)
 - [Known Issues](#known-issues)
 - [Links](#links)
 
@@ -248,6 +249,20 @@ Intersection {
 ## Use Your Own Objects
 
 If you have a look at the code, you'll find that the Shapes and Affine Shapes APIs are quite simple. These APIs create instances of the `IntersectionArgs` class. In turn the `IntersectionArgs` class is quite simple too, consisting of two properties: `name` and `args`. `name` is the name of the shape or curve as defined in the table describing the [Intersection API](#intersection-api). Likewise, `args` is an array of the arguments described in the arguments column in that same table. So, you can pass in any object to `Intersection.intersect` as long as it contains those two properties which need to follow the name and argument conventions just described.
+
+# Queries
+
+In the original intersection code written for kevlindev.com, there were some functions that allowed one to determine if a point was contained within a given shape. That code has been extracted into a separate class named `IntersectionQuery`. Those methods are currently limited to the following list:
+
+* IntersectionQuery.pointInCircle(point, center, radius)
+* IntersectionQuery.pointInEllipse(point, center, radiusX, radiusY)
+* IntersectionQuery.pointInPolyline(point, points)
+* IntersectionQuery.pointInPolygon(point, points)
+* IntersectionQuery.pointInRectangle(point, topLeft, bottomRight)
+
+The first argument is the `Point2D` you wish to test. The remaining parameters follow the same convention as described in [Intersection API](#intersection-api). All methods return a boolean value indicating whether or not the given point is contained within the shape.
+
+Note that currently bézier curves are not included in this list. As a workaround, bézier shapes can be approximated using polylines and then tested with `pointInPolyline` or `pointInPolygon`. See [tessellate-cubic-beziers.js](examples/tessellate-cubic-beziers.js) as an example of how you might tesselate bézier curves for this purpose.
 
 # Known Issues
 
