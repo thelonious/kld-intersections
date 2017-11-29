@@ -21,7 +21,7 @@ let path1 = Shapes.path(handler.shapes);
 
 parser.setHandler(handler);
 parser.parseData(pathData2);
-let path2 = Shapes.line(handler.shapes);
+let path2 = Shapes.path(handler.shapes);
 
 // intersect
 let result = Intersection.intersect(path1, path2);
