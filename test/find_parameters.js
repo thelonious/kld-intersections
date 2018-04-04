@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 
-const { Point2D, Intersection, IntersectionArgs} = require('../index');
+const { Point2D, Intersection, IntersectionArgs } = require('../index');
 const { CubicBezier2D } = require('kld-contours');
 
 function find_parameter(path, point) {
     const {x, y} = path.getBernsteinPolynomials();
+    
     x.coefs[0] -= point.x;
 
-    roots = x.getRootsInInterval(0.0, 1.0);
+    const roots = x.getRootsInInterval(0.0, 1.0);
 
     for (let t of roots) {
         const candidate_y = y.eval(t);
