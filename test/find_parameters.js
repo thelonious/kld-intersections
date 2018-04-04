@@ -41,12 +41,15 @@ let path2 = new IntersectionArgs("Bezier3", [b2.p1, b2.p2, b2.p3, b2.p4]);
 // intersect
 let result = Intersection.intersect(path1, path2);
 
+// find bezier parametric values from first intersection point
 let param1 = find_parameter(b1, result.points[0]);
-let point1 = b1.getPointAtParameter(param1);
-
 let param2 = find_parameter(b2, result.points[0]);
+
+// calculate points on curves from their parametric values
+let point1 = b1.getPointAtParameter(param1);
 let point2 = b2.getPointAtParameter(param2);
 
+// compare the results
 console.log();
 console.log("These should all be pretty close to the same point");
 console.log(`Reported intersection: ${result.points[0]}`);
