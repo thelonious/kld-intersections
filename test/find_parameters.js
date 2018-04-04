@@ -1,12 +1,7 @@
 #!/usr/bin/env node
 
-let lib           = require('../index'),
-    Point2D       = lib.Point2D,
-    Vector2D      = lib.Vector2D,
-    Intersection  = lib.Intersection,
-    IntersectionArgs = lib.IntersectionArgs,
-    Shapes        = lib.Shapes,
-    CubicBezier2D = require('kld-contours').CubicBezier2D;
+const { Point2D, Intersection, IntersectionArgs} = require('../index');
+const { CubicBezier2D } = require('kld-contours');
 
 function find_parameter(path, point) {
     const {x, y} = path.getBernsteinPolynomials();
