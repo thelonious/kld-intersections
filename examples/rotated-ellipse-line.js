@@ -4,7 +4,6 @@ const lib = require('../index');
 const AffineShapes = lib.AffineShapes;
 const Intersection = lib.Intersection;
 const Point2D = lib.Point2D;
-const Vector2D = lib.Vector2D;
 const Matrix2D = lib.Matrix2D;
 
 // define line
