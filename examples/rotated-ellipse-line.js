@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const lib = require('../index');
-const AffineShapes = lib.AffineShapes;
 const Intersection = lib.Intersection;
 const Point2D = lib.Point2D;
 const Matrix2D = lib.Matrix2D;
