@@ -271,7 +271,7 @@ PathHandler.prototype.curvetoCubicSmoothAbs = function(x2, y2, x, y) {
     var controlX, controlY;
     
     if ( this.lastCommand.match(/^[SsCc]$/) ) {
-        var secondToLast = this.shapes[this.shapes - 1].args[2];
+        var secondToLast = this.shapes[this.shapes.length - 1].args[2];
 
         controlX = 2 * this.lastX - secondToLast.x,
         controlY = 2 * this.lastX - secondToLast.y
@@ -304,7 +304,7 @@ PathHandler.prototype.curvetoCubicSmoothRel = function(x2, y2, x, y) {
     var controlX, controlY;
     
     if ( this.lastCommand.match(/^[SsCc]$/) ) {
-        var secondToLast = this.shapes[this.shapes - 1].args[2];
+        var secondToLast = this.shapes[this.shapes.length - 1].args[2];
 
         controlX = 2 * this.lastX - secondToLast.x,
         controlY = 2 * this.lastY - secondToLast.y
@@ -335,7 +335,7 @@ PathHandler.prototype.curvetoQuadraticSmoothAbs = function(x, y) {
     var controlX, controlY;
     
     if ( this.lastCommand.match(/^[QqTt]$/) ) {
-        var secondToLast = this.shapes[this.shapes - 1].args[1];
+        var secondToLast = this.shapes[this.shapes.length - 1].args[1];
 
         controlX = 2 * this.lastX - secondToLast.x,
         controlY = 2 * this.lastY - secondToLast.y
@@ -365,7 +365,7 @@ PathHandler.prototype.curvetoQuadraticSmoothRel = function(x, y) {
     var controlX, controlY;
     
     if ( this.lastCommand.match(/^[QqTt]$/) ) {
-        var secondToLast = this.shapes[this.shapes - 1].args[1];
+        var secondToLast = this.shapes[this.shapes.length - 1].args[1];
 
         controlX = 2 * this.lastX - secondToLast.x,
         controlY = 2 * this.lastY - secondToLast.y
