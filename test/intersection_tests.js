@@ -1,5 +1,3 @@
-var bezier = require('../lib/functions/bezier');
-
 var intersect = require('../index').intersect;
 var shape = require('../index').shape;
 
