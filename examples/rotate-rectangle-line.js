@@ -2,7 +2,7 @@
 
 let lib = require('../index'),
     Intersection = lib.Intersection,
-    Point2D = lib.Point2D
+    Point2D = lib.Point2D,
     Matrix2D = lib.Matrix2D;
 
 // define line
@@ -35,7 +35,7 @@ let angle = 45.0 * Math.PI / 180.0;
 let rotation = Matrix2D.rotationAt(angle, center);
 
 // create new rotated polygon
-rotatedPoly = poly.map(p => p.transform(rotation));
+let rotatedPoly = poly.map(p => p.transform(rotation));
 
 // find intersections
 let result = Intersection.intersectLinePolygon(line.p1, line.p2, rotatedPoly);

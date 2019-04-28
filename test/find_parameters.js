@@ -5,7 +5,7 @@ const { CubicBezier2D } = require('kld-contours');
 
 function find_parameter(path, point) {
     const {x, y} = path.getBernsteinPolynomials();
-    
+
     x.coefs[0] -= point.x;
 
     const roots = x.getRootsInInterval(0.0, 1.0);

@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 let lib          = require('../index'),
-    Point2D      = lib.Point2D,
     Intersection = lib.Intersection,
     Shapes       = lib.Shapes;
 
@@ -21,6 +20,6 @@ let svg = `<svg xmlns="http://www.w3.org/2000/svg">
     <rect x="0" y="0" width="60" height="30" fill="none" stroke="green"/>
     ${intersectionSVG}
   </g>
-</svg>`
+</svg>`;
 
 console.log(svg);

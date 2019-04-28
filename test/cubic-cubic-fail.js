@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
 let lib          = require('../index'),
-    Point2D      = lib.Point2D,
-    Vector2D     = lib.Vector2D,
     Intersection = lib.Intersection,
     Shapes       = lib.Shapes,
     PathParser   = require('kld-path-parser').PathParser,
