@@ -12,13 +12,14 @@
       "email": "quazistax@gmail.com"
     }
   ],
-  "license": "BSD",
+  "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
     "url": "git://github.com/effektif/svg-intersections.git"
   },
   "main": "index.js",
   "scripts": {
+    "eslint": "eslint .",
     "test": "expresso"
   },
   "keywords": [
@@ -36,6 +37,7 @@
     "kld-polynomial": "0.1.1"
   },
   "devDependencies": {
+    "eslint": "^5.16.0",
     "expresso": "0.9.2"
   },
   "engines": {
