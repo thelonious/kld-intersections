@@ -4,7 +4,7 @@
  *  @copyright 2017 Kevin Lindsey
  */
 
-if (typeof module !== "undefine") {
+if (typeof module !== "undefined") {
     var Shapes = require('../index').Shapes;
 }
 
@@ -60,9 +60,11 @@ PathHandler.prototype.addShape = function(shape) {
  *  @param {Number} x
  *  @param {Number} y
  */
+// eslint-disable-next-line no-unused-vars
 PathHandler.prototype.arcAbs = function(rx, ry, xAxisRotation, largeArcFlag, sweepFlag, x, y) {
     // TODO: implement once we support arcs
     this.lastCommand = "A";
+    throw new Error("Not yet supported!");
 };
 
 /**
@@ -76,9 +78,11 @@ PathHandler.prototype.arcAbs = function(rx, ry, xAxisRotation, largeArcFlag, swe
  *  @param {Number} x
  *  @param {Number} y
  */
+// eslint-disable-next-line no-unused-vars
 PathHandler.prototype.arcRel = function(rx, ry, xAxisRotation, largeArcFlag, sweepFlag, x, y) {
     // TODO: implement once we support arcs
     this.lastCommand = "a";
+    throw new Error("Not yet supported!");
 };
 
 /**
@@ -269,7 +273,7 @@ PathHandler.prototype.curvetoQuadraticRel = function(x1, y1, x, y) {
  */
 PathHandler.prototype.curvetoCubicSmoothAbs = function(x2, y2, x, y) {
     var controlX, controlY;
-    
+
     if ( this.lastCommand.match(/^[SsCc]$/) ) {
         var secondToLast = this.shapes[this.shapes.length - 1].args[2];
 
@@ -302,7 +306,7 @@ PathHandler.prototype.curvetoCubicSmoothAbs = function(x2, y2, x, y) {
  */
 PathHandler.prototype.curvetoCubicSmoothRel = function(x2, y2, x, y) {
     var controlX, controlY;
-    
+
     if ( this.lastCommand.match(/^[SsCc]$/) ) {
         var secondToLast = this.shapes[this.shapes.length - 1].args[2];
 
@@ -333,7 +337,7 @@ PathHandler.prototype.curvetoCubicSmoothRel = function(x2, y2, x, y) {
  */
 PathHandler.prototype.curvetoQuadraticSmoothAbs = function(x, y) {
     var controlX, controlY;
-    
+
     if ( this.lastCommand.match(/^[QqTt]$/) ) {
         var secondToLast = this.shapes[this.shapes.length - 1].args[1];
 
@@ -363,7 +367,7 @@ PathHandler.prototype.curvetoQuadraticSmoothAbs = function(x, y) {
  */
 PathHandler.prototype.curvetoQuadraticSmoothRel = function(x, y) {
     var controlX, controlY;
-    
+
     if ( this.lastCommand.match(/^[QqTt]$/) ) {
         var secondToLast = this.shapes[this.shapes.length - 1].args[1];
 
@@ -377,7 +381,7 @@ PathHandler.prototype.curvetoQuadraticSmoothRel = function(x, y) {
 
     this.addShape(Shapes.quadraticBezier(
         controlX, controlY,
-        this.lastX + x, this,lastY + y
+        this.lastX + x, this.lastY + y
     ));
 
     this.lastX += x;
@@ -431,6 +435,6 @@ PathHandler.prototype.closePath = function() {
     this.lastCommand = "z";
 };
 
-if (typeof module !== "undefine") {
+if (typeof module !== "undefined") {
     module.exports = PathHandler;
 }

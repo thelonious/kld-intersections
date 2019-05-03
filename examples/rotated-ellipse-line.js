@@ -58,6 +58,6 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg">
     </g>
     <line x1="${line.p1.x}" y1="${line.p1.y}" x2="${line.p2.x}" y2="${line.p2.y}" stroke="green"/>
   </g>
-</svg>`
+</svg>`;
 
 console.log(svg);
