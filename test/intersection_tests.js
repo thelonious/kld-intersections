@@ -1,7 +1,8 @@
+"use strict";
+
 const assert = require("assert");
 
 const {Intersection, Point2D} = require("../index");
-
 
 describe("Intersections", () => {
     describe("Line-Line Intersection", () => {

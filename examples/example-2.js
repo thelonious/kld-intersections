@@ -1,11 +1,12 @@
-const lib          = require("../index");
+"use strict";
+
+const lib = require("../index");
 
 const {Intersection, Shapes} = lib;
 
-
-const circle    = Shapes.circle(0, 0, 50);
+const circle = Shapes.circle(0, 0, 50);
 const rectangle = Shapes.rectangle(0, 0, 60, 30);
-const result    = Intersection.intersect(circle, rectangle);
+const result = Intersection.intersect(circle, rectangle);
 
 // build SVG file showing the shapes, the center point, and intersection points
 const intersectionSVG = result.points.map(p => {

@@ -4,6 +4,8 @@
  *  @copyright 2017 Kevin Lindsey
  */
 
+"use strict";
+
 let Shapes;
 if (typeof module !== "undefined") {
     ({Shapes} = require("../index"));

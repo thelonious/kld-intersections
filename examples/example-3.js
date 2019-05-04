@@ -1,11 +1,10 @@
-const lib          = require("../index");
+"use strict";
 
-const {Point2D, Vector2D, Intersection, AffineShapes} = lib;
+const {Point2D, Vector2D, Intersection, AffineShapes} = require("../index");
 
-
-const circle    = AffineShapes.circle(new Point2D(0, 0), 50);
+const circle = AffineShapes.circle(new Point2D(0, 0), 50);
 const rectangle = AffineShapes.rectangle(new Point2D(0, 0), new Vector2D(60, 30));
-const result    = Intersection.intersect(circle, rectangle);
+const result = Intersection.intersect(circle, rectangle);
 
 // build SVG file showing the shapes, the center point, and intersection points
 const intersectionSVG = result.points.map(p => {

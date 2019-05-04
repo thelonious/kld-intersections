@@ -1,3 +1,5 @@
+"use strict";
+
 const lib = require("../index");
 
 const {Point2D, Intersection} = lib;

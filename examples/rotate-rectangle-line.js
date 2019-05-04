@@ -1,3 +1,5 @@
+"use strict";
+
 const {Intersection, Point2D, Matrix2D} = require("../index");
 
 // define line

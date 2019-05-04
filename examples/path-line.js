@@ -1,6 +1,8 @@
-const {PathParser}   = require("kld-path-parser");
-const lib          = require("../index"),
-    PathHandler  = require("./PathHandler");
+"use strict";
+
+const {PathParser} = require("kld-path-parser");
+const lib = require("../index"),
+    PathHandler = require("./PathHandler");
 
 const {Intersection, Shapes} = lib;
 
