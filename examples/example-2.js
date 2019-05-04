@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-let lib          = require('../index'),
+let lib          = require("../index"),
     Intersection = lib.Intersection,
     Shapes       = lib.Shapes;
 
@@ -11,7 +11,7 @@ let result    = Intersection.intersect(circle, rectangle);
 
 // build SVG file showing the shapes, the center point, and intersection points
 let intersectionSVG = result.points.map(p => {
-    return `<circle cx="${p.x.toFixed(3)}" cy="${p.y.toFixed(3)}" r="2" stroke="red" fill="none"/>`
+    return `<circle cx="${p.x.toFixed(3)}" cy="${p.y.toFixed(3)}" r="2" stroke="red" fill="none"/>`;
 }).join("\n    ");
 
 let svg = `<svg xmlns="http://www.w3.org/2000/svg">

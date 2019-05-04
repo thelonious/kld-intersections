@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-let lib = require('../index'),
+let lib = require("../index"),
     Intersection = lib.Intersection,
     Point2D = lib.Point2D,
-    contours = require('kld-contours'),
+    contours = require("kld-contours"),
     CubicBezier2D = contours.CubicBezier2D;
 
 // create beziers
@@ -29,7 +29,7 @@ let result = Intersection.intersectPolylinePolyline(p1.points, p2.points);
 
 // build SVG file showing beziers, polylines, and intersection points
 let intersectionSVG = result.points.map(p => {
-    return `<circle cx="${p.x.toFixed(3)}" cy="${p.y.toFixed(3)}" r="2" stroke="red" fill="none"/>`
+    return `<circle cx="${p.x.toFixed(3)}" cy="${p.y.toFixed(3)}" r="2" stroke="red" fill="none"/>`;
 }).join("\n    ");
 
 let svg = `<svg xmlns="http://www.w3.org/2000/svg">
@@ -40,6 +40,6 @@ let svg = `<svg xmlns="http://www.w3.org/2000/svg">
     <polyline points="${p2.toString()}" fill="none" stroke="white"/>
     ${intersectionSVG}
   </g>
-</svg>`
+</svg>`;
 
 console.log(svg);

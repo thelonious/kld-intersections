@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-let lib = require('../index'),
+let lib = require("../index"),
     Intersection = lib.Intersection,
     Point2D = lib.Point2D,
     Matrix2D = lib.Matrix2D;
@@ -42,7 +42,7 @@ let result = Intersection.intersectLinePolygon(line.p1, line.p2, rotatedPoly);
 
 // build SVG file showing the shapes, the center point, and intersection points
 let intersectionSVG = result.points.map(p => {
-    return `<circle cx="${p.x.toFixed(3)}" cy="${p.y.toFixed(3)}" r="2" stroke="red" fill="none"/>`
+    return `<circle cx="${p.x.toFixed(3)}" cy="${p.y.toFixed(3)}" r="2" stroke="red" fill="none"/>`;
 }).join("\n    ");
 
 let svg = `<svg xmlns="http://www.w3.org/2000/svg">
@@ -52,6 +52,6 @@ let svg = `<svg xmlns="http://www.w3.org/2000/svg">
     <circle cx="${center.x}" cy="${center.y}" r="2" stroke="blue" fill="none"/>
     ${intersectionSVG}
   </g>
-</svg>`
+</svg>`;
 
 console.log(svg);
