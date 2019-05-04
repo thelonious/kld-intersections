@@ -1,9 +1,6 @@
-#!/usr/bin/env node
-
 const lib = require('../index');
-const Intersection = lib.Intersection;
-const Point2D = lib.Point2D;
-const Matrix2D = lib.Matrix2D;
+
+const {Intersection, Point2D, Matrix2D} = lib;
 
 // define line
 const line = {
@@ -22,7 +19,7 @@ const ellipse = {
 // rotate the line into the ellipse's axis-aligned coordinate system
 const radians = ellipse.angle * Math.PI / 180.0;
 const rotation = Matrix2D.rotation(-radians);
-const rotated_line = {
+const rotatedLine = {
     p1: line.p1.transform(rotation),
     p2: line.p2.transform(rotation)
 };
@@ -30,13 +27,13 @@ const rotated_line = {
 // find intersections
 const result = Intersection.intersectEllipseLine(
     ellipse.center, ellipse.radiusX, ellipse.radiusY,
-    rotated_line.p1, rotated_line.p2
+    rotatedLine.p1, rotatedLine.p2
 );
 
 // build SVG file showing the shapes, the center point, and intersection points
 const intersectionSVG = result.points.map(p => {
-    return `<circle cx="${p.x.toFixed(3)}" cy="${p.y.toFixed(3)}" r="2" stroke="red" fill="none"/>`
-}).join("\n    ");
+    return `<circle cx="${p.x.toFixed(3)}" cy="${p.y.toFixed(3)}" r="2" stroke="red" fill="none"/>`;
+}).join('\n    ');
 
 //
 // NOTE: This SVG transforms the intersection points back into the original

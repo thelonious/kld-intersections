@@ -4,14 +4,15 @@
  *  @copyright 2017 Kevin Lindsey
  */
 
-if (typeof module !== "undefined") {
-    var Shapes = require('../index').Shapes;
+let Shapes;
+if (typeof module !== 'undefined') {
+    ({Shapes} = require('../index'));
 }
 
 /**
  *  PathHandler
  *
- *  @constructor
+ *  @class
  */
 function PathHandler() {
     this.shapes = [];
@@ -52,48 +53,46 @@ PathHandler.prototype.addShape = function(shape) {
 /**
  *  arcAbs - A
  *
- *  @param {Number} rx
- *  @param {Number} ry
- *  @param {Number} xAxisRotation
- *  @param {Boolean} largeArcFlag
- *  @param {Boolean} sweepFlag
- *  @param {Number} x
- *  @param {Number} y
+ *  @param {number} rx
+ *  @param {number} ry
+ *  @param {number} xAxisRotation
+ *  @param {boolean} largeArcFlag
+ *  @param {boolean} sweepFlag
+ *  @param {number} x
+ *  @param {number} y
  */
-// eslint-disable-next-line no-unused-vars
 PathHandler.prototype.arcAbs = function(rx, ry, xAxisRotation, largeArcFlag, sweepFlag, x, y) {
     // TODO: implement once we support arcs
-    this.lastCommand = "A";
-    throw new Error("Not yet supported!");
+    this.lastCommand = 'A';
+    throw new Error('Not yet supported!');
 };
 
 /**
  *  arcRel - a
  *
- *  @param {Number} rx
- *  @param {Number} ry
- *  @param {Number} xAxisRotation
- *  @param {Boolean} largeArcFlag
- *  @param {Boolean} sweepFlag
- *  @param {Number} x
- *  @param {Number} y
+ *  @param {number} rx
+ *  @param {number} ry
+ *  @param {number} xAxisRotation
+ *  @param {boolean} largeArcFlag
+ *  @param {boolean} sweepFlag
+ *  @param {number} x
+ *  @param {number} y
  */
-// eslint-disable-next-line no-unused-vars
 PathHandler.prototype.arcRel = function(rx, ry, xAxisRotation, largeArcFlag, sweepFlag, x, y) {
     // TODO: implement once we support arcs
-    this.lastCommand = "a";
-    throw new Error("Not yet supported!");
+    this.lastCommand = 'a';
+    throw new Error('Not yet supported!');
 };
 
 /**
  *  curvetoCubicAbs - C
  *
- *  @param {Number} x1
- *  @param {Number} y1
- *  @param {Number} x2
- *  @param {Number} y2
- *  @param {Number} x
- *  @param {Number} y
+ *  @param {number} x1
+ *  @param {number} y1
+ *  @param {number} x2
+ *  @param {number} y2
+ *  @param {number} x
+ *  @param {number} y
  */
 PathHandler.prototype.curvetoCubicAbs = function(x1, y1, x2, y2, x, y) {
     this.addShape(Shapes.cubicBezier(
@@ -105,18 +104,18 @@ PathHandler.prototype.curvetoCubicAbs = function(x1, y1, x2, y2, x, y) {
 
     this.lastX = x;
     this.lastY = y;
-    this.lastCommand = "C";
+    this.lastCommand = 'C';
 };
 
 /**
  *  curvetoCubicRel - c
  *
- *  @param {Number} x1
- *  @param {Number} y1
- *  @param {Number} x2
- *  @param {Number} y2
- *  @param {Number} x
- *  @param {Number} y
+ *  @param {number} x1
+ *  @param {number} y1
+ *  @param {number} x2
+ *  @param {number} y2
+ *  @param {number} x
+ *  @param {number} y
  */
 PathHandler.prototype.curvetoCubicRel = function(x1, y1, x2, y2, x, y) {
     this.addShape(Shapes.cubicBezier(
@@ -128,13 +127,13 @@ PathHandler.prototype.curvetoCubicRel = function(x1, y1, x2, y2, x, y) {
 
     this.lastX += x;
     this.lastY += y;
-    this.lastCommand = "c";
+    this.lastCommand = 'c';
 };
 
 /**
  *  linetoHorizontalAbs - H
  *
- *  @param {Number} x
+ *  @param {number} x
  */
 PathHandler.prototype.linetoHorizontalAbs = function(x) {
     this.addShape(Shapes.line(
@@ -143,13 +142,13 @@ PathHandler.prototype.linetoHorizontalAbs = function(x) {
     ));
 
     this.lastX = x;
-    this.lastCommand = "H";
+    this.lastCommand = 'H';
 };
 
 /**
  *  linetoHorizontalRel - h
  *
- *  @param {Number} x
+ *  @param {number} x
  */
 PathHandler.prototype.linetoHorizontalRel = function(x) {
     this.addShape(Shapes.line(
@@ -158,14 +157,14 @@ PathHandler.prototype.linetoHorizontalRel = function(x) {
     ));
 
     this.lastX += x;
-    this.lastCommand = "h";
+    this.lastCommand = 'h';
 };
 
 /**
  *  linetoAbs - L
  *
- *  @param {Number} x
- *  @param {Number} y
+ *  @param {number} x
+ *  @param {number} y
  */
 PathHandler.prototype.linetoAbs = function(x, y) {
     this.addShape(Shapes.line(
@@ -175,14 +174,14 @@ PathHandler.prototype.linetoAbs = function(x, y) {
 
     this.lastX = x;
     this.lastY = y;
-    this.lastCommand = "L";
+    this.lastCommand = 'L';
 };
 
 /**
  *  linetoRel - l
  *
- *  @param {Number} x
- *  @param {Number} y
+ *  @param {number} x
+ *  @param {number} y
  */
 PathHandler.prototype.linetoRel = function(x, y) {
     this.addShape(Shapes.line(
@@ -192,44 +191,44 @@ PathHandler.prototype.linetoRel = function(x, y) {
 
     this.lastX += x;
     this.lastY += y;
-    this.lastCommand = "l";
+    this.lastCommand = 'l';
 };
 
 /**
  *  movetoAbs - M
  *
- *  @param {Number} x
- *  @param {Number} y
+ *  @param {number} x
+ *  @param {number} y
  */
 PathHandler.prototype.movetoAbs = function(x, y) {
     this.firstX = x;
     this.firstY = y;
     this.lastX = x;
     this.lastY = y;
-    this.lastCommand = "M";
+    this.lastCommand = 'M';
 };
 
 /**
  *  movetoRel - m
  *
- *  @param {Number} x
- *  @param {Number} y
+ *  @param {number} x
+ *  @param {number} y
  */
 PathHandler.prototype.movetoRel = function(x, y) {
     this.firstX += x;
     this.firstY += y;
     this.lastX += x;
     this.lastY += y;
-    this.lastCommand = "m";
+    this.lastCommand = 'm';
 };
 
 /**
  *  curvetoQuadraticAbs - Q
  *
- *  @param {Number} x1
- *  @param {Number} y1
- *  @param {Number} x
- *  @param {Number} y
+ *  @param {number} x1
+ *  @param {number} y1
+ *  @param {number} x
+ *  @param {number} y
  */
 PathHandler.prototype.curvetoQuadraticAbs = function(x1, y1, x, y) {
     this.addShape(Shapes.quadraticBezier(
@@ -240,16 +239,16 @@ PathHandler.prototype.curvetoQuadraticAbs = function(x1, y1, x, y) {
 
     this.lastX = x;
     this.lastY = y;
-    this.lastCommand = "Q";
+    this.lastCommand = 'Q';
 };
 
 /**
  *  curvetoQuadraticRel - q
  *
- *  @param {Number} x1
- *  @param {Number} y1
- *  @param {Number} x
- *  @param {Number} y
+ *  @param {number} x1
+ *  @param {number} y1
+ *  @param {number} x
+ *  @param {number} y
  */
 PathHandler.prototype.curvetoQuadraticRel = function(x1, y1, x, y) {
     this.addShape(Shapes.quadraticBezier(
@@ -260,27 +259,26 @@ PathHandler.prototype.curvetoQuadraticRel = function(x1, y1, x, y) {
 
     this.lastX += x;
     this.lastY += y;
-    this.lastCommand = "q";
+    this.lastCommand = 'q';
 };
 
 /**
  *  curvetoCubicSmoothAbs - S
  *
- *  @param {Number} x2
- *  @param {Number} y2
- *  @param {Number} x
- *  @param {Number} y
+ *  @param {number} x2
+ *  @param {number} y2
+ *  @param {number} x
+ *  @param {number} y
  */
 PathHandler.prototype.curvetoCubicSmoothAbs = function(x2, y2, x, y) {
-    var controlX, controlY;
+    let controlX, controlY;
 
-    if ( this.lastCommand.match(/^[SsCc]$/) ) {
-        var secondToLast = this.shapes[this.shapes.length - 1].args[2];
+    if (this.lastCommand.match(/^[SsCc]$/)) {
+        const secondToLast = this.shapes[this.shapes.length - 1].args[2];
 
-        controlX = 2 * this.lastX - secondToLast.x,
-        controlY = 2 * this.lastX - secondToLast.y
-    }
-    else {
+        controlX = 2 * this.lastX - secondToLast.x;
+        controlY = 2 * this.lastX - secondToLast.y;
+    } else {
         controlX = this.lastX;
         controlY = this.lastY;
     }
@@ -293,27 +291,26 @@ PathHandler.prototype.curvetoCubicSmoothAbs = function(x2, y2, x, y) {
 
     this.lastX = x;
     this.lastY = y;
-    this.lastCommand = "S";
+    this.lastCommand = 'S';
 };
 
 /**
  *  curvetoCubicSmoothRel - s
  *
- *  @param {Number} x2
- *  @param {Number} y2
- *  @param {Number} x
- *  @param {Number} y
+ *  @param {number} x2
+ *  @param {number} y2
+ *  @param {number} x
+ *  @param {number} y
  */
 PathHandler.prototype.curvetoCubicSmoothRel = function(x2, y2, x, y) {
-    var controlX, controlY;
+    let controlX, controlY;
 
-    if ( this.lastCommand.match(/^[SsCc]$/) ) {
-        var secondToLast = this.shapes[this.shapes.length - 1].args[2];
+    if (this.lastCommand.match(/^[SsCc]$/)) {
+        const secondToLast = this.shapes[this.shapes.length - 1].args[2];
 
-        controlX = 2 * this.lastX - secondToLast.x,
-        controlY = 2 * this.lastY - secondToLast.y
-    }
-    else {
+        controlX = 2 * this.lastX - secondToLast.x;
+        controlY = 2 * this.lastY - secondToLast.y;
+    } else {
         controlX = this.lastX;
         controlY = this.lastY;
     }
@@ -326,25 +323,24 @@ PathHandler.prototype.curvetoCubicSmoothRel = function(x2, y2, x, y) {
 
     this.lastX += x;
     this.lastY += y;
-    this.lastCommand = "s";
+    this.lastCommand = 's';
 };
 
 /**
  *  curvetoQuadraticSmoothAbs - T
  *
- *  @param {Number} x
- *  @param {Number} y
+ *  @param {number} x
+ *  @param {number} y
  */
 PathHandler.prototype.curvetoQuadraticSmoothAbs = function(x, y) {
-    var controlX, controlY;
+    let controlX, controlY;
 
-    if ( this.lastCommand.match(/^[QqTt]$/) ) {
-        var secondToLast = this.shapes[this.shapes.length - 1].args[1];
+    if (this.lastCommand.match(/^[QqTt]$/)) {
+        const secondToLast = this.shapes[this.shapes.length - 1].args[1];
 
-        controlX = 2 * this.lastX - secondToLast.x,
-        controlY = 2 * this.lastY - secondToLast.y
-    }
-    else {
+        controlX = 2 * this.lastX - secondToLast.x;
+        controlY = 2 * this.lastY - secondToLast.y;
+    } else {
         controlX = this.lastX;
         controlY = this.lastY;
     }
@@ -356,25 +352,24 @@ PathHandler.prototype.curvetoQuadraticSmoothAbs = function(x, y) {
 
     this.lastX = x;
     this.lastY = y;
-    this.lastCommand = "T";
+    this.lastCommand = 'T';
 };
 
 /**
  *  curvetoQuadraticSmoothRel - t
  *
- *  @param {Number} x
- *  @param {Number} y
+ *  @param {number} x
+ *  @param {number} y
  */
 PathHandler.prototype.curvetoQuadraticSmoothRel = function(x, y) {
-    var controlX, controlY;
+    let controlX, controlY;
 
-    if ( this.lastCommand.match(/^[QqTt]$/) ) {
-        var secondToLast = this.shapes[this.shapes.length - 1].args[1];
+    if (this.lastCommand.match(/^[QqTt]$/)) {
+        const secondToLast = this.shapes[this.shapes.length - 1].args[1];
 
-        controlX = 2 * this.lastX - secondToLast.x,
-        controlY = 2 * this.lastY - secondToLast.y
-    }
-    else {
+        controlX = 2 * this.lastX - secondToLast.x;
+        controlY = 2 * this.lastY - secondToLast.y;
+    } else {
         controlX = this.lastX;
         controlY = this.lastY;
     }
@@ -386,13 +381,13 @@ PathHandler.prototype.curvetoQuadraticSmoothRel = function(x, y) {
 
     this.lastX += x;
     this.lastY += y;
-    this.lastCommand = "t";
+    this.lastCommand = 't';
 };
 
 /**
  *  linetoVerticalAbs - V
  *
- *  @param {Number} y
+ *  @param {number} y
  */
 PathHandler.prototype.linetoVerticalAbs = function(y) {
     this.addShape(Shapes.line(
@@ -402,13 +397,13 @@ PathHandler.prototype.linetoVerticalAbs = function(y) {
 
     this.lastY = y;
 
-    this.lastCommand = "V";
+    this.lastCommand = 'V';
 };
 
 /**
  *  linetoVerticalRel - v
  *
- *  @param {Number} y
+ *  @param {number} y
  */
 PathHandler.prototype.linetoVerticalRel = function(y) {
     this.addShape(Shapes.line(
@@ -418,7 +413,7 @@ PathHandler.prototype.linetoVerticalRel = function(y) {
 
     this.lastY += y;
 
-    this.lastCommand = "v";
+    this.lastCommand = 'v';
 };
 
 /**
@@ -430,11 +425,11 @@ PathHandler.prototype.closePath = function() {
         this.firstX, this.firstY
     ));
 
-    this.lastX = this.firstX,
+    this.lastX = this.firstX;
     this.lastY = this.firstY;
-    this.lastCommand = "z";
+    this.lastCommand = 'z';
 };
 
-if (typeof module !== "undefined") {
+if (typeof module !== 'undefined') {
     module.exports = PathHandler;
 }
