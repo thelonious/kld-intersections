@@ -32,7 +32,7 @@ module.exports = {
         }
     ],
     "rules": {
-      "indent": ["error", 4],
+      "indent": ["error", 4, {"SwitchCase": 1}],
       "quotes": ["error", "double"],
       "no-console": "off",
       "space-before-function-paren": ["error", "never"],
