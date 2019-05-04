@@ -5,7 +5,7 @@ module.exports = {
         "node": true,
         "mocha": true
     },
-    "extends": "ash-nazg/sauron-node",
+    "extends": ["ash-nazg/sauron-node", "plugin:node/recommended-script"],
     "parserOptions": {
         "ecmaVersion": 2018,
         "sourceType": "module"
