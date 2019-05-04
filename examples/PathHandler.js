@@ -278,7 +278,8 @@ PathHandler.prototype.curvetoCubicSmoothAbs = function(x2, y2, x, y) {
 
         controlX = 2 * this.lastX - secondToLast.x;
         controlY = 2 * this.lastX - secondToLast.y;
-    } else {
+    }
+    else {
         controlX = this.lastX;
         controlY = this.lastY;
     }
@@ -310,7 +311,8 @@ PathHandler.prototype.curvetoCubicSmoothRel = function(x2, y2, x, y) {
 
         controlX = 2 * this.lastX - secondToLast.x;
         controlY = 2 * this.lastY - secondToLast.y;
-    } else {
+    }
+    else {
         controlX = this.lastX;
         controlY = this.lastY;
     }
@@ -340,7 +342,8 @@ PathHandler.prototype.curvetoQuadraticSmoothAbs = function(x, y) {
 
         controlX = 2 * this.lastX - secondToLast.x;
         controlY = 2 * this.lastY - secondToLast.y;
-    } else {
+    }
+    else {
         controlX = this.lastX;
         controlY = this.lastY;
     }
@@ -369,7 +372,8 @@ PathHandler.prototype.curvetoQuadraticSmoothRel = function(x, y) {
 
         controlX = 2 * this.lastX - secondToLast.x;
         controlY = 2 * this.lastY - secondToLast.y;
-    } else {
+    }
+    else {
         controlX = this.lastX;
         controlY = this.lastY;
     }

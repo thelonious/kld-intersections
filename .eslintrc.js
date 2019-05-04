@@ -34,8 +34,9 @@ module.exports = {
     "rules": {
       "indent": ["error", 4, {"SwitchCase": 1}],
       "quotes": ["error", "double"],
-      "no-console": "off",
       "space-before-function-paren": ["error", "never"],
+      "brace-style": ["error", "stroustrup"],
+      "no-console": "off",
       "no-multiple-empty-lines": "off",
       "arrow-parens": "off",
       "max-len": "off",
