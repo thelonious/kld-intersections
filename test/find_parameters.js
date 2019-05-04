@@ -1,5 +1,5 @@
-const {CubicBezier2D} = require('kld-contours');
-const {Point2D, Intersection, IntersectionArgs} = require('../index');
+const {CubicBezier2D} = require("kld-contours");
+const {Point2D, Intersection, IntersectionArgs} = require("../index");
 
 /**
  *
@@ -39,8 +39,8 @@ const b2 = new CubicBezier2D(
     new Point2D(300, 200)
 );
 
-const path1 = new IntersectionArgs('Bezier3', [b1.p1, b1.p2, b1.p3, b1.p4]);
-const path2 = new IntersectionArgs('Bezier3', [b2.p1, b2.p2, b2.p3, b2.p4]);
+const path1 = new IntersectionArgs("Bezier3", [b1.p1, b1.p2, b1.p3, b1.p4]);
+const path2 = new IntersectionArgs("Bezier3", [b2.p1, b2.p2, b2.p3, b2.p4]);
 
 // intersect
 const result = Intersection.intersect(path1, path2);
@@ -55,7 +55,7 @@ const point2 = b2.getPointAtParameter(param2);
 
 // compare the results
 console.log();
-console.log('These should all be pretty close to the same point');
+console.log("These should all be pretty close to the same point");
 console.log(`Reported intersection: ${result.points[0]}`);
 console.log(`Point on first curve:  ${point1}, t=${param1}`);
 console.log(`Point on second curve: ${point2}, t=${param2}`);

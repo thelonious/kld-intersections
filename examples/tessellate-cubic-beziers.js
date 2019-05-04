@@ -1,6 +1,6 @@
-const {CubicBezier2D} = require('kld-contours');
+const {CubicBezier2D} = require("kld-contours");
 
-const lib = require('../index');
+const lib = require("../index");
 
 const {Intersection, Point2D} = lib;
 
@@ -28,7 +28,7 @@ const result = Intersection.intersectPolylinePolyline(p1.points, p2.points);
 // build SVG file showing beziers, polylines, and intersection points
 const intersectionSVG = result.points.map(p => {
     return `<circle cx="${p.x.toFixed(3)}" cy="${p.y.toFixed(3)}" r="2" stroke="red" fill="none"/>`;
-}).join('\n    ');
+}).join("\n    ");
 
 const svg = `<svg xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(150,150) scale(2) translate(-150,-150)">

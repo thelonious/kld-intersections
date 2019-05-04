@@ -5,8 +5,8 @@
  */
 
 let Shapes;
-if (typeof module !== 'undefined') {
-    ({Shapes} = require('../index'));
+if (typeof module !== "undefined") {
+    ({Shapes} = require("../index"));
 }
 
 /**
@@ -63,8 +63,8 @@ PathHandler.prototype.addShape = function(shape) {
  */
 PathHandler.prototype.arcAbs = function(rx, ry, xAxisRotation, largeArcFlag, sweepFlag, x, y) {
     // TODO: implement once we support arcs
-    this.lastCommand = 'A';
-    throw new Error('Not yet supported!');
+    this.lastCommand = "A";
+    throw new Error("Not yet supported!");
 };
 
 /**
@@ -80,8 +80,8 @@ PathHandler.prototype.arcAbs = function(rx, ry, xAxisRotation, largeArcFlag, swe
  */
 PathHandler.prototype.arcRel = function(rx, ry, xAxisRotation, largeArcFlag, sweepFlag, x, y) {
     // TODO: implement once we support arcs
-    this.lastCommand = 'a';
-    throw new Error('Not yet supported!');
+    this.lastCommand = "a";
+    throw new Error("Not yet supported!");
 };
 
 /**
@@ -104,7 +104,7 @@ PathHandler.prototype.curvetoCubicAbs = function(x1, y1, x2, y2, x, y) {
 
     this.lastX = x;
     this.lastY = y;
-    this.lastCommand = 'C';
+    this.lastCommand = "C";
 };
 
 /**
@@ -127,7 +127,7 @@ PathHandler.prototype.curvetoCubicRel = function(x1, y1, x2, y2, x, y) {
 
     this.lastX += x;
     this.lastY += y;
-    this.lastCommand = 'c';
+    this.lastCommand = "c";
 };
 
 /**
@@ -142,7 +142,7 @@ PathHandler.prototype.linetoHorizontalAbs = function(x) {
     ));
 
     this.lastX = x;
-    this.lastCommand = 'H';
+    this.lastCommand = "H";
 };
 
 /**
@@ -157,7 +157,7 @@ PathHandler.prototype.linetoHorizontalRel = function(x) {
     ));
 
     this.lastX += x;
-    this.lastCommand = 'h';
+    this.lastCommand = "h";
 };
 
 /**
@@ -174,7 +174,7 @@ PathHandler.prototype.linetoAbs = function(x, y) {
 
     this.lastX = x;
     this.lastY = y;
-    this.lastCommand = 'L';
+    this.lastCommand = "L";
 };
 
 /**
@@ -191,7 +191,7 @@ PathHandler.prototype.linetoRel = function(x, y) {
 
     this.lastX += x;
     this.lastY += y;
-    this.lastCommand = 'l';
+    this.lastCommand = "l";
 };
 
 /**
@@ -205,7 +205,7 @@ PathHandler.prototype.movetoAbs = function(x, y) {
     this.firstY = y;
     this.lastX = x;
     this.lastY = y;
-    this.lastCommand = 'M';
+    this.lastCommand = "M";
 };
 
 /**
@@ -219,7 +219,7 @@ PathHandler.prototype.movetoRel = function(x, y) {
     this.firstY += y;
     this.lastX += x;
     this.lastY += y;
-    this.lastCommand = 'm';
+    this.lastCommand = "m";
 };
 
 /**
@@ -239,7 +239,7 @@ PathHandler.prototype.curvetoQuadraticAbs = function(x1, y1, x, y) {
 
     this.lastX = x;
     this.lastY = y;
-    this.lastCommand = 'Q';
+    this.lastCommand = "Q";
 };
 
 /**
@@ -259,7 +259,7 @@ PathHandler.prototype.curvetoQuadraticRel = function(x1, y1, x, y) {
 
     this.lastX += x;
     this.lastY += y;
-    this.lastCommand = 'q';
+    this.lastCommand = "q";
 };
 
 /**
@@ -291,7 +291,7 @@ PathHandler.prototype.curvetoCubicSmoothAbs = function(x2, y2, x, y) {
 
     this.lastX = x;
     this.lastY = y;
-    this.lastCommand = 'S';
+    this.lastCommand = "S";
 };
 
 /**
@@ -323,7 +323,7 @@ PathHandler.prototype.curvetoCubicSmoothRel = function(x2, y2, x, y) {
 
     this.lastX += x;
     this.lastY += y;
-    this.lastCommand = 's';
+    this.lastCommand = "s";
 };
 
 /**
@@ -352,7 +352,7 @@ PathHandler.prototype.curvetoQuadraticSmoothAbs = function(x, y) {
 
     this.lastX = x;
     this.lastY = y;
-    this.lastCommand = 'T';
+    this.lastCommand = "T";
 };
 
 /**
@@ -381,7 +381,7 @@ PathHandler.prototype.curvetoQuadraticSmoothRel = function(x, y) {
 
     this.lastX += x;
     this.lastY += y;
-    this.lastCommand = 't';
+    this.lastCommand = "t";
 };
 
 /**
@@ -397,7 +397,7 @@ PathHandler.prototype.linetoVerticalAbs = function(y) {
 
     this.lastY = y;
 
-    this.lastCommand = 'V';
+    this.lastCommand = "V";
 };
 
 /**
@@ -413,7 +413,7 @@ PathHandler.prototype.linetoVerticalRel = function(y) {
 
     this.lastY += y;
 
-    this.lastCommand = 'v';
+    this.lastCommand = "v";
 };
 
 /**
@@ -427,9 +427,9 @@ PathHandler.prototype.closePath = function() {
 
     this.lastX = this.firstX;
     this.lastY = this.firstY;
-    this.lastCommand = 'z';
+    this.lastCommand = "z";
 };
 
-if (typeof module !== 'undefined') {
+if (typeof module !== "undefined") {
     module.exports = PathHandler;
 }

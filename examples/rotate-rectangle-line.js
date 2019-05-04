@@ -1,4 +1,4 @@
-const {Intersection, Point2D, Matrix2D} = require('../index');
+const {Intersection, Point2D, Matrix2D} = require("../index");
 
 // define line
 const line = {
@@ -38,11 +38,11 @@ const result = Intersection.intersectLinePolygon(line.p1, line.p2, rotatedPoly);
 // build SVG file showing the shapes, the center point, and intersection points
 const intersectionSVG = result.points.map(p => {
     return `<circle cx="${p.x.toFixed(3)}" cy="${p.y.toFixed(3)}" r="2" stroke="red" fill="none"/>`;
-}).join('\n    ');
+}).join("\n    ");
 
 const svg = `<svg xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(50,50)">
-    <polygon points="${rotatedPoly.map(p => p.x.toFixed(3) + ',' + p.y.toFixed(3)).join(' ')}" fill="none" stroke="blue"/>
+    <polygon points="${rotatedPoly.map(p => p.x.toFixed(3) + "," + p.y.toFixed(3)).join(" ")}" fill="none" stroke="blue"/>
     <line x1="${line.p1.x}" y1="${line.p1.y}" x2="${line.p2.x}" y2="${line.p2.y}" stroke="green"/>
     <circle cx="${center.x}" cy="${center.y}" r="2" stroke="blue" fill="none"/>
     ${intersectionSVG}

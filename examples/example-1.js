@@ -1,4 +1,4 @@
-const lib = require('../index');
+const lib = require("../index");
 
 const {Point2D, Intersection} = lib;
 
@@ -20,7 +20,7 @@ const result = Intersection.intersectCircleRectangle(
 // build SVG file showing the shapes, the center point, and intersection points
 const intersectionSVG = result.points.map(p => {
     return `<circle cx="${p.x.toFixed(3)}" cy="${p.y.toFixed(3)}" r="2" stroke="red" fill="none"/>`;
-}).join('\n    ');
+}).join("\n    ");
 
 const svg = `<svg xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(75,75)">

@@ -87,7 +87,7 @@ Now that you have determined the method name, you need to pass in arguments to d
 
 Lets intersect our `circle` and `rectangle`. From the table above, we see that the circle's name is, unsurprisingly, `Circle`, and the name of the rectangle is `Rectangle`. Following the rules stated above, this means our method name is:
 
-```intersectCircleRectangle```
+`intersectCircleRectangle`
 
 A circle is described with a center point and a radius. Those are our first two arguments.
 
@@ -96,21 +96,19 @@ A rectangle is described with two points: the top-left corner and the bottom-rig
 Putting this all together, we end up with something like the following:
 
 ```javascript
-let lib          = require('kld-intersections'),
-    Point2D      = lib.Point2D,
-    Intersection = lib.Intersection;
+const {Point2D, Intersection} = require('kld-intersections');
 
-let circle = {
+const circle = {
     center: new Point2D(0, 0),
-    radius: 50,
+    radius: 50
 };
 
-let rectangle = {
+const rectangle = {
     topLeft: new Point2D(0, 0),
     bottomRight: new Point2D(60, 30)
 };
 
-let result = Intersection.intersectCircleRectangle(
+const result = Intersection.intersectCircleRectangle(
     circle.center, circle.radius,
     rectangle.topLeft, rectangle.bottomRight
 );
@@ -121,11 +119,9 @@ console.log(result);
 Note that the `circle` and `rectangle` variables were used to make the code more readable. You could easily remove those objects, passing in their arguments directly. That would make a minimal example like the following:
 
 ```javascript
-let lib          = require('kld-intersections'),
-    Point2D      = lib.Point2D,
-    Intersection = lib.Intersection;
+const {Point2D, Intersection} = require('kld-intersections');
 
-let result = Intersection.intersectCircleRectangle(
+const result = Intersection.intersectCircleRectangle(
     new Point2D(0, 0), 50,
     new Point2D(0, 0), new Point2D(60, 30)
 );
@@ -135,10 +131,10 @@ console.log(result);
 
 ### Result
 
-```javascript
+```
 Intersection {
   status: 'Intersection',
-  points: 
+  points:
    [ Point2D { x: 50, y: 0 },
      Point2D { x: 40.00000000000001, y: 30.000000000000004 } ] }
 ```
@@ -172,24 +168,21 @@ To find the intersections of these shapes, invoke `Intersection.intersect` passi
 ### Example
 
 ```javascript
-let lib          = require('kld-intersections'),
-    Point2D      = lib.Point2D,
-    Intersection = lib.Intersection,
-    Shapes       = lib.Shapes;
+const {Point2D, Intersection, Shapes} = require('kld-intersections');
 
-let circle    = Shapes.circle(0, 0, 50);
-let rectangle = Shapes.rectangle(0, 0, 60, 30);
-let result    = Intersection.intersect(circle, rectangle);
+const circle    = Shapes.circle(0, 0, 50);
+const rectangle = Shapes.rectangle(0, 0, 60, 30);
+const result    = Intersection.intersect(circle, rectangle);
 
 console.log(result);
 ```
 
 ### Result
 
-```javascript
+```
 Intersection {
   status: 'Intersection',
-  points: 
+  points:
    [ Point2D { x: 50, y: 0 },
      Point2D { x: 40.00000000000001, y: 30.000000000000004 } ] }
 ```
@@ -219,25 +212,21 @@ To find the intersections of these shapes, invoke `Intersection.intersect` passi
 ### Example
 
 ```javascript
-let lib          = require('../index'),
-    Point2D      = lib.Point2D,
-    Vector2D     = lib.Vector2D,
-    Intersection = lib.Intersection,
-    AffineShapes = lib.AffineShapes;
+const {Point2D, Vector2D, Intersection, AffineShapes} = require('kld-intersections');
 
-let circle    = AffineShapes.circle(new Point2D(0, 0), 50);
-let rectangle = AffineShapes.rectangle(new Point2D(0, 0), new Vector2D(60, 30));
-let result    = Intersection.intersect(circle, rectangle);
+const circle    = AffineShapes.circle(new Point2D(0, 0), 50);
+const rectangle = AffineShapes.rectangle(new Point2D(0, 0), new Vector2D(60, 30));
+const result    = Intersection.intersect(circle, rectangle);
 
 console.log(result);
 ```
 
 ### Result
 
-```javascript
+```
 Intersection {
   status: 'Intersection',
-  points: 
+  points:
    [ Point2D { x: 50, y: 0 },
      Point2D { x: 40.00000000000001, y: 30.000000000000004 } ] }
 ```

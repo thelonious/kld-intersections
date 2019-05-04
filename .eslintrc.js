@@ -2,28 +2,39 @@ module.exports = {
     "env": {
         "browser": true,
         "es6": true,
-        "node": true
+        "node": true,
+        "mocha": true
     },
     "extends": "ash-nazg/sauron-node",
-    "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
-    },
     "parserOptions": {
         "ecmaVersion": 2018,
         "sourceType": "module"
     },
     "overrides": [
         {
-            "env": {"mocha": true},
-            "files": ["test/**/*.js", "examples/**/*.js"],
-            "rules": {
-                "no-console": 0
-            }
+          files: ["**/*.md"],
+          rules: {
+            "eol-last": "off",
+            "no-console": "off",
+            "no-undef": "off",
+            "padded-blocks": "off",
+            "import/unambiguous": "off",
+            "import/no-unresolved": "off",
+            "node/no-missing-import": "off",
+            "no-unused-vars": "warn",
+            "no-unused-vars": ["error", {
+              "varsIgnorePattern": "Point2D"
+            }],
+            "node/no-missing-require": ["error", {
+              "allowModules": ["kld-intersections"]
+            }]
+          }
         }
     ],
     "rules": {
       "indent": ["error", 4],
+      "quotes": ["error", "double"],
+      "no-console": "off",
       "space-before-function-paren": ["error", "never"],
       "no-multiple-empty-lines": "off",
       "arrow-parens": "off",

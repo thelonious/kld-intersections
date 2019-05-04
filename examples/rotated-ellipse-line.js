@@ -1,4 +1,4 @@
-const lib = require('../index');
+const lib = require("../index");
 
 const {Intersection, Point2D, Matrix2D} = lib;
 
@@ -33,7 +33,7 @@ const result = Intersection.intersectEllipseLine(
 // build SVG file showing the shapes, the center point, and intersection points
 const intersectionSVG = result.points.map(p => {
     return `<circle cx="${p.x.toFixed(3)}" cy="${p.y.toFixed(3)}" r="2" stroke="red" fill="none"/>`;
-}).join('\n    ');
+}).join("\n    ");
 
 //
 // NOTE: This SVG transforms the intersection points back into the original
