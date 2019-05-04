@@ -34,7 +34,9 @@ A library of intersection algorithms covering all permutations for any two of th
 
 # Installation
 
-    npm install kld-intersections
+```
+npm install kld-intersections
+```
 
 # Usage
 
@@ -96,7 +98,7 @@ A rectangle is described with two points: the top-left corner and the bottom-rig
 Putting this all together, we end up with something like the following:
 
 ```javascript
-const {Point2D, Intersection} = require('kld-intersections');
+const {Point2D, Intersection} = require("kld-intersections");
 
 const circle = {
     center: new Point2D(0, 0),
@@ -119,7 +121,7 @@ console.log(result);
 Note that the `circle` and `rectangle` variables were used to make the code more readable. You could easily remove those objects, passing in their arguments directly. That would make a minimal example like the following:
 
 ```javascript
-const {Point2D, Intersection} = require('kld-intersections');
+const {Point2D, Intersection} = require("kld-intersections");
 
 const result = Intersection.intersectCircleRectangle(
     new Point2D(0, 0), 50,
@@ -168,7 +170,7 @@ To find the intersections of these shapes, invoke `Intersection.intersect` passi
 ### Example
 
 ```javascript
-const {Point2D, Intersection, Shapes} = require('kld-intersections');
+const {Point2D, Intersection, Shapes} = require("kld-intersections");
 
 const circle    = Shapes.circle(0, 0, 50);
 const rectangle = Shapes.rectangle(0, 0, 60, 30);
@@ -212,7 +214,7 @@ To find the intersections of these shapes, invoke `Intersection.intersect` passi
 ### Example
 
 ```javascript
-const {Point2D, Vector2D, Intersection, AffineShapes} = require('kld-intersections');
+const {Point2D, Vector2D, Intersection, AffineShapes} = require("kld-intersections");
 
 const circle    = AffineShapes.circle(new Point2D(0, 0), 50);
 const rectangle = AffineShapes.rectangle(new Point2D(0, 0), new Vector2D(60, 30));
