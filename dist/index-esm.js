@@ -1,3 +1,25 @@
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
 }
@@ -1998,7 +2020,6 @@ SqrtPolynomial.prototype.toString = function () {
 // expose classes
 var Polynomial = Polynomial_1;
 
-/* eslint-disable camelcase, eqeqeq, no-labels, space-infix-ops */
 /**
  *
  * @param {*} o
@@ -2023,46 +2044,60 @@ function closePolygon(points) {
 }
 /**
  *  Intersection
- *  @class
- *  @param {string} status
  */
 
 
-function Intersection(status) {
-  this.init(status);
-}
-/**
- *  init
- *
- *  @param {string} status
- *  @returns {Intersection}
- */
+var Intersection =
+/*#__PURE__*/
+function () {
+  /**
+   *  @param {string} status
+   */
+  function Intersection(status) {
+    _classCallCheck(this, Intersection);
+
+    this.init(status);
+  }
+  /**
+   *  init
+   *
+   *  @param {string} status
+   *  @returns {Intersection}
+   */
 
 
-Intersection.prototype.init = function (status) {
-  this.status = status;
-  this.points = [];
-};
-/**
- *  appendPoint
- *
- *  @param {Point2D} point
- */
+  _createClass(Intersection, [{
+    key: "init",
+    value: function init(status) {
+      this.status = status;
+      this.points = [];
+    }
+    /**
+     *  appendPoint
+     *
+     *  @param {Point2D} point
+     */
 
+  }, {
+    key: "appendPoint",
+    value: function appendPoint(point) {
+      this.points.push(point);
+    }
+    /**
+     *  appendPoints
+     *
+     *  @param {Array<Point2D>} points
+     */
 
-Intersection.prototype.appendPoint = function (point) {
-  this.points.push(point);
-};
-/**
- *  appendPoints
- *
- *  @param {Array<Point2D>} points
- */
+  }, {
+    key: "appendPoints",
+    value: function appendPoints(points) {
+      this.points = this.points.concat(points);
+    }
+  }]);
 
-
-Intersection.prototype.appendPoints = function (points) {
-  this.points = this.points.concat(points);
-}; // static methods
+  return Intersection;
+}(); // static methods
 
 /**
  *  intersect
@@ -3723,25 +3758,38 @@ Intersection.bezout = function (e1, e2) {
 /**
  *  IntersectionArgs
  *
- *  @param {string} name
- *  @param {Array<Point2D>} args
- *  @returns {IntersectionArgs}
  */
-function IntersectionArgs(name, args) {
-  this.init(name, args);
-}
-/**
- *  init
- *
- *  @param {string} name
- *  @param {Array<Point2D>} args
- */
+var IntersectionArgs =
+/*#__PURE__*/
+function () {
+  /**
+   *  @param {string} name
+   *  @param {Array<Point2D>} args
+   *  @returns {IntersectionArgs}
+   */
+  function IntersectionArgs(name, args) {
+    _classCallCheck(this, IntersectionArgs);
+
+    this.init(name, args);
+  }
+  /**
+   *  init
+   *
+   *  @param {string} name
+   *  @param {Array<Point2D>} args
+   */
 
 
-IntersectionArgs.prototype.init = function (name, args) {
-  this.name = name;
-  this.args = args;
-};
+  _createClass(IntersectionArgs, [{
+    key: "init",
+    value: function init(name, args) {
+      this.name = name;
+      this.args = args;
+    }
+  }]);
+
+  return IntersectionArgs;
+}();
 
 /**
  *  Shapes
