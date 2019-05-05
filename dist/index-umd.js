@@ -2027,7 +2027,7 @@
   var Polynomial = Polynomial_1;
 
   /**
-   *
+   * @memberof module:kld-intersections.Intersection~
    * @param {*} o
    * @returns {boolean}
    */
@@ -2037,9 +2037,9 @@
   }
   /**
    *  closePolygon
-   *
-   *  @param {Array<Point2D>} points
-   *  @returns {Array<Point2D>}
+   *  @memberof module:kld-intersections.Intersection~
+   *  @param {Array<module:kld-intersections.Point2D>} points
+   *  @returns {Array<module:kld-intersections.Point2D>}
    */
 
 
@@ -2049,7 +2049,8 @@
     return copy;
   }
   /**
-   *  Intersection
+   * Intersection
+   * @memberof module:kld-intersections
    */
 
 
@@ -2058,6 +2059,7 @@
   function () {
     /**
      *  @param {string} status
+     *  @returns {module:kld-intersections.Intersection}
      */
     function Intersection(status) {
       _classCallCheck(this, Intersection);
@@ -2068,7 +2070,7 @@
      *  init
      *
      *  @param {string} status
-     *  @returns {Intersection}
+     *  @returns {module:kld-intersections.Intersection}
      */
 
 
@@ -2081,7 +2083,7 @@
       /**
        *  appendPoint
        *
-       *  @param {Point2D} point
+       *  @param {module:kld-intersections.Point2D} point
        */
 
     }, {
@@ -2092,7 +2094,7 @@
       /**
        *  appendPoints
        *
-       *  @param {Array<Point2D>} points
+       *  @param {Array<module:kld-intersections.Point2D>} points
        */
 
     }, {
@@ -2108,9 +2110,9 @@
   /**
    *  intersect
    *
-   *  @param {IntersectionArgs} shape1
-   *  @param {IntersectionArgs} shape2
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.IntersectionArgs} shape1
+   *  @param {module:kld-intersections.IntersectionArgs} shape2
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -2149,9 +2151,9 @@
   /**
    *  intersectPathShape
    *
-   *  @param {IntersectionArgs} path
-   *  @param {IntersectionArgs} shape
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.IntersectionArgs} path
+   *  @param {module:kld-intersections.IntersectionArgs} shape
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -2191,13 +2193,13 @@
   /**
    *  intersectBezier2Bezier2
    *
-   *  @param {Point2D} a1
-   *  @param {Point2D} a2
-   *  @param {Point2D} a3
-   *  @param {Point2D} b1
-   *  @param {Point2D} b2
-   *  @param {Point2D} b3
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.Point2D} a1
+   *  @param {module:kld-intersections.Point2D} a2
+   *  @param {module:kld-intersections.Point2D} a3
+   *  @param {module:kld-intersections.Point2D} b1
+   *  @param {module:kld-intersections.Point2D} b2
+   *  @param {module:kld-intersections.Point2D} b3
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -2303,14 +2305,14 @@
   /**
    *  intersectBezier2Bezier3
    *
-   *  @param {Point2D} a1
-   *  @param {Point2D} a2
-   *  @param {Point2D} a3
-   *  @param {Point2D} b1
-   *  @param {Point2D} b2
-   *  @param {Point2D} b3
-   *  @param {Point2D} b4
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.Point2D} a1
+   *  @param {module:kld-intersections.Point2D} a2
+   *  @param {module:kld-intersections.Point2D} a3
+   *  @param {module:kld-intersections.Point2D} b1
+   *  @param {module:kld-intersections.Point2D} b2
+   *  @param {module:kld-intersections.Point2D} b3
+   *  @param {module:kld-intersections.Point2D} b4
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -2423,12 +2425,12 @@
   /**
    *  intersectBezier2Circle
    *
-   *  @param {Point2D} p1
-   *  @param {Point2D} p2
-   *  @param {Point2D} p3
-   *  @param {Point2D} c
+   *  @param {module:kld-intersections.Point2D} p1
+   *  @param {module:kld-intersections.Point2D} p2
+   *  @param {module:kld-intersections.Point2D} p3
+   *  @param {module:kld-intersections.Point2D} c
    *  @param {number} r
-   *  @returns {Intersection}
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -2438,13 +2440,13 @@
   /**
    *  intersectBezier2Ellipse
    *
-   *  @param {Point2D} p1
-   *  @param {Point2D} p2
-   *  @param {Point2D} p3
-   *  @param {Point2D} ec
+   *  @param {module:kld-intersections.Point2D} p1
+   *  @param {module:kld-intersections.Point2D} p2
+   *  @param {module:kld-intersections.Point2D} p3
+   *  @param {module:kld-intersections.Point2D} ec
    *  @param {number} rx
    *  @param {number} ry
-   *  @returns {Intersection}
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -2498,12 +2500,12 @@
   /**
    *  intersectBezier2Line
    *
-   *  @param {Point2D} p1
-   *  @param {Point2D} p2
-   *  @param {Point2D} p3
-   *  @param {Point2D} a1
-   *  @param {Point2D} a2
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.Point2D} p1
+   *  @param {module:kld-intersections.Point2D} p2
+   *  @param {module:kld-intersections.Point2D} p3
+   *  @param {module:kld-intersections.Point2D} a1
+   *  @param {module:kld-intersections.Point2D} a2
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -2588,11 +2590,11 @@
   /**
    *  intersectBezier2Polygon
    *
-   *  @param {Point2D} p1
-   *  @param {Point2D} p2
-   *  @param {Point2D} p3
-   *  @param {Array<Point2D>} points
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.Point2D} p1
+   *  @param {module:kld-intersections.Point2D} p2
+   *  @param {module:kld-intersections.Point2D} p3
+   *  @param {Array<module:kld-intersections.Point2D>} points
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -2602,11 +2604,11 @@
   /**
    *  intersectBezier2Polyline
    *
-   *  @param {Point2D} p1
-   *  @param {Point2D} p2
-   *  @param {Point2D} p3
-   *  @param {Array<Point2D>} points
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.Point2D} p1
+   *  @param {module:kld-intersections.Point2D} p2
+   *  @param {module:kld-intersections.Point2D} p3
+   *  @param {Array<module:kld-intersections.Point2D>} points
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -2630,12 +2632,12 @@
   /**
    *  intersectBezier2Rectangle
    *
-   *  @param {Point2D} p1
-   *  @param {Point2D} p2
-   *  @param {Point2D} p3
-   *  @param {Point2D} r1
-   *  @param {Point2D} r2
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.Point2D} p1
+   *  @param {module:kld-intersections.Point2D} p2
+   *  @param {module:kld-intersections.Point2D} p3
+   *  @param {module:kld-intersections.Point2D} r1
+   *  @param {module:kld-intersections.Point2D} r2
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -2663,15 +2665,15 @@
   /**
    *  intersectBezier3Bezier3
    *
-   *  @param {Point2D} a1
-   *  @param {Point2D} a2
-   *  @param {Point2D} a3
-   *  @param {Point2D} a4
-   *  @param {Point2D} b1
-   *  @param {Point2D} b2
-   *  @param {Point2D} b3
-   *  @param {Point2D} b4
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.Point2D} a1
+   *  @param {module:kld-intersections.Point2D} a2
+   *  @param {module:kld-intersections.Point2D} a3
+   *  @param {module:kld-intersections.Point2D} a4
+   *  @param {module:kld-intersections.Point2D} b1
+   *  @param {module:kld-intersections.Point2D} b2
+   *  @param {module:kld-intersections.Point2D} b3
+   *  @param {module:kld-intersections.Point2D} b4
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -2817,13 +2819,13 @@
   /**
    *  intersectBezier3Circle
    *
-   *  @param {Point2D} p1
-   *  @param {Point2D} p2
-   *  @param {Point2D} p3
-   *  @param {Point2D} p4
-   *  @param {Point2D} c
+   *  @param {module:kld-intersections.Point2D} p1
+   *  @param {module:kld-intersections.Point2D} p2
+   *  @param {module:kld-intersections.Point2D} p3
+   *  @param {module:kld-intersections.Point2D} p4
+   *  @param {module:kld-intersections.Point2D} c
    *  @param {number} r
-   *  @returns {Intersection}
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -2833,14 +2835,14 @@
   /**
    *  intersectBezier3Ellipse
    *
-   *  @param {Point2D} p1
-   *  @param {Point2D} p2
-   *  @param {Point2D} p3
-   *  @param {Point2D} p4
-   *  @param {Point2D} ec
+   *  @param {module:kld-intersections.Point2D} p1
+   *  @param {module:kld-intersections.Point2D} p2
+   *  @param {module:kld-intersections.Point2D} p3
+   *  @param {module:kld-intersections.Point2D} p4
+   *  @param {module:kld-intersections.Point2D} ec
    *  @param {number} rx
    *  @param {number} ry
-   *  @returns {Intersection}
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -2906,13 +2908,13 @@
    *  sketch of the algorithm used here.  Without his help, I'm not sure when I
    *  would have figured out this intersection problem.
    *
-   *  @param {Point2D} p1
-   *  @param {Point2D} p2
-   *  @param {Point2D} p3
-   *  @param {Point2D} p4
-   *  @param {Point2D} a1
-   *  @param {Point2D} a2
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.Point2D} p1
+   *  @param {module:kld-intersections.Point2D} p2
+   *  @param {module:kld-intersections.Point2D} p3
+   *  @param {module:kld-intersections.Point2D} p4
+   *  @param {module:kld-intersections.Point2D} a1
+   *  @param {module:kld-intersections.Point2D} a2
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3019,12 +3021,12 @@
   /**
    *  intersectBezier3Polygon
    *
-   *  @param {Point2D} p1
-   *  @param {Point2D} p2
-   *  @param {Point2D} p3
-   *  @param {Point2D} p4
-   *  @param {Array<Point2D>} points
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.Point2D} p1
+   *  @param {module:kld-intersections.Point2D} p2
+   *  @param {module:kld-intersections.Point2D} p3
+   *  @param {module:kld-intersections.Point2D} p4
+   *  @param {Array<module:kld-intersections.Point2D>} points
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3034,12 +3036,12 @@
   /**
    *  intersectBezier3Polyline
    *
-   *  @param {Point2D} p1
-   *  @param {Point2D} p2
-   *  @param {Point2D} p3
-   *  @param {Point2D} p4
-   *  @param {Array<Point2D>} points
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.Point2D} p1
+   *  @param {module:kld-intersections.Point2D} p2
+   *  @param {module:kld-intersections.Point2D} p3
+   *  @param {module:kld-intersections.Point2D} p4
+   *  @param {Array<module:kld-intersections.Point2D>} points
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3063,13 +3065,13 @@
   /**
    *  intersectBezier3Rectangle
    *
-   *  @param {Point2D} p1
-   *  @param {Point2D} p2
-   *  @param {Point2D} p3
-   *  @param {Point2D} p4
-   *  @param {Point2D} r1
-   *  @param {Point2D} r2
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.Point2D} p1
+   *  @param {module:kld-intersections.Point2D} p2
+   *  @param {module:kld-intersections.Point2D} p3
+   *  @param {module:kld-intersections.Point2D} p4
+   *  @param {module:kld-intersections.Point2D} r1
+   *  @param {module:kld-intersections.Point2D} r2
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3097,11 +3099,11 @@
   /**
    *  intersectCircleCircle
    *
-   *  @param {Point2D} c1
+   *  @param {module:kld-intersections.Point2D} c1
    *  @param {number} r1
-   *  @param {Point2D} c2
+   *  @param {module:kld-intersections.Point2D} c2
    *  @param {number} r2
-   *  @returns {Intersection}
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3132,12 +3134,12 @@
   /**
    *  intersectCircleEllipse
    *
-   *  @param {Point2D} cc
+   *  @param {module:kld-intersections.Point2D} cc
    *  @param {number} r
-   *  @param {Point2D} ec
+   *  @param {module:kld-intersections.Point2D} ec
    *  @param {number} rx
    *  @param {number} ry
-   *  @returns {Intersection}
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3147,11 +3149,11 @@
   /**
    *  intersectCircleLine
    *
-   *  @param {Point2D} c
+   *  @param {module:kld-intersections.Point2D} c
    *  @param {number} r
-   *  @param {Point2D} a1
-   *  @param {Point2D} a2
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.Point2D} a1
+   *  @param {module:kld-intersections.Point2D} a2
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3195,10 +3197,10 @@
   /**
    *  intersectCirclePolygon
    *
-   *  @param {Point2D} c
+   *  @param {module:kld-intersections.Point2D} c
    *  @param {number} r
-   *  @param {Array<Point2D>} points
-   *  @returns {Intersection}
+   *  @param {Array<module:kld-intersections.Point2D>} points
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3208,10 +3210,10 @@
   /**
    *  intersectCirclePolyline
    *
-   *  @param {Point2D} c
+   *  @param {module:kld-intersections.Point2D} c
    *  @param {number} r
-   *  @param {Array<Point2D>} points
-   *  @returns {Intersection}
+   *  @param {Array<module:kld-intersections.Point2D>} points
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3238,11 +3240,11 @@
   /**
    *  intersectCircleRectangle
    *
-   *  @param {Point2D} c
+   *  @param {module:kld-intersections.Point2D} c
    *  @param {number} r
-   *  @param {Point2D} r1
-   *  @param {Point2D} r2
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.Point2D} r1
+   *  @param {module:kld-intersections.Point2D} r2
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3278,13 +3280,13 @@
    *
    *  NOTE: Rotation will need to be added to this function
    *
-   *  @param {Point2D} c1
+   *  @param {module:kld-intersections.Point2D} c1
    *  @param {number} rx1
    *  @param {number} ry1
-   *  @param {Point2D} c2
+   *  @param {module:kld-intersections.Point2D} c2
    *  @param {number} rx2
    *  @param {number} ry2
-   *  @returns {Intersection}
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3326,12 +3328,12 @@
    *
    *  NOTE: Rotation will need to be added to this function
    *
-   *  @param {Point2D} c
+   *  @param {module:kld-intersections.Point2D} c
    *  @param {number} rx
    *  @param {number} ry
-   *  @param {Point2D} a1
-   *  @param {Point2D} a2
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.Point2D} a1
+   *  @param {module:kld-intersections.Point2D} a2
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3389,11 +3391,11 @@
   /**
    *  intersectEllipsePolygon
    *
-   *  @param {Point2D} c
+   *  @param {module:kld-intersections.Point2D} c
    *  @param {number} rx
    *  @param {number} ry
-   *  @param {Array<Point2D>} points
-   *  @returns {Intersection}
+   *  @param {Array<module:kld-intersections.Point2D>} points
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3403,11 +3405,11 @@
   /**
    *  intersectEllipsePolyline
    *
-   *  @param {Point2D} c
+   *  @param {module:kld-intersections.Point2D} c
    *  @param {number} rx
    *  @param {number} ry
-   *  @param {Array<Point2D>} points
-   *  @returns {Intersection}
+   *  @param {Array<module:kld-intersections.Point2D>} points
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3431,12 +3433,12 @@
   /**
    *  intersectEllipseRectangle
    *
-   *  @param {Point2D} c
+   *  @param {module:kld-intersections.Point2D} c
    *  @param {number} rx
    *  @param {number} ry
-   *  @param {Point2D} r1
-   *  @param {Point2D} r2
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.Point2D} r1
+   *  @param {module:kld-intersections.Point2D} r2
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3464,11 +3466,11 @@
   /**
    *  intersectLineLine
    *
-   *  @param {Point2D} a1
-   *  @param {Point2D} a2
-   *  @param {Point2D} b1
-   *  @param {Point2D} b2
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.Point2D} a1
+   *  @param {module:kld-intersections.Point2D} a2
+   *  @param {module:kld-intersections.Point2D} b1
+   *  @param {module:kld-intersections.Point2D} b2
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3499,10 +3501,10 @@
   /**
    *  intersectLinePolygon
    *
-   *  @param {Point2D} a1
-   *  @param {Point2D} a2
-   *  @param {Array<Point2D>} points
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.Point2D} a1
+   *  @param {module:kld-intersections.Point2D} a2
+   *  @param {Array<module:kld-intersections.Point2D>} points
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3512,10 +3514,10 @@
   /**
    *  intersectLinePolyline
    *
-   *  @param {Point2D} a1
-   *  @param {Point2D} a2
-   *  @param {Array<Point2D>} points
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.Point2D} a1
+   *  @param {module:kld-intersections.Point2D} a2
+   *  @param {Array<module:kld-intersections.Point2D>} points
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3539,11 +3541,11 @@
   /**
    *  intersectLineRectangle
    *
-   *  @param {Point2D} a1
-   *  @param {Point2D} a2
-   *  @param {Point2D} r1
-   *  @param {Point2D} r2
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.Point2D} a1
+   *  @param {module:kld-intersections.Point2D} a2
+   *  @param {module:kld-intersections.Point2D} r1
+   *  @param {module:kld-intersections.Point2D} r2
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3571,9 +3573,9 @@
   /**
    *  intersectPolygonPolygon
    *
-   *  @param {Array<Point2D>} points1
-   *  @param {Array<Point2D>} points2
-   *  @returns {Intersection}
+   *  @param {Array<module:kld-intersections.Point2D>} points1
+   *  @param {Array<module:kld-intersections.Point2D>} points2
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3583,9 +3585,9 @@
   /**
    *  intersectPolygonPolyline
    *
-   *  @param {Array<Point2D>} points1
-   *  @param {Array<Point2D>} points2
-   *  @returns {Intersection}
+   *  @param {Array<module:kld-intersections.Point2D>} points1
+   *  @param {Array<module:kld-intersections.Point2D>} points2
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3595,10 +3597,10 @@
   /**
    *  intersectPolygonRectangle
    *
-   *  @param {Array<Point2D>} points
-   *  @param {Point2D} r1
-   *  @param {Point2D} r2
-   *  @returns {Intersection}
+   *  @param {Array<module:kld-intersections.Point2D>} points
+   *  @param {module:kld-intersections.Point2D} r1
+   *  @param {module:kld-intersections.Point2D} r2
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3608,9 +3610,9 @@
   /**
    *  intersectPolylinePolyline
    *
-   *  @param {Array<Point2D>} points1
-   *  @param {Array<Point2D>} points2
-   *  @returns {Intersection}
+   *  @param {Array<module:kld-intersections.Point2D>} points1
+   *  @param {Array<module:kld-intersections.Point2D>} points2
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3634,10 +3636,10 @@
   /**
    *  intersectPolylineRectangle
    *
-   *  @param {Array<Point2D>} points
-   *  @param {Point2D} r1
-   *  @param {Point2D} r2
-   *  @returns {Intersection}
+   *  @param {Array<module:kld-intersections.Point2D>} points
+   *  @param {module:kld-intersections.Point2D} r1
+   *  @param {module:kld-intersections.Point2D} r2
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3665,11 +3667,11 @@
   /**
    *  intersectRectangleRectangle
    *
-   *  @param {Point2D} a1
-   *  @param {Point2D} a2
-   *  @param {Point2D} b1
-   *  @param {Point2D} b2
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.Point2D} a1
+   *  @param {module:kld-intersections.Point2D} a2
+   *  @param {module:kld-intersections.Point2D} b1
+   *  @param {module:kld-intersections.Point2D} b2
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3697,11 +3699,11 @@
   /**
    *  intersectRayRay
    *
-   *  @param {Point2D} a1
-   *  @param {Point2D} a2
-   *  @param {Point2D} b1
-   *  @param {Point2D} b2
-   *  @returns {Intersection}
+   *  @param {module:kld-intersections.Point2D} a1
+   *  @param {module:kld-intersections.Point2D} a2
+   *  @param {module:kld-intersections.Point2D} b1
+   *  @param {module:kld-intersections.Point2D} b2
+   *  @returns {module:kld-intersections.Intersection}
    */
 
 
@@ -3730,9 +3732,9 @@
    *  code along with many other excellent examples are avaiable at his site:
    *  http://www.magic-software.com
    *
-   *  @param {Array<Point2D>} e1
-   *  @param {Array<Point2D>} e2
-   *  @returns {Polynomial}
+   *  @param {Array<module:kld-intersections.Point2D>} e1
+   *  @param {Array<module:kld-intersections.Point2D>} e2
+   *  @returns {external:Polynomial}
    */
 
 
@@ -3763,15 +3765,15 @@
 
   /**
    *  IntersectionArgs
-   *
+   * @memberof module:kld-intersections
    */
   var IntersectionArgs =
   /*#__PURE__*/
   function () {
     /**
      *  @param {string} name
-     *  @param {Array<Point2D>} args
-     *  @returns {IntersectionArgs}
+     *  @param {Array<module:kld-intersections.Point2D>} args
+     *  @returns {module:kld-intersections.IntersectionArgs}
      */
     function IntersectionArgs(name, args) {
       _classCallCheck(this, IntersectionArgs);
@@ -3782,7 +3784,7 @@
      *  init
      *
      *  @param {string} name
-     *  @param {Array<Point2D>} args
+     *  @param {Array<module:kld-intersections.Point2D>} args
      */
 
 
@@ -3801,7 +3803,12 @@
    *  Shapes
    *
    *  @copyright 2017, Kevin Lindsey
+   *  @module Shapes
    */
+  /**
+   * @namespace
+   */
+
   var Shapes = {};
   /**
    *  quadraticBezier
@@ -3812,7 +3819,7 @@
    *  @param {number} p2y
    *  @param {number} p3x
    *  @param {number} p3y
-   *  @returns {IntersectionArgs}
+   *  @returns {module:kld-intersections.IntersectionArgs}
    */
 
   Shapes.quadraticBezier = function (p1x, p1y, p2x, p2y, p3x, p3y) {
@@ -3829,7 +3836,7 @@
    *  @param {number} p3y
    *  @param {number} p4x
    *  @param {number} p4y
-   *  @returns {IntersectionArgs}
+   *  @returns {module:kld-intersections.IntersectionArgs}
    */
 
 
@@ -3842,7 +3849,7 @@
    *  @param {number} centerX
    *  @param {number} centerY
    *  @param {number} radius
-   *  @returns {IntersectionArgs}
+   *  @returns {module:kld-intersections.IntersectionArgs}
    */
 
 
@@ -3856,7 +3863,7 @@
    *  @param {number} centerY
    *  @param {number} radiusX
    *  @param {number} radiusY
-   *  @returns {IntersectionArgs}
+   *  @returns {module:kld-intersections.IntersectionArgs}
    */
 
 
@@ -3870,7 +3877,7 @@
    *  @param {number} p1y
    *  @param {number} p2x
    *  @param {number} p2y
-   *  @returns {IntersectionArgs}
+   *  @returns {module:kld-intersections.IntersectionArgs}
    */
 
 
@@ -3880,8 +3887,8 @@
   /**
    *  path
    *
-   *  @param {Array<Shapes>} segments
-   *  @returns {IntersectionArgs}
+   *  @param {Array<module:kld-intersections.Shapes>} segments
+   *  @returns {module:kld-intersections.IntersectionArgs}
    */
 
 
@@ -3892,7 +3899,7 @@
    *  polygon
    *
    *  @param {Array<number>} coords
-   *  @returns {IntersectionArgs}
+   *  @returns {module:kld-intersections.IntersectionArgs}
    */
 
 
@@ -3909,7 +3916,7 @@
    *  polyline
    *
    *  @param {Array<number>} coords
-   *  @returns {IntersectionArgs}
+   *  @returns {module:kld-intersections.IntersectionArgs}
    */
 
 
@@ -3929,7 +3936,7 @@
    *  @param {number} y
    *  @param {number} width
    *  @param {number} height
-   *  @returns {IntersectionArgs}
+   *  @returns {module:kld-intersections.IntersectionArgs}
    */
 
 
@@ -3941,15 +3948,19 @@
    *  AffineShapes
    *
    *  @copyright 2017, Kevin Lindsey
+   *  @module AffineShapes
    */
+  /**
+   * @namespace
+   */
+
   var AffineShapes = {};
   /**
    *  quadraticBezier
-   *
-   *  @param {Point2D} p1
-   *  @param {Point2D} p2
-   *  @param {Point2D} p3
-   *  @returns {IntersectionArgs}
+   *  @param {module:kld-intersections.Point2D} p1
+   *  @param {module:kld-intersections.Point2D} p2
+   *  @param {module:kld-intersections.Point2D} p3
+   *  @returns {module:kld-intersections.IntersectionArgs}
    */
 
   AffineShapes.quadraticBezier = function (p1, p2, p3) {
@@ -3958,11 +3969,11 @@
   /**
    *  cubicBezier
    *
-   *  @param {Point2D} p1
-   *  @param {Point2D} p2
-   *  @param {Point2D} p3
-   *  @param {Point2D} p4
-   *  @returns {IntersectionArgs}
+   *  @param {module:kld-intersections.Point2D} p1
+   *  @param {module:kld-intersections.Point2D} p2
+   *  @param {module:kld-intersections.Point2D} p3
+   *  @param {module:kld-intersections.Point2D} p4
+   *  @returns {module:kld-intersections.IntersectionArgs}
    */
 
 
@@ -3972,9 +3983,9 @@
   /**
    *  circle
    *
-   *  @param {Point2D} center
+   *  @param {module:kld-intersections.Point2D} center
    *  @param {number} radius
-   *  @returns {IntersectionArgs}
+   *  @returns {module:kld-intersections.IntersectionArgs}
    */
 
 
@@ -3984,10 +3995,10 @@
   /**
    *  ellipse
    *
-   *  @param {Point2D} center
+   *  @param {module:kld-intersections.Point2D} center
    *  @param {number} radiusX
    *  @param {number} radiusY
-   *  @returns {IntersectionArgs}
+   *  @returns {module:kld-intersections.IntersectionArgs}
    */
 
 
@@ -3997,9 +4008,9 @@
   /**
    *  line
    *
-   *  @param {Point2D} p1
-   *  @param {Point2D} p2
-   *  @returns {IntersectionArgs}
+   *  @param {module:kld-intersections.Point2D} p1
+   *  @param {module:kld-intersections.Point2D} p2
+   *  @returns {module:kld-intersections.IntersectionArgs}
    */
 
 
@@ -4009,8 +4020,8 @@
   /**
    *  path
    *
-   *  @param {Array<AffineShapes>} segments
-   *  @returns {IntersectionArgs}
+   *  @param {Array<module:kld-intersections.AffineShapes>} segments
+   *  @returns {module:kld-intersections.IntersectionArgs}
    */
 
 
@@ -4020,8 +4031,8 @@
   /**
    *  polygon
    *
-   *  @param {Array<Point2D>} points
-   *  @returns {IntersectionArgs}
+   *  @param {Array<module:kld-intersections.Point2D>} points
+   *  @returns {module:kld-intersections.IntersectionArgs}
    */
 
 
@@ -4031,8 +4042,8 @@
   /**
    *  polyline
    *
-   *  @param {Array<Point2D>} points
-   *  @returns {IntersectionArgs}
+   *  @param {Array<module:kld-intersections.Point2D>} points
+   *  @returns {module:kld-intersections.IntersectionArgs}
    */
 
 
@@ -4042,9 +4053,9 @@
   /**
    *  rectangle
    *
-   *  @param {Point2D} topLeft
-   *  @param {Vector2D} size
-   *  @returns {IntersectionArgs}
+   *  @param {module:kld-intersections.Point2D} topLeft
+   *  @param {module:kld-intersections.Vector2D} size
+   *  @returns {module:kld-intersections.IntersectionArgs}
    */
 
 
@@ -4057,18 +4068,18 @@
    *  IntersectionQuery.js
    *
    *  @copyright 2017 Kevin Lindsey
-   *
+   * @module IntersectionQuery
    */
   /**
-   *
+   * @namespace
    */
 
   var IntersectionQuery = {};
   /**
    *  pointInCircle
    *
-   *  @param {Point2D} point
-   *  @param {Point2D} center
+   *  @param {module:kld-intersections.Point2D} point
+   *  @param {module:kld-intersections.Point2D} center
    *  @param {number} radius
    *  @returns {boolean}
    */
@@ -4080,8 +4091,8 @@
   /**
    *  pointInEllipse
    *
-   *  @param {Point2D} point
-   *  @param {Point2D} center
+   *  @param {module:kld-intersections.Point2D} point
+   *  @param {module:kld-intersections.Point2D} center
    *  @param {number} radiusX
    *  @param {number} radiusY
    *  @returns {boolean}
@@ -4095,8 +4106,8 @@
   /**
    *  pointInPolyline
    *
-   *  @param {Point2D} point
-   *  @param {Array<Point2D>} points
+   *  @param {module:kld-intersections.Point2D} point
+   *  @param {Array<module:kld-intersections.Point2D>} points
    */
 
 
@@ -4128,8 +4139,8 @@
   /**
    *  pointInPolyline
    *
-   *  @param {Point2D} point
-   *  @param {Array<Point2D>} points
+   *  @param {module:kld-intersections.Point2D} point
+   *  @param {Array<module:kld-intersections.Point2D>} points
    */
 
 
@@ -4137,9 +4148,9 @@
   /**
    *  pointInRectangle
    *
-   *  @param {Point2D} point
-   *  @param {Point2D} topLeft
-   *  @param {Point2D} bottomRight
+   *  @param {module:kld-intersections.Point2D} point
+   *  @param {module:kld-intersections.Point2D} topLeft
+   *  @param {module:kld-intersections.Point2D} bottomRight
    *  @returns {boolean}
    */
 
@@ -4147,7 +4158,12 @@
     return topLeft.x <= point.x && point.x < bottomRight.x && topLeft.y <= point.y && point.y < bottomRight.y;
   };
 
-  // expose module classes
+  /**
+   * @module kld-intersections
+   */
+  /**
+  * @external Polynomial
+  */
 
   exports.AffineShapes = AffineShapes;
   exports.Intersection = Intersection;
