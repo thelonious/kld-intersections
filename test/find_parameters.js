@@ -1,7 +1,5 @@
-"use strict";
-
-const {CubicBezier2D} = require("kld-contours");
-const {Point2D, Intersection, IntersectionArgs} = require("../index");
+import {CubicBezier2D} from "kld-contours";
+import {Point2D, Intersection, IntersectionArgs} from "../index.js";
 
 /**
  *

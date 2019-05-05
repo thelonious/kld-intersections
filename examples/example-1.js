@@ -1,8 +1,4 @@
-"use strict";
-
-const lib = require("../index");
-
-const {Point2D, Intersection} = lib;
+import {Point2D, Intersection} from "../index.js";
 
 const circle = {
     center: new Point2D(0, 0),

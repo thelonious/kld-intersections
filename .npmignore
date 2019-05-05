@@ -1,3 +1,4 @@
 examples
 docs/jsdoc
 test
+rollup.config.js

@@ -4,12 +4,7 @@
  *  @copyright 2017 Kevin Lindsey
  */
 
-"use strict";
-
-let Shapes;
-if (typeof module !== "undefined") {
-    ({Shapes} = require("../index"));
-}
+import {Shapes} from "../index.js";
 
 /**
  *  PathHandler
@@ -436,6 +431,4 @@ PathHandler.prototype.closePath = function() {
     this.lastCommand = "z";
 };
 
-if (typeof module !== "undefined") {
-    module.exports = PathHandler;
-}
+export default PathHandler;

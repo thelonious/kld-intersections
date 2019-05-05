@@ -1,8 +1,6 @@
-"use strict";
+import {CubicBezier2D} from "kld-contours";
 
-const {CubicBezier2D} = require("kld-contours");
-
-const {Intersection, Point2D} = require("../index");
+import {Intersection, Point2D} from "../index.js";
 
 // create beziers
 const b1 = new CubicBezier2D(

@@ -1,13 +1,9 @@
-"use strict";
-
 // expose module classes
-exports.Intersection = require("./lib/Intersection");
-exports.IntersectionArgs = require("./lib/IntersectionArgs");
-exports.Shapes = require("./lib/Shapes");
-exports.AffineShapes = require("./lib/AffineShapes");
-exports.IntersectionQuery = require("./lib/IntersectionQuery");
+export {default as Intersection} from "./lib/Intersection.js";
+export {default as IntersectionArgs} from "./lib/IntersectionArgs.js";
+export {default as Shapes} from "./lib/Shapes.js";
+export {default as AffineShapes} from "./lib/AffineShapes.js";
+export {default as IntersectionQuery} from "./lib/IntersectionQuery.js";
 
 // expose affine module classes
-exports.Point2D = require("kld-affine").Point2D;
-exports.Vector2D = require("kld-affine").Vector2D;
-exports.Matrix2D = require("kld-affine").Matrix2D;
+export {Point2D, Vector2D, Matrix2D} from "kld-affine";

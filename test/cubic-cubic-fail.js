@@ -1,9 +1,7 @@
-"use strict";
+import {PathParser} from "kld-path-parser";
+import PathHandler from "../examples/PathHandler.js";
 
-const {PathParser} = require("kld-path-parser");
-const PathHandler = require("../examples/PathHandler");
-
-const {Intersection, Shapes} = require("../index");
+import {Intersection, Shapes} from "../index.js";
 
 // parser path data
 const pathData1 = "M150,150 C183.33333333333331,216.66666666666663 233.33333333333337,216.66666666666663 300,150";
