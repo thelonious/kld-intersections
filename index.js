@@ -1,3 +1,5 @@
+"use strict";
+
 // expose module classes
 exports.Intersection = require("./lib/Intersection");
 exports.IntersectionArgs = require("./lib/IntersectionArgs");

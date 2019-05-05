@@ -1,19 +1,17 @@
-#!/usr/bin/env node
+"use strict";
 
-let lib = require("../index"),
-    Intersection = lib.Intersection,
-    Point2D = lib.Point2D,
-    contours = require("kld-contours"),
-    CubicBezier2D = contours.CubicBezier2D;
+const {CubicBezier2D} = require("kld-contours");
+
+const {Intersection, Point2D} = require("../index");
 
 // create beziers
-let b1 = new CubicBezier2D(
+const b1 = new CubicBezier2D(
     new Point2D(203, 140),
     new Point2D(206, 359),
     new Point2D(245, 6),
     new Point2D(248, 212)
 );
-let b2 = new CubicBezier2D(
+const b2 = new CubicBezier2D(
     new Point2D(177, 204),
     new Point2D(441, 204),
     new Point2D(8, 149),
@@ -21,18 +19,18 @@ let b2 = new CubicBezier2D(
 );
 
 // create polylines
-let p1 = b1.toPolygon2D();
-let p2 = b2.toPolygon2D();
+const p1 = b1.toPolygon2D();
+const p2 = b2.toPolygon2D();
 
 // find intersections
-let result = Intersection.intersectPolylinePolyline(p1.points, p2.points);
+const result = Intersection.intersectPolylinePolyline(p1.points, p2.points);
 
 // build SVG file showing beziers, polylines, and intersection points
-let intersectionSVG = result.points.map(p => {
+const intersectionSVG = result.points.map(p => {
     return `<circle cx="${p.x.toFixed(3)}" cy="${p.y.toFixed(3)}" r="2" stroke="red" fill="none"/>`;
 }).join("\n    ");
 
-let svg = `<svg xmlns="http://www.w3.org/2000/svg">
+const svg = `<svg xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(150,150) scale(2) translate(-150,-150)">
     <path d="${b1.toString()}" fill="none" stroke="blue" stroke-width="3"/>
     <path d="${b2.toString()}" fill="none" stroke="green" stroke-width="3"/>

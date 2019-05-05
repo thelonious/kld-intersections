@@ -1,19 +1,25 @@
-#!/usr/bin/env node
+"use strict";
 
-const { Point2D, Intersection, IntersectionArgs } = require("../index");
-const { CubicBezier2D } = require("kld-contours");
+const {CubicBezier2D} = require("kld-contours");
+const {Point2D, Intersection, IntersectionArgs} = require("../index");
 
-function find_parameter(path, point) {
+/**
+ *
+ * @param {CubicBezier2D} path
+ * @param {Point2D} point
+ * @returns {number}
+ */
+function findParameter(path, point) {
     const {x, y} = path.getBernsteinPolynomials();
 
     x.coefs[0] -= point.x;
 
     const roots = x.getRootsInInterval(0.0, 1.0);
 
-    for (let t of roots) {
-        const candidate_y = y.eval(t);
+    for (const t of roots) {
+        const candidateY = y.eval(t);
 
-        if (Math.abs(candidate_y - point.y) < 1e-6) {
+        if (Math.abs(candidateY - point.y) < 1e-6) {
             return t;
         }
     }
@@ -22,32 +28,32 @@ function find_parameter(path, point) {
 }
 
 // parser path data
-let b1 = new CubicBezier2D(
+const b1 = new CubicBezier2D(
     new Point2D(150, 150),
     new Point2D(184, 217),
     new Point2D(233, 217),
     new Point2D(300, 150)
 );
-let b2 = new CubicBezier2D(
+const b2 = new CubicBezier2D(
     new Point2D(100, 200),
     new Point2D(167, 133),
     new Point2D(233, 133),
     new Point2D(300, 200)
 );
 
-let path1 = new IntersectionArgs("Bezier3", [b1.p1, b1.p2, b1.p3, b1.p4]);
-let path2 = new IntersectionArgs("Bezier3", [b2.p1, b2.p2, b2.p3, b2.p4]);
+const path1 = new IntersectionArgs("Bezier3", [b1.p1, b1.p2, b1.p3, b1.p4]);
+const path2 = new IntersectionArgs("Bezier3", [b2.p1, b2.p2, b2.p3, b2.p4]);
 
 // intersect
-let result = Intersection.intersect(path1, path2);
+const result = Intersection.intersect(path1, path2);
 
 // find bezier parametric values from first intersection point
-let param1 = find_parameter(b1, result.points[0]);
-let param2 = find_parameter(b2, result.points[0]);
+const param1 = findParameter(b1, result.points[0]);
+const param2 = findParameter(b2, result.points[0]);
 
 // calculate points on curves from their parametric values
-let point1 = b1.getPointAtParameter(param1);
-let point2 = b2.getPointAtParameter(param2);
+const point1 = b1.getPointAtParameter(param1);
+const point2 = b2.getPointAtParameter(param2);
 
 // compare the results
 console.log();
