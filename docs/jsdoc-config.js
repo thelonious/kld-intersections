@@ -7,6 +7,7 @@ module.exports = {
         exclude: [
             "node_modules",
             "dist",
+            "scratchpad",
             "test"
         ],
         excludePattern: "rollup*"

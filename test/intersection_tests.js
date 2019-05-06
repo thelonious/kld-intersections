@@ -1,5 +1,4 @@
 import assert from "assert";
-
 import {Intersection, Point2D} from "../index.js";
 
 describe("Intersections", () => {
