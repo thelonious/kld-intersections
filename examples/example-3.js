@@ -1,6 +1,4 @@
-"use strict";
-
-const {Point2D, Vector2D, Intersection, AffineShapes} = require("../index");
+import {Point2D, Vector2D, Intersection, AffineShapes} from "../index.js";
 
 const circle = AffineShapes.circle(new Point2D(0, 0), 50);
 const rectangle = AffineShapes.rectangle(new Point2D(0, 0), new Vector2D(60, 30));

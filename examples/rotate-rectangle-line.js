@@ -1,6 +1,4 @@
-"use strict";
-
-const {Intersection, Point2D, Matrix2D} = require("../index");
+import {Intersection, Point2D, Matrix2D} from "../index.js";
 
 // define line
 const line = {

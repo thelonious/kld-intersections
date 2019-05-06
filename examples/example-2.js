@@ -1,8 +1,4 @@
-"use strict";
-
-const lib = require("../index");
-
-const {Intersection, Shapes} = lib;
+import {Intersection, Shapes} from "../index.js";
 
 const circle = Shapes.circle(0, 0, 50);
 const rectangle = Shapes.rectangle(0, 0, 60, 30);

@@ -1,8 +1,6 @@
-"use strict";
+import assert from "assert";
 
-const assert = require("assert");
-
-const {Intersection, Point2D} = require("../index");
+import {Intersection, Point2D} from "../index.js";
 
 describe("Intersections", () => {
     describe("Line-Line Intersection", () => {
