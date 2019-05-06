@@ -1,3 +1,5 @@
+#!/usr/bin/env node -r esm
+
 import {PathParser} from "kld-path-parser";
 import PathHandler from "../examples/PathHandler.js";
 

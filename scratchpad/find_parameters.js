@@ -1,3 +1,5 @@
+#!/usr/bin/env node -r esm
+
 import {CubicBezier2D} from "kld-contours";
 import {Point2D, Intersection, IntersectionArgs} from "../index.js";
 
