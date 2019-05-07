@@ -1,5 +1,4 @@
 import {CubicBezier2D} from "kld-contours";
-
 import {Intersection, Point2D} from "../index.js";
 
 // create beziers
