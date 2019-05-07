@@ -26,2005 +26,2240 @@
     return Constructor;
   }
 
-  function createCommonjsModule(fn, module) {
-  	return module = { exports: {} }, fn(module, module.exports), module.exports;
-  }
-
-  var Point2D_1 = createCommonjsModule(function (module) {
   /**
-   *
-   *   Point2D.js
-   *
-   *   copyright 2001-2002, 2013, 2017 Kevin Lindsey
-   *
+   *  Point2D.js
+   *  @module Point2D
+   *  @copyright 2001-2019 Kevin Lindsey
    */
 
   /**
    *  Point2D
    *
-   *  @param {Number} x
-   *  @param {Number} y
-   *  @returns {Point2D}
+   *  @memberof module:kld-affine
    */
-  function Point2D(x, y) {
-    Object.defineProperties(this, {
-      "x": {
-        value: x !== undefined ? x : 0.0,
-        writable: false,
-        enumerable: true,
-        configurable: false
-      },
-      "y": {
-        value: y !== undefined ? y : 0.0,
-        writable: false,
-        enumerable: true,
-        configurable: false
+  var Point2D =
+  /*#__PURE__*/
+  function () {
+    /**
+     *  Point2D
+     *
+     *  @param {number} x
+     *  @param {number} y
+     *  @returns {module:kld-affine.Point2D}
+     */
+    function Point2D(x, y) {
+      _classCallCheck(this, Point2D);
+
+      this.x = x !== undefined ? x : 0.0;
+      this.y = y !== undefined ? y : 0.0;
+    }
+    /**
+     *  clone
+     *
+     *  @returns {module:kld-affine.Point2D}
+     */
+
+
+    _createClass(Point2D, [{
+      key: "clone",
+      value: function clone() {
+        return new this.constructor(this.x, this.y);
       }
-    });
-  }
+      /**
+       *  add
+       *
+       *  @param {Point2D|Vector2D} that
+       *  @returns {module:kld-affine.Point2D}
+       */
+
+    }, {
+      key: "add",
+      value: function add(that) {
+        return new this.constructor(this.x + that.x, this.y + that.y);
+      }
+      /**
+       *  subtract
+       *
+       *  @param { Vector2D | Point2D } that
+       *  @returns {module:kld-affine.Point2D}
+       */
+
+    }, {
+      key: "subtract",
+      value: function subtract(that) {
+        return new this.constructor(this.x - that.x, this.y - that.y);
+      }
+      /**
+       *  multiply
+       *
+       *  @param {number} scalar
+       *  @returns {module:kld-affine.Point2D}
+       */
+
+    }, {
+      key: "multiply",
+      value: function multiply(scalar) {
+        return new this.constructor(this.x * scalar, this.y * scalar);
+      }
+      /**
+       *  divide
+       *
+       *  @param {number} scalar
+       *  @returns {module:kld-affine.Point2D}
+       */
+
+    }, {
+      key: "divide",
+      value: function divide(scalar) {
+        return new this.constructor(this.x / scalar, this.y / scalar);
+      }
+      /**
+       *  equals
+       *
+       *  @param {module:kld-affine.Point2D} that
+       *  @returns {boolean}
+       */
+
+    }, {
+      key: "equals",
+      value: function equals(that) {
+        return this.x === that.x && this.y === that.y;
+      }
+      /**
+       *  precisionEquals
+       *
+       *  @param {module:kld-affine.Point2D} that
+       *  @param {number} precision
+       *  @returns {boolean}
+       */
+
+    }, {
+      key: "precisionEquals",
+      value: function precisionEquals(that, precision) {
+        return Math.abs(this.x - that.x) < precision && Math.abs(this.y - that.y) < precision;
+      } // utility methods
+
+      /**
+       *  lerp
+       *
+       *  @param {module:kld-affine.Point2D} that
+       *  @param {number} t
+       *  @returns {module:kld-affine.Point2D}
+       */
+
+    }, {
+      key: "lerp",
+      value: function lerp(that, t) {
+        var omt = 1.0 - t;
+        return new this.constructor(this.x * omt + that.x * t, this.y * omt + that.y * t);
+      }
+      /**
+       *  distanceFrom
+       *
+       *  @param {module:kld-affine.Point2D} that
+       *  @returns {number}
+       */
+
+    }, {
+      key: "distanceFrom",
+      value: function distanceFrom(that) {
+        var dx = this.x - that.x;
+        var dy = this.y - that.y;
+        return Math.sqrt(dx * dx + dy * dy);
+      }
+      /**
+       *  min
+       *
+       *  @param {module:kld-affine.Point2D} that
+       *  @returns {number}
+       */
+
+    }, {
+      key: "min",
+      value: function min(that) {
+        return new this.constructor(Math.min(this.x, that.x), Math.min(this.y, that.y));
+      }
+      /**
+       *  max
+       *
+       *  @param {module:kld-affine.Point2D} that
+       *  @returns {number}
+       */
+
+    }, {
+      key: "max",
+      value: function max(that) {
+        return new this.constructor(Math.max(this.x, that.x), Math.max(this.y, that.y));
+      }
+      /**
+       *  transform
+       *
+       *  @param {module:kld-affine.Matrix2D} matrix
+       *  @returns {module:kld-affine.Point2D}
+       */
+
+    }, {
+      key: "transform",
+      value: function transform(matrix) {
+        return new this.constructor(matrix.a * this.x + matrix.c * this.y + matrix.e, matrix.b * this.x + matrix.d * this.y + matrix.f);
+      }
+      /**
+       *  toString
+       *
+       *  @returns {string}
+       */
+
+    }, {
+      key: "toString",
+      value: function toString() {
+        return "point(" + this.x + "," + this.y + ")";
+      }
+    }]);
+
+    return Point2D;
+  }();
+
   /**
-   *  clone
-   *
-   *  @returns {Point2D}
-   */
-
-
-  Point2D.prototype.clone = function () {
-    return new this.constructor(this.x, this.y);
-  };
-  /**
-   *  add
-   *
-   *  @param {Point2D|Vector2D} that
-   *  @returns {Point2D}
-   */
-
-
-  Point2D.prototype.add = function (that) {
-    return new this.constructor(this.x + that.x, this.y + that.y);
-  };
-  /**
-   *  subtract
-   *
-   *  @param { Vector2D | Point2D } that
-   *  @returns {Point2D}
-   */
-
-
-  Point2D.prototype.subtract = function (that) {
-    return new this.constructor(this.x - that.x, this.y - that.y);
-  };
-  /**
-   *  multiply
-   *
-   *  @param {Number} scalar
-   *  @returns {Point2D}
-   */
-
-
-  Point2D.prototype.multiply = function (scalar) {
-    return new this.constructor(this.x * scalar, this.y * scalar);
-  };
-  /**
-   *  divide
-   *
-   *  @param {Number} scalar
-   *  @returns {Point2D}
-   */
-
-
-  Point2D.prototype.divide = function (scalar) {
-    return new this.constructor(this.x / scalar, this.y / scalar);
-  };
-  /**
-   *  equals
-   *
-   *  @param {Point2D} that
-   *  @returns {Boolean}
-   */
-
-
-  Point2D.prototype.equals = function (that) {
-    return this.x === that.x && this.y === that.y;
-  };
-  /**
-   *  precisionEquals
-   *
-   *  @param {Point2D} that
-   *  @param {Number} precision
-   *  @returns {Boolean}
-   */
-
-
-  Point2D.prototype.precisionEquals = function (that, precision) {
-    return Math.abs(this.x - that.x) < precision && Math.abs(this.y - that.y) < precision;
-  }; // utility methods
-
-  /**
-   *  lerp
-   *
-   *  @param { Vector2D | Point2D } that
-   *  @param {Number} t
-   @  @returns {Point2D}
-   */
-
-
-  Point2D.prototype.lerp = function (that, t) {
-    var omt = 1.0 - t;
-    return new this.constructor(this.x * omt + that.x * t, this.y * omt + that.y * t);
-  };
-  /**
-   *  distanceFrom
-   *
-   *  @param {Point2D} that
-   *  @returns {Number}
-   */
-
-
-  Point2D.prototype.distanceFrom = function (that) {
-    var dx = this.x - that.x;
-    var dy = this.y - that.y;
-    return Math.sqrt(dx * dx + dy * dy);
-  };
-  /**
-   *  min
-   *
-   *  @param {Point2D} that
-   *  @returns {Number}
-   */
-
-
-  Point2D.prototype.min = function (that) {
-    return new this.constructor(Math.min(this.x, that.x), Math.min(this.y, that.y));
-  };
-  /**
-   *  max
-   *
-   *  @param {Point2D} that
-   *  @returns {Number}
-   */
-
-
-  Point2D.prototype.max = function (that) {
-    return new this.constructor(Math.max(this.x, that.x), Math.max(this.y, that.y));
-  };
-  /**
-   *  transform
-   *
-   *  @param {Matrix2D}
-   *  @result {Point2D}
-   */
-
-
-  Point2D.prototype.transform = function (matrix) {
-    return new this.constructor(matrix.a * this.x + matrix.c * this.y + matrix.e, matrix.b * this.x + matrix.d * this.y + matrix.f);
-  };
-  /**
-   *  toString
-   *
-   *  @returns {String}
-   */
-
-
-  Point2D.prototype.toString = function () {
-    return "point(" + this.x + "," + this.y + ")";
-  };
-
-  {
-    module.exports = Point2D;
-  }
-  });
-
-  var Vector2D_1 = createCommonjsModule(function (module) {
-  /**
-   *
-   *   Vector2D.js
-   *
-   *   copyright 2001-2002, 2013, 2017 Kevin Lindsey
-   *
+   *  Vector2D.js
+   *  @module Vector2D
+   *  @copyright 2001-2019 Kevin Lindsey
    */
 
   /**
    *  Vector2D
    *
-   *  @param {Number} x
-   *  @param {Number} y
-   *  @returns {Vector2D}
+   *  @memberof module:kld-affine
    */
-  function Vector2D(x, y) {
-    Object.defineProperties(this, {
-      "x": {
-        value: x !== undefined ? x : 0.0,
-        writable: false,
-        enumerable: true,
-        configurable: false
-      },
-      "y": {
-        value: y !== undefined ? y : 0.0,
-        writable: false,
-        enumerable: true,
-        configurable: false
+  var Vector2D =
+  /*#__PURE__*/
+  function () {
+    /**
+     *  Vector2D
+     *
+     *  @param {number} x
+     *  @param {number} y
+     *  @returns {module:kld-affine.Vector2D}
+     */
+    function Vector2D(x, y) {
+      _classCallCheck(this, Vector2D);
+
+      this.x = x !== undefined ? x : 0.0;
+      this.y = y !== undefined ? y : 0.0;
+    }
+    /**
+     *  fromPoints
+     *
+     *  @param {module:kld-affine.Point2D} p1
+     *  @param {module:kld-affine.Point2D} p2
+     *  @returns {module:kld-affine.Vector2D}
+     */
+
+
+    _createClass(Vector2D, [{
+      key: "length",
+
+      /**
+       *  length
+       *
+       *  @returns {number}
+       */
+      value: function length() {
+        return Math.sqrt(this.x * this.x + this.y * this.y);
       }
-    });
-  }
+      /**
+       *  magnitude
+       *
+       *  @returns {number}
+       */
+
+    }, {
+      key: "magnitude",
+      value: function magnitude() {
+        return this.x * this.x + this.y * this.y;
+      }
+      /**
+       *  dot
+       *
+       *  @param {module:kld-affine.Vector2D} that
+       *  @returns {number}
+       */
+
+    }, {
+      key: "dot",
+      value: function dot(that) {
+        return this.x * that.x + this.y * that.y;
+      }
+      /**
+       *  cross
+       *
+       *  @param {module:kld-affine.Vector2D} that
+       *  @returns {number}
+       */
+
+    }, {
+      key: "cross",
+      value: function cross(that) {
+        return this.x * that.y - this.y * that.x;
+      }
+      /**
+       *  determinant
+       *
+       *  @param {module:kld-affine.Vector2D} that
+       *  @returns {number}
+       */
+
+    }, {
+      key: "determinant",
+      value: function determinant(that) {
+        return this.x * that.y - this.y * that.x;
+      }
+      /**
+       *  unit
+       *
+       *  @returns {module:kld-affine.Vector2D}
+       */
+
+    }, {
+      key: "unit",
+      value: function unit() {
+        return this.divide(this.length());
+      }
+      /**
+       *  add
+       *
+       *  @param {module:kld-affine.Vector2D} that
+       *  @returns {module:kld-affine.Vector2D}
+       */
+
+    }, {
+      key: "add",
+      value: function add(that) {
+        return new this.constructor(this.x + that.x, this.y + that.y);
+      }
+      /**
+       *  subtract
+       *
+       *  @param {module:kld-affine.Vector2D} that
+       *  @returns {module:kld-affine.Vector2D}
+       */
+
+    }, {
+      key: "subtract",
+      value: function subtract(that) {
+        return new this.constructor(this.x - that.x, this.y - that.y);
+      }
+      /**
+       *  multiply
+       *
+       *  @param {number} scalar
+       *  @returns {module:kld-affine.Vector2D}
+       */
+
+    }, {
+      key: "multiply",
+      value: function multiply(scalar) {
+        return new this.constructor(this.x * scalar, this.y * scalar);
+      }
+      /**
+       *  divide
+       *
+       *  @param {number} scalar
+       *  @returns {module:kld-affine.Vector2D}
+       */
+
+    }, {
+      key: "divide",
+      value: function divide(scalar) {
+        return new this.constructor(this.x / scalar, this.y / scalar);
+      }
+      /**
+       *  angleBetween
+       *
+       *  @param {module:kld-affine.Vector2D} that
+       *  @returns {number}
+       */
+
+    }, {
+      key: "angleBetween",
+      value: function angleBetween(that) {
+        var cos = this.dot(that) / (this.length() * that.length());
+        cos = Math.max(-1, Math.min(cos, 1));
+        var radians = Math.acos(cos);
+        return this.cross(that) < 0.0 ? -radians : radians;
+      }
+      /**
+       *  Find a vector is that is perpendicular to this vector
+       *
+       *  @returns {module:kld-affine.Vector2D}
+       */
+
+    }, {
+      key: "perp",
+      value: function perp() {
+        return new this.constructor(-this.y, this.x);
+      }
+      /**
+       *  Find the component of the specified vector that is perpendicular to
+       *  this vector
+       *
+       *  @param {module:kld-affine.Vector2D} that
+       *  @returns {module:kld-affine.Vector2D}
+       */
+
+    }, {
+      key: "perpendicular",
+      value: function perpendicular(that) {
+        return this.subtract(this.project(that));
+      }
+      /**
+       *  project
+       *
+       *  @param {module:kld-affine.Vector2D} that
+       *  @returns {module:kld-affine.Vector2D}
+       */
+
+    }, {
+      key: "project",
+      value: function project(that) {
+        var percent = this.dot(that) / that.dot(that);
+        return that.multiply(percent);
+      }
+      /**
+       *  transform
+       *
+       *  @param {module:kld-affine.Matrix2D} matrix
+       *  @returns {module:kld-affine.Vector2D}
+       */
+
+    }, {
+      key: "transform",
+      value: function transform(matrix) {
+        return new this.constructor(matrix.a * this.x + matrix.c * this.y, matrix.b * this.x + matrix.d * this.y);
+      }
+      /**
+       *  equals
+       *
+       *  @param {module:kld-affine.Vector2D} that
+       *  @returns {boolean}
+       */
+
+    }, {
+      key: "equals",
+      value: function equals(that) {
+        return this.x === that.x && this.y === that.y;
+      }
+      /**
+       *  precisionEquals
+       *
+       *  @param {module:kld-affine.Vector2D} that
+       *  @param {number} precision
+       *  @returns {boolean}
+       */
+
+    }, {
+      key: "precisionEquals",
+      value: function precisionEquals(that, precision) {
+        return Math.abs(this.x - that.x) < precision && Math.abs(this.y - that.y) < precision;
+      }
+      /**
+       *  toString
+       *
+       *  @returns {string}
+       */
+
+    }, {
+      key: "toString",
+      value: function toString() {
+        return "vector(" + this.x + "," + this.y + ")";
+      }
+    }], [{
+      key: "fromPoints",
+      value: function fromPoints(p1, p2) {
+        return new Vector2D(p2.x - p1.x, p2.y - p1.y);
+      }
+    }]);
+
+    return Vector2D;
+  }();
+
   /**
-   *  fromPoints
-   *
-   *  @param {Point2D} p1
-   *  @param {Point2D} p2
-   *  @returns {Vector2D}
+   *  Matrix2D.js
+   *  @module Matrix2D
+   *  @copyright 2001-2019 Kevin Lindsey
    */
 
-
-  Vector2D.fromPoints = function (p1, p2) {
-    return new Vector2D(p2.x - p1.x, p2.y - p1.y);
-  };
-  /**
-   *  length
-   *
-   *  @returns {Number}
-   */
-
-
-  Vector2D.prototype.length = function () {
-    return Math.sqrt(this.x * this.x + this.y * this.y);
-  };
-  /**
-   *  magnitude
-   *
-   *  @returns {Number}
-   */
-
-
-  Vector2D.prototype.magnitude = function () {
-    return this.x * this.x + this.y * this.y;
-  };
-  /**
-   *  dot
-   *
-   *  @param {Vector2D} that
-   *  @returns {Number}
-   */
-
-
-  Vector2D.prototype.dot = function (that) {
-    return this.x * that.x + this.y * that.y;
-  };
-  /**
-   *  cross
-   *
-   *  @param {Vector2D} that
-   *  @returns {Number}
-   */
-
-
-  Vector2D.prototype.cross = function (that) {
-    return this.x * that.y - this.y * that.x;
-  };
-  /**
-   *  determinant
-   *
-   *  @param {Vector2D} that
-   *  @returns {Number}
-   */
-
-
-  Vector2D.prototype.determinant = function (that) {
-    return this.x * that.y - this.y * that.x;
-  };
-  /**
-   *  unit
-   *
-   *  @returns {Vector2D}
-   */
-
-
-  Vector2D.prototype.unit = function () {
-    return this.divide(this.length());
-  };
-  /**
-   *  add
-   *
-   *  @param {Vector2D} that
-   *  @returns {Vector2D}
-   */
-
-
-  Vector2D.prototype.add = function (that) {
-    return new this.constructor(this.x + that.x, this.y + that.y);
-  };
-  /**
-   *  subtract
-   *
-   *  @param {Vector2D} that
-   *  @returns {Vector2D}
-   */
-
-
-  Vector2D.prototype.subtract = function (that) {
-    return new this.constructor(this.x - that.x, this.y - that.y);
-  };
-  /**
-   *  multiply
-   *
-   *  @param {Number} scalar
-   *  @returns {Vector2D}
-   */
-
-
-  Vector2D.prototype.multiply = function (scalar) {
-    return new this.constructor(this.x * scalar, this.y * scalar);
-  };
-  /**
-   *  divide
-   *
-   *  @param {Number} scalar
-   *  @returns {Vector2D}
-   */
-
-
-  Vector2D.prototype.divide = function (scalar) {
-    return new this.constructor(this.x / scalar, this.y / scalar);
-  };
-  /**
-   *  angleBetween
-   *
-   *  @param {Vector2D} that
-   *  @returns {Number}
-   */
-
-
-  Vector2D.prototype.angleBetween = function (that) {
-    var cos = this.dot(that) / (this.length() * that.length());
-    cos = Math.max(-1, Math.min(cos, 1));
-    var radians = Math.acos(cos);
-    return this.cross(that) < 0.0 ? -radians : radians;
-  };
-  /**
-   *  Find a vector is that is perpendicular to this vector
-   *
-   *  @returns {Vector2D}
-   */
-
-
-  Vector2D.prototype.perp = function () {
-    return new this.constructor(-this.y, this.x);
-  };
-  /**
-   *  Find the component of the specified vector that is perpendicular to
-   *  this vector
-   *
-   *  @param {Vector2D} that
-   *  @returns {Vector2D}
-   */
-
-
-  Vector2D.prototype.perpendicular = function (that) {
-    return this.subtract(this.project(that));
-  };
-  /**
-   *  project
-   *
-   *  @param {Vector2D} that
-   *  @returns {Vector2D}
-   */
-
-
-  Vector2D.prototype.project = function (that) {
-    var percent = this.dot(that) / that.dot(that);
-    return that.multiply(percent);
-  };
-  /**
-   *  transform
-   *
-   *  @param {Matrix2D}
-   *  @returns {Vector2D}
-   */
-
-
-  Vector2D.prototype.transform = function (matrix) {
-    return new this.constructor(matrix.a * this.x + matrix.c * this.y, matrix.b * this.x + matrix.d * this.y);
-  };
-  /**
-   *  equals
-   *
-   *  @param {Vector2D} that
-   *  @returns {Boolean}
-   */
-
-
-  Vector2D.prototype.equals = function (that) {
-    return this.x === that.x && this.y === that.y;
-  };
-  /**
-   *  precisionEquals
-   *
-   *  @param {Vector2D} that
-   *  @param {Number} precision
-   *  @returns {Boolean}
-   */
-
-
-  Vector2D.prototype.precisionEquals = function (that, precision) {
-    return Math.abs(this.x - that.x) < precision && Math.abs(this.y - that.y) < precision;
-  };
-  /**
-   *  toString
-   *
-   *  @returns {String}
-   */
-
-
-  Vector2D.prototype.toString = function () {
-    return "vector(" + this.x + "," + this.y + ")";
-  };
-
-  {
-    module.exports = Vector2D;
-  }
-  });
-
-  var Matrix2D_1 = createCommonjsModule(function (module) {
-  /**
-   *   Matrix2D.js
-   *
-   *   copyright 2001-2002, 2013, 2017 Kevin Lindsey
-   */
-  function setReadonlyProperty(object, property, value) {
-    Object.defineProperty(object, property, {
-      value: value,
-      writable: false,
-      enumerable: true,
-      configurable: false
-    });
-  }
-  /**
-   *  Identity matrix
-   *
-   *  @returns {Matrix2D}
-   */
-
-
-  setReadonlyProperty(Matrix2D, "IDENTITY", new Matrix2D(1, 0, 0, 1, 0, 0));
-  setReadonlyProperty(Matrix2D.IDENTITY, "isIdentity", function () {
-    return true;
-  });
   /**
    *  Matrix2D
    *
-   *  [a c e]
-   *  [b d f]
-   *  [0 0 1]
-   *
-   *  @param {Number} a
-   *  @param {Number} b
-   *  @param {Number} c
-   *  @param {Number} d
-   *  @param {Number} e
-   *  @param {Number} f
-   *  @returns {Matrix2D}
+   *  @memberof module:kld-affine
    */
+  var Matrix2D =
+  /*#__PURE__*/
+  function () {
+    /**
+     *  Matrix2D
+     *
+     *  [a c e]
+     *  [b d f]
+     *  [0 0 1]
+     *
+     *  @param {number} a
+     *  @param {number} b
+     *  @param {number} c
+     *  @param {number} d
+     *  @param {number} e
+     *  @param {number} f
+     *  @returns {module:kld-affine.Matrix2D}
+     */
+    function Matrix2D(a, b, c, d, e, f) {
+      _classCallCheck(this, Matrix2D);
 
-  function Matrix2D(a, b, c, d, e, f) {
-    setReadonlyProperty(this, "a", a !== undefined ? a : 1);
-    setReadonlyProperty(this, "b", b !== undefined ? b : 0);
-    setReadonlyProperty(this, "c", c !== undefined ? c : 0);
-    setReadonlyProperty(this, "d", d !== undefined ? d : 1);
-    setReadonlyProperty(this, "e", e !== undefined ? e : 0);
-    setReadonlyProperty(this, "f", f !== undefined ? f : 0);
-  } // *** STATIC METHODS
-
-  /**
-   *  translation
-   *
-   *  @param {Number} tx
-   *  @param {Number} ty
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.translation = function (tx, ty) {
-    return new Matrix2D(1, 0, 0, 1, tx, ty);
-  };
-  /**
-   *  scaling
-   *
-   *  @param {Number} scale
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.scaling = function (scale) {
-    return new Matrix2D(scale, 0, 0, scale, 0, 0);
-  };
-  /**
-   *  scalingAt
-   *
-   *  @param {Number} scale
-   *  @param {Point2D} center
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.scalingAt = function (scale, center) {
-    return new Matrix2D(scale, 0, 0, scale, center.x - center.x * scale, center.y - center.y * scale);
-  };
-  /**
-   *  nonUniformScaling
-   *
-   *  @param {Number} scaleX
-   *  @param {Number} scaleY
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.nonUniformScaling = function (scaleX, scaleY) {
-    return new Matrix2D(scaleX, 0, 0, scaleY, 0, 0);
-  };
-  /**
-   *  nonUniformScalingAt
-   *
-   *  @param {Number} scaleX
-   *  @param {Number} scaleY
-   *  @param {Point2D} center
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.nonUniformScalingAt = function (scaleX, scaleY, center) {
-    return new Matrix2D(scaleX, 0, 0, scaleY, center.x - center.x * scaleX, center.y - center.y * scaleY);
-  };
-  /**
-   *  rotation
-   *
-   *  @param {Number} radians
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.rotation = function (radians) {
-    var c = Math.cos(radians);
-    var s = Math.sin(radians);
-    return new Matrix2D(c, s, -s, c, 0, 0);
-  };
-  /**
-   *  rotationAt
-   *
-   *  @param {Number} radians
-   *  @param {Point2D} center
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.rotationAt = function (radians, center) {
-    var c = Math.cos(radians);
-    var s = Math.sin(radians);
-    return new Matrix2D(c, s, -s, c, center.x - center.x * c + center.y * s, center.y - center.y * c - center.x * s);
-  };
-  /**
-   *  rotationFromVector
-   *
-   *  @param {Vector2D}
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.rotationFromVector = function (vector) {
-    var unit = vector.unit();
-    var c = unit.x; // cos
-
-    var s = unit.y; // sin
-
-    return new Matrix2D(c, s, -s, c, 0, 0);
-  };
-  /**
-   *  xFlip
-   *
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.xFlip = function () {
-    return new Matrix2D(-1, 0, 0, 1, 0, 0);
-  };
-  /**
-   *  yFlip
-   *
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.yFlip = function () {
-    return new Matrix2D(1, 0, 0, -1, 0, 0);
-  };
-  /**
-   *  xSkew
-   *
-   *  @param {Number} radians
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.xSkew = function (radians) {
-    var t = Math.tan(radians);
-    return new Matrix2D(1, 0, t, 1, 0, 0);
-  };
-  /**
-   *  ySkew
-   *
-   *  @param {Number} radians
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.ySkew = function (radians) {
-    var t = Math.tan(radians);
-    return new Matrix2D(1, t, 0, 1, 0, 0);
-  }; // *** METHODS
-
-  /**
-   *  multiply
-   *
-   *  @pararm {Matrix2D} that
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.prototype.multiply = function (that) {
-    if (this.isIdentity()) {
-      return that;
+      this.a = a !== undefined ? a : 1;
+      this.b = b !== undefined ? b : 0;
+      this.c = c !== undefined ? c : 0;
+      this.d = d !== undefined ? d : 1;
+      this.e = e !== undefined ? e : 0;
+      this.f = f !== undefined ? f : 0;
     }
-
-    if (that.isIdentity()) {
-      return this;
-    }
-
-    return new this.constructor(this.a * that.a + this.c * that.b, this.b * that.a + this.d * that.b, this.a * that.c + this.c * that.d, this.b * that.c + this.d * that.d, this.a * that.e + this.c * that.f + this.e, this.b * that.e + this.d * that.f + this.f);
-  };
-  /**
-   *  inverse
-   *
-   *  @returns {Matrix2D}
-   */
+    /**
+     *  translation
+     *
+     *  @param {number} tx
+     *  @param {number} ty
+     *  @returns {module:kld-affine.Matrix2D}
+     */
 
 
-  Matrix2D.prototype.inverse = function () {
-    if (this.isIdentity()) {
-      return this;
-    }
+    _createClass(Matrix2D, [{
+      key: "multiply",
 
-    var det1 = this.a * this.d - this.b * this.c;
-
-    if (det1 === 0.0) {
-      throw "Matrix is not invertible";
-    }
-
-    var idet = 1.0 / det1;
-    var det2 = this.f * this.c - this.e * this.d;
-    var det3 = this.e * this.b - this.f * this.a;
-    return new this.constructor(this.d * idet, -this.b * idet, -this.c * idet, this.a * idet, det2 * idet, det3 * idet);
-  };
-  /**
-   *  translate
-   *
-   *  @param {Number} tx
-   *  @param {Number} ty
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.prototype.translate = function (tx, ty) {
-    return new this.constructor(this.a, this.b, this.c, this.d, this.a * tx + this.c * ty + this.e, this.b * tx + this.d * ty + this.f);
-  };
-  /**
-   *  scale
-   *
-   *  @param {Number} scale
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.prototype.scale = function (scale) {
-    return new this.constructor(this.a * scale, this.b * scale, this.c * scale, this.d * scale, this.e, this.f);
-  };
-  /**
-   *  scaleAt
-   *
-   *  @param {Number} scale
-   *  @param {Point2D} center
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.prototype.scaleAt = function (scale, center) {
-    var dx = center.x - scale * center.x;
-    var dy = center.y - scale * center.y;
-    return new this.constructor(this.a * scale, this.b * scale, this.c * scale, this.d * scale, this.a * dx + this.c * dy + this.e, this.b * dx + this.d * dy + this.f);
-  };
-  /**
-   *  scaleNonUniform
-   *
-   *  @param {Number} scaleX
-   *  @param {Number} scaleY
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.prototype.scaleNonUniform = function (scaleX, scaleY) {
-    return new this.constructor(this.a * scaleX, this.b * scaleX, this.c * scaleY, this.d * scaleY, this.e, this.f);
-  };
-  /**
-   *  scaleNonUniformAt
-   *
-   *  @param {Number} scaleX
-   *  @param {Number} scaleY
-   *  @param {Point2D} center
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.prototype.scaleNonUniformAt = function (scaleX, scaleY, center) {
-    var dx = center.x - scaleX * center.x;
-    var dy = center.y - scaleY * center.y;
-    return new this.constructor(this.a * scaleX, this.b * scaleX, this.c * scaleY, this.d * scaleY, this.a * dx + this.c * dy + this.e, this.b * dx + this.d * dy + this.f);
-  };
-  /**
-   *  rotate
-   *
-   *  @param {Number} radians
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.prototype.rotate = function (radians) {
-    var c = Math.cos(radians);
-    var s = Math.sin(radians);
-    return new this.constructor(this.a * c + this.c * s, this.b * c + this.d * s, this.a * -s + this.c * c, this.b * -s + this.d * c, this.e, this.f);
-  };
-  /**
-   *  rotateAt
-   *
-   *  @param {Number} radians
-   *  @param {Point2D} center
-   *  @result {Matrix2D}
-   */
-
-
-  Matrix2D.prototype.rotateAt = function (radians, center) {
-    var cos = Math.cos(radians);
-    var sin = Math.sin(radians);
-    var cx = center.x;
-    var cy = center.y;
-    var a = this.a * cos + this.c * sin;
-    var b = this.b * cos + this.d * sin;
-    var c = this.c * cos - this.a * sin;
-    var d = this.d * cos - this.b * sin;
-    return new this.constructor(a, b, c, d, (this.a - a) * cx + (this.c - c) * cy + this.e, (this.b - b) * cx + (this.d - d) * cy + this.f);
-  };
-  /**
-   *  rotateFromVector
-   *
-   *  @param {Vector2D}
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.prototype.rotateFromVector = function (vector) {
-    var unit = vector.unit();
-    var c = unit.x; // cos
-
-    var s = unit.y; // sin
-
-    return new this.constructor(this.a * c + this.c * s, this.b * c + this.d * s, this.a * -s + this.c * c, this.b * -s + this.d * c, this.e, this.f);
-  };
-  /**
-   *  flipX
-   *
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.prototype.flipX = function () {
-    return new this.constructor(-this.a, -this.b, this.c, this.d, this.e, this.f);
-  };
-  /**
-   *  flipY
-   *
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.prototype.flipY = function () {
-    return new this.constructor(this.a, this.b, -this.c, -this.d, this.e, this.f);
-  };
-  /**
-   *  skewX
-   *
-   *  @pararm {Number} radians
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.prototype.skewX = function (radians) {
-    var t = Math.tan(radians);
-    return new this.constructor(this.a, this.b, this.c + this.a * t, this.d + this.b * t, this.e, this.f);
-  }; // TODO: skewXAt
-
-  /**
-   *  skewY
-   *
-   *  @pararm {Number} radians
-   *  @returns {Matrix2D}
-   */
-
-
-  Matrix2D.prototype.skewY = function (radians) {
-    var t = Math.tan(radians);
-    return new this.constructor(this.a + this.c * t, this.b + this.d * t, this.c, this.d, this.e, this.f);
-  }; // TODO: skewYAt
-
-  /**
-   *  isIdentity
-   *
-   *  @returns {Boolean}
-   */
-
-
-  Matrix2D.prototype.isIdentity = function () {
-    return this.a === 1.0 && this.b === 0.0 && this.c === 0.0 && this.d === 1.0 && this.e === 0.0 && this.f === 0.0;
-  };
-  /**
-   *  isInvertible
-   *
-   *  @returns {Boolean}
-   */
-
-
-  Matrix2D.prototype.isInvertible = function () {
-    return this.a * this.d - this.b * this.c !== 0.0;
-  };
-  /**
-   *  getScale
-   *
-   *  @returns {{ scaleX: Number, scaleY: Number }}
-   */
-
-
-  Matrix2D.prototype.getScale = function () {
-    return {
-      scaleX: Math.sqrt(this.a * this.a + this.c * this.c),
-      scaleY: Math.sqrt(this.b * this.b + this.d * this.d)
-    };
-  };
-  /**
-   *  getDecomposition
-   *
-   *  Calculates matrix Singular Value Decomposition
-   *
-   *  The resulting matrices, translation, rotation, scale, and rotation0, return
-   *  this matrix when they are muliplied together in the listed order
-   *
-   *  @see Jim Blinn's article {@link http://dx.doi.org/10.1109/38.486688}
-   *  @see {@link http://math.stackexchange.com/questions/861674/decompose-a-2d-arbitrary-transform-into-only-scaling-and-rotation}
-   *
-   *  @returns {{ translation: Matrix2D, rotation: Matrix2D, scale: Matrix2D, rotation0: Matrix2D }}
-   */
-
-
-  Matrix2D.prototype.getDecomposition = function () {
-    var E = (this.a + this.d) * 0.5;
-    var F = (this.a - this.d) * 0.5;
-    var G = (this.b + this.c) * 0.5;
-    var H = (this.b - this.c) * 0.5;
-    var Q = Math.sqrt(E * E + H * H);
-    var R = Math.sqrt(F * F + G * G);
-    var scaleX = Q + R;
-    var scaleY = Q - R;
-    var a1 = Math.atan2(G, F);
-    var a2 = Math.atan2(H, E);
-    var theta = (a2 - a1) * 0.5;
-    var phi = (a2 + a1) * 0.5; // TODO: Add static methods to generate translation, rotation, etc.
-    // matrices directly
-
-    return {
-      translation: new this.constructor(1, 0, 0, 1, this.e, this.f),
-      rotation: this.constructor.IDENTITY.rotate(phi),
-      scale: new this.constructor(scaleX, 0, 0, scaleY, 0, 0),
-      rotation0: this.constructor.IDENTITY.rotate(theta)
-    };
-  };
-  /**
-   *  equals
-   *
-   *  @param {Matrix2D} that
-   *  @returns {Boolean}
-   */
-
-
-  Matrix2D.prototype.equals = function (that) {
-    return this.a === that.a && this.b === that.b && this.c === that.c && this.d === that.d && this.e === that.e && this.f === that.f;
-  };
-  /**
-   *  precisionEquals
-   *
-   *  @param {Matrix2D} that
-   *  @param {Number} precision
-   *  @returns {Boolean}
-   */
-
-
-  Matrix2D.prototype.precisionEquals = function (that, precision) {
-    return Math.abs(this.a - that.a) < precision && Math.abs(this.b - that.b) < precision && Math.abs(this.c - that.c) < precision && Math.abs(this.d - that.d) < precision && Math.abs(this.e - that.e) < precision && Math.abs(this.f - that.f) < precision;
-  };
-  /**
-   *  toString
-   *
-   *  @returns {String}
-   */
-
-
-  Matrix2D.prototype.toString = function () {
-    return "matrix(" + [this.a, this.b, this.c, this.d, this.e, this.f].join(",") + ")";
-  };
-
-  {
-    module.exports = Matrix2D;
-  }
-  });
-
-  // expose classes
-  var Point2D = Point2D_1;
-  var Vector2D = Vector2D_1;
-  var Matrix2D = Matrix2D_1;
-
-  var Polynomial_1 = createCommonjsModule(function (module) {
-  /**
-   *
-   *   Polynomial.js
-   *
-   *   copyright 2002, 2013 Kevin Lindsey
-   * 
-   *   contribution {@link http://github.com/Quazistax/kld-polynomial}
-   *       @copyright 2015 Robert Benko (Quazistax) <quazistax@gmail.com>
-   *       @license MIT
-   */
-  Polynomial.TOLERANCE = 1e-6;
-  Polynomial.ACCURACY = 15;
-  /**
-   *  interpolate
-   *
-   *  Based on poloint in "Numerical Recipes in C, 2nd Edition", pages 109-110
-   *
-   *  @param {Array<Number>} xs
-   *  @param {Array<Number>} ys
-   *  @param {Number} n
-   *  @param {Number} offset
-   *  @param {Number} x
-   *
-   *  @returns {{y: Number, dy: Number}}
-   */
-
-  Polynomial.interpolate = function (xs, ys, n, offset, x) {
-    if (xs.constructor !== Array || ys.constructor !== Array) {
-      throw new Error("Polynomial.interpolate: xs and ys must be arrays");
-    }
-
-    if (isNaN(n) || isNaN(offset) || isNaN(x)) {
-      throw new Error("Polynomial.interpolate: n, offset, and x must be numbers");
-    }
-
-    var y = 0;
-    var dy = 0;
-    var c = new Array(n);
-    var d = new Array(n);
-    var ns = 0;
-    var diff = Math.abs(x - xs[offset]);
-
-    for (var i = 0; i < n; i++) {
-      var dift = Math.abs(x - xs[offset + i]);
-
-      if (dift < diff) {
-        ns = i;
-        diff = dift;
-      }
-
-      c[i] = d[i] = ys[offset + i];
-    }
-
-    y = ys[offset + ns];
-    ns--;
-
-    for (var m = 1; m < n; m++) {
-      for (var i = 0; i < n - m; i++) {
-        var ho = xs[offset + i] - x;
-        var hp = xs[offset + i + m] - x;
-        var w = c[i + 1] - d[i];
-        var den = ho - hp;
-
-        if (den == 0.0) {
-          throw new Error("Unable to interpolate polynomial. Two numbers in n were identical (to within roundoff)");
+      /**
+       *  multiply
+       *
+       *  @param {module:kld-affine.Matrix2D} that
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+      value: function multiply(that) {
+        if (this.isIdentity()) {
+          return that;
         }
 
-        den = w / den;
-        d[i] = hp * den;
-        c[i] = ho * den;
+        if (that.isIdentity()) {
+          return this;
+        }
+
+        return new this.constructor(this.a * that.a + this.c * that.b, this.b * that.a + this.d * that.b, this.a * that.c + this.c * that.d, this.b * that.c + this.d * that.d, this.a * that.e + this.c * that.f + this.e, this.b * that.e + this.d * that.f + this.f);
       }
+      /**
+       *  inverse
+       *
+       *  @returns {module:kld-affine.Matrix2D}
+       */
 
-      dy = 2 * (ns + 1) < n - m ? c[ns + 1] : d[ns--];
-      y += dy;
-    }
+    }, {
+      key: "inverse",
+      value: function inverse() {
+        if (this.isIdentity()) {
+          return this;
+        }
 
-    return {
-      y: y,
-      dy: dy
-    };
+        var det1 = this.a * this.d - this.b * this.c;
+
+        if (det1 === 0.0) {
+          throw new Error("Matrix is not invertible");
+        }
+
+        var idet = 1.0 / det1;
+        var det2 = this.f * this.c - this.e * this.d;
+        var det3 = this.e * this.b - this.f * this.a;
+        return new this.constructor(this.d * idet, -this.b * idet, -this.c * idet, this.a * idet, det2 * idet, det3 * idet);
+      }
+      /**
+       *  translate
+       *
+       *  @param {number} tx
+       *  @param {number} ty
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "translate",
+      value: function translate(tx, ty) {
+        return new this.constructor(this.a, this.b, this.c, this.d, this.a * tx + this.c * ty + this.e, this.b * tx + this.d * ty + this.f);
+      }
+      /**
+       *  scale
+       *
+       *  @param {number} scale
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "scale",
+      value: function scale(_scale) {
+        return new this.constructor(this.a * _scale, this.b * _scale, this.c * _scale, this.d * _scale, this.e, this.f);
+      }
+      /**
+       *  scaleAt
+       *
+       *  @param {number} scale
+       *  @param {module:kld-affine.Point2D} center
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "scaleAt",
+      value: function scaleAt(scale, center) {
+        var dx = center.x - scale * center.x;
+        var dy = center.y - scale * center.y;
+        return new this.constructor(this.a * scale, this.b * scale, this.c * scale, this.d * scale, this.a * dx + this.c * dy + this.e, this.b * dx + this.d * dy + this.f);
+      }
+      /**
+       *  scaleNonUniform
+       *
+       *  @param {number} scaleX
+       *  @param {number} scaleY
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "scaleNonUniform",
+      value: function scaleNonUniform(scaleX, scaleY) {
+        return new this.constructor(this.a * scaleX, this.b * scaleX, this.c * scaleY, this.d * scaleY, this.e, this.f);
+      }
+      /**
+       *  scaleNonUniformAt
+       *
+       *  @param {number} scaleX
+       *  @param {number} scaleY
+       *  @param {module:kld-affine.Point2D} center
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "scaleNonUniformAt",
+      value: function scaleNonUniformAt(scaleX, scaleY, center) {
+        var dx = center.x - scaleX * center.x;
+        var dy = center.y - scaleY * center.y;
+        return new this.constructor(this.a * scaleX, this.b * scaleX, this.c * scaleY, this.d * scaleY, this.a * dx + this.c * dy + this.e, this.b * dx + this.d * dy + this.f);
+      }
+      /**
+       *  rotate
+       *
+       *  @param {number} radians
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "rotate",
+      value: function rotate(radians) {
+        var c = Math.cos(radians);
+        var s = Math.sin(radians);
+        return new this.constructor(this.a * c + this.c * s, this.b * c + this.d * s, this.a * -s + this.c * c, this.b * -s + this.d * c, this.e, this.f);
+      }
+      /**
+       *  rotateAt
+       *
+       *  @param {number} radians
+       *  @param {module:kld-affine.Point2D} center
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "rotateAt",
+      value: function rotateAt(radians, center) {
+        var cos = Math.cos(radians);
+        var sin = Math.sin(radians);
+        var cx = center.x;
+        var cy = center.y;
+        var a = this.a * cos + this.c * sin;
+        var b = this.b * cos + this.d * sin;
+        var c = this.c * cos - this.a * sin;
+        var d = this.d * cos - this.b * sin;
+        return new this.constructor(a, b, c, d, (this.a - a) * cx + (this.c - c) * cy + this.e, (this.b - b) * cx + (this.d - d) * cy + this.f);
+      }
+      /**
+       *  rotateFromVector
+       *
+       *  @param {module:kld-affine.Vector2D} vector
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "rotateFromVector",
+      value: function rotateFromVector(vector) {
+        var unit = vector.unit();
+        var c = unit.x; // cos
+
+        var s = unit.y; // sin
+
+        return new this.constructor(this.a * c + this.c * s, this.b * c + this.d * s, this.a * -s + this.c * c, this.b * -s + this.d * c, this.e, this.f);
+      }
+      /**
+       *  flipX
+       *
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "flipX",
+      value: function flipX() {
+        return new this.constructor(-this.a, -this.b, this.c, this.d, this.e, this.f);
+      }
+      /**
+       *  flipY
+       *
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "flipY",
+      value: function flipY() {
+        return new this.constructor(this.a, this.b, -this.c, -this.d, this.e, this.f);
+      }
+      /**
+       *  skewX
+       *
+       *  @param {number} radians
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "skewX",
+      value: function skewX(radians) {
+        var t = Math.tan(radians);
+        return new this.constructor(this.a, this.b, this.c + this.a * t, this.d + this.b * t, this.e, this.f);
+      } // TODO: skewXAt
+
+      /**
+       *  skewY
+       *
+       *  @param {number} radians
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "skewY",
+      value: function skewY(radians) {
+        var t = Math.tan(radians);
+        return new this.constructor(this.a + this.c * t, this.b + this.d * t, this.c, this.d, this.e, this.f);
+      } // TODO: skewYAt
+
+      /**
+       *  isIdentity
+       *
+       *  @returns {boolean}
+       */
+
+    }, {
+      key: "isIdentity",
+      value: function isIdentity() {
+        return this.a === 1.0 && this.b === 0.0 && this.c === 0.0 && this.d === 1.0 && this.e === 0.0 && this.f === 0.0;
+      }
+      /**
+       *  isInvertible
+       *
+       *  @returns {boolean}
+       */
+
+    }, {
+      key: "isInvertible",
+      value: function isInvertible() {
+        return this.a * this.d - this.b * this.c !== 0.0;
+      }
+      /**
+       *  getScale
+       *
+       *  @returns {{ scaleX: number, scaleY: number }}
+       */
+
+    }, {
+      key: "getScale",
+      value: function getScale() {
+        return {
+          scaleX: Math.sqrt(this.a * this.a + this.c * this.c),
+          scaleY: Math.sqrt(this.b * this.b + this.d * this.d)
+        };
+      }
+      /**
+       *  getDecomposition
+       *
+       *  Calculates matrix Singular Value Decomposition
+       *
+       *  The resulting matrices, translation, rotation, scale, and rotation0, return
+       *  this matrix when they are muliplied together in the listed order
+       *
+       *  @see Jim Blinn's article {@link http://dx.doi.org/10.1109/38.486688}
+       *  @see {@link http://math.stackexchange.com/questions/861674/decompose-a-2d-arbitrary-transform-into-only-scaling-and-rotation}
+       *
+       *  @returns {{ translation: module:kld-affine.Matrix2D, rotation: module:kld-affine.Matrix2D, scale: module:kld-affine.Matrix2D, rotation0: module:kld-affine.Matrix2D }}
+       */
+
+    }, {
+      key: "getDecomposition",
+      value: function getDecomposition() {
+        var E = (this.a + this.d) * 0.5;
+        var F = (this.a - this.d) * 0.5;
+        var G = (this.b + this.c) * 0.5;
+        var H = (this.b - this.c) * 0.5;
+        var Q = Math.sqrt(E * E + H * H);
+        var R = Math.sqrt(F * F + G * G);
+        var scaleX = Q + R;
+        var scaleY = Q - R;
+        var a1 = Math.atan2(G, F);
+        var a2 = Math.atan2(H, E);
+        var theta = (a2 - a1) * 0.5;
+        var phi = (a2 + a1) * 0.5;
+        return {
+          translation: this.constructor.translation(this.e, this.f),
+          rotation: this.constructor.rotation(phi),
+          scale: this.constructor.nonUniformScaling(scaleX, scaleY),
+          rotation0: this.constructor.rotation(theta)
+        };
+      }
+      /**
+       *  equals
+       *
+       *  @param {module:kld-affine.Matrix2D} that
+       *  @returns {boolean}
+       */
+
+    }, {
+      key: "equals",
+      value: function equals(that) {
+        return this.a === that.a && this.b === that.b && this.c === that.c && this.d === that.d && this.e === that.e && this.f === that.f;
+      }
+      /**
+       *  precisionEquals
+       *
+       *  @param {module:kld-affine.Matrix2D} that
+       *  @param {number} precision
+       *  @returns {boolean}
+       */
+
+    }, {
+      key: "precisionEquals",
+      value: function precisionEquals(that, precision) {
+        return Math.abs(this.a - that.a) < precision && Math.abs(this.b - that.b) < precision && Math.abs(this.c - that.c) < precision && Math.abs(this.d - that.d) < precision && Math.abs(this.e - that.e) < precision && Math.abs(this.f - that.f) < precision;
+      }
+      /**
+       *  toString
+       *
+       *  @returns {string}
+       */
+
+    }, {
+      key: "toString",
+      value: function toString() {
+        return "matrix(" + [this.a, this.b, this.c, this.d, this.e, this.f].join(",") + ")";
+      }
+    }], [{
+      key: "translation",
+      value: function translation(tx, ty) {
+        return new Matrix2D(1, 0, 0, 1, tx, ty);
+      }
+      /**
+       *  scaling
+       *
+       *  @param {number} scale
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "scaling",
+      value: function scaling(scale) {
+        return new Matrix2D(scale, 0, 0, scale, 0, 0);
+      }
+      /**
+       *  scalingAt
+       *
+       *  @param {number} scale
+       *  @param {module:kld-affine.Point2D} center
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "scalingAt",
+      value: function scalingAt(scale, center) {
+        return new Matrix2D(scale, 0, 0, scale, center.x - center.x * scale, center.y - center.y * scale);
+      }
+      /**
+       *  nonUniformScaling
+       *
+       *  @param {number} scaleX
+       *  @param {number} scaleY
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "nonUniformScaling",
+      value: function nonUniformScaling(scaleX, scaleY) {
+        return new Matrix2D(scaleX, 0, 0, scaleY, 0, 0);
+      }
+      /**
+       *  nonUniformScalingAt
+       *
+       *  @param {number} scaleX
+       *  @param {number} scaleY
+       *  @param {module:kld-affine.Point2D} center
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "nonUniformScalingAt",
+      value: function nonUniformScalingAt(scaleX, scaleY, center) {
+        return new Matrix2D(scaleX, 0, 0, scaleY, center.x - center.x * scaleX, center.y - center.y * scaleY);
+      }
+      /**
+       *  rotation
+       *
+       *  @param {number} radians
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "rotation",
+      value: function rotation(radians) {
+        var c = Math.cos(radians);
+        var s = Math.sin(radians);
+        return new Matrix2D(c, s, -s, c, 0, 0);
+      }
+      /**
+       *  rotationAt
+       *
+       *  @param {number} radians
+       *  @param {module:kld-affine.Point2D} center
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "rotationAt",
+      value: function rotationAt(radians, center) {
+        var c = Math.cos(radians);
+        var s = Math.sin(radians);
+        return new Matrix2D(c, s, -s, c, center.x - center.x * c + center.y * s, center.y - center.y * c - center.x * s);
+      }
+      /**
+       *  rotationFromVector
+       *
+       *  @param {module:kld-affine.Vector2D} vector
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "rotationFromVector",
+      value: function rotationFromVector(vector) {
+        var unit = vector.unit();
+        var c = unit.x; // cos
+
+        var s = unit.y; // sin
+
+        return new Matrix2D(c, s, -s, c, 0, 0);
+      }
+      /**
+       *  xFlip
+       *
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "xFlip",
+      value: function xFlip() {
+        return new Matrix2D(-1, 0, 0, 1, 0, 0);
+      }
+      /**
+       *  yFlip
+       *
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "yFlip",
+      value: function yFlip() {
+        return new Matrix2D(1, 0, 0, -1, 0, 0);
+      }
+      /**
+       *  xSkew
+       *
+       *  @param {number} radians
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "xSkew",
+      value: function xSkew(radians) {
+        var t = Math.tan(radians);
+        return new Matrix2D(1, 0, t, 1, 0, 0);
+      }
+      /**
+       *  ySkew
+       *
+       *  @param {number} radians
+       *  @returns {module:kld-affine.Matrix2D}
+       */
+
+    }, {
+      key: "ySkew",
+      value: function ySkew(radians) {
+        var t = Math.tan(radians);
+        return new Matrix2D(1, t, 0, 1, 0, 0);
+      }
+    }]);
+
+    return Matrix2D;
+  }();
+  /**
+   *  Identity matrix
+   *
+   *  @returns {module:kld-affine.Matrix2D}
+   */
+
+
+  Matrix2D.IDENTITY = new Matrix2D();
+
+  Matrix2D.IDENTITY.isIdentity = function () {
+    return true;
   };
+
+  /**
+   *  @module kld-affine
+   */
+
+  /* eslint-disable camelcase, unicorn/prefer-type-error */
+
+  /**
+   *  Polynomial.js
+   *
+   *  @module Polynomial
+   *  @copyright 2002-2019 Kevin Lindsey<br>
+   *  -<br>
+   *  Contribution {@link http://github.com/Quazistax/kld-polynomial}<br>
+   *  2015 Robert Benko (Quazistax) <quazistax@gmail.com><br>
+   *  MIT license
+   */
+
+  /**
+   *  Sign of a number (+1, -1, +0, -0).
+   *
+   *  @param {number} x
+   *  @returns {number}
+   */
+  function sign(x) {
+    // eslint-disable-next-line no-self-compare
+    return typeof x === "number" ? x ? x < 0 ? -1 : 1 : x === x ? x : NaN : NaN;
+  }
   /**
    *  Polynomial
    *
-   *  @returns {Polynomial}
+   *  @memberof module:kld-polynomial
    */
 
 
-  function Polynomial() {
-    this.init(arguments);
-  }
-  /**
-   *  init
-   */
+  var Polynomial =
+  /*#__PURE__*/
+  function () {
+    /**
+     *  Polynomial
+     *
+     *  @param {Array<number>} coefs
+     *  @returns {module:kld-polynomial.Polynomial}
+     */
+    function Polynomial() {
+      _classCallCheck(this, Polynomial);
 
+      this.coefs = [];
 
-  Polynomial.prototype.init = function (coefs) {
-    this.coefs = new Array();
-
-    for (var i = coefs.length - 1; i >= 0; i--) {
-      this.coefs.push(coefs[i]);
-    }
-
-    this._variable = "t";
-    this._s = 0;
-  };
-  /**
-   *  eval
-   */
-
-
-  Polynomial.prototype.eval = function (x) {
-    if (isNaN(x)) {
-      throw new Error("Polynomial.eval: parameter must be a number");
-    }
-
-    var result = 0;
-
-    for (var i = this.coefs.length - 1; i >= 0; i--) {
-      result = result * x + this.coefs[i];
-    }
-
-    return result;
-  };
-  /**
-   *  add
-   */
-
-
-  Polynomial.prototype.add = function (that) {
-    var result = new Polynomial();
-    var d1 = this.getDegree();
-    var d2 = that.getDegree();
-    var dmax = Math.max(d1, d2);
-
-    for (var i = 0; i <= dmax; i++) {
-      var v1 = i <= d1 ? this.coefs[i] : 0;
-      var v2 = i <= d2 ? that.coefs[i] : 0;
-      result.coefs[i] = v1 + v2;
-    }
-
-    return result;
-  };
-  /**
-   *  multiply
-   */
-
-
-  Polynomial.prototype.multiply = function (that) {
-    var result = new Polynomial();
-
-    for (var i = 0; i <= this.getDegree() + that.getDegree(); i++) {
-      result.coefs.push(0);
-    }
-
-    for (var i = 0; i <= this.getDegree(); i++) {
-      for (var j = 0; j <= that.getDegree(); j++) {
-        result.coefs[i + j] += this.coefs[i] * that.coefs[j];
+      for (var i = arguments.length - 1; i >= 0; i--) {
+        this.coefs.push(i < 0 || arguments.length <= i ? undefined : arguments[i]);
       }
+
+      this._variable = "t";
+      this._s = 0;
     }
-
-    return result;
-  };
-  /**
-   *  divide_scalar
-   */
-
-
-  Polynomial.prototype.divide_scalar = function (scalar) {
-    for (var i = 0; i < this.coefs.length; i++) {
-      this.coefs[i] /= scalar;
-    }
-  };
-  /**
-   *  simplify
-   */
+    /**
+     *  interpolate
+     *
+     *  Based on poloint in "Numerical Recipes in C, 2nd Edition", pages 109-110
+     *
+     *  @param {Array<number>} xs
+     *  @param {Array<number>} ys
+     *  @param {number} n
+     *  @param {number} offset
+     *  @param {number} x
+     *
+     *  @returns {{y: number, dy: number}}
+     */
 
 
-  Polynomial.prototype.simplify = function (TOLERANCE) {
-    if (TOLERANCE === undefined) TOLERANCE = 1e-12;
+    _createClass(Polynomial, [{
+      key: "clone",
 
-    for (var i = this.getDegree(); i >= 0; i--) {
-      if (Math.abs(this.coefs[i]) <= TOLERANCE) {
-        this.coefs.pop();
-      } else {
-        break;
+      /**
+       *  Clones this polynomial and return the clone.
+       *
+       *  @returns {module:kld-polynomial.Polynomial}
+       */
+      value: function clone() {
+        var poly = new Polynomial();
+        poly.coefs = this.coefs.slice();
+        return poly;
       }
-    }
-  };
-  /**
-   *  bisection
-   */
+      /**
+       *  eval
+       *
+       *  @param {number} x
+       */
 
-
-  Polynomial.prototype.bisection = function (min, max) {
-    var minValue = this.eval(min);
-    var maxValue = this.eval(max);
-    var result;
-
-    if (Math.abs(minValue) <= Polynomial.TOLERANCE) {
-      result = min;
-    } else if (Math.abs(maxValue) <= Polynomial.TOLERANCE) {
-      result = max;
-    } else if (minValue * maxValue <= 0) {
-      var tmp1 = Math.log(max - min);
-      var tmp2 = Math.LN10 * Polynomial.ACCURACY;
-      var iters = Math.ceil((tmp1 + tmp2) / Math.LN2);
-
-      for (var i = 0; i < iters; i++) {
-        result = 0.5 * (min + max);
-        var value = this.eval(result);
-
-        if (Math.abs(value) <= Polynomial.TOLERANCE) {
-          break;
+    }, {
+      key: "eval",
+      value: function _eval(x) {
+        if (isNaN(x)) {
+          throw new Error("Polynomial.eval: parameter must be a number, got '".concat(x, "'"));
         }
 
-        if (value * minValue < 0) {
-          max = result;
-          maxValue = value;
-        } else {
-          min = result;
-          minValue = value;
+        var result = 0;
+
+        for (var i = this.coefs.length - 1; i >= 0; i--) {
+          result = result * x + this.coefs[i];
+        }
+
+        return result;
+      }
+      /**
+       *  add
+       *
+       *  @param {module:kld-polynomial.Polynomial} that
+       *  @returns {module:kld-polynomial.Polynomial}
+       */
+
+    }, {
+      key: "add",
+      value: function add(that) {
+        var result = new Polynomial();
+        var d1 = this.getDegree();
+        var d2 = that.getDegree();
+        var dmax = Math.max(d1, d2);
+
+        for (var i = 0; i <= dmax; i++) {
+          var v1 = i <= d1 ? this.coefs[i] : 0;
+          var v2 = i <= d2 ? that.coefs[i] : 0;
+          result.coefs[i] = v1 + v2;
+        }
+
+        return result;
+      }
+      /**
+       *  multiply
+       *
+       *  @param {module:kld-polynomial.Polynomial} that
+       *  @returns {module:kld-polynomial.Polynomial}
+       */
+
+    }, {
+      key: "multiply",
+      value: function multiply(that) {
+        var result = new Polynomial();
+
+        for (var i = 0; i <= this.getDegree() + that.getDegree(); i++) {
+          result.coefs.push(0);
+        }
+
+        for (var _i = 0; _i <= this.getDegree(); _i++) {
+          for (var j = 0; j <= that.getDegree(); j++) {
+            result.coefs[_i + j] += this.coefs[_i] * that.coefs[j];
+          }
+        }
+
+        return result;
+      }
+      /**
+       *  divide_scalar
+       *
+       *  @param {number} scalar
+       */
+
+    }, {
+      key: "divide_scalar",
+      value: function divide_scalar(scalar) {
+        for (var i = 0; i < this.coefs.length; i++) {
+          this.coefs[i] /= scalar;
         }
       }
-    }
+      /**
+       *  simplify
+       *
+       *  @param {number} TOLERANCE
+       */
 
-    return result;
-  };
-  /**
-   *  toString
-   */
+    }, {
+      key: "simplify",
+      value: function simplify(TOLERANCE) {
+        if (TOLERANCE === undefined) {
+          TOLERANCE = 1e-12;
+        }
 
-
-  Polynomial.prototype.toString = function () {
-    var coefs = new Array();
-    var signs = new Array();
-
-    for (var i = this.coefs.length - 1; i >= 0; i--) {
-      var value = Math.round(this.coefs[i] * 1000) / 1000; //var value = this.coefs[i];
-
-      if (value != 0) {
-        var sign = value < 0 ? " - " : " + ";
-        value = Math.abs(value);
-
-        if (i > 0) {
-          if (value == 1) {
-            value = this._variable;
+        for (var i = this.getDegree(); i >= 0; i--) {
+          if (Math.abs(this.coefs[i]) <= TOLERANCE) {
+            this.coefs.pop();
           } else {
-            value += this._variable;
+            break;
+          }
+        }
+      }
+      /**
+       *  bisection
+       *
+       *  @param {number} min
+       *  @param {number} max
+       *
+       *  @returns {number}
+       */
+
+    }, {
+      key: "bisection",
+      value: function bisection(min, max) {
+        var minValue = this.eval(min);
+        var maxValue = this.eval(max);
+        var result;
+
+        if (Math.abs(minValue) <= Polynomial.TOLERANCE) {
+          result = min;
+        } else if (Math.abs(maxValue) <= Polynomial.TOLERANCE) {
+          result = max;
+        } else if (minValue * maxValue <= 0) {
+          var tmp1 = Math.log(max - min);
+          var tmp2 = Math.LN10 * Polynomial.ACCURACY;
+          var iters = Math.ceil((tmp1 + tmp2) / Math.LN2);
+
+          for (var i = 0; i < iters; i++) {
+            result = 0.5 * (min + max);
+            var value = this.eval(result);
+
+            if (Math.abs(value) <= Polynomial.TOLERANCE) {
+              break;
+            }
+
+            if (value * minValue < 0) {
+              max = result;
+              maxValue = value;
+            } else {
+              min = result;
+              minValue = value;
+            }
           }
         }
 
-        if (i > 1) {
-          value += "^" + i;
-        }
-
-        signs.push(sign);
-        coefs.push(value);
+        return result;
       }
-    }
-
-    signs[0] = signs[0] == " + " ? "" : "-";
-    var result = "";
-
-    for (var i = 0; i < coefs.length; i++) {
-      result += signs[i] + coefs[i];
-    }
-
-    return result;
-  };
-  /**
-   *  trapezoid
-   *
-   *  Based on trapzd in "Numerical Recipes in C, 2nd Edition", page 137
-   */
-
-
-  Polynomial.prototype.trapezoid = function (min, max, n) {
-    if (isNaN(min) || isNaN(max) || isNaN(n)) {
-      throw new Error("Polynomial.trapezoid: parameters must be numbers");
-    }
-
-    var range = max - min;
-
-    if (n == 1) {
-      var minValue = this.eval(min);
-      var maxValue = this.eval(max);
-      this._s = 0.5 * range * (minValue + maxValue);
-    } else {
-      var it = 1 << n - 2;
-      var delta = range / it;
-      var x = min + 0.5 * delta;
-      var sum = 0;
-
-      for (var i = 0; i < it; i++) {
-        sum += this.eval(x);
-        x += delta;
-      }
-
-      this._s = 0.5 * (this._s + range * sum / it);
-    }
-
-    if (isNaN(this._s)) {
-      throw new Error("Polynomial.trapezoid: this._s is NaN");
-    }
-
-    return this._s;
-  };
-  /**
-   *  simpson
-   *
-   *  Based on trapzd in "Numerical Recipes in C, 2nd Edition", page 139
-   */
-
-
-  Polynomial.prototype.simpson = function (min, max) {
-    if (isNaN(min) || isNaN(max)) {
-      throw new Error("Polynomial.simpson: parameters must be numbers");
-    }
-
-    var range = max - min;
-    var st = 0.5 * range * (this.eval(min) + this.eval(max));
-    var t = st;
-    var s = 4.0 * st / 3.0;
-    var os = s;
-    var ost = st;
-    var TOLERANCE = 1e-7;
-    var it = 1;
-
-    for (var n = 2; n <= 20; n++) {
-      var delta = range / it;
-      var x = min + 0.5 * delta;
-      var sum = 0;
-
-      for (var i = 1; i <= it; i++) {
-        sum += this.eval(x);
-        x += delta;
-      }
-
-      t = 0.5 * (t + range * sum / it);
-      st = t;
-      s = (4.0 * st - ost) / 3.0;
-
-      if (Math.abs(s - os) < TOLERANCE * Math.abs(os)) {
-        break;
-      }
-
-      os = s;
-      ost = st;
-      it <<= 1;
-    }
-
-    return s;
-  };
-  /**
-   *  romberg
-   */
-
-
-  Polynomial.prototype.romberg = function (min, max) {
-    if (isNaN(min) || isNaN(max)) {
-      throw new Error("Polynomial.romberg: parameters must be numbers");
-    }
-
-    var MAX = 20;
-    var K = 3;
-    var TOLERANCE = 1e-6;
-    var s = new Array(MAX + 1);
-    var h = new Array(MAX + 1);
-    var result = {
-      y: 0,
-      dy: 0
-    };
-    h[0] = 1.0;
-
-    for (var j = 1; j <= MAX; j++) {
-      s[j - 1] = this.trapezoid(min, max, j);
-
-      if (j >= K) {
-        result = Polynomial.interpolate(h, s, K, j - K, 0.0);
-        if (Math.abs(result.dy) <= TOLERANCE * result.y) break;
-      }
-
-      s[j] = s[j - 1];
-      h[j] = 0.25 * h[j - 1];
-    }
-
-    return result.y;
-  }; // getters and setters
-
-  /**
-   *  get degree
-   */
-
-
-  Polynomial.prototype.getDegree = function () {
-    return this.coefs.length - 1;
-  };
-  /**
-   *  getDerivative
-   */
-
-
-  Polynomial.prototype.getDerivative = function () {
-    var derivative = new Polynomial();
-
-    for (var i = 1; i < this.coefs.length; i++) {
-      derivative.coefs.push(i * this.coefs[i]);
-    }
-
-    return derivative;
-  };
-  /**
-   *  getRoots
-   */
-
-
-  Polynomial.prototype.getRoots = function () {
-    var result;
-    this.simplify();
-
-    switch (this.getDegree()) {
-      case 0:
-        result = [];
-        break;
-
-      case 1:
-        result = this.getLinearRoot();
-        break;
-
-      case 2:
-        result = this.getQuadraticRoots();
-        break;
-
-      case 3:
-        result = this.getCubicRoots();
-        break;
-
-      case 4:
-        result = this.getQuarticRoots();
-        break;
-
-      default:
-        result = [];
-    }
-
-    return result;
-  };
-  /**
-   *  getRootsInInterval
-   */
-
-
-  Polynomial.prototype.getRootsInInterval = function (min, max) {
-    var roots = new Array();
-    var root;
-
-    if (this.getDegree() == 1) {
-      root = this.bisection(min, max);
-
-      if (root != null) {
-        roots.push(root);
-      }
-    } else {
-      // get roots of derivative
-      var deriv = this.getDerivative();
-      var droots = deriv.getRootsInInterval(min, max);
-
-      if (droots.length > 0) {
-        // find root on [min, droots[0]]
-        root = this.bisection(min, droots[0]);
-
-        if (root != null) {
-          roots.push(root);
-        } // find root on [droots[i],droots[i+1]] for 0 <= i <= count-2
-
-
-        for (i = 0; i <= droots.length - 2; i++) {
-          root = this.bisection(droots[i], droots[i + 1]);
-
-          if (root != null) {
-            roots.push(root);
-          }
-        } // find root on [droots[count-1],xmax]
-
-
-        root = this.bisection(droots[droots.length - 1], max);
-
-        if (root != null) {
-          roots.push(root);
-        }
-      } else {
-        // polynomial is monotone on [min,max], has at most one root
-        root = this.bisection(min, max);
-
-        if (root != null) {
-          roots.push(root);
-        }
-      }
-    }
-
-    return roots;
-  };
-  /**
-   *  getLinearRoot
-   */
-
-
-  Polynomial.prototype.getLinearRoot = function () {
-    var result = [];
-    var a = this.coefs[1];
-
-    if (a != 0) {
-      result.push(-this.coefs[0] / a);
-    }
-
-    return result;
-  };
-  /**
-   *  getQuadraticRoots
-   */
-
-
-  Polynomial.prototype.getQuadraticRoots = function () {
-    var results = [];
-
-    if (this.getDegree() == 2) {
-      var a = this.coefs[2];
-      var b = this.coefs[1] / a;
-      var c = this.coefs[0] / a;
-      var d = b * b - 4 * c;
-
-      if (d > 0) {
-        var e = Math.sqrt(d);
-        results.push(0.5 * (-b + e));
-        results.push(0.5 * (-b - e));
-      } else if (d == 0) {
-        // really two roots with same value, but we only return one
-        results.push(0.5 * -b);
-      }
-    }
-
-    return results;
-  };
-  /**
-   *  getCubicRoots
-   *
-   *  This code is based on MgcPolynomial.cpp written by David Eberly.  His
-   *  code along with many other excellent examples are avaiable at his site:
-   *  http://www.geometrictools.com
-   */
-
-
-  Polynomial.prototype.getCubicRoots = function () {
-    var results = [];
-
-    if (this.getDegree() == 3) {
-      var c3 = this.coefs[3];
-      var c2 = this.coefs[2] / c3;
-      var c1 = this.coefs[1] / c3;
-      var c0 = this.coefs[0] / c3;
-      var a = (3 * c1 - c2 * c2) / 3;
-      var b = (2 * c2 * c2 * c2 - 9 * c1 * c2 + 27 * c0) / 27;
-      var offset = c2 / 3;
-      var discrim = b * b / 4 + a * a * a / 27;
-      var halfB = b / 2;
-      var ZEROepsilon = this.zeroErrorEstimate();
-
-      if (Math.abs(discrim) <= ZEROepsilon) {
-        discrim = 0;
-      }
-
-      if (discrim > 0) {
-        var e = Math.sqrt(discrim);
-        var tmp;
-        var root;
-        tmp = -halfB + e;
-
-        if (tmp >= 0) {
-          root = Math.pow(tmp, 1 / 3);
-        } else {
-          root = -Math.pow(-tmp, 1 / 3);
-        }
-
-        tmp = -halfB - e;
-
-        if (tmp >= 0) {
-          root += Math.pow(tmp, 1 / 3);
-        } else {
-          root -= Math.pow(-tmp, 1 / 3);
-        }
-
-        results.push(root - offset);
-      } else if (discrim < 0) {
-        var distance = Math.sqrt(-a / 3);
-        var angle = Math.atan2(Math.sqrt(-discrim), -halfB) / 3;
-        var cos = Math.cos(angle);
-        var sin = Math.sin(angle);
-        var sqrt3 = Math.sqrt(3);
-        results.push(2 * distance * cos - offset);
-        results.push(-distance * (cos + sqrt3 * sin) - offset);
-        results.push(-distance * (cos - sqrt3 * sin) - offset);
-      } else {
-        var tmp;
-
-        if (halfB >= 0) {
-          tmp = -Math.pow(halfB, 1 / 3);
-        } else {
-          tmp = Math.pow(-halfB, 1 / 3);
-        }
-
-        results.push(2 * tmp - offset); // really should return next root twice, but we return only one
-
-        results.push(-tmp - offset);
-      }
-    }
-
-    return results;
-  };
-  /**
-   *  Sign of a number (+1, -1, +0, -0).
-   */
-
-
-  var sign = function sign(x) {
-    return typeof x === 'number' ? x ? x < 0 ? -1 : 1 : x === x ? x : NaN : NaN;
-  };
-  /**
-   *  Calculates roots of quartic polynomial. <br/>
-   *  First, derivative roots are found, then used to split quartic polynomial 
-   *  into segments, each containing one root of quartic polynomial.
-   *  Segments are then passed to newton's method to find roots.
-   *
-   *  @returns {Array<Number>} roots
-   */
-
-
-  Polynomial.prototype.getQuarticRoots = function () {
-    var results = [];
-    var n = this.getDegree();
-
-    if (n == 4) {
-      var poly = new Polynomial();
-      poly.coefs = this.coefs.slice();
-      poly.divide_scalar(poly.coefs[n]);
-      var ERRF = 1e-15;
-
-      if (Math.abs(poly.coefs[0]) < 10 * ERRF * Math.abs(poly.coefs[3])) {
-        poly.coefs[0] = 0;
-      }
-
-      var poly_d = poly.getDerivative();
-      var derrt = poly_d.getRoots().sort(function (a, b) {
-        return a - b;
-      });
-      var dery = [];
-      var nr = derrt.length - 1;
-      var i;
-      var rb = this.bounds();
-      maxabsX = Math.max(Math.abs(rb.minX), Math.abs(rb.maxX));
-      var ZEROepsilon = this.zeroErrorEstimate(maxabsX);
-
-      for (i = 0; i <= nr; i++) {
-        dery.push(poly.eval(derrt[i]));
-      }
-
-      for (i = 0; i <= nr; i++) {
-        if (Math.abs(dery[i]) < ZEROepsilon) {
-          dery[i] = 0;
-        }
-      }
-
-      i = 0;
-      var dx = Math.max(0.1 * (rb.maxX - rb.minX) / n, ERRF);
-      var guesses = [];
-      var minmax = [];
-
-      if (nr > -1) {
-        if (dery[0] != 0) {
-          if (sign(dery[0]) != sign(poly.eval(derrt[0] - dx) - dery[0])) {
-            guesses.push(derrt[0] - dx);
-            minmax.push([rb.minX, derrt[0]]);
-          }
-        } else {
-          results.push(derrt[0], derrt[0]);
-          i++;
-        }
-
-        for (; i < nr; i++) {
-          if (dery[i + 1] == 0) {
-            results.push(derrt[i + 1], derrt[i + 1]);
-            i++;
-          } else if (sign(dery[i]) != sign(dery[i + 1])) {
-            guesses.push((derrt[i] + derrt[i + 1]) / 2);
-            minmax.push([derrt[i], derrt[i + 1]]);
+      /**
+       *  toString
+       *
+       *  @returns {string}
+       */
+
+    }, {
+      key: "toString",
+      value: function toString() {
+        var coefs = [];
+        var signs = [];
+
+        for (var i = this.coefs.length - 1; i >= 0; i--) {
+          var value = Math.round(this.coefs[i] * 1000) / 1000;
+
+          if (value !== 0) {
+            var signString = value < 0 ? " - " : " + ";
+            value = Math.abs(value);
+
+            if (i > 0) {
+              if (value === 1) {
+                value = this._variable;
+              } else {
+                value += this._variable;
+              }
+            }
+
+            if (i > 1) {
+              value += "^" + i;
+            }
+
+            signs.push(signString);
+            coefs.push(value);
           }
         }
 
-        if (dery[nr] != 0 && sign(dery[nr]) != sign(poly.eval(derrt[nr] + dx) - dery[nr])) {
-          guesses.push(derrt[nr] + dx);
-          minmax.push([derrt[nr], rb.maxX]);
+        signs[0] = signs[0] === " + " ? "" : "-";
+        var result = "";
+
+        for (var _i2 = 0; _i2 < coefs.length; _i2++) {
+          result += signs[_i2] + coefs[_i2];
         }
+
+        return result;
       }
+      /**
+       *  trapezoid
+       *
+       *  Based on trapzd in "Numerical Recipes in C, 2nd Edition", page 137
+       *
+       *  @param {number} min
+       *  @param {number} max
+       *  @param {number} n
+       *  @returns {number}
+       */
 
-      var f = function f(x) {
-        return poly.eval(x);
-      };
-
-      var df = function df(x) {
-        return poly_d.eval(x);
-      };
-
-      if (guesses.length > 0) {
-        for (i = 0; i < guesses.length; i++) {
-          guesses[i] = Polynomial.newton_secant_bisection(guesses[i], f, df, 32, minmax[i][0], minmax[i][1]);
+    }, {
+      key: "trapezoid",
+      value: function trapezoid(min, max, n) {
+        if (isNaN(min) || isNaN(max) || isNaN(n)) {
+          throw new Error("Polynomial.trapezoid: parameters must be numbers");
         }
-      }
 
-      results = results.concat(guesses);
-    }
+        var range = max - min;
 
-    return results;
-  };
-  /**
-   *  Estimate what is the maximum polynomial evaluation error value under which polynomial evaluation could be in fact 0.
-   *  
-   *  @returns {Number} 
-   */
-
-
-  Polynomial.prototype.zeroErrorEstimate = function (maxabsX) {
-    var poly = this;
-    var ERRF = 1e-15;
-
-    if (typeof maxabsX === 'undefined') {
-      var rb = poly.bounds();
-      maxabsX = Math.max(Math.abs(rb.minX), Math.abs(rb.maxX));
-    }
-
-    if (maxabsX < 0.001) {
-      return 2 * Math.abs(poly.eval(ERRF));
-    }
-
-    var n = poly.coefs.length - 1;
-    var an = poly.coefs[n];
-    return 10 * ERRF * poly.coefs.reduce(function (m, v, i) {
-      var nm = v / an * Math.pow(maxabsX, i);
-      return nm > m ? nm : m;
-    }, 0);
-  };
-  /**
-   *  Calculates upper Real roots bounds. <br/>
-   *  Real roots are in interval [negX, posX]. Determined by Fujiwara method.
-   *  @see {@link http://en.wikipedia.org/wiki/Properties_of_polynomial_roots}
-   *
-   *  @returns {{ negX: Number, posX: Number }}
-   */
-
-
-  Polynomial.prototype.bounds_UpperReal_Fujiwara = function () {
-    var a = this.coefs;
-    var n = a.length - 1;
-    var an = a[n];
-
-    if (an != 1) {
-      a = this.coefs.map(function (v) {
-        return v / an;
-      });
-    }
-
-    var b = a.map(function (v, i) {
-      return i < n ? Math.pow(Math.abs(i == 0 ? v / 2 : v), 1 / (n - i)) : v;
-    });
-    var coefSelectionFunc;
-
-    var find2Max = function find2Max(acc, bi, i) {
-      if (coefSelectionFunc(i)) {
-        if (acc.max < bi) {
-          acc.nearmax = acc.max;
-          acc.max = bi;
-        } else if (acc.nearmax < bi) {
-          acc.nearmax = bi;
-        }
-      }
-
-      return acc;
-    };
-
-    coefSelectionFunc = function coefSelectionFunc(i) {
-      return i < n && a[i] < 0;
-    };
-
-    var max_nearmax_pos = b.reduce(find2Max, {
-      max: 0,
-      nearmax: 0
-    });
-
-    coefSelectionFunc = function coefSelectionFunc(i) {
-      return i < n && (n % 2 == i % 2 ? a[i] < 0 : a[i] > 0);
-    };
-
-    var max_nearmax_neg = b.reduce(find2Max, {
-      max: 0,
-      nearmax: 0
-    });
-    return {
-      negX: -2 * max_nearmax_neg.max,
-      posX: 2 * max_nearmax_pos.max
-    };
-  };
-  /** 
-   *  Calculates lower Real roots bounds. <br/>
-   *  There are no Real roots in interval <negX, posX>. Determined by Fujiwara method.
-   *  @see {@link http://en.wikipedia.org/wiki/Properties_of_polynomial_roots}
-   *
-   *  @returns {{ negX: Number, posX: Number }}
-   */
-
-
-  Polynomial.prototype.bounds_LowerReal_Fujiwara = function () {
-    var poly = new Polynomial();
-    poly.coefs = this.coefs.slice().reverse();
-    var res = poly.bounds_UpperReal_Fujiwara();
-    res.negX = 1 / res.negX;
-    res.posX = 1 / res.posX;
-    return res;
-  };
-  /** 
-   *  Calculates left and right Real roots bounds. <br/>
-   *  Real roots are in interval [minX, maxX]. Combines Fujiwara lower and upper bounds to get minimal interval.
-   *  @see {@link http://en.wikipedia.org/wiki/Properties_of_polynomial_roots}
-   *
-   *  @returns {{ minX: Number, maxX: Number }}
-  */
-
-
-  Polynomial.prototype.bounds = function () {
-    var urb = this.bounds_UpperReal_Fujiwara();
-    var rb = {
-      minX: urb.negX,
-      maxX: urb.posX
-    };
-
-    if (urb.negX === 0 && urb.posX === 0) {
-      return rb;
-    }
-
-    if (urb.negX === 0) {
-      rb.minX = this.bounds_LowerReal_Fujiwara().posX;
-    } else if (urb.posX === 0) {
-      rb.maxX = this.bounds_LowerReal_Fujiwara().negX;
-    }
-
-    if (rb.minX > rb.maxX) {
-      //console.log('Polynomial.prototype.bounds: poly has no real roots? or floating point error?');
-      rb.minX = rb.maxX = 0;
-    }
-
-    return rb; // TODO: if sure that there are no complex roots 
-    // (maybe by using Sturm's theorem) use:
-    // return this.bounds_Real_Laguerre();
-  };
-  /**
-   *  Newton's (Newton-Raphson) method for finding Real roots on univariate function. <br/>
-   *  When using bounds, algorithm falls back to secant if newton goes out of range.
-   *  Bisection is fallback for secant when determined secant is not efficient enough.
-   *  @see {@link http://en.wikipedia.org/wiki/Newton%27s_method}
-   *  @see {@link http://en.wikipedia.org/wiki/Secant_method}
-   *  @see {@link http://en.wikipedia.org/wiki/Bisection_method}
-   *
-   *  @param {Number} x0 - Inital root guess
-   *  @param {function(x)} f - Function which root we are trying to find
-   *  @param {function(x)} df - Derivative of function f
-   *  @param {Number} max_iterations - Maximum number of algorithm iterations
-   *  @param {Number} [min_x] - Left bound value
-   *  @param {Number} [max_x] - Right bound value
-   *  @returns {Number} - root
-   */
-
-
-  Polynomial.newton_secant_bisection = function (x0, f, df, max_iterations, min, max) {
-    var x,
-        prev_dfx = 0,
-        dfx,
-        prev_x_ef_correction = 0,
-        x_correction,
-        x_new;
-    var y_atmin, y_atmax;
-    x = x0;
-    var ACCURACY = 14;
-    var min_correction_factor = Math.pow(10, -ACCURACY);
-    var isBounded = typeof min === 'number' && typeof max === 'number';
-
-    if (isBounded) {
-      if (min > max) {
-        throw new Error("newton root finding: min must be greater than max");
-      }
-
-      y_atmin = f(min);
-      y_atmax = f(max);
-
-      if (sign(y_atmin) == sign(y_atmax)) {
-        throw new Error("newton root finding: y values of bounds must be of opposite sign");
-      }
-    }
-
-    var isEnoughCorrection = function isEnoughCorrection() {
-      // stop if correction is too small or if correction is in simple loop
-      return Math.abs(x_correction) <= min_correction_factor * Math.abs(x) || prev_x_ef_correction == x - x_correction - x;
-    };
-
-    var i;
-
-    for (i = 0; i < max_iterations; i++) {
-      dfx = df(x);
-
-      if (dfx == 0) {
-        if (prev_dfx == 0) {
-          // error
-          throw new Error("newton root finding: df(x) is zero");
+        if (n === 1) {
+          var minValue = this.eval(min);
+          var maxValue = this.eval(max);
+          this._s = 0.5 * range * (minValue + maxValue);
         } else {
-          // use previous derivation value
-          dfx = prev_dfx;
-        } // or move x a little?
-        //dfx = df(x != 0 ? x + x * 1e-15 : 1e-15);
+          var iter = 1 << n - 2;
+          var delta = range / iter;
+          var x = min + 0.5 * delta;
+          var sum = 0;
 
-      }
+          for (var i = 0; i < iter; i++) {
+            sum += this.eval(x);
+            x += delta;
+          }
 
-      prev_dfx = dfx;
-      y = f(x);
-      x_correction = y / dfx;
-      x_new = x - x_correction;
-
-      if (isEnoughCorrection()) {
-        break;
-      }
-
-      if (isBounded) {
-        if (sign(y) == sign(y_atmax)) {
-          max = x;
-          y_atmax = y;
-        } else if (sign(y) == sign(y_atmin)) {
-          min = x;
-          y_atmin = y;
-        } else {
-          x = x_new;
-          break;
+          this._s = 0.5 * (this._s + range * sum / iter);
         }
 
-        if (x_new < min || x_new > max) {
-          if (sign(y_atmin) == sign(y_atmax)) {
+        if (isNaN(this._s)) {
+          throw new Error("Polynomial.trapezoid: this._s is NaN");
+        }
+
+        return this._s;
+      }
+      /**
+       *  simpson
+       *
+       *  Based on trapzd in "Numerical Recipes in C, 2nd Edition", page 139
+       *
+       *  @param {number} min
+       *  @param {number} max
+       *  @returns {number}
+       */
+
+    }, {
+      key: "simpson",
+      value: function simpson(min, max) {
+        if (isNaN(min) || isNaN(max)) {
+          throw new Error("Polynomial.simpson: parameters must be numbers");
+        }
+
+        var range = max - min;
+        var st = 0.5 * range * (this.eval(min) + this.eval(max));
+        var t = st;
+        var s = 4.0 * st / 3.0;
+        var os = s;
+        var ost = st;
+        var TOLERANCE = 1e-7;
+        var iter = 1;
+
+        for (var n = 2; n <= 20; n++) {
+          var delta = range / iter;
+          var x = min + 0.5 * delta;
+          var sum = 0;
+
+          for (var i = 1; i <= iter; i++) {
+            sum += this.eval(x);
+            x += delta;
+          }
+
+          t = 0.5 * (t + range * sum / iter);
+          st = t;
+          s = (4.0 * st - ost) / 3.0;
+
+          if (Math.abs(s - os) < TOLERANCE * Math.abs(os)) {
             break;
           }
 
-          var RATIO_LIMIT = 50;
-          var AIMED_BISECT_OFFSET = 0.25; // [0, 0.5)
+          os = s;
+          ost = st;
+          iter <<= 1;
+        }
 
-          var dy = y_atmax - y_atmin;
-          var dx = max - min;
+        return s;
+      }
+      /**
+       *  romberg
+       *
+       *  @param {number} min
+       *  @param {number} max
+       *  @returns {number}
+       */
 
-          if (dy == 0) {
-            x_correction = x - (min + dx * 0.5);
-          } else if (Math.abs(dy / Math.min(y_atmin, y_atmax)) > RATIO_LIMIT) {
-            x_correction = x - (min + dx * (0.5 + (Math.abs(y_atmin) < Math.abs(y_atmax) ? -AIMED_BISECT_OFFSET : AIMED_BISECT_OFFSET)));
-          } else {
-            x_correction = x - (min - y_atmin / dy * dx);
+    }, {
+      key: "romberg",
+      value: function romberg(min, max) {
+        if (isNaN(min) || isNaN(max)) {
+          throw new Error("Polynomial.romberg: parameters must be numbers");
+        }
+
+        var MAX = 20;
+        var K = 3;
+        var TOLERANCE = 1e-6;
+        var s = new Array(MAX + 1);
+        var h = new Array(MAX + 1);
+        var result = {
+          y: 0,
+          dy: 0
+        };
+        h[0] = 1.0;
+
+        for (var j = 1; j <= MAX; j++) {
+          s[j - 1] = this.trapezoid(min, max, j);
+
+          if (j >= K) {
+            result = Polynomial.interpolate(h, s, K, j - K, 0.0);
+
+            if (Math.abs(result.dy) <= TOLERANCE * result.y) {
+              break;
+            }
           }
 
+          s[j] = s[j - 1];
+          h[j] = 0.25 * h[j - 1];
+        }
+
+        return result.y;
+      } // getters and setters
+
+      /**
+       *  get degree
+       *
+       *  @returns {number}
+       */
+
+    }, {
+      key: "getDegree",
+      value: function getDegree() {
+        return this.coefs.length - 1;
+      }
+      /**
+       *  getDerivative
+       *
+       *  @returns {module:kld-polynomial.Polynomial}
+       */
+
+    }, {
+      key: "getDerivative",
+      value: function getDerivative() {
+        var derivative = new Polynomial();
+
+        for (var i = 1; i < this.coefs.length; i++) {
+          derivative.coefs.push(i * this.coefs[i]);
+        }
+
+        return derivative;
+      }
+      /**
+       *  getRoots
+       *
+       *  @returns {Array<number>}
+       */
+
+    }, {
+      key: "getRoots",
+      value: function getRoots() {
+        var result;
+        this.simplify();
+
+        switch (this.getDegree()) {
+          case 0:
+            result = [];
+            break;
+
+          case 1:
+            result = this.getLinearRoot();
+            break;
+
+          case 2:
+            result = this.getQuadraticRoots();
+            break;
+
+          case 3:
+            result = this.getCubicRoots();
+            break;
+
+          case 4:
+            result = this.getQuarticRoots();
+            break;
+
+          default:
+            result = [];
+        }
+
+        return result;
+      }
+      /**
+       *  getRootsInInterval
+       *
+       *  @param {number} min
+       *  @param {number} max
+       *  @returns {Array<number>}
+       */
+
+    }, {
+      key: "getRootsInInterval",
+      value: function getRootsInInterval(min, max) {
+        var roots = [];
+        /**
+         *  @param {number} value
+         */
+
+        function push(value) {
+          if (typeof value === "number") {
+            roots.push(value);
+          }
+        }
+
+        if (this.getDegree() === 0) {
+          throw new Error("Polynomial.getRootsInInterval: Unexpected empty polynomial");
+        } else if (this.getDegree() === 1) {
+          push(this.bisection(min, max));
+        } else {
+          // get roots of derivative
+          var deriv = this.getDerivative();
+          var droots = deriv.getRootsInInterval(min, max);
+
+          if (droots.length > 0) {
+            // find root on [min, droots[0]]
+            push(this.bisection(min, droots[0])); // find root on [droots[i],droots[i+1]] for 0 <= i <= count-2
+
+            for (var i = 0; i <= droots.length - 2; i++) {
+              push(this.bisection(droots[i], droots[i + 1]));
+            } // find root on [droots[count-1],xmax]
+
+
+            push(this.bisection(droots[droots.length - 1], max));
+          } else {
+            // polynomial is monotone on [min,max], has at most one root
+            push(this.bisection(min, max));
+          }
+        }
+
+        return roots;
+      }
+      /**
+       *  getLinearRoot
+       *
+       *  @returns {number}
+       */
+
+    }, {
+      key: "getLinearRoot",
+      value: function getLinearRoot() {
+        var result = [];
+        var a = this.coefs[1];
+
+        if (a !== 0) {
+          result.push(-this.coefs[0] / a);
+        }
+
+        return result;
+      }
+      /**
+       *  getQuadraticRoots
+       *
+       *  @returns {Array<number>}
+       */
+
+    }, {
+      key: "getQuadraticRoots",
+      value: function getQuadraticRoots() {
+        var results = [];
+
+        if (this.getDegree() === 2) {
+          var a = this.coefs[2];
+          var b = this.coefs[1] / a;
+          var c = this.coefs[0] / a;
+          var d = b * b - 4 * c;
+
+          if (d > 0) {
+            var e = Math.sqrt(d);
+            results.push(0.5 * (-b + e));
+            results.push(0.5 * (-b - e));
+          } else if (d === 0) {
+            // really two roots with same value, but we only return one
+            results.push(0.5 * -b);
+          }
+        }
+
+        return results;
+      }
+      /**
+       *  getCubicRoots
+       *
+       *  This code is based on MgcPolynomial.cpp written by David Eberly.  His
+       *  code along with many other excellent examples are avaiable at his site:
+       *  http://www.geometrictools.com
+       *
+       *  @returns {Array<number>}
+       */
+
+    }, {
+      key: "getCubicRoots",
+      value: function getCubicRoots() {
+        var results = [];
+
+        if (this.getDegree() === 3) {
+          var c3 = this.coefs[3];
+          var c2 = this.coefs[2] / c3;
+          var c1 = this.coefs[1] / c3;
+          var c0 = this.coefs[0] / c3;
+          var a = (3 * c1 - c2 * c2) / 3;
+          var b = (2 * c2 * c2 * c2 - 9 * c1 * c2 + 27 * c0) / 27;
+          var offset = c2 / 3;
+          var discrim = b * b / 4 + a * a * a / 27;
+          var halfB = b / 2;
+          var ZEROepsilon = this.zeroErrorEstimate();
+
+          if (Math.abs(discrim) <= ZEROepsilon) {
+            discrim = 0;
+          }
+
+          if (discrim > 0) {
+            var e = Math.sqrt(discrim);
+            var root; // eslint-disable-line no-shadow
+
+            var tmp = -halfB + e;
+
+            if (tmp >= 0) {
+              root = Math.pow(tmp, 1 / 3);
+            } else {
+              root = -Math.pow(-tmp, 1 / 3);
+            }
+
+            tmp = -halfB - e;
+
+            if (tmp >= 0) {
+              root += Math.pow(tmp, 1 / 3);
+            } else {
+              root -= Math.pow(-tmp, 1 / 3);
+            }
+
+            results.push(root - offset);
+          } else if (discrim < 0) {
+            var distance = Math.sqrt(-a / 3);
+            var angle = Math.atan2(Math.sqrt(-discrim), -halfB) / 3;
+            var cos = Math.cos(angle);
+            var sin = Math.sin(angle);
+            var sqrt3 = Math.sqrt(3);
+            results.push(2 * distance * cos - offset);
+            results.push(-distance * (cos + sqrt3 * sin) - offset);
+            results.push(-distance * (cos - sqrt3 * sin) - offset);
+          } else {
+            var _tmp;
+
+            if (halfB >= 0) {
+              _tmp = -Math.pow(halfB, 1 / 3);
+            } else {
+              _tmp = Math.pow(-halfB, 1 / 3);
+            }
+
+            results.push(2 * _tmp - offset); // really should return next root twice, but we return only one
+
+            results.push(-_tmp - offset);
+          }
+        }
+
+        return results;
+      }
+      /**
+       *  Calculates roots of quartic polynomial. <br/>
+       *  First, derivative roots are found, then used to split quartic polynomial
+       *  into segments, each containing one root of quartic polynomial.
+       *  Segments are then passed to newton's method to find roots.
+       *
+       *  @returns {Array<number>} roots
+       */
+
+    }, {
+      key: "getQuarticRoots",
+      value: function getQuarticRoots() {
+        var results = [];
+        var n = this.getDegree();
+
+        if (n === 4) {
+          var poly = new Polynomial();
+          poly.coefs = this.coefs.slice();
+          poly.divide_scalar(poly.coefs[n]);
+          var ERRF = 1e-15;
+
+          if (Math.abs(poly.coefs[0]) < 10 * ERRF * Math.abs(poly.coefs[3])) {
+            poly.coefs[0] = 0;
+          }
+
+          var poly_d = poly.getDerivative();
+          var derrt = poly_d.getRoots().sort(function (a, b) {
+            return a - b;
+          });
+          var dery = [];
+          var nr = derrt.length - 1;
+          var rb = this.bounds();
+          var maxabsX = Math.max(Math.abs(rb.minX), Math.abs(rb.maxX));
+          var ZEROepsilon = this.zeroErrorEstimate(maxabsX);
+
+          for (var _i3 = 0; _i3 <= nr; _i3++) {
+            dery.push(poly.eval(derrt[_i3]));
+          }
+
+          for (var _i4 = 0; _i4 <= nr; _i4++) {
+            if (Math.abs(dery[_i4]) < ZEROepsilon) {
+              dery[_i4] = 0;
+            }
+          }
+
+          var i = 0;
+          var dx = Math.max(0.1 * (rb.maxX - rb.minX) / n, ERRF);
+          var guesses = [];
+          var minmax = [];
+
+          if (nr > -1) {
+            if (dery[0] !== 0) {
+              if (sign(dery[0]) !== sign(poly.eval(derrt[0] - dx) - dery[0])) {
+                guesses.push(derrt[0] - dx);
+                minmax.push([rb.minX, derrt[0]]);
+              }
+            } else {
+              results.push(derrt[0], derrt[0]);
+              i++;
+            }
+
+            for (; i < nr; i++) {
+              if (dery[i + 1] === 0) {
+                results.push(derrt[i + 1], derrt[i + 1]);
+                i++;
+              } else if (sign(dery[i]) !== sign(dery[i + 1])) {
+                guesses.push((derrt[i] + derrt[i + 1]) / 2);
+                minmax.push([derrt[i], derrt[i + 1]]);
+              }
+            }
+
+            if (dery[nr] !== 0 && sign(dery[nr]) !== sign(poly.eval(derrt[nr] + dx) - dery[nr])) {
+              guesses.push(derrt[nr] + dx);
+              minmax.push([derrt[nr], rb.maxX]);
+            }
+          }
+          /**
+           *  @param {number} x
+           *  @returns {number}
+           */
+
+
+          var f = function f(x) {
+            return poly.eval(x);
+          };
+          /**
+           *  @param {number} x
+           *  @returns {number}
+           */
+
+
+          var df = function df(x) {
+            return poly_d.eval(x);
+          };
+
+          if (guesses.length > 0) {
+            for (i = 0; i < guesses.length; i++) {
+              guesses[i] = Polynomial.newton_secant_bisection(guesses[i], f, df, 32, minmax[i][0], minmax[i][1]);
+            }
+          }
+
+          results = results.concat(guesses);
+        }
+
+        return results;
+      }
+      /**
+       *  Estimate what is the maximum polynomial evaluation error value under which polynomial evaluation could be in fact 0.
+       *
+       *  @param {number} maxabsX
+       *  @returns {number}
+       */
+
+    }, {
+      key: "zeroErrorEstimate",
+      value: function zeroErrorEstimate(maxabsX) {
+        var poly = this;
+        var ERRF = 1e-15;
+
+        if (typeof maxabsX === "undefined") {
+          var rb = poly.bounds();
+          maxabsX = Math.max(Math.abs(rb.minX), Math.abs(rb.maxX));
+        }
+
+        if (maxabsX < 0.001) {
+          return 2 * Math.abs(poly.eval(ERRF));
+        }
+
+        var n = poly.coefs.length - 1;
+        var an = poly.coefs[n];
+        return 10 * ERRF * poly.coefs.reduce(function (m, v, i) {
+          var nm = v / an * Math.pow(maxabsX, i);
+          return nm > m ? nm : m;
+        }, 0);
+      }
+      /**
+       *  Calculates upper Real roots bounds. <br/>
+       *  Real roots are in interval [negX, posX]. Determined by Fujiwara method.
+       *  @see {@link http://en.wikipedia.org/wiki/Properties_of_polynomial_roots}
+       *
+       *  @returns {{ negX: number, posX: number }}
+       */
+
+    }, {
+      key: "bounds_UpperReal_Fujiwara",
+      value: function bounds_UpperReal_Fujiwara() {
+        var a = this.coefs;
+        var n = a.length - 1;
+        var an = a[n];
+
+        if (an !== 1) {
+          a = this.coefs.map(function (v) {
+            return v / an;
+          });
+        }
+
+        var b = a.map(function (v, i) {
+          return i < n ? Math.pow(Math.abs(i === 0 ? v / 2 : v), 1 / (n - i)) : v;
+        });
+        var coefSelectionFunc;
+
+        var find2Max = function find2Max(acc, bi, i) {
+          if (coefSelectionFunc(i)) {
+            if (acc.max < bi) {
+              acc.nearmax = acc.max;
+              acc.max = bi;
+            } else if (acc.nearmax < bi) {
+              acc.nearmax = bi;
+            }
+          }
+
+          return acc;
+        };
+
+        coefSelectionFunc = function coefSelectionFunc(i) {
+          return i < n && a[i] < 0;
+        }; // eslint-disable-next-line unicorn/no-fn-reference-in-iterator
+
+
+        var max_nearmax_pos = b.reduce(find2Max, {
+          max: 0,
+          nearmax: 0
+        });
+
+        coefSelectionFunc = function coefSelectionFunc(i) {
+          return i < n && (n % 2 === i % 2 ? a[i] < 0 : a[i] > 0);
+        }; // eslint-disable-next-line unicorn/no-fn-reference-in-iterator
+
+
+        var max_nearmax_neg = b.reduce(find2Max, {
+          max: 0,
+          nearmax: 0
+        });
+        return {
+          negX: -2 * max_nearmax_neg.max,
+          posX: 2 * max_nearmax_pos.max
+        };
+      }
+      /**
+       *  Calculates lower Real roots bounds. <br/>
+       *  There are no Real roots in interval <negX, posX>. Determined by Fujiwara method.
+       *  @see {@link http://en.wikipedia.org/wiki/Properties_of_polynomial_roots}
+       *
+       *  @returns {{ negX: number, posX: number }}
+       */
+
+    }, {
+      key: "bounds_LowerReal_Fujiwara",
+      value: function bounds_LowerReal_Fujiwara() {
+        var poly = new Polynomial();
+        poly.coefs = this.coefs.slice().reverse();
+        var res = poly.bounds_UpperReal_Fujiwara();
+        res.negX = 1 / res.negX;
+        res.posX = 1 / res.posX;
+        return res;
+      }
+      /**
+       *  Calculates left and right Real roots bounds. <br/>
+       *  Real roots are in interval [minX, maxX]. Combines Fujiwara lower and upper bounds to get minimal interval.
+       *  @see {@link http://en.wikipedia.org/wiki/Properties_of_polynomial_roots}
+       *
+       *  @returns {{ minX: number, maxX: number }}
+      */
+
+    }, {
+      key: "bounds",
+      value: function bounds() {
+        var urb = this.bounds_UpperReal_Fujiwara();
+        var rb = {
+          minX: urb.negX,
+          maxX: urb.posX
+        };
+
+        if (urb.negX === 0 && urb.posX === 0) {
+          return rb;
+        }
+
+        if (urb.negX === 0) {
+          rb.minX = this.bounds_LowerReal_Fujiwara().posX;
+        } else if (urb.posX === 0) {
+          rb.maxX = this.bounds_LowerReal_Fujiwara().negX;
+        }
+
+        if (rb.minX > rb.maxX) {
+          rb.minX = rb.maxX = 0;
+        }
+
+        return rb; // TODO: if sure that there are no complex roots
+        // (maybe by using Sturm's theorem) use:
+        // return this.bounds_Real_Laguerre();
+      }
+      /**
+       *  Sets small coefficients to zero.
+       *
+       *  @returns {module:kld-polynomial.Polynomial}
+       */
+
+    }, {
+      key: "modify_zeroSmallCoefs",
+      value: function modify_zeroSmallCoefs() {
+        var c = this.coefs;
+        var ERRF = 1e-15;
+        var err = 10 * ERRF * Math.abs(c.reduce(function (pv, cv) {
+          return Math.abs(cv) > Math.abs(pv) ? cv : pv;
+        }));
+
+        for (var i = 0; i < c.length - 1; i++) {
+          if (Math.abs(c[i]) < err) {
+            c[i] = 0;
+          }
+        }
+
+        return this;
+      }
+      /**
+       *  Scales polynomial so that leading coefficient becomes 1.
+       *
+       *  @returns {module:kld-polynomial.Polynomial}
+       */
+
+    }, {
+      key: "modify_toMonic",
+      value: function modify_toMonic() {
+        var c = this.coefs;
+
+        if (c[c.length - 1] !== 1) {
+          this.divide_scalar(c[c.length - 1]);
+        }
+
+        return this;
+      }
+      /**
+       *  Calculates absolute upper roots bound. <br/>
+       *  All (Complex and Real) roots magnitudes are &lt;= result. Determined by Rouche method.
+       *  @see {@link http://en.wikipedia.org/wiki/Properties_of_polynomial_roots}
+       *  @returns {number}
+       */
+
+    }, {
+      key: "bound_UpperAbs_Rouche",
+      value: function bound_UpperAbs_Rouche() {
+        var a = this.coefs;
+        var n = a.length - 1;
+        var max = a.reduce(function (prev, curr, i) {
+          if (i !== n) {
+            curr = Math.abs(curr);
+            return prev < curr ? curr : prev;
+          }
+
+          return prev;
+        }, 0);
+        return 1 + max / Math.abs(a[n]);
+      }
+      /**
+       *  Calculates absolute lower roots bound. <br/>
+       *  All (Complex and Real) roots magnitudes are &gt;= result. Determined by Rouche method.
+       *  @see {@link http://en.wikipedia.org/wiki/Properties_of_polynomial_roots}
+       *  @returns {number}
+       */
+
+    }, {
+      key: "bound_LowerAbs_Rouche",
+      value: function bound_LowerAbs_Rouche() {
+        var a = this.coefs;
+        var max = a.reduce(function (prev, curr, i) {
+          if (i !== 0) {
+            curr = Math.abs(curr);
+            return prev < curr ? curr : prev;
+          }
+
+          return prev;
+        }, 0);
+        return Math.abs(a[0]) / (Math.abs(a[0]) + max);
+      }
+      /**
+       *  Calculates left and right Real roots bounds. <br/>
+       *  WORKS ONLY if all polynomial roots are Real.
+       *  Real roots are in interval [minX, maxX]. Determined by Laguerre method.
+       *  @see {@link http://en.wikipedia.org/wiki/Properties_of_polynomial_roots}
+       *  @returns {{ minX: number, maxX: number }}
+       */
+
+    }, {
+      key: "bounds_Real_Laguerre",
+      value: function bounds_Real_Laguerre() {
+        var a = this.coefs;
+        var n = a.length - 1;
+        var p1 = -a[n - 1] / (n * a[n]);
+        var undersqrt = a[n - 1] * a[n - 1] - 2 * n / (n - 1) * a[n] * a[n - 2];
+        var p2 = (n - 1) / (n * a[n]) * Math.sqrt(undersqrt);
+
+        if (p2 < 0) {
+          p2 = -p2;
+        }
+
+        return {
+          minX: p1 - p2,
+          maxX: p1 + p2
+        };
+      }
+      /**
+       *  Root count by Descartes rule of signs. <br/>
+       *  Returns maximum number of positive and negative real roots and minimum number of complex roots.
+       *  @see {@link http://en.wikipedia.org/wiki/Descartes%27_rule_of_signs}
+       *  @returns {{maxRealPos: number, maxRealNeg: number, minComplex: number}}
+       */
+
+    }, {
+      key: "countRoots_Descartes",
+      value: function countRoots_Descartes() {
+        var a = this.coefs;
+        var n = a.length - 1;
+        var accum = a.reduce(function (acc, ai, i) {
+          if (acc.prev_a !== 0 && ai !== 0) {
+            if (acc.prev_a < 0 === ai > 0) {
+              acc.pos++;
+            }
+
+            if (i % 2 === 0 !== acc.prev_a < 0 === (i % 2 === 1 !== ai > 0)) {
+              acc.neg++;
+            }
+          }
+
+          acc.prev_a = ai;
+          return acc;
+        }, {
+          pos: 0,
+          neg: 0,
+          prev_a: 0
+        });
+        return {
+          maxRealPos: accum.pos,
+          maxRealNeg: accum.neg,
+          minComplex: n - (accum.pos + accum.neg)
+        };
+      }
+    }], [{
+      key: "interpolate",
+      value: function interpolate(xs, ys, n, offset, x) {
+        if (xs.constructor !== Array || ys.constructor !== Array) {
+          throw new Error("Polynomial.interpolate: xs and ys must be arrays");
+        }
+
+        if (isNaN(n) || isNaN(offset) || isNaN(x)) {
+          throw new Error("Polynomial.interpolate: n, offset, and x must be numbers");
+        }
+
+        var i;
+        var y = 0;
+        var dy = 0;
+        var c = new Array(n);
+        var d = new Array(n);
+        var ns = 0;
+        var diff = Math.abs(x - xs[offset]);
+
+        for (i = 0; i < n; i++) {
+          var dift = Math.abs(x - xs[offset + i]);
+
+          if (dift < diff) {
+            ns = i;
+            diff = dift;
+          }
+
+          c[i] = d[i] = ys[offset + i];
+        }
+
+        y = ys[offset + ns];
+        ns--;
+
+        for (var m = 1; m < n; m++) {
+          for (i = 0; i < n - m; i++) {
+            var ho = xs[offset + i] - x;
+            var hp = xs[offset + i + m] - x;
+            var w = c[i + 1] - d[i];
+            var den = ho - hp;
+
+            if (den === 0.0) {
+              throw new Error("Unable to interpolate polynomial. Two numbers in n were identical (to within roundoff)");
+            }
+
+            den = w / den;
+            d[i] = hp * den;
+            c[i] = ho * den;
+          }
+
+          dy = 2 * (ns + 1) < n - m ? c[ns + 1] : d[ns--];
+          y += dy;
+        }
+
+        return {
+          y: y,
+          dy: dy
+        };
+      }
+      /**
+       *  Newton's (Newton-Raphson) method for finding Real roots on univariate function. <br/>
+       *  When using bounds, algorithm falls back to secant if newton goes out of range.
+       *  Bisection is fallback for secant when determined secant is not efficient enough.
+       *  @see {@link http://en.wikipedia.org/wiki/Newton%27s_method}
+       *  @see {@link http://en.wikipedia.org/wiki/Secant_method}
+       *  @see {@link http://en.wikipedia.org/wiki/Bisection_method}
+       *
+       *  @param {number} x0 - Inital root guess
+       *  @param {Function} f - Function which root we are trying to find
+       *  @param {Function} df - Derivative of function f
+       *  @param {number} max_iterations - Maximum number of algorithm iterations
+       *  @param {number} [min] - Left bound value
+       *  @param {number} [max] - Right bound value
+       *  @returns {number} root
+       */
+
+    }, {
+      key: "newton_secant_bisection",
+      value: function newton_secant_bisection(x0, f, df, max_iterations, min, max) {
+        var x,
+            prev_dfx = 0,
+            dfx,
+            prev_x_ef_correction = 0,
+            x_correction,
+            x_new;
+        var y, y_atmin, y_atmax;
+        x = x0;
+        var ACCURACY = 14;
+        var min_correction_factor = Math.pow(10, -ACCURACY);
+        var isBounded = typeof min === "number" && typeof max === "number";
+
+        if (isBounded) {
+          if (min > max) {
+            throw new Error("newton root finding: min must be greater than max");
+          }
+
+          y_atmin = f(min);
+          y_atmax = f(max);
+
+          if (sign(y_atmin) === sign(y_atmax)) {
+            throw new Error("newton root finding: y values of bounds must be of opposite sign");
+          }
+        }
+
+        var isEnoughCorrection = function isEnoughCorrection() {
+          // stop if correction is too small or if correction is in simple loop
+          return Math.abs(x_correction) <= min_correction_factor * Math.abs(x) || prev_x_ef_correction === x - x_correction - x;
+        };
+
+        for (var i = 0; i < max_iterations; i++) {
+          dfx = df(x);
+
+          if (dfx === 0) {
+            if (prev_dfx === 0) {
+              // error
+              throw new Error("newton root finding: df(x) is zero");
+            } else {
+              // use previous derivation value
+              dfx = prev_dfx;
+            } // or move x a little?
+            // dfx = df(x != 0 ? x + x * 1e-15 : 1e-15);
+
+          }
+
+          prev_dfx = dfx;
+          y = f(x);
+          x_correction = y / dfx;
           x_new = x - x_correction;
 
           if (isEnoughCorrection()) {
             break;
           }
+
+          if (isBounded) {
+            if (sign(y) === sign(y_atmax)) {
+              max = x;
+              y_atmax = y;
+            } else if (sign(y) === sign(y_atmin)) {
+              min = x;
+              y_atmin = y;
+            } else {
+              x = x_new;
+              break;
+            }
+
+            if (x_new < min || x_new > max) {
+              if (sign(y_atmin) === sign(y_atmax)) {
+                break;
+              }
+
+              var RATIO_LIMIT = 50;
+              var AIMED_BISECT_OFFSET = 0.25; // [0, 0.5)
+
+              var dy = y_atmax - y_atmin;
+              var dx = max - min;
+
+              if (dy === 0) {
+                x_correction = x - (min + dx * 0.5);
+              } else if (Math.abs(dy / Math.min(y_atmin, y_atmax)) > RATIO_LIMIT) {
+                x_correction = x - (min + dx * (0.5 + (Math.abs(y_atmin) < Math.abs(y_atmax) ? -AIMED_BISECT_OFFSET : AIMED_BISECT_OFFSET)));
+              } else {
+                x_correction = x - (min - y_atmin / dy * dx);
+              }
+
+              x_new = x - x_correction;
+
+              if (isEnoughCorrection()) {
+                break;
+              }
+            }
+          }
+
+          prev_x_ef_correction = x - x_new;
+          x = x_new;
         }
+
+        return x;
       }
+    }]);
 
-      prev_x_ef_correction = x - x_new;
-      x = x_new;
-    }
+    return Polynomial;
+  }();
 
-    return x;
-  };
+  Polynomial.TOLERANCE = 1e-6;
+  Polynomial.ACCURACY = 15;
 
-  {
-    module.exports = Polynomial;
-  }
-  });
-
-  var SqrtPolynomial_1 = createCommonjsModule(function (module) {
   /**
-   *
-   *   SqrtPolynomial.js
-   *
-   *   copyright 2003, 2013 Kevin Lindsey
-   *
+   *  @module kld-polynomial
    */
-  {
-    var Polynomial = Polynomial_1;
-  }
-  /**
-   *   class variables
-   */
-
-
-  SqrtPolynomial.VERSION = 1.0; // setup inheritance
-
-  SqrtPolynomial.prototype = new Polynomial();
-  SqrtPolynomial.prototype.constructor = SqrtPolynomial;
-  SqrtPolynomial.superclass = Polynomial.prototype;
-  /**
-   *  SqrtPolynomial
-   */
-
-  function SqrtPolynomial() {
-    this.init(arguments);
-  }
-  /**
-   *  eval
-   *
-   *  @param {Number} x
-   *  @returns {Number}
-   */
-
-
-  SqrtPolynomial.prototype.eval = function (x) {
-    var TOLERANCE = 1e-7;
-    var result = SqrtPolynomial.superclass.eval.call(this, x); // NOTE: May need to change the following.  I added these to capture
-    // some really small negative values that were being generated by one
-    // of my Bezier arcLength functions
-
-    if (Math.abs(result) < TOLERANCE) result = 0;
-    if (result < 0) throw new Error("SqrtPolynomial.eval: cannot take square root of negative number");
-    return Math.sqrt(result);
-  };
-
-  SqrtPolynomial.prototype.toString = function () {
-    var result = SqrtPolynomial.superclass.toString.call(this);
-    return "sqrt(" + result + ")";
-  };
-
-  {
-    module.exports = SqrtPolynomial;
-  }
-  });
-
-  // expose classes
-  var Polynomial = Polynomial_1;
 
   /**
    * @memberof module:kld-intersections.Intersection~
