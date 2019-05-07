@@ -26,6 +26,44 @@
     return Constructor;
   }
 
+  function _slicedToArray(arr, i) {
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
+  }
+
+  function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+  }
+
+  function _iterableToArrayLimit(arr, i) {
+    var _arr = [];
+    var _n = true;
+    var _d = false;
+    var _e = undefined;
+
+    try {
+      for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+        _arr.push(_s.value);
+
+        if (i && _arr.length === i) break;
+      }
+    } catch (err) {
+      _d = true;
+      _e = err;
+    } finally {
+      try {
+        if (!_n && _i["return"] != null) _i["return"]();
+      } finally {
+        if (_d) throw _e;
+      }
+    }
+
+    return _arr;
+  }
+
+  function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+  }
+
   /**
    *  Point2D.js
    *  @module Point2D
@@ -2262,6 +2300,52 @@
    */
 
   /**
+   *
+   *   IntersectionArgs.js
+   *
+   *   @copyright 2002, 2017 Kevin Lindsey
+   *
+   */
+
+  /**
+   *  IntersectionArgs
+   * @memberof module:kld-intersections
+   */
+  var IntersectionArgs =
+  /*#__PURE__*/
+  function () {
+    /**
+     *  @param {string} name
+     *  @param {Array<module:kld-intersections.Point2D>} args
+     *  @returns {module:kld-intersections.IntersectionArgs}
+     */
+    function IntersectionArgs(name, args) {
+      _classCallCheck(this, IntersectionArgs);
+
+      this.init(name, args);
+    }
+    /**
+     *  init
+     *
+     *  @param {string} name
+     *  @param {Array<module:kld-intersections.Point2D>} args
+     */
+
+
+    _createClass(IntersectionArgs, [{
+      key: "init",
+      value: function init(name, args) {
+        this.name = name;
+        this.args = args;
+      }
+    }]);
+
+    return IntersectionArgs;
+  }();
+
+  var TWO_PI = 2.0 * Math.PI;
+  var UNIT_X = new Vector2D(1, 0);
+  /**
    * @memberof module:kld-intersections.Intersection~
    * @param {*} o
    * @returns {boolean}
@@ -2298,6 +2382,73 @@
     var BFpDE = BF + DE;
     var BEmCD = BE - CD;
     return new Polynomial(AB * BC - AC * AC, AB * BEmCD + AD * BC - 2 * AC * AE, AB * BFpDE + AD * BEmCD - AE * AE - 2 * AC * AF, AB * DF + AD * BFpDE - 2 * AE * AF, AD * DF - AF * AF);
+  }
+  /**
+   * normalizeAngle
+   *
+   * @param {number} radians
+   * @returns {number}
+   */
+
+
+  function normalizeAngle(radians) {
+    var normal = radians % TWO_PI;
+    return normal < 0.0 ? normal + TWO_PI : normal;
+  }
+  /**
+   * restrictPointsToArc
+   *
+   * @param {module:kld-intersections.Intersection} intersections
+   * @param {module:kld-intersections.Point2D} center
+   * @param {number} radiusX
+   * @param {number} radiusY
+   * @param {number} startRadians
+   * @param {number} endRadians
+   * @returns {module:kld-intersections.Intersection}
+   */
+
+
+  function restrictPointsToArc(intersections, center, radiusX, radiusY, startRadians, endRadians) {
+    if (intersections.points.length === 0) {
+      return intersections;
+    }
+
+    var result = new Intersection("No Intersection");
+    var startNormal = normalizeAngle(startRadians);
+    var endNormal = normalizeAngle(endRadians);
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = intersections.points[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var p = _step.value;
+        var a = normalizeAngle(UNIT_X.angleBetween(Vector2D.fromPoints(center, p)));
+
+        if (startNormal <= a && a <= endNormal) {
+          result.appendPoint(p);
+        }
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+          _iterator["return"]();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+
+    if (result.points.length > 0) {
+      result.status = "Intersection";
+    }
+
+    return result;
   }
   /**
    *  closePolygon
@@ -2384,6 +2535,10 @@
             result = Intersection.intersectPathShape(shape1, shape2);
           } else if (shape2.name === "Path") {
             result = Intersection.intersectPathShape(shape2, shape1);
+          } else if (shape1.name === "Arc") {
+            result = Intersection.intersectArcShape(shape1, shape2);
+          } else if (shape2.name === "Arc") {
+            result = Intersection.intersectArcShape(shape2, shape1);
           } else {
             var method;
             var args;
@@ -2420,27 +2575,27 @@
       key: "intersectPathShape",
       value: function intersectPathShape(path, shape) {
         var result = new Intersection("No Intersection");
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
+        var _iteratorNormalCompletion2 = true;
+        var _didIteratorError2 = false;
+        var _iteratorError2 = undefined;
 
         try {
-          for (var _iterator = path.args[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var segment = _step.value;
+          for (var _iterator2 = path.args[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            var segment = _step2.value;
             var inter = Intersection.intersect(segment, shape);
             result.appendPoints(inter.points);
           }
         } catch (err) {
-          _didIteratorError = true;
-          _iteratorError = err;
+          _didIteratorError2 = true;
+          _iteratorError2 = err;
         } finally {
           try {
-            if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-              _iterator["return"]();
+            if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+              _iterator2["return"]();
             }
           } finally {
-            if (_didIteratorError) {
-              throw _iteratorError;
+            if (_didIteratorError2) {
+              throw _iteratorError2;
             }
           }
         }
@@ -2450,6 +2605,29 @@
         }
 
         return result;
+      }
+      /**
+       * intersectArcShape
+       *
+       * @param {module:kld-intersections.IntersectionArgs} arc
+       * @param {module:kld-intersections.IntersectionArgs} shape
+       * @returns {module:kld-intersections.Intersection}
+       */
+
+    }, {
+      key: "intersectArcShape",
+      value: function intersectArcShape(arc, shape) {
+        var _arc$args = _slicedToArray(arc.args, 5),
+            center = _arc$args[0],
+            radiusX = _arc$args[1],
+            radiusY = _arc$args[2],
+            startRadians = _arc$args[3],
+            endRadians = _arc$args[4];
+
+        var ellipse = new IntersectionArgs("Ellipse", [center, radiusX, radiusY]);
+        var ellipse_result = Intersection.intersect(ellipse, shape); // return ellipse_result;
+
+        return restrictPointsToArc(ellipse_result, center, radiusX, radiusY, startRadians, endRadians);
       }
       /**
        *  intersectBezier2Bezier2
@@ -2491,13 +2669,13 @@
 
         var poly = new Polynomial(-e * e, -2 * e * f, a * b - f * f - 2 * e * g, a * c - 2 * f * g, a * d - g * g);
         var roots = poly.getRoots();
-        var _iteratorNormalCompletion2 = true;
-        var _didIteratorError2 = false;
-        var _iteratorError2 = undefined;
+        var _iteratorNormalCompletion3 = true;
+        var _didIteratorError3 = false;
+        var _iteratorError3 = undefined;
 
         try {
-          for (var _iterator2 = roots[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-            var s = _step2.value;
+          for (var _iterator3 = roots[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+            var s = _step3.value;
 
             if (0 <= s && s <= 1) {
               var xp = new Polynomial(c12.x, c11.x, c10.x - c20.x - s * c21.x - s * s * c22.x);
@@ -2509,13 +2687,13 @@
 
               if (xRoots.length > 0 && yRoots.length > 0) {
                 var TOLERANCE = 1e-4;
-                var _iteratorNormalCompletion3 = true;
-                var _didIteratorError3 = false;
-                var _iteratorError3 = undefined;
+                var _iteratorNormalCompletion4 = true;
+                var _didIteratorError4 = false;
+                var _iteratorError4 = undefined;
 
                 try {
-                  checkRoots: for (var _iterator3 = xRoots[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                    var xRoot = _step3.value;
+                  checkRoots: for (var _iterator4 = xRoots[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                    var xRoot = _step4.value;
 
                     if (0 <= xRoot && xRoot <= 1) {
                       for (var k = 0; k < yRoots.length; k++) {
@@ -2527,16 +2705,16 @@
                     }
                   }
                 } catch (err) {
-                  _didIteratorError3 = true;
-                  _iteratorError3 = err;
+                  _didIteratorError4 = true;
+                  _iteratorError4 = err;
                 } finally {
                   try {
-                    if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
-                      _iterator3["return"]();
+                    if (!_iteratorNormalCompletion4 && _iterator4["return"] != null) {
+                      _iterator4["return"]();
                     }
                   } finally {
-                    if (_didIteratorError3) {
-                      throw _iteratorError3;
+                    if (_didIteratorError4) {
+                      throw _iteratorError4;
                     }
                   }
                 }
@@ -2544,16 +2722,16 @@
             }
           }
         } catch (err) {
-          _didIteratorError2 = true;
-          _iteratorError2 = err;
+          _didIteratorError3 = true;
+          _iteratorError3 = err;
         } finally {
           try {
-            if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
-              _iterator2["return"]();
+            if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
+              _iterator3["return"]();
             }
           } finally {
-            if (_didIteratorError2) {
-              throw _iteratorError2;
+            if (_didIteratorError3) {
+              throw _iteratorError3;
             }
           }
         }
@@ -2619,25 +2797,25 @@
         var c23y2 = c23.y * c23.y;
         var poly = new Polynomial(-2 * c12.x * c12.y * c23.x * c23.y + c12x2 * c23y2 + c12y2 * c23x2, -2 * c12.x * c12.y * c22.x * c23.y - 2 * c12.x * c12.y * c22.y * c23.x + 2 * c12y2 * c22.x * c23.x + 2 * c12x2 * c22.y * c23.y, -2 * c12.x * c21.x * c12.y * c23.y - 2 * c12.x * c12.y * c21.y * c23.x - 2 * c12.x * c12.y * c22.x * c22.y + 2 * c21.x * c12y2 * c23.x + c12y2 * c22x2 + c12x2 * (2 * c21.y * c23.y + c22y2), 2 * c10.x * c12.x * c12.y * c23.y + 2 * c10.y * c12.x * c12.y * c23.x + c11.x * c11.y * c12.x * c23.y + c11.x * c11.y * c12.y * c23.x - 2 * c20.x * c12.x * c12.y * c23.y - 2 * c12.x * c20.y * c12.y * c23.x - 2 * c12.x * c21.x * c12.y * c22.y - 2 * c12.x * c12.y * c21.y * c22.x - 2 * c10.x * c12y2 * c23.x - 2 * c10.y * c12x2 * c23.y + 2 * c20.x * c12y2 * c23.x + 2 * c21.x * c12y2 * c22.x - c11y2 * c12.x * c23.x - c11x2 * c12.y * c23.y + c12x2 * (2 * c20.y * c23.y + 2 * c21.y * c22.y), 2 * c10.x * c12.x * c12.y * c22.y + 2 * c10.y * c12.x * c12.y * c22.x + c11.x * c11.y * c12.x * c22.y + c11.x * c11.y * c12.y * c22.x - 2 * c20.x * c12.x * c12.y * c22.y - 2 * c12.x * c20.y * c12.y * c22.x - 2 * c12.x * c21.x * c12.y * c21.y - 2 * c10.x * c12y2 * c22.x - 2 * c10.y * c12x2 * c22.y + 2 * c20.x * c12y2 * c22.x - c11y2 * c12.x * c22.x - c11x2 * c12.y * c22.y + c21x2 * c12y2 + c12x2 * (2 * c20.y * c22.y + c21y2), 2 * c10.x * c12.x * c12.y * c21.y + 2 * c10.y * c12.x * c21.x * c12.y + c11.x * c11.y * c12.x * c21.y + c11.x * c11.y * c21.x * c12.y - 2 * c20.x * c12.x * c12.y * c21.y - 2 * c12.x * c20.y * c21.x * c12.y - 2 * c10.x * c21.x * c12y2 - 2 * c10.y * c12x2 * c21.y + 2 * c20.x * c21.x * c12y2 - c11y2 * c12.x * c21.x - c11x2 * c12.y * c21.y + 2 * c12x2 * c20.y * c21.y, -2 * c10.x * c10.y * c12.x * c12.y - c10.x * c11.x * c11.y * c12.y - c10.y * c11.x * c11.y * c12.x + 2 * c10.x * c12.x * c20.y * c12.y + 2 * c10.y * c20.x * c12.x * c12.y + c11.x * c20.x * c11.y * c12.y + c11.x * c11.y * c12.x * c20.y - 2 * c20.x * c12.x * c20.y * c12.y - 2 * c10.x * c20.x * c12y2 + c10.x * c11y2 * c12.x + c10.y * c11x2 * c12.y - 2 * c10.y * c12x2 * c20.y - c20.x * c11y2 * c12.x - c11x2 * c20.y * c12.y + c10x2 * c12y2 + c10y2 * c12x2 + c20x2 * c12y2 + c12x2 * c20y2);
         var roots = poly.getRootsInInterval(0, 1);
-        var _iteratorNormalCompletion4 = true;
-        var _didIteratorError4 = false;
-        var _iteratorError4 = undefined;
+        var _iteratorNormalCompletion5 = true;
+        var _didIteratorError5 = false;
+        var _iteratorError5 = undefined;
 
         try {
-          for (var _iterator4 = roots[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-            var s = _step4.value;
+          for (var _iterator5 = roots[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+            var s = _step5.value;
             var xRoots = new Polynomial(c12.x, c11.x, c10.x - c20.x - s * c21.x - s * s * c22.x - s * s * s * c23.x).getRoots();
             var yRoots = new Polynomial(c12.y, c11.y, c10.y - c20.y - s * c21.y - s * s * c22.y - s * s * s * c23.y).getRoots();
 
             if (xRoots.length > 0 && yRoots.length > 0) {
               var TOLERANCE = 1e-4;
-              var _iteratorNormalCompletion5 = true;
-              var _didIteratorError5 = false;
-              var _iteratorError5 = undefined;
+              var _iteratorNormalCompletion6 = true;
+              var _didIteratorError6 = false;
+              var _iteratorError6 = undefined;
 
               try {
-                checkRoots: for (var _iterator5 = xRoots[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-                  var xRoot = _step5.value;
+                checkRoots: for (var _iterator6 = xRoots[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+                  var xRoot = _step6.value;
 
                   if (0 <= xRoot && xRoot <= 1) {
                     for (var k = 0; k < yRoots.length; k++) {
@@ -2649,32 +2827,32 @@
                   }
                 }
               } catch (err) {
-                _didIteratorError5 = true;
-                _iteratorError5 = err;
+                _didIteratorError6 = true;
+                _iteratorError6 = err;
               } finally {
                 try {
-                  if (!_iteratorNormalCompletion5 && _iterator5["return"] != null) {
-                    _iterator5["return"]();
+                  if (!_iteratorNormalCompletion6 && _iterator6["return"] != null) {
+                    _iterator6["return"]();
                   }
                 } finally {
-                  if (_didIteratorError5) {
-                    throw _iteratorError5;
+                  if (_didIteratorError6) {
+                    throw _iteratorError6;
                   }
                 }
               }
             }
           }
         } catch (err) {
-          _didIteratorError4 = true;
-          _iteratorError4 = err;
+          _didIteratorError5 = true;
+          _iteratorError5 = err;
         } finally {
           try {
-            if (!_iteratorNormalCompletion4 && _iterator4["return"] != null) {
-              _iterator4["return"]();
+            if (!_iteratorNormalCompletion5 && _iterator5["return"] != null) {
+              _iterator5["return"]();
             }
           } finally {
-            if (_didIteratorError4) {
-              throw _iteratorError4;
+            if (_didIteratorError5) {
+              throw _iteratorError5;
             }
           }
         }
@@ -2729,29 +2907,29 @@
         var rxrx = rx * rx;
         var ryry = ry * ry;
         var roots = new Polynomial(ryry * c2.x * c2.x + rxrx * c2.y * c2.y, 2 * (ryry * c2.x * c1.x + rxrx * c2.y * c1.y), ryry * (2 * c2.x * c0.x + c1.x * c1.x) + rxrx * (2 * c2.y * c0.y + c1.y * c1.y) - 2 * (ryry * ec.x * c2.x + rxrx * ec.y * c2.y), 2 * (ryry * c1.x * (c0.x - ec.x) + rxrx * c1.y * (c0.y - ec.y)), ryry * (c0.x * c0.x + ec.x * ec.x) + rxrx * (c0.y * c0.y + ec.y * ec.y) - 2 * (ryry * ec.x * c0.x + rxrx * ec.y * c0.y) - rxrx * ryry).getRoots();
-        var _iteratorNormalCompletion6 = true;
-        var _didIteratorError6 = false;
-        var _iteratorError6 = undefined;
+        var _iteratorNormalCompletion7 = true;
+        var _didIteratorError7 = false;
+        var _iteratorError7 = undefined;
 
         try {
-          for (var _iterator6 = roots[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-            var t = _step6.value;
+          for (var _iterator7 = roots[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+            var t = _step7.value;
 
             if (0 <= t && t <= 1) {
               result.points.push(c2.multiply(t * t).add(c1.multiply(t).add(c0)));
             }
           }
         } catch (err) {
-          _didIteratorError6 = true;
-          _iteratorError6 = err;
+          _didIteratorError7 = true;
+          _iteratorError7 = err;
         } finally {
           try {
-            if (!_iteratorNormalCompletion6 && _iterator6["return"] != null) {
-              _iterator6["return"]();
+            if (!_iteratorNormalCompletion7 && _iterator7["return"] != null) {
+              _iterator7["return"]();
             }
           } finally {
-            if (_didIteratorError6) {
-              throw _iteratorError6;
+            if (_didIteratorError7) {
+              throw _iteratorError7;
             }
           }
         }
@@ -2803,13 +2981,13 @@
         // might not be on the line segment.
         // Find intersections and calculate point coordinates
 
-        var _iteratorNormalCompletion7 = true;
-        var _didIteratorError7 = false;
-        var _iteratorError7 = undefined;
+        var _iteratorNormalCompletion8 = true;
+        var _didIteratorError8 = false;
+        var _iteratorError8 = undefined;
 
         try {
-          for (var _iterator7 = roots[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-            var t = _step7.value;
+          for (var _iterator8 = roots[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+            var t = _step8.value;
 
             if (0 <= t && t <= 1) {
               // We're within the Bezier curve
@@ -2837,16 +3015,16 @@
             }
           }
         } catch (err) {
-          _didIteratorError7 = true;
-          _iteratorError7 = err;
+          _didIteratorError8 = true;
+          _iteratorError8 = err;
         } finally {
           try {
-            if (!_iteratorNormalCompletion7 && _iterator7["return"] != null) {
-              _iterator7["return"]();
+            if (!_iteratorNormalCompletion8 && _iterator8["return"] != null) {
+              _iterator8["return"]();
             }
           } finally {
-            if (_didIteratorError7) {
-              throw _iteratorError7;
+            if (_didIteratorError8) {
+              throw _iteratorError8;
             }
           }
         }
@@ -3016,13 +3194,13 @@
         var poly = new Polynomial(-c3 * e3 * g3, -c3 * e3 * g2 - c3 * e2 * g3 - c2 * e3 * g3, -c3 * e3 * g1 - c3 * e2 * g2 - c2 * e3 * g2 - c3 * e1 * g3 - c2 * e2 * g3 - c1 * e3 * g3, -c3 * e3 * g0 - c3 * e2 * g1 - c2 * e3 * g1 - c3 * e1 * g2 - c2 * e2 * g2 - c1 * e3 * g2 - c3 * e0 * g3 - c2 * e1 * g3 - c1 * e2 * g3 - c0 * e3 * g3 + b * f3 * g3 + c3 * d * h3 - a * f3 * h3 + a * e3 * i3, -c3 * e2 * g0 - c2 * e3 * g0 - c3 * e1 * g1 - c2 * e2 * g1 - c1 * e3 * g1 - c3 * e0 * g2 - c2 * e1 * g2 - c1 * e2 * g2 - c0 * e3 * g2 + b * f3 * g2 - c2 * e0 * g3 - c1 * e1 * g3 - c0 * e2 * g3 + b * f2 * g3 + c3 * d * h2 - a * f3 * h2 + c2 * d * h3 - a * f2 * h3 + a * e3 * i2 + a * e2 * i3, -c3 * e1 * g0 - c2 * e2 * g0 - c1 * e3 * g0 - c3 * e0 * g1 - c2 * e1 * g1 - c1 * e2 * g1 - c0 * e3 * g1 + b * f3 * g1 - c2 * e0 * g2 - c1 * e1 * g2 - c0 * e2 * g2 + b * f2 * g2 - c1 * e0 * g3 - c0 * e1 * g3 + b * f1 * g3 + c3 * d * h1 - a * f3 * h1 + c2 * d * h2 - a * f2 * h2 + c1 * d * h3 - a * f1 * h3 + a * e3 * i1 + a * e2 * i2 + a * e1 * i3, -c3 * e0 * g0 - c2 * e1 * g0 - c1 * e2 * g0 - c0 * e3 * g0 + b * f3 * g0 - c2 * e0 * g1 - c1 * e1 * g1 - c0 * e2 * g1 + b * f2 * g1 - c1 * e0 * g2 - c0 * e1 * g2 + b * f1 * g2 - c0 * e0 * g3 + b * f0 * g3 + c3 * d * h0 - a * f3 * h0 + c2 * d * h1 - a * f2 * h1 + c1 * d * h2 - a * f1 * h2 + c0 * d * h3 - a * f0 * h3 + a * e3 * i0 + a * e2 * i1 + a * e1 * i2 - b * d * i3 + a * e0 * i3, -c2 * e0 * g0 - c1 * e1 * g0 - c0 * e2 * g0 + b * f2 * g0 - c1 * e0 * g1 - c0 * e1 * g1 + b * f1 * g1 - c0 * e0 * g2 + b * f0 * g2 + c2 * d * h0 - a * f2 * h0 + c1 * d * h1 - a * f1 * h1 + c0 * d * h2 - a * f0 * h2 + a * e2 * i0 + a * e1 * i1 - b * d * i2 + a * e0 * i2, -c1 * e0 * g0 - c0 * e1 * g0 + b * f1 * g0 - c0 * e0 * g1 + b * f0 * g1 + c1 * d * h0 - a * f1 * h0 + c0 * d * h1 - a * f0 * h1 + a * e1 * i0 - b * d * i1 + a * e0 * i1, -c0 * e0 * g0 + b * f0 * g0 + c0 * d * h0 - a * f0 * h0 - b * d * i0 + a * e0 * i0);
         poly.simplify();
         var roots = poly.getRootsInInterval(0, 1);
-        var _iteratorNormalCompletion8 = true;
-        var _didIteratorError8 = false;
-        var _iteratorError8 = undefined;
+        var _iteratorNormalCompletion9 = true;
+        var _didIteratorError9 = false;
+        var _iteratorError9 = undefined;
 
         try {
-          for (var _iterator8 = roots[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
-            var s = _step8.value;
+          for (var _iterator9 = roots[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
+            var s = _step9.value;
             var xp = new Polynomial(c13.x, c12.x, c11.x, c10.x - c20.x - s * c21.x - s * s * c22.x - s * s * s * c23.x);
             xp.simplify();
             var xRoots = xp.getRoots();
@@ -3032,13 +3210,13 @@
 
             if (xRoots.length > 0 && yRoots.length > 0) {
               var TOLERANCE = 1e-4;
-              var _iteratorNormalCompletion9 = true;
-              var _didIteratorError9 = false;
-              var _iteratorError9 = undefined;
+              var _iteratorNormalCompletion10 = true;
+              var _didIteratorError10 = false;
+              var _iteratorError10 = undefined;
 
               try {
-                checkRoots: for (var _iterator9 = xRoots[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
-                  var xRoot = _step9.value;
+                checkRoots: for (var _iterator10 = xRoots[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
+                  var xRoot = _step10.value;
 
                   if (0 <= xRoot && xRoot <= 1) {
                     for (var k = 0; k < yRoots.length; k++) {
@@ -3050,32 +3228,32 @@
                   }
                 }
               } catch (err) {
-                _didIteratorError9 = true;
-                _iteratorError9 = err;
+                _didIteratorError10 = true;
+                _iteratorError10 = err;
               } finally {
                 try {
-                  if (!_iteratorNormalCompletion9 && _iterator9["return"] != null) {
-                    _iterator9["return"]();
+                  if (!_iteratorNormalCompletion10 && _iterator10["return"] != null) {
+                    _iterator10["return"]();
                   }
                 } finally {
-                  if (_didIteratorError9) {
-                    throw _iteratorError9;
+                  if (_didIteratorError10) {
+                    throw _iteratorError10;
                   }
                 }
               }
             }
           }
         } catch (err) {
-          _didIteratorError8 = true;
-          _iteratorError8 = err;
+          _didIteratorError9 = true;
+          _iteratorError9 = err;
         } finally {
           try {
-            if (!_iteratorNormalCompletion8 && _iterator8["return"] != null) {
-              _iterator8["return"]();
+            if (!_iteratorNormalCompletion9 && _iterator9["return"] != null) {
+              _iterator9["return"]();
             }
           } finally {
-            if (_didIteratorError8) {
-              throw _iteratorError8;
+            if (_didIteratorError9) {
+              throw _iteratorError9;
             }
           }
         }
@@ -3143,26 +3321,26 @@
         var ryry = ry * ry;
         var poly = new Polynomial(c3.x * c3.x * ryry + c3.y * c3.y * rxrx, 2 * (c3.x * c2.x * ryry + c3.y * c2.y * rxrx), 2 * (c3.x * c1.x * ryry + c3.y * c1.y * rxrx) + c2.x * c2.x * ryry + c2.y * c2.y * rxrx, 2 * c3.x * ryry * (c0.x - ec.x) + 2 * c3.y * rxrx * (c0.y - ec.y) + 2 * (c2.x * c1.x * ryry + c2.y * c1.y * rxrx), 2 * c2.x * ryry * (c0.x - ec.x) + 2 * c2.y * rxrx * (c0.y - ec.y) + c1.x * c1.x * ryry + c1.y * c1.y * rxrx, 2 * c1.x * ryry * (c0.x - ec.x) + 2 * c1.y * rxrx * (c0.y - ec.y), c0.x * c0.x * ryry - 2 * c0.y * ec.y * rxrx - 2 * c0.x * ec.x * ryry + c0.y * c0.y * rxrx + ec.x * ec.x * ryry + ec.y * ec.y * rxrx - rxrx * ryry);
         var roots = poly.getRootsInInterval(0, 1);
-        var _iteratorNormalCompletion10 = true;
-        var _didIteratorError10 = false;
-        var _iteratorError10 = undefined;
+        var _iteratorNormalCompletion11 = true;
+        var _didIteratorError11 = false;
+        var _iteratorError11 = undefined;
 
         try {
-          for (var _iterator10 = roots[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
-            var t = _step10.value;
+          for (var _iterator11 = roots[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
+            var t = _step11.value;
             result.points.push(c3.multiply(t * t * t).add(c2.multiply(t * t).add(c1.multiply(t).add(c0))));
           }
         } catch (err) {
-          _didIteratorError10 = true;
-          _iteratorError10 = err;
+          _didIteratorError11 = true;
+          _iteratorError11 = err;
         } finally {
           try {
-            if (!_iteratorNormalCompletion10 && _iterator10["return"] != null) {
-              _iterator10["return"]();
+            if (!_iteratorNormalCompletion11 && _iterator11["return"] != null) {
+              _iterator11["return"]();
             }
           } finally {
-            if (_didIteratorError10) {
-              throw _iteratorError10;
+            if (_didIteratorError11) {
+              throw _iteratorError11;
             }
           }
         }
@@ -3238,13 +3416,13 @@
         // might not be on the line segment.
         // Find intersections and calculate point coordinates
 
-        var _iteratorNormalCompletion11 = true;
-        var _didIteratorError11 = false;
-        var _iteratorError11 = undefined;
+        var _iteratorNormalCompletion12 = true;
+        var _didIteratorError12 = false;
+        var _iteratorError12 = undefined;
 
         try {
-          for (var _iterator11 = roots[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
-            var t = _step11.value;
+          for (var _iterator12 = roots[Symbol.iterator](), _step12; !(_iteratorNormalCompletion12 = (_step12 = _iterator12.next()).done); _iteratorNormalCompletion12 = true) {
+            var t = _step12.value;
 
             if (0 <= t && t <= 1) {
               // We're within the Bezier curve
@@ -3275,16 +3453,16 @@
             }
           }
         } catch (err) {
-          _didIteratorError11 = true;
-          _iteratorError11 = err;
+          _didIteratorError12 = true;
+          _iteratorError12 = err;
         } finally {
           try {
-            if (!_iteratorNormalCompletion11 && _iterator11["return"] != null) {
-              _iterator11["return"]();
+            if (!_iteratorNormalCompletion12 && _iterator12["return"] != null) {
+              _iterator12["return"]();
             }
           } finally {
-            if (_didIteratorError11) {
-              throw _iteratorError11;
+            if (_didIteratorError12) {
+              throw _iteratorError12;
             }
           }
         }
@@ -4029,50 +4207,6 @@
   }();
 
   /**
-   *
-   *   IntersectionArgs.js
-   *
-   *   @copyright 2002, 2017 Kevin Lindsey
-   *
-   */
-
-  /**
-   *  IntersectionArgs
-   * @memberof module:kld-intersections
-   */
-  var IntersectionArgs =
-  /*#__PURE__*/
-  function () {
-    /**
-     *  @param {string} name
-     *  @param {Array<module:kld-intersections.Point2D>} args
-     *  @returns {module:kld-intersections.IntersectionArgs}
-     */
-    function IntersectionArgs(name, args) {
-      _classCallCheck(this, IntersectionArgs);
-
-      this.init(name, args);
-    }
-    /**
-     *  init
-     *
-     *  @param {string} name
-     *  @param {Array<module:kld-intersections.Point2D>} args
-     */
-
-
-    _createClass(IntersectionArgs, [{
-      key: "init",
-      value: function init(name, args) {
-        this.name = name;
-        this.args = args;
-      }
-    }]);
-
-    return IntersectionArgs;
-  }();
-
-  /**
    *  Shapes
    *
    *  @copyright 2017, Kevin Lindsey
@@ -4142,6 +4276,22 @@
 
   Shapes.ellipse = function (centerX, centerY, radiusX, radiusY) {
     return new IntersectionArgs("Ellipse", [new Point2D(centerX, centerY), radiusX, radiusY]);
+  };
+  /**
+   * arc
+   *
+   * @param {number} centerX
+   * @param {number} centerY
+   * @param {number} radiusX
+   * @param {number} radiusY
+   * @param {number} startRadians
+   * @param {number} endRadians
+   * @returns {module:kld-intersections.IntersectionArgs}
+   */
+
+
+  Shapes.arc = function (centerX, centerY, radiusX, radiusY, startRadians, endRadians) {
+    return new IntersectionArgs("Arc", [new Point2D(centerX, centerY), radiusX, radiusY, startRadians, endRadians]);
   };
   /**
    *  line
@@ -4277,6 +4427,21 @@
 
   AffineShapes.ellipse = function (center, radiusX, radiusY) {
     return new IntersectionArgs("Ellipse", [center, radiusX, radiusY]);
+  };
+  /**
+   * arc
+   *
+   * @param {module:kld-intersections.Point2D} center
+   * @param {number} radiusX
+   * @param {number} radiusY
+   * @param {number} startRadians
+   * @param {number} endRadians
+   * @returns {module:kld-intersections.IntersectionArgs}
+   */
+
+
+  AffineShapes.arc = function (center, radiusX, radiusY, startRadians, endRadians) {
+    return new IntersectionArgs("Arc", [center, radiusX, radiusY, startRadians, endRadians]);
   };
   /**
    *  line

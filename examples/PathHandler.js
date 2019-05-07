@@ -4,7 +4,119 @@
  *  @copyright 2017 Kevin Lindsey
  */
 
-import {Shapes} from "../index.js";
+import {Shapes, Point2D} from "../index.js";
+
+const TWO_PI = 2.0 * Math.PI;
+
+/**
+ * radian
+ *
+ * @param {number} ux
+ * @param {number} uy
+ * @param {number} vx
+ * @param {number} vy
+ * @returns {number}
+ */
+function radian(ux, uy, vx, vy) {
+    const dot = ux * vx + uy * vy;
+    const mod = Math.sqrt((ux * ux + uy * uy) * (vx * vx + vy * vy));
+    let rad = Math.acos(dot / mod);
+
+    if (ux * vy - uy * vx < 0.0) {
+        rad = -rad;
+    }
+
+    return rad;
+}
+
+/**
+ * normalizeAngle
+ *
+ * @param {number} radians
+ * @returns {number}
+ */
+function normalizeAngle(radians) {
+    const normal = radians % TWO_PI;
+
+    return normal < 0.0 ? normal + TWO_PI : normal;
+}
+
+/**
+ * getArcParameters
+ *
+ * @param {module:kld-affine.Point2D} startPoint
+ * @param {module:kld-affine.Point2D} endPoint
+ * @param {number} rx
+ * @param {number} ry
+ * @param {number} angle
+ * @param {boolean} arcFlag
+ * @param {boolean} sweepFlag
+ * @returns {module:kld-affine.Point2D}
+ */
+function getArcParameters(startPoint, endPoint, rx, ry, angle, arcFlag, sweepFlag) {
+    angle = angle * Math.PI / 180;
+
+    const c = Math.cos(angle);
+    const s = Math.sin(angle);
+    const TOLERANCE = 1e-6;
+
+    const halfDiff = startPoint.subtract(endPoint).multiply(0.5);
+    const x1p = halfDiff.x * c + halfDiff.y * s;
+    const y1p = halfDiff.x * -s + halfDiff.y * c;
+
+    const x1px1p = x1p * x1p;
+    const y1py1p = y1p * y1p;
+    const lambda = (x1px1p / (rx * rx)) + (y1py1p / (ry * ry));
+
+    if (lambda > 1) {
+        const factor = Math.sqrt(lambda);
+
+        rx *= factor;
+        ry *= factor;
+    }
+
+    const rxrx = rx * rx;
+    const ryry = ry * ry;
+    const rxy1 = rxrx * y1py1p;
+    const ryx1 = ryry * x1px1p;
+
+    let factor = (rxrx * ryry - rxy1 - ryx1) / (rxy1 + ryx1);
+
+    if (Math.abs(factor) < TOLERANCE) {
+        factor = 0;
+    }
+
+    let sq = Math.sqrt(factor);
+
+    if (arcFlag === sweepFlag) {
+        sq = -sq;
+    }
+
+    const mid = startPoint.add(endPoint).multiply(0.5);
+    const cxp = sq * rx * y1p / ry;
+    const cyp = sq * -ry * x1p / rx;
+
+    const xcr1 = (x1p - cxp) / rx;
+    const xcr2 = (x1p + cxp) / rx;
+    const ycr1 = (y1p - cyp) / ry;
+    const ycr2 = (y1p + cyp) / ry;
+
+    const theta1 = radian(1.0, 0.0, xcr1, ycr1);
+    let deltaTheta = normalizeAngle(radian(xcr1, ycr1, -xcr2, -ycr2));
+
+    if (sweepFlag === false) {
+        deltaTheta -= TWO_PI;
+    }
+
+    return [
+        cxp * c - cyp * s + mid.x,
+        cxp * s + cyp * c + mid.y,
+        rx,
+        ry,
+        theta1,
+        theta1 + deltaTheta
+    ];
+}
 
 /**
  *  PathHandler
@@ -51,15 +163,25 @@ class PathHandler {
      *  @param {number} rx
      *  @param {number} ry
      *  @param {number} xAxisRotation
-     *  @param {boolean} largeArcFlag
+     *  @param {boolean} arcFlag
      *  @param {boolean} sweepFlag
      *  @param {number} x
      *  @param {number} y
      */
-    arcAbs(rx, ry, xAxisRotation, largeArcFlag, sweepFlag, x, y) {
-        // TODO: implement once we support arcs
+    arcAbs(rx, ry, xAxisRotation, arcFlag, sweepFlag, x, y) {
+        const arcParameters = getArcParameters(
+            new Point2D(this.lastX, this.lastY),
+            new Point2D(x, y),
+            rx, ry,
+            xAxisRotation,
+            arcFlag, sweepFlag
+        );
+
+        this.addShape(Shapes.arc(...arcParameters));
+
         this.lastCommand = "A";
-        throw new Error("Not yet supported!");
+        this.lastX = x;
+        this.lastY = y;
     }
 
     /**
@@ -68,15 +190,25 @@ class PathHandler {
      *  @param {number} rx
      *  @param {number} ry
      *  @param {number} xAxisRotation
-     *  @param {boolean} largeArcFlag
+     *  @param {boolean} arcFlag
      *  @param {boolean} sweepFlag
      *  @param {number} x
      *  @param {number} y
      */
-    arcRel(rx, ry, xAxisRotation, largeArcFlag, sweepFlag, x, y) {
-        // TODO: implement once we support arcs
+    arcRel(rx, ry, xAxisRotation, arcFlag, sweepFlag, x, y) {
+        const arcParameters = getArcParameters(
+            new Point2D(this.lastX, this.lastY),
+            new Point2D(this.lastX + x, this.lastY + y),
+            rx, ry,
+            xAxisRotation,
+            arcFlag, sweepFlag
+        );
+
+        this.addShape(Shapes.arc(...arcParameters));
+
         this.lastCommand = "a";
-        throw new Error("Not yet supported!");
+        this.lastX += x;
+        this.lastY += y;
     }
 
     /**
