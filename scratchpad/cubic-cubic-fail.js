@@ -2,7 +2,6 @@
 
 import {PathParser} from "kld-path-parser";
 import PathHandler from "../examples/PathHandler.js";
-
 import {Intersection, Shapes} from "../index.js";
 
 // parser path data
