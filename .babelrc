@@ -1,7 +1,4 @@
 {
-    "plugins": [
-        ["@babel/plugin-transform-modules-commonjs"]
-    ],
     "presets": [
         ["@babel/env"]
     ]
