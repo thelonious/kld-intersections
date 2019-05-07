@@ -68,7 +68,7 @@
     "eslint-plugin-unicorn": "^8.0.2",
     "esm": "^3.2.22",
     "jsdoc": "^3.6.1",
-    "kld-contours": "^0.2.0",
+    "kld-contours": "^0.3.0",
     "kld-path-parser": "^0.1.1",
     "mocha": "^6.1.4",
     "node-static": "^0.7.11",
