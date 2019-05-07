@@ -280,6 +280,7 @@ class PathHandler {
         }
 
         this.addShape(Shapes.cubicBezier(
+            this.lastX, this.lastY,
             controlX, controlY,
             x2, y2,
             x, y
@@ -313,6 +314,7 @@ class PathHandler {
         }
 
         this.addShape(Shapes.cubicBezier(
+            this.lastX, this.lastY,
             controlX, controlY,
             this.lastX + x2, this.lastY + y2,
             this.lastX + x, this.lastY + y
@@ -344,6 +346,7 @@ class PathHandler {
         }
 
         this.addShape(Shapes.quadraticBezier(
+            this.lastX, this.lastY,
             controlX, controlY,
             x, y
         ));
@@ -374,6 +377,7 @@ class PathHandler {
         }
 
         this.addShape(Shapes.quadraticBezier(
+            this.lastX, this.lastY,
             controlX, controlY,
             this.lastX + x, this.lastY + y
         ));
