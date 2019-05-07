@@ -2265,6 +2265,35 @@ function isNullish(o) {
   return o === null || o === undefined;
 }
 /**
+ *  bezout
+ *
+ *  This code is based on MgcIntr2DElpElp.cpp written by David Eberly.  His
+ *  code along with many other excellent examples are avaiable at his site:
+ *  http://www.magic-software.com
+ *
+ *  @param {Array<module:kld-intersections.Point2D>} e1
+ *  @param {Array<module:kld-intersections.Point2D>} e2
+ *  @returns {external:Polynomial}
+ */
+
+
+function bezout(e1, e2) {
+  var AB = e1[0] * e2[1] - e2[0] * e1[1];
+  var AC = e1[0] * e2[2] - e2[0] * e1[2];
+  var AD = e1[0] * e2[3] - e2[0] * e1[3];
+  var AE = e1[0] * e2[4] - e2[0] * e1[4];
+  var AF = e1[0] * e2[5] - e2[0] * e1[5];
+  var BC = e1[1] * e2[2] - e2[1] * e1[2];
+  var BE = e1[1] * e2[4] - e2[1] * e1[4];
+  var BF = e1[1] * e2[5] - e2[1] * e1[5];
+  var CD = e1[2] * e2[3] - e2[2] * e1[3];
+  var DE = e1[3] * e2[4] - e2[3] * e1[4];
+  var DF = e1[3] * e2[5] - e2[3] * e1[5];
+  var BFpDE = BF + DE;
+  var BEmCD = BE - CD;
+  return new Polynomial(AB * BC - AC * AC, AB * BEmCD + AD * BC - 2 * AC * AE, AB * BFpDE + AD * BEmCD - AE * AE - 2 * AC * AF, AB * DF + AD * BFpDE - 2 * AE * AF, AD * DF - AF * AF);
+}
+/**
  *  closePolygon
  *  @memberof module:kld-intersections.Intersection~
  *  @param {Array<module:kld-intersections.Point2D>} points
@@ -2310,13 +2339,21 @@ function () {
       this.points = [];
     }
     /**
-     *  appendPoint
+     *  intersect
      *
-     *  @param {module:kld-intersections.Point2D} point
+     *  @param {module:kld-intersections.IntersectionArgs} shape1
+     *  @param {module:kld-intersections.IntersectionArgs} shape2
+     *  @returns {module:kld-intersections.Intersection}
      */
 
   }, {
     key: "appendPoint",
+
+    /**
+     *  appendPoint
+     *
+     *  @param {module:kld-intersections.Point2D} point
+     */
     value: function appendPoint(point) {
       this.points.push(point);
     }
@@ -2331,1658 +2368,1659 @@ function () {
     value: function appendPoints(points) {
       this.points = this.points.concat(points);
     }
-  }]);
+  }], [{
+    key: "intersect",
+    value: function intersect(shape1, shape2) {
+      var result;
 
-  return Intersection;
-}(); // static methods
+      if (!isNullish(shape1) && !isNullish(shape2)) {
+        if (shape1.name === "Path") {
+          result = Intersection.intersectPathShape(shape1, shape2);
+        } else if (shape2.name === "Path") {
+          result = Intersection.intersectPathShape(shape2, shape1);
+        } else {
+          var method;
+          var args;
 
-/**
- *  intersect
- *
- *  @param {module:kld-intersections.IntersectionArgs} shape1
- *  @param {module:kld-intersections.IntersectionArgs} shape2
- *  @returns {module:kld-intersections.Intersection}
- */
+          if (shape1.name < shape2.name) {
+            method = "intersect" + shape1.name + shape2.name;
+            args = shape1.args.concat(shape2.args);
+          } else {
+            method = "intersect" + shape2.name + shape1.name;
+            args = shape2.args.concat(shape1.args);
+          }
 
+          if (!(method in Intersection)) {
+            throw new Error("Intersection not available: " + method);
+          }
 
-Intersection.intersect = function (shape1, shape2) {
-  var result;
-
-  if (!isNullish(shape1) && !isNullish(shape2)) {
-    if (shape1.name === "Path") {
-      result = Intersection.intersectPathShape(shape1, shape2);
-    } else if (shape2.name === "Path") {
-      result = Intersection.intersectPathShape(shape2, shape1);
-    } else {
-      var method;
-      var args;
-
-      if (shape1.name < shape2.name) {
-        method = "intersect" + shape1.name + shape2.name;
-        args = shape1.args.concat(shape2.args);
+          result = Intersection[method].apply(null, args);
+        }
       } else {
-        method = "intersect" + shape2.name + shape1.name;
-        args = shape2.args.concat(shape1.args);
+        result = new Intersection("No Intersection");
       }
 
-      if (!(method in Intersection)) {
-        throw new Error("Intersection not available: " + method);
-      }
-
-      result = Intersection[method].apply(null, args);
+      return result;
     }
-  } else {
-    result = new Intersection("No Intersection");
-  }
+    /**
+     *  intersectPathShape
+     *
+     *  @param {module:kld-intersections.IntersectionArgs} path
+     *  @param {module:kld-intersections.IntersectionArgs} shape
+     *  @returns {module:kld-intersections.Intersection}
+     */
 
-  return result;
-};
-/**
- *  intersectPathShape
- *
- *  @param {module:kld-intersections.IntersectionArgs} path
- *  @param {module:kld-intersections.IntersectionArgs} shape
- *  @returns {module:kld-intersections.Intersection}
- */
+  }, {
+    key: "intersectPathShape",
+    value: function intersectPathShape(path, shape) {
+      var result = new Intersection("No Intersection");
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
 
-
-Intersection.intersectPathShape = function (path, shape) {
-  var result = new Intersection("No Intersection");
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
-
-  try {
-    for (var _iterator = path.args[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var segment = _step.value;
-      var inter = Intersection.intersect(segment, shape);
-      result.appendPoints(inter.points);
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-        _iterator["return"]();
+      try {
+        for (var _iterator = path.args[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var segment = _step.value;
+          var inter = Intersection.intersect(segment, shape);
+          result.appendPoints(inter.points);
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
       }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
+
+      if (result.points.length > 0) {
+        result.status = "Intersection";
       }
+
+      return result;
     }
-  }
+    /**
+     *  intersectBezier2Bezier2
+     *
+     *  @param {module:kld-intersections.Point2D} a1
+     *  @param {module:kld-intersections.Point2D} a2
+     *  @param {module:kld-intersections.Point2D} a3
+     *  @param {module:kld-intersections.Point2D} b1
+     *  @param {module:kld-intersections.Point2D} b2
+     *  @param {module:kld-intersections.Point2D} b3
+     *  @returns {module:kld-intersections.Intersection}
+     */
 
-  if (result.points.length > 0) {
-    result.status = "Intersection";
-  }
+  }, {
+    key: "intersectBezier2Bezier2",
+    value: function intersectBezier2Bezier2(a1, a2, a3, b1, b2, b3) {
+      var a, b;
+      var result = new Intersection("No Intersection");
+      a = a2.multiply(-2);
+      var c12 = a1.add(a.add(a3));
+      a = a1.multiply(-2);
+      b = a2.multiply(2);
+      var c11 = a.add(b);
+      var c10 = new Point2D(a1.x, a1.y);
+      a = b2.multiply(-2);
+      var c22 = b1.add(a.add(b3));
+      a = b1.multiply(-2);
+      b = b2.multiply(2);
+      var c21 = a.add(b);
+      var c20 = new Point2D(b1.x, b1.y); // bezout
 
-  return result;
-};
-/**
- *  intersectBezier2Bezier2
- *
- *  @param {module:kld-intersections.Point2D} a1
- *  @param {module:kld-intersections.Point2D} a2
- *  @param {module:kld-intersections.Point2D} a3
- *  @param {module:kld-intersections.Point2D} b1
- *  @param {module:kld-intersections.Point2D} b2
- *  @param {module:kld-intersections.Point2D} b3
- *  @returns {module:kld-intersections.Intersection}
- */
+      a = c12.x * c11.y - c11.x * c12.y;
+      b = c22.x * c11.y - c11.x * c22.y;
+      var c = c21.x * c11.y - c11.x * c21.y;
+      var d = c11.x * (c10.y - c20.y) + c11.y * (-c10.x + c20.x);
+      var e = c22.x * c12.y - c12.x * c22.y;
+      var f = c21.x * c12.y - c12.x * c21.y;
+      var g = c12.x * (c10.y - c20.y) + c12.y * (-c10.x + c20.x); // determinant
 
+      var poly = new Polynomial(-e * e, -2 * e * f, a * b - f * f - 2 * e * g, a * c - 2 * f * g, a * d - g * g);
+      var roots = poly.getRoots();
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
 
-Intersection.intersectBezier2Bezier2 = function (a1, a2, a3, b1, b2, b3) {
-  var a, b;
-  var result = new Intersection("No Intersection");
-  a = a2.multiply(-2);
-  var c12 = a1.add(a.add(a3));
-  a = a1.multiply(-2);
-  b = a2.multiply(2);
-  var c11 = a.add(b);
-  var c10 = new Point2D(a1.x, a1.y);
-  a = b2.multiply(-2);
-  var c22 = b1.add(a.add(b3));
-  a = b1.multiply(-2);
-  b = b2.multiply(2);
-  var c21 = a.add(b);
-  var c20 = new Point2D(b1.x, b1.y); // bezout
+      try {
+        for (var _iterator2 = roots[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var s = _step2.value;
 
-  a = c12.x * c11.y - c11.x * c12.y;
-  b = c22.x * c11.y - c11.x * c22.y;
-  var c = c21.x * c11.y - c11.x * c21.y;
-  var d = c11.x * (c10.y - c20.y) + c11.y * (-c10.x + c20.x);
-  var e = c22.x * c12.y - c12.x * c22.y;
-  var f = c21.x * c12.y - c12.x * c21.y;
-  var g = c12.x * (c10.y - c20.y) + c12.y * (-c10.x + c20.x); // determinant
+          if (0 <= s && s <= 1) {
+            var xp = new Polynomial(c12.x, c11.x, c10.x - c20.x - s * c21.x - s * s * c22.x);
+            xp.simplify();
+            var xRoots = xp.getRoots();
+            var yp = new Polynomial(c12.y, c11.y, c10.y - c20.y - s * c21.y - s * s * c22.y);
+            yp.simplify();
+            var yRoots = yp.getRoots();
 
-  var poly = new Polynomial(-e * e, -2 * e * f, a * b - f * f - 2 * e * g, a * c - 2 * f * g, a * d - g * g);
-  var roots = poly.getRoots();
-  var _iteratorNormalCompletion2 = true;
-  var _didIteratorError2 = false;
-  var _iteratorError2 = undefined;
+            if (xRoots.length > 0 && yRoots.length > 0) {
+              var TOLERANCE = 1e-4;
+              var _iteratorNormalCompletion3 = true;
+              var _didIteratorError3 = false;
+              var _iteratorError3 = undefined;
 
-  try {
-    for (var _iterator2 = roots[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-      var s = _step2.value;
+              try {
+                checkRoots: for (var _iterator3 = xRoots[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                  var xRoot = _step3.value;
 
-      if (0 <= s && s <= 1) {
-        var xp = new Polynomial(c12.x, c11.x, c10.x - c20.x - s * c21.x - s * s * c22.x);
-        xp.simplify();
-        var xRoots = xp.getRoots();
-        var yp = new Polynomial(c12.y, c11.y, c10.y - c20.y - s * c21.y - s * s * c22.y);
-        yp.simplify();
-        var yRoots = yp.getRoots();
-
-        if (xRoots.length > 0 && yRoots.length > 0) {
-          var TOLERANCE = 1e-4;
-          var _iteratorNormalCompletion3 = true;
-          var _didIteratorError3 = false;
-          var _iteratorError3 = undefined;
-
-          try {
-            checkRoots: for (var _iterator3 = xRoots[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-              var xRoot = _step3.value;
-
-              if (0 <= xRoot && xRoot <= 1) {
-                for (var k = 0; k < yRoots.length; k++) {
-                  if (Math.abs(xRoot - yRoots[k]) < TOLERANCE) {
-                    result.points.push(c22.multiply(s * s).add(c21.multiply(s).add(c20)));
-                    break checkRoots;
+                  if (0 <= xRoot && xRoot <= 1) {
+                    for (var k = 0; k < yRoots.length; k++) {
+                      if (Math.abs(xRoot - yRoots[k]) < TOLERANCE) {
+                        result.points.push(c22.multiply(s * s).add(c21.multiply(s).add(c20)));
+                        break checkRoots;
+                      }
+                    }
+                  }
+                }
+              } catch (err) {
+                _didIteratorError3 = true;
+                _iteratorError3 = err;
+              } finally {
+                try {
+                  if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
+                    _iterator3["return"]();
+                  }
+                } finally {
+                  if (_didIteratorError3) {
+                    throw _iteratorError3;
                   }
                 }
               }
             }
-          } catch (err) {
-            _didIteratorError3 = true;
-            _iteratorError3 = err;
-          } finally {
+          }
+        }
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+            _iterator2["return"]();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
+        }
+      }
+
+      if (result.points.length > 0) {
+        result.status = "Intersection";
+      }
+
+      return result;
+    }
+    /**
+     *  intersectBezier2Bezier3
+     *
+     *  @param {module:kld-intersections.Point2D} a1
+     *  @param {module:kld-intersections.Point2D} a2
+     *  @param {module:kld-intersections.Point2D} a3
+     *  @param {module:kld-intersections.Point2D} b1
+     *  @param {module:kld-intersections.Point2D} b2
+     *  @param {module:kld-intersections.Point2D} b3
+     *  @param {module:kld-intersections.Point2D} b4
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectBezier2Bezier3",
+    value: function intersectBezier2Bezier3(a1, a2, a3, b1, b2, b3, b4) {
+      var a, b, c, d;
+      var result = new Intersection("No Intersection");
+      a = a2.multiply(-2);
+      var c12 = a1.add(a.add(a3));
+      a = a1.multiply(-2);
+      b = a2.multiply(2);
+      var c11 = a.add(b);
+      var c10 = new Point2D(a1.x, a1.y);
+      a = b1.multiply(-1);
+      b = b2.multiply(3);
+      c = b3.multiply(-3);
+      d = a.add(b.add(c.add(b4)));
+      var c23 = new Vector2D(d.x, d.y);
+      a = b1.multiply(3);
+      b = b2.multiply(-6);
+      c = b3.multiply(3);
+      d = a.add(b.add(c));
+      var c22 = new Vector2D(d.x, d.y);
+      a = b1.multiply(-3);
+      b = b2.multiply(3);
+      c = a.add(b);
+      var c21 = new Vector2D(c.x, c.y);
+      var c20 = new Vector2D(b1.x, b1.y);
+      var c10x2 = c10.x * c10.x;
+      var c10y2 = c10.y * c10.y;
+      var c11x2 = c11.x * c11.x;
+      var c11y2 = c11.y * c11.y;
+      var c12x2 = c12.x * c12.x;
+      var c12y2 = c12.y * c12.y;
+      var c20x2 = c20.x * c20.x;
+      var c20y2 = c20.y * c20.y;
+      var c21x2 = c21.x * c21.x;
+      var c21y2 = c21.y * c21.y;
+      var c22x2 = c22.x * c22.x;
+      var c22y2 = c22.y * c22.y;
+      var c23x2 = c23.x * c23.x;
+      var c23y2 = c23.y * c23.y;
+      var poly = new Polynomial(-2 * c12.x * c12.y * c23.x * c23.y + c12x2 * c23y2 + c12y2 * c23x2, -2 * c12.x * c12.y * c22.x * c23.y - 2 * c12.x * c12.y * c22.y * c23.x + 2 * c12y2 * c22.x * c23.x + 2 * c12x2 * c22.y * c23.y, -2 * c12.x * c21.x * c12.y * c23.y - 2 * c12.x * c12.y * c21.y * c23.x - 2 * c12.x * c12.y * c22.x * c22.y + 2 * c21.x * c12y2 * c23.x + c12y2 * c22x2 + c12x2 * (2 * c21.y * c23.y + c22y2), 2 * c10.x * c12.x * c12.y * c23.y + 2 * c10.y * c12.x * c12.y * c23.x + c11.x * c11.y * c12.x * c23.y + c11.x * c11.y * c12.y * c23.x - 2 * c20.x * c12.x * c12.y * c23.y - 2 * c12.x * c20.y * c12.y * c23.x - 2 * c12.x * c21.x * c12.y * c22.y - 2 * c12.x * c12.y * c21.y * c22.x - 2 * c10.x * c12y2 * c23.x - 2 * c10.y * c12x2 * c23.y + 2 * c20.x * c12y2 * c23.x + 2 * c21.x * c12y2 * c22.x - c11y2 * c12.x * c23.x - c11x2 * c12.y * c23.y + c12x2 * (2 * c20.y * c23.y + 2 * c21.y * c22.y), 2 * c10.x * c12.x * c12.y * c22.y + 2 * c10.y * c12.x * c12.y * c22.x + c11.x * c11.y * c12.x * c22.y + c11.x * c11.y * c12.y * c22.x - 2 * c20.x * c12.x * c12.y * c22.y - 2 * c12.x * c20.y * c12.y * c22.x - 2 * c12.x * c21.x * c12.y * c21.y - 2 * c10.x * c12y2 * c22.x - 2 * c10.y * c12x2 * c22.y + 2 * c20.x * c12y2 * c22.x - c11y2 * c12.x * c22.x - c11x2 * c12.y * c22.y + c21x2 * c12y2 + c12x2 * (2 * c20.y * c22.y + c21y2), 2 * c10.x * c12.x * c12.y * c21.y + 2 * c10.y * c12.x * c21.x * c12.y + c11.x * c11.y * c12.x * c21.y + c11.x * c11.y * c21.x * c12.y - 2 * c20.x * c12.x * c12.y * c21.y - 2 * c12.x * c20.y * c21.x * c12.y - 2 * c10.x * c21.x * c12y2 - 2 * c10.y * c12x2 * c21.y + 2 * c20.x * c21.x * c12y2 - c11y2 * c12.x * c21.x - c11x2 * c12.y * c21.y + 2 * c12x2 * c20.y * c21.y, -2 * c10.x * c10.y * c12.x * c12.y - c10.x * c11.x * c11.y * c12.y - c10.y * c11.x * c11.y * c12.x + 2 * c10.x * c12.x * c20.y * c12.y + 2 * c10.y * c20.x * c12.x * c12.y + c11.x * c20.x * c11.y * c12.y + c11.x * c11.y * c12.x * c20.y - 2 * c20.x * c12.x * c20.y * c12.y - 2 * c10.x * c20.x * c12y2 + c10.x * c11y2 * c12.x + c10.y * c11x2 * c12.y - 2 * c10.y * c12x2 * c20.y - c20.x * c11y2 * c12.x - c11x2 * c20.y * c12.y + c10x2 * c12y2 + c10y2 * c12x2 + c20x2 * c12y2 + c12x2 * c20y2);
+      var roots = poly.getRootsInInterval(0, 1);
+      var _iteratorNormalCompletion4 = true;
+      var _didIteratorError4 = false;
+      var _iteratorError4 = undefined;
+
+      try {
+        for (var _iterator4 = roots[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+          var s = _step4.value;
+          var xRoots = new Polynomial(c12.x, c11.x, c10.x - c20.x - s * c21.x - s * s * c22.x - s * s * s * c23.x).getRoots();
+          var yRoots = new Polynomial(c12.y, c11.y, c10.y - c20.y - s * c21.y - s * s * c22.y - s * s * s * c23.y).getRoots();
+
+          if (xRoots.length > 0 && yRoots.length > 0) {
+            var TOLERANCE = 1e-4;
+            var _iteratorNormalCompletion5 = true;
+            var _didIteratorError5 = false;
+            var _iteratorError5 = undefined;
+
             try {
-              if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
-                _iterator3["return"]();
+              checkRoots: for (var _iterator5 = xRoots[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+                var xRoot = _step5.value;
+
+                if (0 <= xRoot && xRoot <= 1) {
+                  for (var k = 0; k < yRoots.length; k++) {
+                    if (Math.abs(xRoot - yRoots[k]) < TOLERANCE) {
+                      result.points.push(c23.multiply(s * s * s).add(c22.multiply(s * s).add(c21.multiply(s).add(c20))));
+                      break checkRoots;
+                    }
+                  }
+                }
               }
+            } catch (err) {
+              _didIteratorError5 = true;
+              _iteratorError5 = err;
             } finally {
-              if (_didIteratorError3) {
-                throw _iteratorError3;
-              }
-            }
-          }
-        }
-      }
-    }
-  } catch (err) {
-    _didIteratorError2 = true;
-    _iteratorError2 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
-        _iterator2["return"]();
-      }
-    } finally {
-      if (_didIteratorError2) {
-        throw _iteratorError2;
-      }
-    }
-  }
-
-  if (result.points.length > 0) {
-    result.status = "Intersection";
-  }
-
-  return result;
-};
-/**
- *  intersectBezier2Bezier3
- *
- *  @param {module:kld-intersections.Point2D} a1
- *  @param {module:kld-intersections.Point2D} a2
- *  @param {module:kld-intersections.Point2D} a3
- *  @param {module:kld-intersections.Point2D} b1
- *  @param {module:kld-intersections.Point2D} b2
- *  @param {module:kld-intersections.Point2D} b3
- *  @param {module:kld-intersections.Point2D} b4
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectBezier2Bezier3 = function (a1, a2, a3, b1, b2, b3, b4) {
-  var a, b, c, d;
-  var result = new Intersection("No Intersection");
-  a = a2.multiply(-2);
-  var c12 = a1.add(a.add(a3));
-  a = a1.multiply(-2);
-  b = a2.multiply(2);
-  var c11 = a.add(b);
-  var c10 = new Point2D(a1.x, a1.y);
-  a = b1.multiply(-1);
-  b = b2.multiply(3);
-  c = b3.multiply(-3);
-  d = a.add(b.add(c.add(b4)));
-  var c23 = new Vector2D(d.x, d.y);
-  a = b1.multiply(3);
-  b = b2.multiply(-6);
-  c = b3.multiply(3);
-  d = a.add(b.add(c));
-  var c22 = new Vector2D(d.x, d.y);
-  a = b1.multiply(-3);
-  b = b2.multiply(3);
-  c = a.add(b);
-  var c21 = new Vector2D(c.x, c.y);
-  var c20 = new Vector2D(b1.x, b1.y);
-  var c10x2 = c10.x * c10.x;
-  var c10y2 = c10.y * c10.y;
-  var c11x2 = c11.x * c11.x;
-  var c11y2 = c11.y * c11.y;
-  var c12x2 = c12.x * c12.x;
-  var c12y2 = c12.y * c12.y;
-  var c20x2 = c20.x * c20.x;
-  var c20y2 = c20.y * c20.y;
-  var c21x2 = c21.x * c21.x;
-  var c21y2 = c21.y * c21.y;
-  var c22x2 = c22.x * c22.x;
-  var c22y2 = c22.y * c22.y;
-  var c23x2 = c23.x * c23.x;
-  var c23y2 = c23.y * c23.y;
-  var poly = new Polynomial(-2 * c12.x * c12.y * c23.x * c23.y + c12x2 * c23y2 + c12y2 * c23x2, -2 * c12.x * c12.y * c22.x * c23.y - 2 * c12.x * c12.y * c22.y * c23.x + 2 * c12y2 * c22.x * c23.x + 2 * c12x2 * c22.y * c23.y, -2 * c12.x * c21.x * c12.y * c23.y - 2 * c12.x * c12.y * c21.y * c23.x - 2 * c12.x * c12.y * c22.x * c22.y + 2 * c21.x * c12y2 * c23.x + c12y2 * c22x2 + c12x2 * (2 * c21.y * c23.y + c22y2), 2 * c10.x * c12.x * c12.y * c23.y + 2 * c10.y * c12.x * c12.y * c23.x + c11.x * c11.y * c12.x * c23.y + c11.x * c11.y * c12.y * c23.x - 2 * c20.x * c12.x * c12.y * c23.y - 2 * c12.x * c20.y * c12.y * c23.x - 2 * c12.x * c21.x * c12.y * c22.y - 2 * c12.x * c12.y * c21.y * c22.x - 2 * c10.x * c12y2 * c23.x - 2 * c10.y * c12x2 * c23.y + 2 * c20.x * c12y2 * c23.x + 2 * c21.x * c12y2 * c22.x - c11y2 * c12.x * c23.x - c11x2 * c12.y * c23.y + c12x2 * (2 * c20.y * c23.y + 2 * c21.y * c22.y), 2 * c10.x * c12.x * c12.y * c22.y + 2 * c10.y * c12.x * c12.y * c22.x + c11.x * c11.y * c12.x * c22.y + c11.x * c11.y * c12.y * c22.x - 2 * c20.x * c12.x * c12.y * c22.y - 2 * c12.x * c20.y * c12.y * c22.x - 2 * c12.x * c21.x * c12.y * c21.y - 2 * c10.x * c12y2 * c22.x - 2 * c10.y * c12x2 * c22.y + 2 * c20.x * c12y2 * c22.x - c11y2 * c12.x * c22.x - c11x2 * c12.y * c22.y + c21x2 * c12y2 + c12x2 * (2 * c20.y * c22.y + c21y2), 2 * c10.x * c12.x * c12.y * c21.y + 2 * c10.y * c12.x * c21.x * c12.y + c11.x * c11.y * c12.x * c21.y + c11.x * c11.y * c21.x * c12.y - 2 * c20.x * c12.x * c12.y * c21.y - 2 * c12.x * c20.y * c21.x * c12.y - 2 * c10.x * c21.x * c12y2 - 2 * c10.y * c12x2 * c21.y + 2 * c20.x * c21.x * c12y2 - c11y2 * c12.x * c21.x - c11x2 * c12.y * c21.y + 2 * c12x2 * c20.y * c21.y, -2 * c10.x * c10.y * c12.x * c12.y - c10.x * c11.x * c11.y * c12.y - c10.y * c11.x * c11.y * c12.x + 2 * c10.x * c12.x * c20.y * c12.y + 2 * c10.y * c20.x * c12.x * c12.y + c11.x * c20.x * c11.y * c12.y + c11.x * c11.y * c12.x * c20.y - 2 * c20.x * c12.x * c20.y * c12.y - 2 * c10.x * c20.x * c12y2 + c10.x * c11y2 * c12.x + c10.y * c11x2 * c12.y - 2 * c10.y * c12x2 * c20.y - c20.x * c11y2 * c12.x - c11x2 * c20.y * c12.y + c10x2 * c12y2 + c10y2 * c12x2 + c20x2 * c12y2 + c12x2 * c20y2);
-  var roots = poly.getRootsInInterval(0, 1);
-  var _iteratorNormalCompletion4 = true;
-  var _didIteratorError4 = false;
-  var _iteratorError4 = undefined;
-
-  try {
-    for (var _iterator4 = roots[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-      var s = _step4.value;
-      var xRoots = new Polynomial(c12.x, c11.x, c10.x - c20.x - s * c21.x - s * s * c22.x - s * s * s * c23.x).getRoots();
-      var yRoots = new Polynomial(c12.y, c11.y, c10.y - c20.y - s * c21.y - s * s * c22.y - s * s * s * c23.y).getRoots();
-
-      if (xRoots.length > 0 && yRoots.length > 0) {
-        var TOLERANCE = 1e-4;
-        var _iteratorNormalCompletion5 = true;
-        var _didIteratorError5 = false;
-        var _iteratorError5 = undefined;
-
-        try {
-          checkRoots: for (var _iterator5 = xRoots[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-            var xRoot = _step5.value;
-
-            if (0 <= xRoot && xRoot <= 1) {
-              for (var k = 0; k < yRoots.length; k++) {
-                if (Math.abs(xRoot - yRoots[k]) < TOLERANCE) {
-                  result.points.push(c23.multiply(s * s * s).add(c22.multiply(s * s).add(c21.multiply(s).add(c20))));
-                  break checkRoots;
+              try {
+                if (!_iteratorNormalCompletion5 && _iterator5["return"] != null) {
+                  _iterator5["return"]();
+                }
+              } finally {
+                if (_didIteratorError5) {
+                  throw _iteratorError5;
                 }
               }
             }
           }
-        } catch (err) {
-          _didIteratorError5 = true;
-          _iteratorError5 = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion5 && _iterator5["return"] != null) {
-              _iterator5["return"]();
-            }
-          } finally {
-            if (_didIteratorError5) {
-              throw _iteratorError5;
-            }
-          }
         }
-      }
-    }
-  } catch (err) {
-    _didIteratorError4 = true;
-    _iteratorError4 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion4 && _iterator4["return"] != null) {
-        _iterator4["return"]();
-      }
-    } finally {
-      if (_didIteratorError4) {
-        throw _iteratorError4;
-      }
-    }
-  }
-
-  if (result.points.length > 0) {
-    result.status = "Intersection";
-  }
-
-  return result;
-};
-/**
- *  intersectBezier2Circle
- *
- *  @param {module:kld-intersections.Point2D} p1
- *  @param {module:kld-intersections.Point2D} p2
- *  @param {module:kld-intersections.Point2D} p3
- *  @param {module:kld-intersections.Point2D} c
- *  @param {number} r
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectBezier2Circle = function (p1, p2, p3, c, r) {
-  return Intersection.intersectBezier2Ellipse(p1, p2, p3, c, r, r);
-};
-/**
- *  intersectBezier2Ellipse
- *
- *  @param {module:kld-intersections.Point2D} p1
- *  @param {module:kld-intersections.Point2D} p2
- *  @param {module:kld-intersections.Point2D} p3
- *  @param {module:kld-intersections.Point2D} ec
- *  @param {number} rx
- *  @param {number} ry
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectBezier2Ellipse = function (p1, p2, p3, ec, rx, ry) {
-  var a; // temporary variables
-  // c2, c1, c0; // coefficients of quadratic
-
-  var result = new Intersection("No Intersection");
-  a = p2.multiply(-2);
-  var c2 = p1.add(a.add(p3));
-  a = p1.multiply(-2);
-  var b = p2.multiply(2);
-  var c1 = a.add(b);
-  var c0 = new Point2D(p1.x, p1.y);
-  var rxrx = rx * rx;
-  var ryry = ry * ry;
-  var roots = new Polynomial(ryry * c2.x * c2.x + rxrx * c2.y * c2.y, 2 * (ryry * c2.x * c1.x + rxrx * c2.y * c1.y), ryry * (2 * c2.x * c0.x + c1.x * c1.x) + rxrx * (2 * c2.y * c0.y + c1.y * c1.y) - 2 * (ryry * ec.x * c2.x + rxrx * ec.y * c2.y), 2 * (ryry * c1.x * (c0.x - ec.x) + rxrx * c1.y * (c0.y - ec.y)), ryry * (c0.x * c0.x + ec.x * ec.x) + rxrx * (c0.y * c0.y + ec.y * ec.y) - 2 * (ryry * ec.x * c0.x + rxrx * ec.y * c0.y) - rxrx * ryry).getRoots();
-  var _iteratorNormalCompletion6 = true;
-  var _didIteratorError6 = false;
-  var _iteratorError6 = undefined;
-
-  try {
-    for (var _iterator6 = roots[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-      var t = _step6.value;
-
-      if (0 <= t && t <= 1) {
-        result.points.push(c2.multiply(t * t).add(c1.multiply(t).add(c0)));
-      }
-    }
-  } catch (err) {
-    _didIteratorError6 = true;
-    _iteratorError6 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion6 && _iterator6["return"] != null) {
-        _iterator6["return"]();
-      }
-    } finally {
-      if (_didIteratorError6) {
-        throw _iteratorError6;
-      }
-    }
-  }
-
-  if (result.points.length > 0) {
-    result.status = "Intersection";
-  }
-
-  return result;
-};
-/**
- *  intersectBezier2Line
- *
- *  @param {module:kld-intersections.Point2D} p1
- *  @param {module:kld-intersections.Point2D} p2
- *  @param {module:kld-intersections.Point2D} p3
- *  @param {module:kld-intersections.Point2D} a1
- *  @param {module:kld-intersections.Point2D} a2
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectBezier2Line = function (p1, p2, p3, a1, a2) {
-  var a; // temporary variables
-  // let c2, c1, c0; // coefficients of quadratic
-  // cl; // c coefficient for normal form of line
-  // n; // normal for normal form of line
-
-  var min = a1.min(a2); // used to determine if point is on line segment
-
-  var max = a1.max(a2); // used to determine if point is on line segment
-
-  var result = new Intersection("No Intersection");
-  a = p2.multiply(-2);
-  var c2 = p1.add(a.add(p3));
-  a = p1.multiply(-2);
-  var b = p2.multiply(2);
-  var c1 = a.add(b);
-  var c0 = new Point2D(p1.x, p1.y); // Convert line to normal form: ax + by + c = 0
-  // Find normal to line: negative inverse of original line's slope
-
-  var n = new Vector2D(a1.y - a2.y, a2.x - a1.x); // Determine new c coefficient
-
-  var cl = a1.x * a2.y - a2.x * a1.y; // Transform cubic coefficients to line's coordinate system and find roots
-  // of cubic
-
-  var roots = new Polynomial(n.dot(c2), n.dot(c1), n.dot(c0) + cl).getRoots(); // Any roots in closed interval [0,1] are intersections on Bezier, but
-  // might not be on the line segment.
-  // Find intersections and calculate point coordinates
-
-  var _iteratorNormalCompletion7 = true;
-  var _didIteratorError7 = false;
-  var _iteratorError7 = undefined;
-
-  try {
-    for (var _iterator7 = roots[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-      var t = _step7.value;
-
-      if (0 <= t && t <= 1) {
-        // We're within the Bezier curve
-        // Find point on Bezier
-        var p4 = p1.lerp(p2, t);
-        var p5 = p2.lerp(p3, t);
-        var p6 = p4.lerp(p5, t); // See if point is on line segment
-        // Had to make special cases for vertical and horizontal lines due
-        // to slight errors in calculation of p6
-
-        if (a1.x == a2.x) {
-          if (min.y <= p6.y && p6.y <= max.y) {
-            result.status = "Intersection";
-            result.appendPoint(p6);
-          }
-        } else if (a1.y == a2.y) {
-          if (min.x <= p6.x && p6.x <= max.x) {
-            result.status = "Intersection";
-            result.appendPoint(p6);
-          }
-        } else if (min.x <= p6.x && p6.x <= max.x && min.y <= p6.y && p6.y <= max.y) {
-          result.status = "Intersection";
-          result.appendPoint(p6);
-        }
-      }
-    }
-  } catch (err) {
-    _didIteratorError7 = true;
-    _iteratorError7 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion7 && _iterator7["return"] != null) {
-        _iterator7["return"]();
-      }
-    } finally {
-      if (_didIteratorError7) {
-        throw _iteratorError7;
-      }
-    }
-  }
-
-  return result;
-};
-/**
- *  intersectBezier2Polygon
- *
- *  @param {module:kld-intersections.Point2D} p1
- *  @param {module:kld-intersections.Point2D} p2
- *  @param {module:kld-intersections.Point2D} p3
- *  @param {Array<module:kld-intersections.Point2D>} points
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectBezier2Polygon = function (p1, p2, p3, points) {
-  return Intersection.intersectBezier2Polyline(p1, p2, p3, closePolygon(points));
-};
-/**
- *  intersectBezier2Polyline
- *
- *  @param {module:kld-intersections.Point2D} p1
- *  @param {module:kld-intersections.Point2D} p2
- *  @param {module:kld-intersections.Point2D} p3
- *  @param {Array<module:kld-intersections.Point2D>} points
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectBezier2Polyline = function (p1, p2, p3, points) {
-  var result = new Intersection("No Intersection");
-  var len = points.length;
-
-  for (var i = 0; i < len - 1; i++) {
-    var a1 = points[i];
-    var a2 = points[i + 1];
-    var inter = Intersection.intersectBezier2Line(p1, p2, p3, a1, a2);
-    result.appendPoints(inter.points);
-  }
-
-  if (result.points.length > 0) {
-    result.status = "Intersection";
-  }
-
-  return result;
-};
-/**
- *  intersectBezier2Rectangle
- *
- *  @param {module:kld-intersections.Point2D} p1
- *  @param {module:kld-intersections.Point2D} p2
- *  @param {module:kld-intersections.Point2D} p3
- *  @param {module:kld-intersections.Point2D} r1
- *  @param {module:kld-intersections.Point2D} r2
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectBezier2Rectangle = function (p1, p2, p3, r1, r2) {
-  var min = r1.min(r2);
-  var max = r1.max(r2);
-  var topRight = new Point2D(max.x, min.y);
-  var bottomLeft = new Point2D(min.x, max.y);
-  var inter1 = Intersection.intersectBezier2Line(p1, p2, p3, min, topRight);
-  var inter2 = Intersection.intersectBezier2Line(p1, p2, p3, topRight, max);
-  var inter3 = Intersection.intersectBezier2Line(p1, p2, p3, max, bottomLeft);
-  var inter4 = Intersection.intersectBezier2Line(p1, p2, p3, bottomLeft, min);
-  var result = new Intersection("No Intersection");
-  result.appendPoints(inter1.points);
-  result.appendPoints(inter2.points);
-  result.appendPoints(inter3.points);
-  result.appendPoints(inter4.points);
-
-  if (result.points.length > 0) {
-    result.status = "Intersection";
-  }
-
-  return result;
-};
-/**
- *  intersectBezier3Bezier3
- *
- *  @param {module:kld-intersections.Point2D} a1
- *  @param {module:kld-intersections.Point2D} a2
- *  @param {module:kld-intersections.Point2D} a3
- *  @param {module:kld-intersections.Point2D} a4
- *  @param {module:kld-intersections.Point2D} b1
- *  @param {module:kld-intersections.Point2D} b2
- *  @param {module:kld-intersections.Point2D} b3
- *  @param {module:kld-intersections.Point2D} b4
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectBezier3Bezier3 = function (a1, a2, a3, a4, b1, b2, b3, b4) {
-  var a, b, c, d; // temporary variables
-  // c13, c12, c11, c10; // coefficients of cubic
-  // c23, c22, c21, c20; // coefficients of cubic
-
-  var result = new Intersection("No Intersection"); // Calculate the coefficients of cubic polynomial
-
-  a = a1.multiply(-1);
-  b = a2.multiply(3);
-  c = a3.multiply(-3);
-  d = a.add(b.add(c.add(a4)));
-  var c13 = new Vector2D(d.x, d.y);
-  a = a1.multiply(3);
-  b = a2.multiply(-6);
-  c = a3.multiply(3);
-  d = a.add(b.add(c));
-  var c12 = new Vector2D(d.x, d.y);
-  a = a1.multiply(-3);
-  b = a2.multiply(3);
-  c = a.add(b);
-  var c11 = new Vector2D(c.x, c.y);
-  var c10 = new Vector2D(a1.x, a1.y);
-  a = b1.multiply(-1);
-  b = b2.multiply(3);
-  c = b3.multiply(-3);
-  d = a.add(b.add(c.add(b4)));
-  var c23 = new Vector2D(d.x, d.y);
-  a = b1.multiply(3);
-  b = b2.multiply(-6);
-  c = b3.multiply(3);
-  d = a.add(b.add(c));
-  var c22 = new Vector2D(d.x, d.y);
-  a = b1.multiply(-3);
-  b = b2.multiply(3);
-  c = a.add(b);
-  var c21 = new Vector2D(c.x, c.y);
-  var c20 = new Vector2D(b1.x, b1.y); // bezout
-
-  a = c13.x * c12.y - c12.x * c13.y;
-  b = c13.x * c11.y - c11.x * c13.y;
-  var c0 = c13.x * c10.y - c10.x * c13.y + c20.x * c13.y - c13.x * c20.y;
-  var c1 = c21.x * c13.y - c13.x * c21.y;
-  var c2 = c22.x * c13.y - c13.x * c22.y;
-  var c3 = c23.x * c13.y - c13.x * c23.y;
-  d = c13.x * c11.y - c11.x * c13.y;
-  var e0 = c13.x * c10.y + c12.x * c11.y - c11.x * c12.y - c10.x * c13.y + c20.x * c13.y - c13.x * c20.y;
-  var e1 = c21.x * c13.y - c13.x * c21.y;
-  var e2 = c22.x * c13.y - c13.x * c22.y;
-  var e3 = c23.x * c13.y - c13.x * c23.y;
-  var f0 = c12.x * c10.y - c10.x * c12.y + c20.x * c12.y - c12.x * c20.y;
-  var f1 = c21.x * c12.y - c12.x * c21.y;
-  var f2 = c22.x * c12.y - c12.x * c22.y;
-  var f3 = c23.x * c12.y - c12.x * c23.y;
-  var g0 = c13.x * c10.y - c10.x * c13.y + c20.x * c13.y - c13.x * c20.y;
-  var g1 = c21.x * c13.y - c13.x * c21.y;
-  var g2 = c22.x * c13.y - c13.x * c22.y;
-  var g3 = c23.x * c13.y - c13.x * c23.y;
-  var h0 = c12.x * c10.y - c10.x * c12.y + c20.x * c12.y - c12.x * c20.y;
-  var h1 = c21.x * c12.y - c12.x * c21.y;
-  var h2 = c22.x * c12.y - c12.x * c22.y;
-  var h3 = c23.x * c12.y - c12.x * c23.y;
-  var i0 = c11.x * c10.y - c10.x * c11.y + c20.x * c11.y - c11.x * c20.y;
-  var i1 = c21.x * c11.y - c11.x * c21.y;
-  var i2 = c22.x * c11.y - c11.x * c22.y;
-  var i3 = c23.x * c11.y - c11.x * c23.y; // determinant
-
-  var poly = new Polynomial(-c3 * e3 * g3, -c3 * e3 * g2 - c3 * e2 * g3 - c2 * e3 * g3, -c3 * e3 * g1 - c3 * e2 * g2 - c2 * e3 * g2 - c3 * e1 * g3 - c2 * e2 * g3 - c1 * e3 * g3, -c3 * e3 * g0 - c3 * e2 * g1 - c2 * e3 * g1 - c3 * e1 * g2 - c2 * e2 * g2 - c1 * e3 * g2 - c3 * e0 * g3 - c2 * e1 * g3 - c1 * e2 * g3 - c0 * e3 * g3 + b * f3 * g3 + c3 * d * h3 - a * f3 * h3 + a * e3 * i3, -c3 * e2 * g0 - c2 * e3 * g0 - c3 * e1 * g1 - c2 * e2 * g1 - c1 * e3 * g1 - c3 * e0 * g2 - c2 * e1 * g2 - c1 * e2 * g2 - c0 * e3 * g2 + b * f3 * g2 - c2 * e0 * g3 - c1 * e1 * g3 - c0 * e2 * g3 + b * f2 * g3 + c3 * d * h2 - a * f3 * h2 + c2 * d * h3 - a * f2 * h3 + a * e3 * i2 + a * e2 * i3, -c3 * e1 * g0 - c2 * e2 * g0 - c1 * e3 * g0 - c3 * e0 * g1 - c2 * e1 * g1 - c1 * e2 * g1 - c0 * e3 * g1 + b * f3 * g1 - c2 * e0 * g2 - c1 * e1 * g2 - c0 * e2 * g2 + b * f2 * g2 - c1 * e0 * g3 - c0 * e1 * g3 + b * f1 * g3 + c3 * d * h1 - a * f3 * h1 + c2 * d * h2 - a * f2 * h2 + c1 * d * h3 - a * f1 * h3 + a * e3 * i1 + a * e2 * i2 + a * e1 * i3, -c3 * e0 * g0 - c2 * e1 * g0 - c1 * e2 * g0 - c0 * e3 * g0 + b * f3 * g0 - c2 * e0 * g1 - c1 * e1 * g1 - c0 * e2 * g1 + b * f2 * g1 - c1 * e0 * g2 - c0 * e1 * g2 + b * f1 * g2 - c0 * e0 * g3 + b * f0 * g3 + c3 * d * h0 - a * f3 * h0 + c2 * d * h1 - a * f2 * h1 + c1 * d * h2 - a * f1 * h2 + c0 * d * h3 - a * f0 * h3 + a * e3 * i0 + a * e2 * i1 + a * e1 * i2 - b * d * i3 + a * e0 * i3, -c2 * e0 * g0 - c1 * e1 * g0 - c0 * e2 * g0 + b * f2 * g0 - c1 * e0 * g1 - c0 * e1 * g1 + b * f1 * g1 - c0 * e0 * g2 + b * f0 * g2 + c2 * d * h0 - a * f2 * h0 + c1 * d * h1 - a * f1 * h1 + c0 * d * h2 - a * f0 * h2 + a * e2 * i0 + a * e1 * i1 - b * d * i2 + a * e0 * i2, -c1 * e0 * g0 - c0 * e1 * g0 + b * f1 * g0 - c0 * e0 * g1 + b * f0 * g1 + c1 * d * h0 - a * f1 * h0 + c0 * d * h1 - a * f0 * h1 + a * e1 * i0 - b * d * i1 + a * e0 * i1, -c0 * e0 * g0 + b * f0 * g0 + c0 * d * h0 - a * f0 * h0 - b * d * i0 + a * e0 * i0);
-  poly.simplify();
-  var roots = poly.getRootsInInterval(0, 1);
-  var _iteratorNormalCompletion8 = true;
-  var _didIteratorError8 = false;
-  var _iteratorError8 = undefined;
-
-  try {
-    for (var _iterator8 = roots[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
-      var s = _step8.value;
-      var xp = new Polynomial(c13.x, c12.x, c11.x, c10.x - c20.x - s * c21.x - s * s * c22.x - s * s * s * c23.x);
-      xp.simplify();
-      var xRoots = xp.getRoots();
-      var yp = new Polynomial(c13.y, c12.y, c11.y, c10.y - c20.y - s * c21.y - s * s * c22.y - s * s * s * c23.y);
-      yp.simplify();
-      var yRoots = yp.getRoots();
-
-      if (xRoots.length > 0 && yRoots.length > 0) {
-        var TOLERANCE = 1e-4;
-        var _iteratorNormalCompletion9 = true;
-        var _didIteratorError9 = false;
-        var _iteratorError9 = undefined;
-
+      } catch (err) {
+        _didIteratorError4 = true;
+        _iteratorError4 = err;
+      } finally {
         try {
-          checkRoots: for (var _iterator9 = xRoots[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
-            var xRoot = _step9.value;
+          if (!_iteratorNormalCompletion4 && _iterator4["return"] != null) {
+            _iterator4["return"]();
+          }
+        } finally {
+          if (_didIteratorError4) {
+            throw _iteratorError4;
+          }
+        }
+      }
 
-            if (0 <= xRoot && xRoot <= 1) {
-              for (var k = 0; k < yRoots.length; k++) {
-                if (Math.abs(xRoot - yRoots[k]) < TOLERANCE) {
-                  result.points.push(c23.multiply(s * s * s).add(c22.multiply(s * s).add(c21.multiply(s).add(c20))));
-                  break checkRoots;
+      if (result.points.length > 0) {
+        result.status = "Intersection";
+      }
+
+      return result;
+    }
+    /**
+     *  intersectBezier2Circle
+     *
+     *  @param {module:kld-intersections.Point2D} p1
+     *  @param {module:kld-intersections.Point2D} p2
+     *  @param {module:kld-intersections.Point2D} p3
+     *  @param {module:kld-intersections.Point2D} c
+     *  @param {number} r
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectBezier2Circle",
+    value: function intersectBezier2Circle(p1, p2, p3, c, r) {
+      return Intersection.intersectBezier2Ellipse(p1, p2, p3, c, r, r);
+    }
+    /**
+     *  intersectBezier2Ellipse
+     *
+     *  @param {module:kld-intersections.Point2D} p1
+     *  @param {module:kld-intersections.Point2D} p2
+     *  @param {module:kld-intersections.Point2D} p3
+     *  @param {module:kld-intersections.Point2D} ec
+     *  @param {number} rx
+     *  @param {number} ry
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectBezier2Ellipse",
+    value: function intersectBezier2Ellipse(p1, p2, p3, ec, rx, ry) {
+      var a; // temporary variables
+      // c2, c1, c0; // coefficients of quadratic
+
+      var result = new Intersection("No Intersection");
+      a = p2.multiply(-2);
+      var c2 = p1.add(a.add(p3));
+      a = p1.multiply(-2);
+      var b = p2.multiply(2);
+      var c1 = a.add(b);
+      var c0 = new Point2D(p1.x, p1.y);
+      var rxrx = rx * rx;
+      var ryry = ry * ry;
+      var roots = new Polynomial(ryry * c2.x * c2.x + rxrx * c2.y * c2.y, 2 * (ryry * c2.x * c1.x + rxrx * c2.y * c1.y), ryry * (2 * c2.x * c0.x + c1.x * c1.x) + rxrx * (2 * c2.y * c0.y + c1.y * c1.y) - 2 * (ryry * ec.x * c2.x + rxrx * ec.y * c2.y), 2 * (ryry * c1.x * (c0.x - ec.x) + rxrx * c1.y * (c0.y - ec.y)), ryry * (c0.x * c0.x + ec.x * ec.x) + rxrx * (c0.y * c0.y + ec.y * ec.y) - 2 * (ryry * ec.x * c0.x + rxrx * ec.y * c0.y) - rxrx * ryry).getRoots();
+      var _iteratorNormalCompletion6 = true;
+      var _didIteratorError6 = false;
+      var _iteratorError6 = undefined;
+
+      try {
+        for (var _iterator6 = roots[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+          var t = _step6.value;
+
+          if (0 <= t && t <= 1) {
+            result.points.push(c2.multiply(t * t).add(c1.multiply(t).add(c0)));
+          }
+        }
+      } catch (err) {
+        _didIteratorError6 = true;
+        _iteratorError6 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion6 && _iterator6["return"] != null) {
+            _iterator6["return"]();
+          }
+        } finally {
+          if (_didIteratorError6) {
+            throw _iteratorError6;
+          }
+        }
+      }
+
+      if (result.points.length > 0) {
+        result.status = "Intersection";
+      }
+
+      return result;
+    }
+    /**
+     *  intersectBezier2Line
+     *
+     *  @param {module:kld-intersections.Point2D} p1
+     *  @param {module:kld-intersections.Point2D} p2
+     *  @param {module:kld-intersections.Point2D} p3
+     *  @param {module:kld-intersections.Point2D} a1
+     *  @param {module:kld-intersections.Point2D} a2
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectBezier2Line",
+    value: function intersectBezier2Line(p1, p2, p3, a1, a2) {
+      var a; // temporary variables
+      // let c2, c1, c0; // coefficients of quadratic
+      // cl; // c coefficient for normal form of line
+      // n; // normal for normal form of line
+
+      var min = a1.min(a2); // used to determine if point is on line segment
+
+      var max = a1.max(a2); // used to determine if point is on line segment
+
+      var result = new Intersection("No Intersection");
+      a = p2.multiply(-2);
+      var c2 = p1.add(a.add(p3));
+      a = p1.multiply(-2);
+      var b = p2.multiply(2);
+      var c1 = a.add(b);
+      var c0 = new Point2D(p1.x, p1.y); // Convert line to normal form: ax + by + c = 0
+      // Find normal to line: negative inverse of original line's slope
+
+      var n = new Vector2D(a1.y - a2.y, a2.x - a1.x); // Determine new c coefficient
+
+      var cl = a1.x * a2.y - a2.x * a1.y; // Transform cubic coefficients to line's coordinate system and find roots
+      // of cubic
+
+      var roots = new Polynomial(n.dot(c2), n.dot(c1), n.dot(c0) + cl).getRoots(); // Any roots in closed interval [0,1] are intersections on Bezier, but
+      // might not be on the line segment.
+      // Find intersections and calculate point coordinates
+
+      var _iteratorNormalCompletion7 = true;
+      var _didIteratorError7 = false;
+      var _iteratorError7 = undefined;
+
+      try {
+        for (var _iterator7 = roots[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+          var t = _step7.value;
+
+          if (0 <= t && t <= 1) {
+            // We're within the Bezier curve
+            // Find point on Bezier
+            var p4 = p1.lerp(p2, t);
+            var p5 = p2.lerp(p3, t);
+            var p6 = p4.lerp(p5, t); // See if point is on line segment
+            // Had to make special cases for vertical and horizontal lines due
+            // to slight errors in calculation of p6
+
+            if (a1.x === a2.x) {
+              if (min.y <= p6.y && p6.y <= max.y) {
+                result.status = "Intersection";
+                result.appendPoint(p6);
+              }
+            } else if (a1.y === a2.y) {
+              if (min.x <= p6.x && p6.x <= max.x) {
+                result.status = "Intersection";
+                result.appendPoint(p6);
+              }
+            } else if (min.x <= p6.x && p6.x <= max.x && min.y <= p6.y && p6.y <= max.y) {
+              result.status = "Intersection";
+              result.appendPoint(p6);
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError7 = true;
+        _iteratorError7 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion7 && _iterator7["return"] != null) {
+            _iterator7["return"]();
+          }
+        } finally {
+          if (_didIteratorError7) {
+            throw _iteratorError7;
+          }
+        }
+      }
+
+      return result;
+    }
+    /**
+     *  intersectBezier2Polygon
+     *
+     *  @param {module:kld-intersections.Point2D} p1
+     *  @param {module:kld-intersections.Point2D} p2
+     *  @param {module:kld-intersections.Point2D} p3
+     *  @param {Array<module:kld-intersections.Point2D>} points
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectBezier2Polygon",
+    value: function intersectBezier2Polygon(p1, p2, p3, points) {
+      return Intersection.intersectBezier2Polyline(p1, p2, p3, closePolygon(points));
+    }
+    /**
+     *  intersectBezier2Polyline
+     *
+     *  @param {module:kld-intersections.Point2D} p1
+     *  @param {module:kld-intersections.Point2D} p2
+     *  @param {module:kld-intersections.Point2D} p3
+     *  @param {Array<module:kld-intersections.Point2D>} points
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectBezier2Polyline",
+    value: function intersectBezier2Polyline(p1, p2, p3, points) {
+      var result = new Intersection("No Intersection");
+      var len = points.length;
+
+      for (var i = 0; i < len - 1; i++) {
+        var a1 = points[i];
+        var a2 = points[i + 1];
+        var inter = Intersection.intersectBezier2Line(p1, p2, p3, a1, a2);
+        result.appendPoints(inter.points);
+      }
+
+      if (result.points.length > 0) {
+        result.status = "Intersection";
+      }
+
+      return result;
+    }
+    /**
+     *  intersectBezier2Rectangle
+     *
+     *  @param {module:kld-intersections.Point2D} p1
+     *  @param {module:kld-intersections.Point2D} p2
+     *  @param {module:kld-intersections.Point2D} p3
+     *  @param {module:kld-intersections.Point2D} r1
+     *  @param {module:kld-intersections.Point2D} r2
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectBezier2Rectangle",
+    value: function intersectBezier2Rectangle(p1, p2, p3, r1, r2) {
+      var min = r1.min(r2);
+      var max = r1.max(r2);
+      var topRight = new Point2D(max.x, min.y);
+      var bottomLeft = new Point2D(min.x, max.y);
+      var inter1 = Intersection.intersectBezier2Line(p1, p2, p3, min, topRight);
+      var inter2 = Intersection.intersectBezier2Line(p1, p2, p3, topRight, max);
+      var inter3 = Intersection.intersectBezier2Line(p1, p2, p3, max, bottomLeft);
+      var inter4 = Intersection.intersectBezier2Line(p1, p2, p3, bottomLeft, min);
+      var result = new Intersection("No Intersection");
+      result.appendPoints(inter1.points);
+      result.appendPoints(inter2.points);
+      result.appendPoints(inter3.points);
+      result.appendPoints(inter4.points);
+
+      if (result.points.length > 0) {
+        result.status = "Intersection";
+      }
+
+      return result;
+    }
+    /**
+     *  intersectBezier3Bezier3
+     *
+     *  @param {module:kld-intersections.Point2D} a1
+     *  @param {module:kld-intersections.Point2D} a2
+     *  @param {module:kld-intersections.Point2D} a3
+     *  @param {module:kld-intersections.Point2D} a4
+     *  @param {module:kld-intersections.Point2D} b1
+     *  @param {module:kld-intersections.Point2D} b2
+     *  @param {module:kld-intersections.Point2D} b3
+     *  @param {module:kld-intersections.Point2D} b4
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectBezier3Bezier3",
+    value: function intersectBezier3Bezier3(a1, a2, a3, a4, b1, b2, b3, b4) {
+      var a, b, c, d; // temporary variables
+      // c13, c12, c11, c10; // coefficients of cubic
+      // c23, c22, c21, c20; // coefficients of cubic
+
+      var result = new Intersection("No Intersection"); // Calculate the coefficients of cubic polynomial
+
+      a = a1.multiply(-1);
+      b = a2.multiply(3);
+      c = a3.multiply(-3);
+      d = a.add(b.add(c.add(a4)));
+      var c13 = new Vector2D(d.x, d.y);
+      a = a1.multiply(3);
+      b = a2.multiply(-6);
+      c = a3.multiply(3);
+      d = a.add(b.add(c));
+      var c12 = new Vector2D(d.x, d.y);
+      a = a1.multiply(-3);
+      b = a2.multiply(3);
+      c = a.add(b);
+      var c11 = new Vector2D(c.x, c.y);
+      var c10 = new Vector2D(a1.x, a1.y);
+      a = b1.multiply(-1);
+      b = b2.multiply(3);
+      c = b3.multiply(-3);
+      d = a.add(b.add(c.add(b4)));
+      var c23 = new Vector2D(d.x, d.y);
+      a = b1.multiply(3);
+      b = b2.multiply(-6);
+      c = b3.multiply(3);
+      d = a.add(b.add(c));
+      var c22 = new Vector2D(d.x, d.y);
+      a = b1.multiply(-3);
+      b = b2.multiply(3);
+      c = a.add(b);
+      var c21 = new Vector2D(c.x, c.y);
+      var c20 = new Vector2D(b1.x, b1.y); // bezout
+
+      a = c13.x * c12.y - c12.x * c13.y;
+      b = c13.x * c11.y - c11.x * c13.y;
+      var c0 = c13.x * c10.y - c10.x * c13.y + c20.x * c13.y - c13.x * c20.y;
+      var c1 = c21.x * c13.y - c13.x * c21.y;
+      var c2 = c22.x * c13.y - c13.x * c22.y;
+      var c3 = c23.x * c13.y - c13.x * c23.y;
+      d = c13.x * c11.y - c11.x * c13.y;
+      var e0 = c13.x * c10.y + c12.x * c11.y - c11.x * c12.y - c10.x * c13.y + c20.x * c13.y - c13.x * c20.y;
+      var e1 = c21.x * c13.y - c13.x * c21.y;
+      var e2 = c22.x * c13.y - c13.x * c22.y;
+      var e3 = c23.x * c13.y - c13.x * c23.y;
+      var f0 = c12.x * c10.y - c10.x * c12.y + c20.x * c12.y - c12.x * c20.y;
+      var f1 = c21.x * c12.y - c12.x * c21.y;
+      var f2 = c22.x * c12.y - c12.x * c22.y;
+      var f3 = c23.x * c12.y - c12.x * c23.y;
+      var g0 = c13.x * c10.y - c10.x * c13.y + c20.x * c13.y - c13.x * c20.y;
+      var g1 = c21.x * c13.y - c13.x * c21.y;
+      var g2 = c22.x * c13.y - c13.x * c22.y;
+      var g3 = c23.x * c13.y - c13.x * c23.y;
+      var h0 = c12.x * c10.y - c10.x * c12.y + c20.x * c12.y - c12.x * c20.y;
+      var h1 = c21.x * c12.y - c12.x * c21.y;
+      var h2 = c22.x * c12.y - c12.x * c22.y;
+      var h3 = c23.x * c12.y - c12.x * c23.y;
+      var i0 = c11.x * c10.y - c10.x * c11.y + c20.x * c11.y - c11.x * c20.y;
+      var i1 = c21.x * c11.y - c11.x * c21.y;
+      var i2 = c22.x * c11.y - c11.x * c22.y;
+      var i3 = c23.x * c11.y - c11.x * c23.y; // determinant
+
+      var poly = new Polynomial(-c3 * e3 * g3, -c3 * e3 * g2 - c3 * e2 * g3 - c2 * e3 * g3, -c3 * e3 * g1 - c3 * e2 * g2 - c2 * e3 * g2 - c3 * e1 * g3 - c2 * e2 * g3 - c1 * e3 * g3, -c3 * e3 * g0 - c3 * e2 * g1 - c2 * e3 * g1 - c3 * e1 * g2 - c2 * e2 * g2 - c1 * e3 * g2 - c3 * e0 * g3 - c2 * e1 * g3 - c1 * e2 * g3 - c0 * e3 * g3 + b * f3 * g3 + c3 * d * h3 - a * f3 * h3 + a * e3 * i3, -c3 * e2 * g0 - c2 * e3 * g0 - c3 * e1 * g1 - c2 * e2 * g1 - c1 * e3 * g1 - c3 * e0 * g2 - c2 * e1 * g2 - c1 * e2 * g2 - c0 * e3 * g2 + b * f3 * g2 - c2 * e0 * g3 - c1 * e1 * g3 - c0 * e2 * g3 + b * f2 * g3 + c3 * d * h2 - a * f3 * h2 + c2 * d * h3 - a * f2 * h3 + a * e3 * i2 + a * e2 * i3, -c3 * e1 * g0 - c2 * e2 * g0 - c1 * e3 * g0 - c3 * e0 * g1 - c2 * e1 * g1 - c1 * e2 * g1 - c0 * e3 * g1 + b * f3 * g1 - c2 * e0 * g2 - c1 * e1 * g2 - c0 * e2 * g2 + b * f2 * g2 - c1 * e0 * g3 - c0 * e1 * g3 + b * f1 * g3 + c3 * d * h1 - a * f3 * h1 + c2 * d * h2 - a * f2 * h2 + c1 * d * h3 - a * f1 * h3 + a * e3 * i1 + a * e2 * i2 + a * e1 * i3, -c3 * e0 * g0 - c2 * e1 * g0 - c1 * e2 * g0 - c0 * e3 * g0 + b * f3 * g0 - c2 * e0 * g1 - c1 * e1 * g1 - c0 * e2 * g1 + b * f2 * g1 - c1 * e0 * g2 - c0 * e1 * g2 + b * f1 * g2 - c0 * e0 * g3 + b * f0 * g3 + c3 * d * h0 - a * f3 * h0 + c2 * d * h1 - a * f2 * h1 + c1 * d * h2 - a * f1 * h2 + c0 * d * h3 - a * f0 * h3 + a * e3 * i0 + a * e2 * i1 + a * e1 * i2 - b * d * i3 + a * e0 * i3, -c2 * e0 * g0 - c1 * e1 * g0 - c0 * e2 * g0 + b * f2 * g0 - c1 * e0 * g1 - c0 * e1 * g1 + b * f1 * g1 - c0 * e0 * g2 + b * f0 * g2 + c2 * d * h0 - a * f2 * h0 + c1 * d * h1 - a * f1 * h1 + c0 * d * h2 - a * f0 * h2 + a * e2 * i0 + a * e1 * i1 - b * d * i2 + a * e0 * i2, -c1 * e0 * g0 - c0 * e1 * g0 + b * f1 * g0 - c0 * e0 * g1 + b * f0 * g1 + c1 * d * h0 - a * f1 * h0 + c0 * d * h1 - a * f0 * h1 + a * e1 * i0 - b * d * i1 + a * e0 * i1, -c0 * e0 * g0 + b * f0 * g0 + c0 * d * h0 - a * f0 * h0 - b * d * i0 + a * e0 * i0);
+      poly.simplify();
+      var roots = poly.getRootsInInterval(0, 1);
+      var _iteratorNormalCompletion8 = true;
+      var _didIteratorError8 = false;
+      var _iteratorError8 = undefined;
+
+      try {
+        for (var _iterator8 = roots[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+          var s = _step8.value;
+          var xp = new Polynomial(c13.x, c12.x, c11.x, c10.x - c20.x - s * c21.x - s * s * c22.x - s * s * s * c23.x);
+          xp.simplify();
+          var xRoots = xp.getRoots();
+          var yp = new Polynomial(c13.y, c12.y, c11.y, c10.y - c20.y - s * c21.y - s * s * c22.y - s * s * s * c23.y);
+          yp.simplify();
+          var yRoots = yp.getRoots();
+
+          if (xRoots.length > 0 && yRoots.length > 0) {
+            var TOLERANCE = 1e-4;
+            var _iteratorNormalCompletion9 = true;
+            var _didIteratorError9 = false;
+            var _iteratorError9 = undefined;
+
+            try {
+              checkRoots: for (var _iterator9 = xRoots[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
+                var xRoot = _step9.value;
+
+                if (0 <= xRoot && xRoot <= 1) {
+                  for (var k = 0; k < yRoots.length; k++) {
+                    if (Math.abs(xRoot - yRoots[k]) < TOLERANCE) {
+                      result.points.push(c23.multiply(s * s * s).add(c22.multiply(s * s).add(c21.multiply(s).add(c20))));
+                      break checkRoots;
+                    }
+                  }
+                }
+              }
+            } catch (err) {
+              _didIteratorError9 = true;
+              _iteratorError9 = err;
+            } finally {
+              try {
+                if (!_iteratorNormalCompletion9 && _iterator9["return"] != null) {
+                  _iterator9["return"]();
+                }
+              } finally {
+                if (_didIteratorError9) {
+                  throw _iteratorError9;
                 }
               }
             }
           }
-        } catch (err) {
-          _didIteratorError9 = true;
-          _iteratorError9 = err;
+        }
+      } catch (err) {
+        _didIteratorError8 = true;
+        _iteratorError8 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion8 && _iterator8["return"] != null) {
+            _iterator8["return"]();
+          }
         } finally {
-          try {
-            if (!_iteratorNormalCompletion9 && _iterator9["return"] != null) {
-              _iterator9["return"]();
+          if (_didIteratorError8) {
+            throw _iteratorError8;
+          }
+        }
+      }
+
+      if (result.points.length > 0) {
+        result.status = "Intersection";
+      }
+
+      return result;
+    }
+    /**
+     *  intersectBezier3Circle
+     *
+     *  @param {module:kld-intersections.Point2D} p1
+     *  @param {module:kld-intersections.Point2D} p2
+     *  @param {module:kld-intersections.Point2D} p3
+     *  @param {module:kld-intersections.Point2D} p4
+     *  @param {module:kld-intersections.Point2D} c
+     *  @param {number} r
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectBezier3Circle",
+    value: function intersectBezier3Circle(p1, p2, p3, p4, c, r) {
+      return Intersection.intersectBezier3Ellipse(p1, p2, p3, p4, c, r, r);
+    }
+    /**
+     *  intersectBezier3Ellipse
+     *
+     *  @param {module:kld-intersections.Point2D} p1
+     *  @param {module:kld-intersections.Point2D} p2
+     *  @param {module:kld-intersections.Point2D} p3
+     *  @param {module:kld-intersections.Point2D} p4
+     *  @param {module:kld-intersections.Point2D} ec
+     *  @param {number} rx
+     *  @param {number} ry
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectBezier3Ellipse",
+    value: function intersectBezier3Ellipse(p1, p2, p3, p4, ec, rx, ry) {
+      var a, b, c, d; // temporary variables
+      // c3, c2, c1, c0; // coefficients of cubic
+
+      var result = new Intersection("No Intersection"); // Calculate the coefficients of cubic polynomial
+
+      a = p1.multiply(-1);
+      b = p2.multiply(3);
+      c = p3.multiply(-3);
+      d = a.add(b.add(c.add(p4)));
+      var c3 = new Vector2D(d.x, d.y);
+      a = p1.multiply(3);
+      b = p2.multiply(-6);
+      c = p3.multiply(3);
+      d = a.add(b.add(c));
+      var c2 = new Vector2D(d.x, d.y);
+      a = p1.multiply(-3);
+      b = p2.multiply(3);
+      c = a.add(b);
+      var c1 = new Vector2D(c.x, c.y);
+      var c0 = new Vector2D(p1.x, p1.y);
+      var rxrx = rx * rx;
+      var ryry = ry * ry;
+      var poly = new Polynomial(c3.x * c3.x * ryry + c3.y * c3.y * rxrx, 2 * (c3.x * c2.x * ryry + c3.y * c2.y * rxrx), 2 * (c3.x * c1.x * ryry + c3.y * c1.y * rxrx) + c2.x * c2.x * ryry + c2.y * c2.y * rxrx, 2 * c3.x * ryry * (c0.x - ec.x) + 2 * c3.y * rxrx * (c0.y - ec.y) + 2 * (c2.x * c1.x * ryry + c2.y * c1.y * rxrx), 2 * c2.x * ryry * (c0.x - ec.x) + 2 * c2.y * rxrx * (c0.y - ec.y) + c1.x * c1.x * ryry + c1.y * c1.y * rxrx, 2 * c1.x * ryry * (c0.x - ec.x) + 2 * c1.y * rxrx * (c0.y - ec.y), c0.x * c0.x * ryry - 2 * c0.y * ec.y * rxrx - 2 * c0.x * ec.x * ryry + c0.y * c0.y * rxrx + ec.x * ec.x * ryry + ec.y * ec.y * rxrx - rxrx * ryry);
+      var roots = poly.getRootsInInterval(0, 1);
+      var _iteratorNormalCompletion10 = true;
+      var _didIteratorError10 = false;
+      var _iteratorError10 = undefined;
+
+      try {
+        for (var _iterator10 = roots[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
+          var t = _step10.value;
+          result.points.push(c3.multiply(t * t * t).add(c2.multiply(t * t).add(c1.multiply(t).add(c0))));
+        }
+      } catch (err) {
+        _didIteratorError10 = true;
+        _iteratorError10 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion10 && _iterator10["return"] != null) {
+            _iterator10["return"]();
+          }
+        } finally {
+          if (_didIteratorError10) {
+            throw _iteratorError10;
+          }
+        }
+      }
+
+      if (result.points.length > 0) {
+        result.status = "Intersection";
+      }
+
+      return result;
+    }
+    /**
+     *  intersectBezier3Line
+     *
+     *  Many thanks to Dan Sunday at SoftSurfer.com.  He gave me a very thorough
+     *  sketch of the algorithm used here.  Without his help, I'm not sure when I
+     *  would have figured out this intersection problem.
+     *
+     *  @param {module:kld-intersections.Point2D} p1
+     *  @param {module:kld-intersections.Point2D} p2
+     *  @param {module:kld-intersections.Point2D} p3
+     *  @param {module:kld-intersections.Point2D} p4
+     *  @param {module:kld-intersections.Point2D} a1
+     *  @param {module:kld-intersections.Point2D} a2
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectBezier3Line",
+    value: function intersectBezier3Line(p1, p2, p3, p4, a1, a2) {
+      var a, b, c, d; // temporary variables
+      // c3, c2, c1, c0; // coefficients of cubic
+      // cl; // c coefficient for normal form of line
+      // n; // normal for normal form of line
+
+      var min = a1.min(a2); // used to determine if point is on line segment
+
+      var max = a1.max(a2); // used to determine if point is on line segment
+
+      var result = new Intersection("No Intersection"); // Start with Bezier using Bernstein polynomials for weighting functions:
+      //     (1-t^3)P1 + 3t(1-t)^2P2 + 3t^2(1-t)P3 + t^3P4
+      //
+      // Expand and collect terms to form linear combinations of original Bezier
+      // controls.  This ends up with a vector cubic in t:
+      //     (-P1+3P2-3P3+P4)t^3 + (3P1-6P2+3P3)t^2 + (-3P1+3P2)t + P1
+      //             /\                  /\                /\       /\
+      //             ||                  ||                ||       ||
+      //             c3                  c2                c1       c0
+      // Calculate the coefficients
+
+      a = p1.multiply(-1);
+      b = p2.multiply(3);
+      c = p3.multiply(-3);
+      d = a.add(b.add(c.add(p4)));
+      var c3 = new Vector2D(d.x, d.y);
+      a = p1.multiply(3);
+      b = p2.multiply(-6);
+      c = p3.multiply(3);
+      d = a.add(b.add(c));
+      var c2 = new Vector2D(d.x, d.y);
+      a = p1.multiply(-3);
+      b = p2.multiply(3);
+      c = a.add(b);
+      var c1 = new Vector2D(c.x, c.y);
+      var c0 = new Vector2D(p1.x, p1.y); // Convert line to normal form: ax + by + c = 0
+      // Find normal to line: negative inverse of original line's slope
+
+      var n = new Vector2D(a1.y - a2.y, a2.x - a1.x); // Determine new c coefficient
+
+      var cl = a1.x * a2.y - a2.x * a1.y; // ?Rotate each cubic coefficient using line for new coordinate system?
+      // Find roots of rotated cubic
+
+      var roots = new Polynomial(n.dot(c3), n.dot(c2), n.dot(c1), n.dot(c0) + cl).getRoots(); // Any roots in closed interval [0,1] are intersections on Bezier, but
+      // might not be on the line segment.
+      // Find intersections and calculate point coordinates
+
+      var _iteratorNormalCompletion11 = true;
+      var _didIteratorError11 = false;
+      var _iteratorError11 = undefined;
+
+      try {
+        for (var _iterator11 = roots[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
+          var t = _step11.value;
+
+          if (0 <= t && t <= 1) {
+            // We're within the Bezier curve
+            // Find point on Bezier
+            var p5 = p1.lerp(p2, t);
+            var p6 = p2.lerp(p3, t);
+            var p7 = p3.lerp(p4, t);
+            var p8 = p5.lerp(p6, t);
+            var p9 = p6.lerp(p7, t);
+            var p10 = p8.lerp(p9, t); // See if point is on line segment
+            // Had to make special cases for vertical and horizontal lines due
+            // to slight errors in calculation of p10
+
+            if (a1.x === a2.x) {
+              if (min.y <= p10.y && p10.y <= max.y) {
+                result.status = "Intersection";
+                result.appendPoint(p10);
+              }
+            } else if (a1.y === a2.y) {
+              if (min.x <= p10.x && p10.x <= max.x) {
+                result.status = "Intersection";
+                result.appendPoint(p10);
+              }
+            } else if (min.x <= p10.x && p10.x <= max.x && min.y <= p10.y && p10.y <= max.y) {
+              result.status = "Intersection";
+              result.appendPoint(p10);
             }
-          } finally {
-            if (_didIteratorError9) {
-              throw _iteratorError9;
+          }
+        }
+      } catch (err) {
+        _didIteratorError11 = true;
+        _iteratorError11 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion11 && _iterator11["return"] != null) {
+            _iterator11["return"]();
+          }
+        } finally {
+          if (_didIteratorError11) {
+            throw _iteratorError11;
+          }
+        }
+      }
+
+      return result;
+    }
+    /**
+     *  intersectBezier3Polygon
+     *
+     *  @param {module:kld-intersections.Point2D} p1
+     *  @param {module:kld-intersections.Point2D} p2
+     *  @param {module:kld-intersections.Point2D} p3
+     *  @param {module:kld-intersections.Point2D} p4
+     *  @param {Array<module:kld-intersections.Point2D>} points
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectBezier3Polygon",
+    value: function intersectBezier3Polygon(p1, p2, p3, p4, points) {
+      return Intersection.intersectBezier3Polyline(p1, p2, p3, p4, closePolygon(points));
+    }
+    /**
+     *  intersectBezier3Polyline
+     *
+     *  @param {module:kld-intersections.Point2D} p1
+     *  @param {module:kld-intersections.Point2D} p2
+     *  @param {module:kld-intersections.Point2D} p3
+     *  @param {module:kld-intersections.Point2D} p4
+     *  @param {Array<module:kld-intersections.Point2D>} points
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectBezier3Polyline",
+    value: function intersectBezier3Polyline(p1, p2, p3, p4, points) {
+      var result = new Intersection("No Intersection");
+      var len = points.length;
+
+      for (var i = 0; i < len - 1; i++) {
+        var a1 = points[i];
+        var a2 = points[i + 1];
+        var inter = Intersection.intersectBezier3Line(p1, p2, p3, p4, a1, a2);
+        result.appendPoints(inter.points);
+      }
+
+      if (result.points.length > 0) {
+        result.status = "Intersection";
+      }
+
+      return result;
+    }
+    /**
+     *  intersectBezier3Rectangle
+     *
+     *  @param {module:kld-intersections.Point2D} p1
+     *  @param {module:kld-intersections.Point2D} p2
+     *  @param {module:kld-intersections.Point2D} p3
+     *  @param {module:kld-intersections.Point2D} p4
+     *  @param {module:kld-intersections.Point2D} r1
+     *  @param {module:kld-intersections.Point2D} r2
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectBezier3Rectangle",
+    value: function intersectBezier3Rectangle(p1, p2, p3, p4, r1, r2) {
+      var min = r1.min(r2);
+      var max = r1.max(r2);
+      var topRight = new Point2D(max.x, min.y);
+      var bottomLeft = new Point2D(min.x, max.y);
+      var inter1 = Intersection.intersectBezier3Line(p1, p2, p3, p4, min, topRight);
+      var inter2 = Intersection.intersectBezier3Line(p1, p2, p3, p4, topRight, max);
+      var inter3 = Intersection.intersectBezier3Line(p1, p2, p3, p4, max, bottomLeft);
+      var inter4 = Intersection.intersectBezier3Line(p1, p2, p3, p4, bottomLeft, min);
+      var result = new Intersection("No Intersection");
+      result.appendPoints(inter1.points);
+      result.appendPoints(inter2.points);
+      result.appendPoints(inter3.points);
+      result.appendPoints(inter4.points);
+
+      if (result.points.length > 0) {
+        result.status = "Intersection";
+      }
+
+      return result;
+    }
+    /**
+     *  intersectCircleCircle
+     *
+     *  @param {module:kld-intersections.Point2D} c1
+     *  @param {number} r1
+     *  @param {module:kld-intersections.Point2D} c2
+     *  @param {number} r2
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectCircleCircle",
+    value: function intersectCircleCircle(c1, r1, c2, r2) {
+      var result; // Determine minimum and maximum radii where circles can intersect
+
+      var r_max = r1 + r2;
+      var r_min = Math.abs(r1 - r2); // Determine actual distance between circle circles
+
+      var c_dist = c1.distanceFrom(c2);
+
+      if (c_dist > r_max) {
+        result = new Intersection("Outside");
+      } else if (c_dist < r_min) {
+        result = new Intersection("Inside");
+      } else {
+        result = new Intersection("Intersection");
+        var a = (r1 * r1 - r2 * r2 + c_dist * c_dist) / (2 * c_dist);
+        var h = Math.sqrt(r1 * r1 - a * a);
+        var p = c1.lerp(c2, a / c_dist);
+        var b = h / c_dist;
+        result.points.push(new Point2D(p.x - b * (c2.y - c1.y), p.y + b * (c2.x - c1.x)));
+        result.points.push(new Point2D(p.x + b * (c2.y - c1.y), p.y - b * (c2.x - c1.x)));
+      }
+
+      return result;
+    }
+    /**
+     *  intersectCircleEllipse
+     *
+     *  @param {module:kld-intersections.Point2D} cc
+     *  @param {number} r
+     *  @param {module:kld-intersections.Point2D} ec
+     *  @param {number} rx
+     *  @param {number} ry
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectCircleEllipse",
+    value: function intersectCircleEllipse(cc, r, ec, rx, ry) {
+      return Intersection.intersectEllipseEllipse(cc, r, r, ec, rx, ry);
+    }
+    /**
+     *  intersectCircleLine
+     *
+     *  @param {module:kld-intersections.Point2D} c
+     *  @param {number} r
+     *  @param {module:kld-intersections.Point2D} a1
+     *  @param {module:kld-intersections.Point2D} a2
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectCircleLine",
+    value: function intersectCircleLine(c, r, a1, a2) {
+      var result;
+      var a = (a2.x - a1.x) * (a2.x - a1.x) + (a2.y - a1.y) * (a2.y - a1.y);
+      var b = 2 * ((a2.x - a1.x) * (a1.x - c.x) + (a2.y - a1.y) * (a1.y - c.y));
+      var cc = c.x * c.x + c.y * c.y + a1.x * a1.x + a1.y * a1.y - 2 * (c.x * a1.x + c.y * a1.y) - r * r;
+      var deter = b * b - 4 * a * cc;
+
+      if (deter < 0) {
+        result = new Intersection("Outside");
+      } else if (deter === 0) {
+        result = new Intersection("Tangent"); // NOTE: should calculate this point
+      } else {
+        var e = Math.sqrt(deter);
+        var u1 = (-b + e) / (2 * a);
+        var u2 = (-b - e) / (2 * a);
+
+        if ((u1 < 0 || u1 > 1) && (u2 < 0 || u2 > 1)) {
+          if (u1 < 0 && u2 < 0 || u1 > 1 && u2 > 1) {
+            result = new Intersection("Outside");
+          } else {
+            result = new Intersection("Inside");
+          }
+        } else {
+          result = new Intersection("Intersection");
+
+          if (0 <= u1 && u1 <= 1) {
+            result.points.push(a1.lerp(a2, u1));
+          }
+
+          if (0 <= u2 && u2 <= 1) {
+            result.points.push(a1.lerp(a2, u2));
+          }
+        }
+      }
+
+      return result;
+    }
+    /**
+     *  intersectCirclePolygon
+     *
+     *  @param {module:kld-intersections.Point2D} c
+     *  @param {number} r
+     *  @param {Array<module:kld-intersections.Point2D>} points
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectCirclePolygon",
+    value: function intersectCirclePolygon(c, r, points) {
+      return Intersection.intersectCirclePolyline(c, r, closePolygon(points));
+    }
+    /**
+     *  intersectCirclePolyline
+     *
+     *  @param {module:kld-intersections.Point2D} c
+     *  @param {number} r
+     *  @param {Array<module:kld-intersections.Point2D>} points
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectCirclePolyline",
+    value: function intersectCirclePolyline(c, r, points) {
+      var result = new Intersection("No Intersection");
+      var len = points.length;
+      var inter;
+
+      for (var i = 0; i < len - 1; i++) {
+        var a1 = points[i];
+        var a2 = points[i + 1];
+        inter = Intersection.intersectCircleLine(c, r, a1, a2);
+        result.appendPoints(inter.points);
+      }
+
+      if (result.points.length > 0) {
+        result.status = "Intersection";
+      } else {
+        result.status = inter.status;
+      }
+
+      return result;
+    }
+    /**
+     *  intersectCircleRectangle
+     *
+     *  @param {module:kld-intersections.Point2D} c
+     *  @param {number} r
+     *  @param {module:kld-intersections.Point2D} r1
+     *  @param {module:kld-intersections.Point2D} r2
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectCircleRectangle",
+    value: function intersectCircleRectangle(c, r, r1, r2) {
+      var min = r1.min(r2);
+      var max = r1.max(r2);
+      var topRight = new Point2D(max.x, min.y);
+      var bottomLeft = new Point2D(min.x, max.y);
+      var inter1 = Intersection.intersectCircleLine(c, r, min, topRight);
+      var inter2 = Intersection.intersectCircleLine(c, r, topRight, max);
+      var inter3 = Intersection.intersectCircleLine(c, r, max, bottomLeft);
+      var inter4 = Intersection.intersectCircleLine(c, r, bottomLeft, min);
+      var result = new Intersection("No Intersection");
+      result.appendPoints(inter1.points);
+      result.appendPoints(inter2.points);
+      result.appendPoints(inter3.points);
+      result.appendPoints(inter4.points);
+
+      if (result.points.length > 0) {
+        result.status = "Intersection";
+      } else {
+        result.status = inter1.status;
+      }
+
+      return result;
+    }
+    /**
+     *  intersectEllipseEllipse
+     *
+     *  This code is based on MgcIntr2DElpElp.cpp written by David Eberly.  His
+     *  code along with many other excellent examples are avaiable at his site:
+     *  http://www.magic-software.com
+     *
+     *  NOTE: Rotation will need to be added to this function
+     *
+     *  @param {module:kld-intersections.Point2D} c1
+     *  @param {number} rx1
+     *  @param {number} ry1
+     *  @param {module:kld-intersections.Point2D} c2
+     *  @param {number} rx2
+     *  @param {number} ry2
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectEllipseEllipse",
+    value: function intersectEllipseEllipse(c1, rx1, ry1, c2, rx2, ry2) {
+      var a = [ry1 * ry1, 0, rx1 * rx1, -2 * ry1 * ry1 * c1.x, -2 * rx1 * rx1 * c1.y, ry1 * ry1 * c1.x * c1.x + rx1 * rx1 * c1.y * c1.y - rx1 * rx1 * ry1 * ry1];
+      var b = [ry2 * ry2, 0, rx2 * rx2, -2 * ry2 * ry2 * c2.x, -2 * rx2 * rx2 * c2.y, ry2 * ry2 * c2.x * c2.x + rx2 * rx2 * c2.y * c2.y - rx2 * rx2 * ry2 * ry2];
+      var yPoly = bezout(a, b);
+      var yRoots = yPoly.getRoots();
+      var epsilon = 1e-3;
+      var norm0 = (a[0] * a[0] + 2 * a[1] * a[1] + a[2] * a[2]) * epsilon;
+      var norm1 = (b[0] * b[0] + 2 * b[1] * b[1] + b[2] * b[2]) * epsilon;
+      var result = new Intersection("No Intersection");
+
+      for (var y = 0; y < yRoots.length; y++) {
+        var xPoly = new Polynomial(a[0], a[3] + yRoots[y] * a[1], a[5] + yRoots[y] * (a[4] + yRoots[y] * a[2]));
+        var xRoots = xPoly.getRoots();
+
+        for (var x = 0; x < xRoots.length; x++) {
+          var tst = (a[0] * xRoots[x] + a[1] * yRoots[y] + a[3]) * xRoots[x] + (a[2] * yRoots[y] + a[4]) * yRoots[y] + a[5];
+
+          if (Math.abs(tst) < norm0) {
+            tst = (b[0] * xRoots[x] + b[1] * yRoots[y] + b[3]) * xRoots[x] + (b[2] * yRoots[y] + b[4]) * yRoots[y] + b[5];
+
+            if (Math.abs(tst) < norm1) {
+              result.appendPoint(new Point2D(xRoots[x], yRoots[y]));
             }
           }
         }
       }
-    }
-  } catch (err) {
-    _didIteratorError8 = true;
-    _iteratorError8 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion8 && _iterator8["return"] != null) {
-        _iterator8["return"]();
+
+      if (result.points.length > 0) {
+        result.status = "Intersection";
       }
-    } finally {
-      if (_didIteratorError8) {
-        throw _iteratorError8;
-      }
+
+      return result;
     }
-  }
+    /**
+     *  intersectEllipseLine
+     *
+     *  NOTE: Rotation will need to be added to this function
+     *
+     *  @param {module:kld-intersections.Point2D} c
+     *  @param {number} rx
+     *  @param {number} ry
+     *  @param {module:kld-intersections.Point2D} a1
+     *  @param {module:kld-intersections.Point2D} a2
+     *  @returns {module:kld-intersections.Intersection}
+     */
 
-  if (result.points.length > 0) {
-    result.status = "Intersection";
-  }
+  }, {
+    key: "intersectEllipseLine",
+    value: function intersectEllipseLine(c, rx, ry, a1, a2) {
+      var result;
+      var orign = new Vector2D(a1.x, a1.y);
+      var dir = Vector2D.fromPoints(a1, a2);
+      var center = new Vector2D(c.x, c.y);
+      var diff = orign.subtract(center);
+      var mDir = new Vector2D(dir.x / (rx * rx), dir.y / (ry * ry));
+      var mDiff = new Vector2D(diff.x / (rx * rx), diff.y / (ry * ry));
+      var a = dir.dot(mDir);
+      var b = dir.dot(mDiff);
+      c = diff.dot(mDiff) - 1.0;
+      var d = b * b - a * c;
 
-  return result;
-};
-/**
- *  intersectBezier3Circle
- *
- *  @param {module:kld-intersections.Point2D} p1
- *  @param {module:kld-intersections.Point2D} p2
- *  @param {module:kld-intersections.Point2D} p3
- *  @param {module:kld-intersections.Point2D} p4
- *  @param {module:kld-intersections.Point2D} c
- *  @param {number} r
- *  @returns {module:kld-intersections.Intersection}
- */
+      if (d < 0) {
+        result = new Intersection("Outside");
+      } else if (d > 0) {
+        var root = Math.sqrt(d); // eslint-disable-line no-shadow
 
+        var t_a = (-b - root) / a;
+        var t_b = (-b + root) / a;
 
-Intersection.intersectBezier3Circle = function (p1, p2, p3, p4, c, r) {
-  return Intersection.intersectBezier3Ellipse(p1, p2, p3, p4, c, r, r);
-};
-/**
- *  intersectBezier3Ellipse
- *
- *  @param {module:kld-intersections.Point2D} p1
- *  @param {module:kld-intersections.Point2D} p2
- *  @param {module:kld-intersections.Point2D} p3
- *  @param {module:kld-intersections.Point2D} p4
- *  @param {module:kld-intersections.Point2D} ec
- *  @param {number} rx
- *  @param {number} ry
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectBezier3Ellipse = function (p1, p2, p3, p4, ec, rx, ry) {
-  var a, b, c, d; // temporary variables
-  // c3, c2, c1, c0; // coefficients of cubic
-
-  var result = new Intersection("No Intersection"); // Calculate the coefficients of cubic polynomial
-
-  a = p1.multiply(-1);
-  b = p2.multiply(3);
-  c = p3.multiply(-3);
-  d = a.add(b.add(c.add(p4)));
-  var c3 = new Vector2D(d.x, d.y);
-  a = p1.multiply(3);
-  b = p2.multiply(-6);
-  c = p3.multiply(3);
-  d = a.add(b.add(c));
-  var c2 = new Vector2D(d.x, d.y);
-  a = p1.multiply(-3);
-  b = p2.multiply(3);
-  c = a.add(b);
-  var c1 = new Vector2D(c.x, c.y);
-  var c0 = new Vector2D(p1.x, p1.y);
-  var rxrx = rx * rx;
-  var ryry = ry * ry;
-  var poly = new Polynomial(c3.x * c3.x * ryry + c3.y * c3.y * rxrx, 2 * (c3.x * c2.x * ryry + c3.y * c2.y * rxrx), 2 * (c3.x * c1.x * ryry + c3.y * c1.y * rxrx) + c2.x * c2.x * ryry + c2.y * c2.y * rxrx, 2 * c3.x * ryry * (c0.x - ec.x) + 2 * c3.y * rxrx * (c0.y - ec.y) + 2 * (c2.x * c1.x * ryry + c2.y * c1.y * rxrx), 2 * c2.x * ryry * (c0.x - ec.x) + 2 * c2.y * rxrx * (c0.y - ec.y) + c1.x * c1.x * ryry + c1.y * c1.y * rxrx, 2 * c1.x * ryry * (c0.x - ec.x) + 2 * c1.y * rxrx * (c0.y - ec.y), c0.x * c0.x * ryry - 2 * c0.y * ec.y * rxrx - 2 * c0.x * ec.x * ryry + c0.y * c0.y * rxrx + ec.x * ec.x * ryry + ec.y * ec.y * rxrx - rxrx * ryry);
-  var roots = poly.getRootsInInterval(0, 1);
-  var _iteratorNormalCompletion10 = true;
-  var _didIteratorError10 = false;
-  var _iteratorError10 = undefined;
-
-  try {
-    for (var _iterator10 = roots[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
-      var t = _step10.value;
-      result.points.push(c3.multiply(t * t * t).add(c2.multiply(t * t).add(c1.multiply(t).add(c0))));
-    }
-  } catch (err) {
-    _didIteratorError10 = true;
-    _iteratorError10 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion10 && _iterator10["return"] != null) {
-        _iterator10["return"]();
-      }
-    } finally {
-      if (_didIteratorError10) {
-        throw _iteratorError10;
-      }
-    }
-  }
-
-  if (result.points.length > 0) {
-    result.status = "Intersection";
-  }
-
-  return result;
-};
-/**
- *  intersectBezier3Line
- *
- *  Many thanks to Dan Sunday at SoftSurfer.com.  He gave me a very thorough
- *  sketch of the algorithm used here.  Without his help, I'm not sure when I
- *  would have figured out this intersection problem.
- *
- *  @param {module:kld-intersections.Point2D} p1
- *  @param {module:kld-intersections.Point2D} p2
- *  @param {module:kld-intersections.Point2D} p3
- *  @param {module:kld-intersections.Point2D} p4
- *  @param {module:kld-intersections.Point2D} a1
- *  @param {module:kld-intersections.Point2D} a2
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectBezier3Line = function (p1, p2, p3, p4, a1, a2) {
-  var a, b, c, d; // temporary variables
-  // c3, c2, c1, c0; // coefficients of cubic
-  // cl; // c coefficient for normal form of line
-  // n; // normal for normal form of line
-
-  var min = a1.min(a2); // used to determine if point is on line segment
-
-  var max = a1.max(a2); // used to determine if point is on line segment
-
-  var result = new Intersection("No Intersection"); // Start with Bezier using Bernstein polynomials for weighting functions:
-  //     (1-t^3)P1 + 3t(1-t)^2P2 + 3t^2(1-t)P3 + t^3P4
-  //
-  // Expand and collect terms to form linear combinations of original Bezier
-  // controls.  This ends up with a vector cubic in t:
-  //     (-P1+3P2-3P3+P4)t^3 + (3P1-6P2+3P3)t^2 + (-3P1+3P2)t + P1
-  //             /\                  /\                /\       /\
-  //             ||                  ||                ||       ||
-  //             c3                  c2                c1       c0
-  // Calculate the coefficients
-
-  a = p1.multiply(-1);
-  b = p2.multiply(3);
-  c = p3.multiply(-3);
-  d = a.add(b.add(c.add(p4)));
-  var c3 = new Vector2D(d.x, d.y);
-  a = p1.multiply(3);
-  b = p2.multiply(-6);
-  c = p3.multiply(3);
-  d = a.add(b.add(c));
-  var c2 = new Vector2D(d.x, d.y);
-  a = p1.multiply(-3);
-  b = p2.multiply(3);
-  c = a.add(b);
-  var c1 = new Vector2D(c.x, c.y);
-  var c0 = new Vector2D(p1.x, p1.y); // Convert line to normal form: ax + by + c = 0
-  // Find normal to line: negative inverse of original line's slope
-
-  var n = new Vector2D(a1.y - a2.y, a2.x - a1.x); // Determine new c coefficient
-
-  var cl = a1.x * a2.y - a2.x * a1.y; // ?Rotate each cubic coefficient using line for new coordinate system?
-  // Find roots of rotated cubic
-
-  var roots = new Polynomial(n.dot(c3), n.dot(c2), n.dot(c1), n.dot(c0) + cl).getRoots(); // Any roots in closed interval [0,1] are intersections on Bezier, but
-  // might not be on the line segment.
-  // Find intersections and calculate point coordinates
-
-  var _iteratorNormalCompletion11 = true;
-  var _didIteratorError11 = false;
-  var _iteratorError11 = undefined;
-
-  try {
-    for (var _iterator11 = roots[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
-      var t = _step11.value;
-
-      if (0 <= t && t <= 1) {
-        // We're within the Bezier curve
-        // Find point on Bezier
-        var p5 = p1.lerp(p2, t);
-        var p6 = p2.lerp(p3, t);
-        var p7 = p3.lerp(p4, t);
-        var p8 = p5.lerp(p6, t);
-        var p9 = p6.lerp(p7, t);
-        var p10 = p8.lerp(p9, t); // See if point is on line segment
-        // Had to make special cases for vertical and horizontal lines due
-        // to slight errors in calculation of p10
-
-        if (a1.x == a2.x) {
-          if (min.y <= p10.y && p10.y <= max.y) {
-            result.status = "Intersection";
-            result.appendPoint(p10);
+        if ((t_a < 0 || 1 < t_a) && (t_b < 0 || 1 < t_b)) {
+          if (t_a < 0 && t_b < 0 || t_a > 1 && t_b > 1) {
+            result = new Intersection("Outside");
+          } else {
+            result = new Intersection("Inside");
           }
-        } else if (a1.y == a2.y) {
-          if (min.x <= p10.x && p10.x <= max.x) {
-            result.status = "Intersection";
-            result.appendPoint(p10);
+        } else {
+          result = new Intersection("Intersection");
+
+          if (0 <= t_a && t_a <= 1) {
+            result.appendPoint(a1.lerp(a2, t_a));
           }
-        } else if (min.x <= p10.x && p10.x <= max.x && min.y <= p10.y && p10.y <= max.y) {
-          result.status = "Intersection";
-          result.appendPoint(p10);
+
+          if (0 <= t_b && t_b <= 1) {
+            result.appendPoint(a1.lerp(a2, t_b));
+          }
+        }
+      } else {
+        var t = -b / a;
+
+        if (0 <= t && t <= 1) {
+          result = new Intersection("Intersection");
+          result.appendPoint(a1.lerp(a2, t));
+        } else {
+          result = new Intersection("Outside");
         }
       }
+
+      return result;
     }
-  } catch (err) {
-    _didIteratorError11 = true;
-    _iteratorError11 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion11 && _iterator11["return"] != null) {
-        _iterator11["return"]();
-      }
-    } finally {
-      if (_didIteratorError11) {
-        throw _iteratorError11;
-      }
+    /**
+     *  intersectEllipsePolygon
+     *
+     *  @param {module:kld-intersections.Point2D} c
+     *  @param {number} rx
+     *  @param {number} ry
+     *  @param {Array<module:kld-intersections.Point2D>} points
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectEllipsePolygon",
+    value: function intersectEllipsePolygon(c, rx, ry, points) {
+      return Intersection.intersectEllipsePolyline(c, rx, ry, closePolygon(points));
     }
-  }
+    /**
+     *  intersectEllipsePolyline
+     *
+     *  @param {module:kld-intersections.Point2D} c
+     *  @param {number} rx
+     *  @param {number} ry
+     *  @param {Array<module:kld-intersections.Point2D>} points
+     *  @returns {module:kld-intersections.Intersection}
+     */
 
-  return result;
-};
-/**
- *  intersectBezier3Polygon
- *
- *  @param {module:kld-intersections.Point2D} p1
- *  @param {module:kld-intersections.Point2D} p2
- *  @param {module:kld-intersections.Point2D} p3
- *  @param {module:kld-intersections.Point2D} p4
- *  @param {Array<module:kld-intersections.Point2D>} points
- *  @returns {module:kld-intersections.Intersection}
- */
+  }, {
+    key: "intersectEllipsePolyline",
+    value: function intersectEllipsePolyline(c, rx, ry, points) {
+      var result = new Intersection("No Intersection");
+      var len = points.length;
 
-
-Intersection.intersectBezier3Polygon = function (p1, p2, p3, p4, points) {
-  return this.intersectBezier3Polyline(p1, p2, p3, p4, closePolygon(points));
-};
-/**
- *  intersectBezier3Polyline
- *
- *  @param {module:kld-intersections.Point2D} p1
- *  @param {module:kld-intersections.Point2D} p2
- *  @param {module:kld-intersections.Point2D} p3
- *  @param {module:kld-intersections.Point2D} p4
- *  @param {Array<module:kld-intersections.Point2D>} points
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectBezier3Polyline = function (p1, p2, p3, p4, points) {
-  var result = new Intersection("No Intersection");
-  var len = points.length;
-
-  for (var i = 0; i < len - 1; i++) {
-    var a1 = points[i];
-    var a2 = points[i + 1];
-    var inter = Intersection.intersectBezier3Line(p1, p2, p3, p4, a1, a2);
-    result.appendPoints(inter.points);
-  }
-
-  if (result.points.length > 0) {
-    result.status = "Intersection";
-  }
-
-  return result;
-};
-/**
- *  intersectBezier3Rectangle
- *
- *  @param {module:kld-intersections.Point2D} p1
- *  @param {module:kld-intersections.Point2D} p2
- *  @param {module:kld-intersections.Point2D} p3
- *  @param {module:kld-intersections.Point2D} p4
- *  @param {module:kld-intersections.Point2D} r1
- *  @param {module:kld-intersections.Point2D} r2
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectBezier3Rectangle = function (p1, p2, p3, p4, r1, r2) {
-  var min = r1.min(r2);
-  var max = r1.max(r2);
-  var topRight = new Point2D(max.x, min.y);
-  var bottomLeft = new Point2D(min.x, max.y);
-  var inter1 = Intersection.intersectBezier3Line(p1, p2, p3, p4, min, topRight);
-  var inter2 = Intersection.intersectBezier3Line(p1, p2, p3, p4, topRight, max);
-  var inter3 = Intersection.intersectBezier3Line(p1, p2, p3, p4, max, bottomLeft);
-  var inter4 = Intersection.intersectBezier3Line(p1, p2, p3, p4, bottomLeft, min);
-  var result = new Intersection("No Intersection");
-  result.appendPoints(inter1.points);
-  result.appendPoints(inter2.points);
-  result.appendPoints(inter3.points);
-  result.appendPoints(inter4.points);
-
-  if (result.points.length > 0) {
-    result.status = "Intersection";
-  }
-
-  return result;
-};
-/**
- *  intersectCircleCircle
- *
- *  @param {module:kld-intersections.Point2D} c1
- *  @param {number} r1
- *  @param {module:kld-intersections.Point2D} c2
- *  @param {number} r2
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectCircleCircle = function (c1, r1, c2, r2) {
-  var result; // Determine minimum and maximum radii where circles can intersect
-
-  var r_max = r1 + r2;
-  var r_min = Math.abs(r1 - r2); // Determine actual distance between circle circles
-
-  var c_dist = c1.distanceFrom(c2);
-
-  if (c_dist > r_max) {
-    result = new Intersection("Outside");
-  } else if (c_dist < r_min) {
-    result = new Intersection("Inside");
-  } else {
-    result = new Intersection("Intersection");
-    var a = (r1 * r1 - r2 * r2 + c_dist * c_dist) / (2 * c_dist);
-    var h = Math.sqrt(r1 * r1 - a * a);
-    var p = c1.lerp(c2, a / c_dist);
-    var b = h / c_dist;
-    result.points.push(new Point2D(p.x - b * (c2.y - c1.y), p.y + b * (c2.x - c1.x)));
-    result.points.push(new Point2D(p.x + b * (c2.y - c1.y), p.y - b * (c2.x - c1.x)));
-  }
-
-  return result;
-};
-/**
- *  intersectCircleEllipse
- *
- *  @param {module:kld-intersections.Point2D} cc
- *  @param {number} r
- *  @param {module:kld-intersections.Point2D} ec
- *  @param {number} rx
- *  @param {number} ry
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectCircleEllipse = function (cc, r, ec, rx, ry) {
-  return Intersection.intersectEllipseEllipse(cc, r, r, ec, rx, ry);
-};
-/**
- *  intersectCircleLine
- *
- *  @param {module:kld-intersections.Point2D} c
- *  @param {number} r
- *  @param {module:kld-intersections.Point2D} a1
- *  @param {module:kld-intersections.Point2D} a2
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectCircleLine = function (c, r, a1, a2) {
-  var result;
-  var a = (a2.x - a1.x) * (a2.x - a1.x) + (a2.y - a1.y) * (a2.y - a1.y);
-  var b = 2 * ((a2.x - a1.x) * (a1.x - c.x) + (a2.y - a1.y) * (a1.y - c.y));
-  var cc = c.x * c.x + c.y * c.y + a1.x * a1.x + a1.y * a1.y - 2 * (c.x * a1.x + c.y * a1.y) - r * r;
-  var deter = b * b - 4 * a * cc;
-
-  if (deter < 0) {
-    result = new Intersection("Outside");
-  } else if (deter == 0) {
-    result = new Intersection("Tangent"); // NOTE: should calculate this point
-  } else {
-    var e = Math.sqrt(deter);
-    var u1 = (-b + e) / (2 * a);
-    var u2 = (-b - e) / (2 * a);
-
-    if ((u1 < 0 || u1 > 1) && (u2 < 0 || u2 > 1)) {
-      if (u1 < 0 && u2 < 0 || u1 > 1 && u2 > 1) {
-        result = new Intersection("Outside");
-      } else {
-        result = new Intersection("Inside");
-      }
-    } else {
-      result = new Intersection("Intersection");
-
-      if (0 <= u1 && u1 <= 1) {
-        result.points.push(a1.lerp(a2, u1));
+      for (var i = 0; i < len - 1; i++) {
+        var b1 = points[i];
+        var b2 = points[i + 1];
+        var inter = Intersection.intersectEllipseLine(c, rx, ry, b1, b2);
+        result.appendPoints(inter.points);
       }
 
-      if (0 <= u2 && u2 <= 1) {
-        result.points.push(a1.lerp(a2, u2));
+      if (result.points.length > 0) {
+        result.status = "Intersection";
       }
+
+      return result;
     }
-  }
+    /**
+     *  intersectEllipseRectangle
+     *
+     *  @param {module:kld-intersections.Point2D} c
+     *  @param {number} rx
+     *  @param {number} ry
+     *  @param {module:kld-intersections.Point2D} r1
+     *  @param {module:kld-intersections.Point2D} r2
+     *  @returns {module:kld-intersections.Intersection}
+     */
 
-  return result;
-};
-/**
- *  intersectCirclePolygon
- *
- *  @param {module:kld-intersections.Point2D} c
- *  @param {number} r
- *  @param {Array<module:kld-intersections.Point2D>} points
- *  @returns {module:kld-intersections.Intersection}
- */
+  }, {
+    key: "intersectEllipseRectangle",
+    value: function intersectEllipseRectangle(c, rx, ry, r1, r2) {
+      var min = r1.min(r2);
+      var max = r1.max(r2);
+      var topRight = new Point2D(max.x, min.y);
+      var bottomLeft = new Point2D(min.x, max.y);
+      var inter1 = Intersection.intersectEllipseLine(c, rx, ry, min, topRight);
+      var inter2 = Intersection.intersectEllipseLine(c, rx, ry, topRight, max);
+      var inter3 = Intersection.intersectEllipseLine(c, rx, ry, max, bottomLeft);
+      var inter4 = Intersection.intersectEllipseLine(c, rx, ry, bottomLeft, min);
+      var result = new Intersection("No Intersection");
+      result.appendPoints(inter1.points);
+      result.appendPoints(inter2.points);
+      result.appendPoints(inter3.points);
+      result.appendPoints(inter4.points);
 
+      if (result.points.length > 0) {
+        result.status = "Intersection";
+      }
 
-Intersection.intersectCirclePolygon = function (c, r, points) {
-  return this.intersectCirclePolyline(c, r, closePolygon(points));
-};
-/**
- *  intersectCirclePolyline
- *
- *  @param {module:kld-intersections.Point2D} c
- *  @param {number} r
- *  @param {Array<module:kld-intersections.Point2D>} points
- *  @returns {module:kld-intersections.Intersection}
- */
+      return result;
+    }
+    /**
+     *  intersectLineLine
+     *
+     *  @param {module:kld-intersections.Point2D} a1
+     *  @param {module:kld-intersections.Point2D} a2
+     *  @param {module:kld-intersections.Point2D} b1
+     *  @param {module:kld-intersections.Point2D} b2
+     *  @returns {module:kld-intersections.Intersection}
+     */
 
+  }, {
+    key: "intersectLineLine",
+    value: function intersectLineLine(a1, a2, b1, b2) {
+      var result;
+      var ua_t = (b2.x - b1.x) * (a1.y - b1.y) - (b2.y - b1.y) * (a1.x - b1.x);
+      var ub_t = (a2.x - a1.x) * (a1.y - b1.y) - (a2.y - a1.y) * (a1.x - b1.x);
+      var u_b = (b2.y - b1.y) * (a2.x - a1.x) - (b2.x - b1.x) * (a2.y - a1.y);
 
-Intersection.intersectCirclePolyline = function (c, r, points) {
-  var result = new Intersection("No Intersection");
-  var len = points.length;
-  var inter;
+      if (u_b !== 0) {
+        var ua = ua_t / u_b;
+        var ub = ub_t / u_b;
 
-  for (var i = 0; i < len - 1; i++) {
-    var a1 = points[i];
-    var a2 = points[i + 1];
-    inter = Intersection.intersectCircleLine(c, r, a1, a2);
-    result.appendPoints(inter.points);
-  }
-
-  if (result.points.length > 0) {
-    result.status = "Intersection";
-  } else {
-    result.status = inter.status;
-  }
-
-  return result;
-};
-/**
- *  intersectCircleRectangle
- *
- *  @param {module:kld-intersections.Point2D} c
- *  @param {number} r
- *  @param {module:kld-intersections.Point2D} r1
- *  @param {module:kld-intersections.Point2D} r2
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectCircleRectangle = function (c, r, r1, r2) {
-  var min = r1.min(r2);
-  var max = r1.max(r2);
-  var topRight = new Point2D(max.x, min.y);
-  var bottomLeft = new Point2D(min.x, max.y);
-  var inter1 = Intersection.intersectCircleLine(c, r, min, topRight);
-  var inter2 = Intersection.intersectCircleLine(c, r, topRight, max);
-  var inter3 = Intersection.intersectCircleLine(c, r, max, bottomLeft);
-  var inter4 = Intersection.intersectCircleLine(c, r, bottomLeft, min);
-  var result = new Intersection("No Intersection");
-  result.appendPoints(inter1.points);
-  result.appendPoints(inter2.points);
-  result.appendPoints(inter3.points);
-  result.appendPoints(inter4.points);
-
-  if (result.points.length > 0) {
-    result.status = "Intersection";
-  } else {
-    result.status = inter1.status;
-  }
-
-  return result;
-};
-/**
- *  intersectEllipseEllipse
- *
- *  This code is based on MgcIntr2DElpElp.cpp written by David Eberly.  His
- *  code along with many other excellent examples are avaiable at his site:
- *  http://www.magic-software.com
- *
- *  NOTE: Rotation will need to be added to this function
- *
- *  @param {module:kld-intersections.Point2D} c1
- *  @param {number} rx1
- *  @param {number} ry1
- *  @param {module:kld-intersections.Point2D} c2
- *  @param {number} rx2
- *  @param {number} ry2
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectEllipseEllipse = function (c1, rx1, ry1, c2, rx2, ry2) {
-  var a = [ry1 * ry1, 0, rx1 * rx1, -2 * ry1 * ry1 * c1.x, -2 * rx1 * rx1 * c1.y, ry1 * ry1 * c1.x * c1.x + rx1 * rx1 * c1.y * c1.y - rx1 * rx1 * ry1 * ry1];
-  var b = [ry2 * ry2, 0, rx2 * rx2, -2 * ry2 * ry2 * c2.x, -2 * rx2 * rx2 * c2.y, ry2 * ry2 * c2.x * c2.x + rx2 * rx2 * c2.y * c2.y - rx2 * rx2 * ry2 * ry2];
-  var yPoly = Intersection.bezout(a, b);
-  var yRoots = yPoly.getRoots();
-  var epsilon = 1e-3;
-  var norm0 = (a[0] * a[0] + 2 * a[1] * a[1] + a[2] * a[2]) * epsilon;
-  var norm1 = (b[0] * b[0] + 2 * b[1] * b[1] + b[2] * b[2]) * epsilon;
-  var result = new Intersection("No Intersection");
-
-  for (var y = 0; y < yRoots.length; y++) {
-    var xPoly = new Polynomial(a[0], a[3] + yRoots[y] * a[1], a[5] + yRoots[y] * (a[4] + yRoots[y] * a[2]));
-    var xRoots = xPoly.getRoots();
-
-    for (var x = 0; x < xRoots.length; x++) {
-      var tst = (a[0] * xRoots[x] + a[1] * yRoots[y] + a[3]) * xRoots[x] + (a[2] * yRoots[y] + a[4]) * yRoots[y] + a[5];
-
-      if (Math.abs(tst) < norm0) {
-        tst = (b[0] * xRoots[x] + b[1] * yRoots[y] + b[3]) * xRoots[x] + (b[2] * yRoots[y] + b[4]) * yRoots[y] + b[5];
-
-        if (Math.abs(tst) < norm1) {
-          result.appendPoint(new Point2D(xRoots[x], yRoots[y]));
+        if (0 <= ua && ua <= 1 && 0 <= ub && ub <= 1) {
+          result = new Intersection("Intersection");
+          result.points.push(new Point2D(a1.x + ua * (a2.x - a1.x), a1.y + ua * (a2.y - a1.y)));
+        } else {
+          result = new Intersection("No Intersection");
         }
-      }
-    }
-  }
-
-  if (result.points.length > 0) {
-    result.status = "Intersection";
-  }
-
-  return result;
-};
-/**
- *  intersectEllipseLine
- *
- *  NOTE: Rotation will need to be added to this function
- *
- *  @param {module:kld-intersections.Point2D} c
- *  @param {number} rx
- *  @param {number} ry
- *  @param {module:kld-intersections.Point2D} a1
- *  @param {module:kld-intersections.Point2D} a2
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectEllipseLine = function (c, rx, ry, a1, a2) {
-  var result;
-  var orign = new Vector2D(a1.x, a1.y);
-  var dir = Vector2D.fromPoints(a1, a2);
-  var center = new Vector2D(c.x, c.y);
-  var diff = orign.subtract(center);
-  var mDir = new Vector2D(dir.x / (rx * rx), dir.y / (ry * ry));
-  var mDiff = new Vector2D(diff.x / (rx * rx), diff.y / (ry * ry));
-  var a = dir.dot(mDir);
-  var b = dir.dot(mDiff);
-  c = diff.dot(mDiff) - 1.0;
-  var d = b * b - a * c;
-
-  if (d < 0) {
-    result = new Intersection("Outside");
-  } else if (d > 0) {
-    var root = Math.sqrt(d); // eslint-disable-line no-shadow
-
-    var t_a = (-b - root) / a;
-    var t_b = (-b + root) / a;
-
-    if ((t_a < 0 || 1 < t_a) && (t_b < 0 || 1 < t_b)) {
-      if (t_a < 0 && t_b < 0 || t_a > 1 && t_b > 1) {
-        result = new Intersection("Outside");
+      } else if (ua_t === 0 || ub_t === 0) {
+        result = new Intersection("Coincident");
       } else {
-        result = new Intersection("Inside");
-      }
-    } else {
-      result = new Intersection("Intersection");
-
-      if (0 <= t_a && t_a <= 1) {
-        result.appendPoint(a1.lerp(a2, t_a));
+        result = new Intersection("Parallel");
       }
 
-      if (0 <= t_b && t_b <= 1) {
-        result.appendPoint(a1.lerp(a2, t_b));
+      return result;
+    }
+    /**
+     *  intersectLinePolygon
+     *
+     *  @param {module:kld-intersections.Point2D} a1
+     *  @param {module:kld-intersections.Point2D} a2
+     *  @param {Array<module:kld-intersections.Point2D>} points
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectLinePolygon",
+    value: function intersectLinePolygon(a1, a2, points) {
+      return Intersection.intersectLinePolyline(a1, a2, closePolygon(points));
+    }
+    /**
+     *  intersectLinePolyline
+     *
+     *  @param {module:kld-intersections.Point2D} a1
+     *  @param {module:kld-intersections.Point2D} a2
+     *  @param {Array<module:kld-intersections.Point2D>} points
+     *  @returns {module:kld-intersections.Intersection}
+     */
+
+  }, {
+    key: "intersectLinePolyline",
+    value: function intersectLinePolyline(a1, a2, points) {
+      var result = new Intersection("No Intersection");
+      var len = points.length;
+
+      for (var i = 0; i < len - 1; i++) {
+        var b1 = points[i];
+        var b2 = points[i + 1];
+        var inter = Intersection.intersectLineLine(a1, a2, b1, b2);
+        result.appendPoints(inter.points);
       }
+
+      if (result.points.length > 0) {
+        result.status = "Intersection";
+      }
+
+      return result;
     }
-  } else {
-    var t = -b / a;
+    /**
+     *  intersectLineRectangle
+     *
+     *  @param {module:kld-intersections.Point2D} a1
+     *  @param {module:kld-intersections.Point2D} a2
+     *  @param {module:kld-intersections.Point2D} r1
+     *  @param {module:kld-intersections.Point2D} r2
+     *  @returns {module:kld-intersections.Intersection}
+     */
 
-    if (0 <= t && t <= 1) {
-      result = new Intersection("Intersection");
-      result.appendPoint(a1.lerp(a2, t));
-    } else {
-      result = new Intersection("Outside");
+  }, {
+    key: "intersectLineRectangle",
+    value: function intersectLineRectangle(a1, a2, r1, r2) {
+      var min = r1.min(r2);
+      var max = r1.max(r2);
+      var topRight = new Point2D(max.x, min.y);
+      var bottomLeft = new Point2D(min.x, max.y);
+      var inter1 = Intersection.intersectLineLine(min, topRight, a1, a2);
+      var inter2 = Intersection.intersectLineLine(topRight, max, a1, a2);
+      var inter3 = Intersection.intersectLineLine(max, bottomLeft, a1, a2);
+      var inter4 = Intersection.intersectLineLine(bottomLeft, min, a1, a2);
+      var result = new Intersection("No Intersection");
+      result.appendPoints(inter1.points);
+      result.appendPoints(inter2.points);
+      result.appendPoints(inter3.points);
+      result.appendPoints(inter4.points);
+
+      if (result.points.length > 0) {
+        result.status = "Intersection";
+      }
+
+      return result;
     }
-  }
+    /**
+     *  intersectPolygonPolygon
+     *
+     *  @param {Array<module:kld-intersections.Point2D>} points1
+     *  @param {Array<module:kld-intersections.Point2D>} points2
+     *  @returns {module:kld-intersections.Intersection}
+     */
 
-  return result;
-};
-/**
- *  intersectEllipsePolygon
- *
- *  @param {module:kld-intersections.Point2D} c
- *  @param {number} rx
- *  @param {number} ry
- *  @param {Array<module:kld-intersections.Point2D>} points
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectEllipsePolygon = function (c, rx, ry, points) {
-  return this.intersectEllipsePolyline(c, rx, ry, closePolygon(points));
-};
-/**
- *  intersectEllipsePolyline
- *
- *  @param {module:kld-intersections.Point2D} c
- *  @param {number} rx
- *  @param {number} ry
- *  @param {Array<module:kld-intersections.Point2D>} points
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectEllipsePolyline = function (c, rx, ry, points) {
-  var result = new Intersection("No Intersection");
-  var len = points.length;
-
-  for (var i = 0; i < len - 1; i++) {
-    var b1 = points[i];
-    var b2 = points[i + 1];
-    var inter = Intersection.intersectEllipseLine(c, rx, ry, b1, b2);
-    result.appendPoints(inter.points);
-  }
-
-  if (result.points.length > 0) {
-    result.status = "Intersection";
-  }
-
-  return result;
-};
-/**
- *  intersectEllipseRectangle
- *
- *  @param {module:kld-intersections.Point2D} c
- *  @param {number} rx
- *  @param {number} ry
- *  @param {module:kld-intersections.Point2D} r1
- *  @param {module:kld-intersections.Point2D} r2
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectEllipseRectangle = function (c, rx, ry, r1, r2) {
-  var min = r1.min(r2);
-  var max = r1.max(r2);
-  var topRight = new Point2D(max.x, min.y);
-  var bottomLeft = new Point2D(min.x, max.y);
-  var inter1 = Intersection.intersectEllipseLine(c, rx, ry, min, topRight);
-  var inter2 = Intersection.intersectEllipseLine(c, rx, ry, topRight, max);
-  var inter3 = Intersection.intersectEllipseLine(c, rx, ry, max, bottomLeft);
-  var inter4 = Intersection.intersectEllipseLine(c, rx, ry, bottomLeft, min);
-  var result = new Intersection("No Intersection");
-  result.appendPoints(inter1.points);
-  result.appendPoints(inter2.points);
-  result.appendPoints(inter3.points);
-  result.appendPoints(inter4.points);
-
-  if (result.points.length > 0) {
-    result.status = "Intersection";
-  }
-
-  return result;
-};
-/**
- *  intersectLineLine
- *
- *  @param {module:kld-intersections.Point2D} a1
- *  @param {module:kld-intersections.Point2D} a2
- *  @param {module:kld-intersections.Point2D} b1
- *  @param {module:kld-intersections.Point2D} b2
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectLineLine = function (a1, a2, b1, b2) {
-  var result;
-  var ua_t = (b2.x - b1.x) * (a1.y - b1.y) - (b2.y - b1.y) * (a1.x - b1.x);
-  var ub_t = (a2.x - a1.x) * (a1.y - b1.y) - (a2.y - a1.y) * (a1.x - b1.x);
-  var u_b = (b2.y - b1.y) * (a2.x - a1.x) - (b2.x - b1.x) * (a2.y - a1.y);
-
-  if (u_b != 0) {
-    var ua = ua_t / u_b;
-    var ub = ub_t / u_b;
-
-    if (0 <= ua && ua <= 1 && 0 <= ub && ub <= 1) {
-      result = new Intersection("Intersection");
-      result.points.push(new Point2D(a1.x + ua * (a2.x - a1.x), a1.y + ua * (a2.y - a1.y)));
-    } else {
-      result = new Intersection("No Intersection");
+  }, {
+    key: "intersectPolygonPolygon",
+    value: function intersectPolygonPolygon(points1, points2) {
+      return Intersection.intersectPolylinePolyline(closePolygon(points1), closePolygon(points2));
     }
-  } else if (ua_t == 0 || ub_t == 0) {
-    result = new Intersection("Coincident");
-  } else {
-    result = new Intersection("Parallel");
-  }
+    /**
+     *  intersectPolygonPolyline
+     *
+     *  @param {Array<module:kld-intersections.Point2D>} points1
+     *  @param {Array<module:kld-intersections.Point2D>} points2
+     *  @returns {module:kld-intersections.Intersection}
+     */
 
-  return result;
-};
-/**
- *  intersectLinePolygon
- *
- *  @param {module:kld-intersections.Point2D} a1
- *  @param {module:kld-intersections.Point2D} a2
- *  @param {Array<module:kld-intersections.Point2D>} points
- *  @returns {module:kld-intersections.Intersection}
- */
+  }, {
+    key: "intersectPolygonPolyline",
+    value: function intersectPolygonPolyline(points1, points2) {
+      return Intersection.intersectPolylinePolyline(closePolygon(points1), points2);
+    }
+    /**
+     *  intersectPolygonRectangle
+     *
+     *  @param {Array<module:kld-intersections.Point2D>} points
+     *  @param {module:kld-intersections.Point2D} r1
+     *  @param {module:kld-intersections.Point2D} r2
+     *  @returns {module:kld-intersections.Intersection}
+     */
 
+  }, {
+    key: "intersectPolygonRectangle",
+    value: function intersectPolygonRectangle(points, r1, r2) {
+      return Intersection.intersectPolylineRectangle(closePolygon(points), r1, r2);
+    }
+    /**
+     *  intersectPolylinePolyline
+     *
+     *  @param {Array<module:kld-intersections.Point2D>} points1
+     *  @param {Array<module:kld-intersections.Point2D>} points2
+     *  @returns {module:kld-intersections.Intersection}
+     */
 
-Intersection.intersectLinePolygon = function (a1, a2, points) {
-  return this.intersectLinePolyline(a1, a2, closePolygon(points));
-};
-/**
- *  intersectLinePolyline
- *
- *  @param {module:kld-intersections.Point2D} a1
- *  @param {module:kld-intersections.Point2D} a2
- *  @param {Array<module:kld-intersections.Point2D>} points
- *  @returns {module:kld-intersections.Intersection}
- */
+  }, {
+    key: "intersectPolylinePolyline",
+    value: function intersectPolylinePolyline(points1, points2) {
+      var result = new Intersection("No Intersection");
+      var len = points1.length;
 
+      for (var i = 0; i < len - 1; i++) {
+        var a1 = points1[i];
+        var a2 = points1[i + 1];
+        var inter = Intersection.intersectLinePolyline(a1, a2, points2);
+        result.appendPoints(inter.points);
+      }
 
-Intersection.intersectLinePolyline = function (a1, a2, points) {
-  var result = new Intersection("No Intersection");
-  var len = points.length;
+      if (result.points.length > 0) {
+        result.status = "Intersection";
+      }
 
-  for (var i = 0; i < len - 1; i++) {
-    var b1 = points[i];
-    var b2 = points[i + 1];
-    var inter = Intersection.intersectLineLine(a1, a2, b1, b2);
-    result.appendPoints(inter.points);
-  }
+      return result;
+    }
+    /**
+     *  intersectPolylineRectangle
+     *
+     *  @param {Array<module:kld-intersections.Point2D>} points
+     *  @param {module:kld-intersections.Point2D} r1
+     *  @param {module:kld-intersections.Point2D} r2
+     *  @returns {module:kld-intersections.Intersection}
+     */
 
-  if (result.points.length > 0) {
-    result.status = "Intersection";
-  }
+  }, {
+    key: "intersectPolylineRectangle",
+    value: function intersectPolylineRectangle(points, r1, r2) {
+      var min = r1.min(r2);
+      var max = r1.max(r2);
+      var topRight = new Point2D(max.x, min.y);
+      var bottomLeft = new Point2D(min.x, max.y);
+      var inter1 = Intersection.intersectLinePolyline(min, topRight, points);
+      var inter2 = Intersection.intersectLinePolyline(topRight, max, points);
+      var inter3 = Intersection.intersectLinePolyline(max, bottomLeft, points);
+      var inter4 = Intersection.intersectLinePolyline(bottomLeft, min, points);
+      var result = new Intersection("No Intersection");
+      result.appendPoints(inter1.points);
+      result.appendPoints(inter2.points);
+      result.appendPoints(inter3.points);
+      result.appendPoints(inter4.points);
 
-  return result;
-};
-/**
- *  intersectLineRectangle
- *
- *  @param {module:kld-intersections.Point2D} a1
- *  @param {module:kld-intersections.Point2D} a2
- *  @param {module:kld-intersections.Point2D} r1
- *  @param {module:kld-intersections.Point2D} r2
- *  @returns {module:kld-intersections.Intersection}
- */
+      if (result.points.length > 0) {
+        result.status = "Intersection";
+      }
 
+      return result;
+    }
+    /**
+     *  intersectRectangleRectangle
+     *
+     *  @param {module:kld-intersections.Point2D} a1
+     *  @param {module:kld-intersections.Point2D} a2
+     *  @param {module:kld-intersections.Point2D} b1
+     *  @param {module:kld-intersections.Point2D} b2
+     *  @returns {module:kld-intersections.Intersection}
+     */
 
-Intersection.intersectLineRectangle = function (a1, a2, r1, r2) {
-  var min = r1.min(r2);
-  var max = r1.max(r2);
-  var topRight = new Point2D(max.x, min.y);
-  var bottomLeft = new Point2D(min.x, max.y);
-  var inter1 = Intersection.intersectLineLine(min, topRight, a1, a2);
-  var inter2 = Intersection.intersectLineLine(topRight, max, a1, a2);
-  var inter3 = Intersection.intersectLineLine(max, bottomLeft, a1, a2);
-  var inter4 = Intersection.intersectLineLine(bottomLeft, min, a1, a2);
-  var result = new Intersection("No Intersection");
-  result.appendPoints(inter1.points);
-  result.appendPoints(inter2.points);
-  result.appendPoints(inter3.points);
-  result.appendPoints(inter4.points);
+  }, {
+    key: "intersectRectangleRectangle",
+    value: function intersectRectangleRectangle(a1, a2, b1, b2) {
+      var min = a1.min(a2);
+      var max = a1.max(a2);
+      var topRight = new Point2D(max.x, min.y);
+      var bottomLeft = new Point2D(min.x, max.y);
+      var inter1 = Intersection.intersectLineRectangle(min, topRight, b1, b2);
+      var inter2 = Intersection.intersectLineRectangle(topRight, max, b1, b2);
+      var inter3 = Intersection.intersectLineRectangle(max, bottomLeft, b1, b2);
+      var inter4 = Intersection.intersectLineRectangle(bottomLeft, min, b1, b2);
+      var result = new Intersection("No Intersection");
+      result.appendPoints(inter1.points);
+      result.appendPoints(inter2.points);
+      result.appendPoints(inter3.points);
+      result.appendPoints(inter4.points);
 
-  if (result.points.length > 0) {
-    result.status = "Intersection";
-  }
+      if (result.points.length > 0) {
+        result.status = "Intersection";
+      }
 
-  return result;
-};
-/**
- *  intersectPolygonPolygon
- *
- *  @param {Array<module:kld-intersections.Point2D>} points1
- *  @param {Array<module:kld-intersections.Point2D>} points2
- *  @returns {module:kld-intersections.Intersection}
- */
+      return result;
+    }
+    /**
+     *  intersectRayRay
+     *
+     *  @param {module:kld-intersections.Point2D} a1
+     *  @param {module:kld-intersections.Point2D} a2
+     *  @param {module:kld-intersections.Point2D} b1
+     *  @param {module:kld-intersections.Point2D} b2
+     *  @returns {module:kld-intersections.Intersection}
+     */
 
+  }, {
+    key: "intersectRayRay",
+    value: function intersectRayRay(a1, a2, b1, b2) {
+      var result;
+      var ua_t = (b2.x - b1.x) * (a1.y - b1.y) - (b2.y - b1.y) * (a1.x - b1.x);
+      var ub_t = (a2.x - a1.x) * (a1.y - b1.y) - (a2.y - a1.y) * (a1.x - b1.x);
+      var u_b = (b2.y - b1.y) * (a2.x - a1.x) - (b2.x - b1.x) * (a2.y - a1.y);
 
-Intersection.intersectPolygonPolygon = function (points1, points2) {
-  return this.intersectPolylinePolyline(closePolygon(points1), closePolygon(points2));
-};
-/**
- *  intersectPolygonPolyline
- *
- *  @param {Array<module:kld-intersections.Point2D>} points1
- *  @param {Array<module:kld-intersections.Point2D>} points2
- *  @returns {module:kld-intersections.Intersection}
- */
+      if (u_b !== 0) {
+        var ua = ua_t / u_b;
+        result = new Intersection("Intersection");
+        result.points.push(new Point2D(a1.x + ua * (a2.x - a1.x), a1.y + ua * (a2.y - a1.y)));
+      } else if (ua_t === 0 || ub_t === 0) {
+        result = new Intersection("Coincident");
+      } else {
+        result = new Intersection("Parallel");
+      }
 
+      return result;
+    }
+  }]);
 
-Intersection.intersectPolygonPolyline = function (points1, points2) {
-  return this.intersectPolylinePolyline(closePolygon(points1), points2);
-};
-/**
- *  intersectPolygonRectangle
- *
- *  @param {Array<module:kld-intersections.Point2D>} points
- *  @param {module:kld-intersections.Point2D} r1
- *  @param {module:kld-intersections.Point2D} r2
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectPolygonRectangle = function (points, r1, r2) {
-  return this.intersectPolylineRectangle(closePolygon(points), r1, r2);
-};
-/**
- *  intersectPolylinePolyline
- *
- *  @param {Array<module:kld-intersections.Point2D>} points1
- *  @param {Array<module:kld-intersections.Point2D>} points2
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectPolylinePolyline = function (points1, points2) {
-  var result = new Intersection("No Intersection");
-  var len = points1.length;
-
-  for (var i = 0; i < len - 1; i++) {
-    var a1 = points1[i];
-    var a2 = points1[i + 1];
-    var inter = Intersection.intersectLinePolyline(a1, a2, points2);
-    result.appendPoints(inter.points);
-  }
-
-  if (result.points.length > 0) {
-    result.status = "Intersection";
-  }
-
-  return result;
-};
-/**
- *  intersectPolylineRectangle
- *
- *  @param {Array<module:kld-intersections.Point2D>} points
- *  @param {module:kld-intersections.Point2D} r1
- *  @param {module:kld-intersections.Point2D} r2
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectPolylineRectangle = function (points, r1, r2) {
-  var min = r1.min(r2);
-  var max = r1.max(r2);
-  var topRight = new Point2D(max.x, min.y);
-  var bottomLeft = new Point2D(min.x, max.y);
-  var inter1 = Intersection.intersectLinePolyline(min, topRight, points);
-  var inter2 = Intersection.intersectLinePolyline(topRight, max, points);
-  var inter3 = Intersection.intersectLinePolyline(max, bottomLeft, points);
-  var inter4 = Intersection.intersectLinePolyline(bottomLeft, min, points);
-  var result = new Intersection("No Intersection");
-  result.appendPoints(inter1.points);
-  result.appendPoints(inter2.points);
-  result.appendPoints(inter3.points);
-  result.appendPoints(inter4.points);
-
-  if (result.points.length > 0) {
-    result.status = "Intersection";
-  }
-
-  return result;
-};
-/**
- *  intersectRectangleRectangle
- *
- *  @param {module:kld-intersections.Point2D} a1
- *  @param {module:kld-intersections.Point2D} a2
- *  @param {module:kld-intersections.Point2D} b1
- *  @param {module:kld-intersections.Point2D} b2
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectRectangleRectangle = function (a1, a2, b1, b2) {
-  var min = a1.min(a2);
-  var max = a1.max(a2);
-  var topRight = new Point2D(max.x, min.y);
-  var bottomLeft = new Point2D(min.x, max.y);
-  var inter1 = Intersection.intersectLineRectangle(min, topRight, b1, b2);
-  var inter2 = Intersection.intersectLineRectangle(topRight, max, b1, b2);
-  var inter3 = Intersection.intersectLineRectangle(max, bottomLeft, b1, b2);
-  var inter4 = Intersection.intersectLineRectangle(bottomLeft, min, b1, b2);
-  var result = new Intersection("No Intersection");
-  result.appendPoints(inter1.points);
-  result.appendPoints(inter2.points);
-  result.appendPoints(inter3.points);
-  result.appendPoints(inter4.points);
-
-  if (result.points.length > 0) {
-    result.status = "Intersection";
-  }
-
-  return result;
-};
-/**
- *  intersectRayRay
- *
- *  @param {module:kld-intersections.Point2D} a1
- *  @param {module:kld-intersections.Point2D} a2
- *  @param {module:kld-intersections.Point2D} b1
- *  @param {module:kld-intersections.Point2D} b2
- *  @returns {module:kld-intersections.Intersection}
- */
-
-
-Intersection.intersectRayRay = function (a1, a2, b1, b2) {
-  var result;
-  var ua_t = (b2.x - b1.x) * (a1.y - b1.y) - (b2.y - b1.y) * (a1.x - b1.x);
-  var ub_t = (a2.x - a1.x) * (a1.y - b1.y) - (a2.y - a1.y) * (a1.x - b1.x);
-  var u_b = (b2.y - b1.y) * (a2.x - a1.x) - (b2.x - b1.x) * (a2.y - a1.y);
-
-  if (u_b != 0) {
-    var ua = ua_t / u_b;
-    result = new Intersection("Intersection");
-    result.points.push(new Point2D(a1.x + ua * (a2.x - a1.x), a1.y + ua * (a2.y - a1.y)));
-  } else if (ua_t == 0 || ub_t == 0) {
-    result = new Intersection("Coincident");
-  } else {
-    result = new Intersection("Parallel");
-  }
-
-  return result;
-};
-/**
- *  bezout
- *
- *  This code is based on MgcIntr2DElpElp.cpp written by David Eberly.  His
- *  code along with many other excellent examples are avaiable at his site:
- *  http://www.magic-software.com
- *
- *  @param {Array<module:kld-intersections.Point2D>} e1
- *  @param {Array<module:kld-intersections.Point2D>} e2
- *  @returns {external:Polynomial}
- */
-
-
-Intersection.bezout = function (e1, e2) {
-  var AB = e1[0] * e2[1] - e2[0] * e1[1];
-  var AC = e1[0] * e2[2] - e2[0] * e1[2];
-  var AD = e1[0] * e2[3] - e2[0] * e1[3];
-  var AE = e1[0] * e2[4] - e2[0] * e1[4];
-  var AF = e1[0] * e2[5] - e2[0] * e1[5];
-  var BC = e1[1] * e2[2] - e2[1] * e1[2];
-  var BE = e1[1] * e2[4] - e2[1] * e1[4];
-  var BF = e1[1] * e2[5] - e2[1] * e1[5];
-  var CD = e1[2] * e2[3] - e2[2] * e1[3];
-  var DE = e1[3] * e2[4] - e2[3] * e1[4];
-  var DF = e1[3] * e2[5] - e2[3] * e1[5];
-  var BFpDE = BF + DE;
-  var BEmCD = BE - CD;
-  return new Polynomial(AB * BC - AC * AC, AB * BEmCD + AD * BC - 2 * AC * AE, AB * BFpDE + AD * BEmCD - AE * AE - 2 * AC * AF, AB * DF + AD * BFpDE - 2 * AE * AF, AD * DF - AF * AF);
-};
+  return Intersection;
+}();
 
 /**
  *
