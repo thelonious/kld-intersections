@@ -4379,7 +4379,7 @@
       value: function parseData(pathData) {
         if (typeof pathData !== "string") {
           throw new Error("PathParser.parseData: The first parameter must be a string");
-        } // init handler
+        } // begin parse
 
 
         if (this._handler !== null && typeof this._handler.beginParse === "function") {
@@ -4446,7 +4446,12 @@
 
           if (this._handler !== null) {
             var handler = this._handler;
-            var methodName = PathParser.METHODNAME[mode];
+            var methodName = PathParser.METHODNAME[mode]; // convert types for arcs
+
+            if (mode === "a" || mode === "A") {
+              params[3] = params[3] !== 0;
+              params[4] = params[4] !== 0;
+            }
 
             if (handler !== null && typeof handler[methodName] === "function") {
               handler[methodName].apply(handler, params);
@@ -4468,6 +4473,11 @@
             default: // ignore for now
 
           }
+        } // end parse
+
+
+        if (this._handler !== null && typeof this._handler.endParse === "function") {
+          this._handler.endParse();
         }
       }
       /**
