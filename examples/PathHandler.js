@@ -4,30 +4,9 @@
  *  @copyright 2017 Kevin Lindsey
  */
 
-import {Shapes, Point2D} from "../index.js";
+import {Shapes, Point2D, Vector2D} from "../index.js";
 
 const TWO_PI = 2.0 * Math.PI;
-
-/**
- * radian
- *
- * @param {number} ux
- * @param {number} uy
- * @param {number} vx
- * @param {number} vy
- * @returns {number}
- */
-function radian(ux, uy, vx, vy) {
-    const dot = ux * vx + uy * vy;
-    const mod = Math.sqrt((ux * ux + uy * uy) * (vx * vx + vy * vy));
-    let rad = Math.acos(dot / mod);
-
-    if (ux * vy - uy * vx < 0.0) {
-        rad = -rad;
-    }
-
-    return rad;
-}
 
 /**
  * normalizeAngle
@@ -101,8 +80,8 @@ function getArcParameters(startPoint, endPoint, rx, ry, angle, arcFlag, sweepFla
     const ycr1 = (y1p - cyp) / ry;
     const ycr2 = (y1p + cyp) / ry;
 
-    const theta1 = radian(1.0, 0.0, xcr1, ycr1);
-    let deltaTheta = normalizeAngle(radian(xcr1, ycr1, -xcr2, -ycr2));
+    const theta1 = new Vector2D(1, 0).angleBetween(new Vector2D(xcr1, ycr1));
+    let deltaTheta = normalizeAngle(new Vector2D(xcr1, ycr1).angleBetween(new Vector2D(-xcr2, -ycr2)));
 
     if (sweepFlag === false) {
         deltaTheta -= TWO_PI;
