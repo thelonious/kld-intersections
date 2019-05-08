@@ -3,13 +3,14 @@
 - [Goals](#goals)
 - [Installation](#installation)
 - [Usage](#usage)
+- [API](#api)
     - [Intersection API](#intersection-api)
     - [Shapes API](#shapes-api)
     - [Affine Shapes API](#affine-shapes-api)
     - [Use Your Own Objects](#use-your-own-objects)
 - [Queries](#queries)
 - [Known Issues](#known-issues)
-- [Links](#links)
+- [Links and Related Projects](#links-and-related-projects)
 
 ---
 
@@ -19,10 +20,12 @@ A library of intersection algorithms covering all permutations for any two of th
 - Cubic Bézier
 - Circle
 - Ellipse
+- Arcs
 - Line
 - Polygon
 - Polyline
 - Rectangle
+- Paths
 
 # Goals
 
@@ -30,7 +33,6 @@ A library of intersection algorithms covering all permutations for any two of th
 - Minimize external dependencies
 - Make it easier to port to other languages
 - Assume this is a low-level API upon which other APIs will be built
-- Be a potential educational resource by demonstrating each intersection type independently, without relying on the results of other intersection types
 
 # Installation
 
@@ -39,6 +41,34 @@ npm install kld-intersections
 ```
 
 # Usage
+
+The following sections indicate how you can import the code for use in various environments.
+
+## Node
+
+```javascript
+import {AffineShapes, Shapes, Intersection} = require("kld-intersections");
+```
+
+## ESM in Modern Browsers
+
+```javascript
+import {AffineShapes, Shapes, Intersection} from './node_modules/kld-intersections/dist/index-esm.js';
+```
+
+## Older Browsers
+
+```html
+<script src="./node_modules/kld-intersections/dist/index-umd.js"></script>
+```
+
+## Bundles
+
+```javascript
+import {AffineShapes, Shapes, Intersection} from "kld-intersections";
+```
+
+# API
 
 kld-intersection allows you to find intersections using two general approaches:
 
@@ -60,10 +90,12 @@ Below is a table listing each of the supported curve types. The `Name` column is
 | Cubic Bézier     | Bezier3   | **c1** : *Point2D*, **c2** : *Point2D*, **c3**: *Point2D*, **c4**: *Point2D* |
 | Circle           | Circle    | **center** : *Point2D*, **radius** : Number                                  |
 | Ellipse          | Ellipse   | **center** : *Point2D*, **radiusX** : Number, **radiusY** : Number           |
+| Arc              | Arc       | **center** : *Point2D*, **radiusX** : Number, **radiusY** : Number, **startRadians** : Number, **endRadians** : Number |
 | Line             | Line      | **p1** : *Point2D*, **p2** : *Point2D*                                       |
 | Polygon          | Polygon   | **points** : *Array< Point2D >*                                              |
 | Polyline         | Polyline  | **points** : *Array< Point2D >*                                              |
 | Rectangle        | Rectangle | **topLeft** : *Point2D*, **bottomRight** : *Point2D*                         |
+| Path             | Path      | **segments** : *Array< IntersectionArgs >*                                   |
 
 Once you've determined the names and arguments, you can build the intersection method name like so:
 
@@ -71,9 +103,9 @@ Once you've determined the names and arguments, you can build the intersection m
 2. Append the `Name` of the first curve type
 3. Append the `Name` of the second curve type
 
-It is important to note that not all combinations of names are available in the API. The current implementation supports 8 types of curves. If we count all combinations of any two curves, we end up needing `8 * 8 = 64` methods to cover all cases. And when we add `Arc` and `Path` to our list, we will need `10 * 10 = 100` methods to be written. Fortunately, the order in which we specify the curves is not important.
+It is important to note that not all combinations of names are available in the API. The current implementation supports 10 types of curves. If we count all combinations of any two curves, we end up needing `10 * 10 = 100` methods to cover all cases. Fortunately, the order in which we specify the curves is not important.
 
-If we intersect `a rectangle with a circle` or `a circle with a rectangle`, we will get the same results, regardless of their order. Recognizing this allows us to reduce the number of methods to `8 + 7 + 6 + 5 + 4 + 3 + 2 + 1 = 36`. Due to this reduction, one more restriction applies when determining the intersection method name:
+If we intersect `a rectangle with a circle` or `a circle with a rectangle`, we will get the same results, regardless of their order. Recognizing this allows us to reduce the number of methods to `10 + 9 + 8 + 7 + 6 + 5 + 4 + 3 + 2 + 1 = 54`. Due to this reduction, one more restriction applies when determining the intersection method name:
 
 > Shape names must be appended to the method name in alphabetical order
 
@@ -87,7 +119,7 @@ Now that you have determined the method name, you need to pass in arguments to d
 
 ### Example
 
-Lets intersect our `circle` and `rectangle`. From the table above, we see that the circle's name is, unsurprisingly, `Circle`, and the name of the rectangle is `Rectangle`. Following the rules stated above, this means our method name is:
+Lets intersect a `circle` and a `rectangle`. From the table above, we see that the circle's name is `Circle`, and the name of the rectangle is `Rectangle`. Following the rules stated above, this means our method name is:
 
 `intersectCircleRectangle`
 
@@ -157,11 +189,12 @@ The Shapes API allows you to create descriptions of shapes and curves which the 
 - cubicBezier
 - circle
 - ellipse
+- arc
 - line
-- path
 - polygon
 - polyline
 - rectangle
+- path
 
 To create these shapes, invoke the method name from the list above, passing in the arguments as described in the table in [Intersection API](#intersection-api). However, when passing in, for example, a `Point2D`, you will need to pass in the `x` and `y` values separately. This allows your code to utilize the intersection library without having to commit to the kld-affine classes.
 
@@ -193,6 +226,24 @@ Intersection {
 
 ![Example image 2](./images/example-2.png)
 
+
+### Working with Path Data
+
+Building paths from the other atomic shapes can be tedious and error-prone. In order to simply this process, the Shapes API includes a `pathData` method. Simply pass in a string of path data and you will get a path shape with all of its segments populated for you.
+
+```javascript
+import {Shapes} from "kld-intersections";
+
+// create a path from path data
+const path = Shapes.pathData("M0,0 C100,0 100,100 0,100z m20,0 c100,0 100,100 0,100z");
+
+// create a line
+const line = Shapes.line(0, -10, 110, 110);
+
+// intersect
+const result = Intersection.intersect(path, line);
+```
+
 ## Affine Shapes API
 
 The Affine Shapes API is very similar to the Shapes API but it allows you to use a slightly higher level of abstraction by utilizing the kld-affine classes. This API allows you to create the following shapes:
@@ -201,11 +252,12 @@ The Affine Shapes API is very similar to the Shapes API but it allows you to use
 - cubicBezier
 - circle
 - ellipse
+- arc
 - line
-- path
 - polygon
 - polyline
 - rectangle
+- path
 
 To create these shapes, invoke the method name from the list above, passing in the arguments as described in the table in [Intersection API](#intersection-api).
 
@@ -237,9 +289,26 @@ Intersection {
 
 ![Example image 3](./images/example-3.png)
 
+### Working with Path Data
+
+Building paths from the other atomic shapes can be tedious and error-prone. In order to simply this process, the AffineShapes API includes a `pathData` method. Simply pass in a string of path data and you will get a path shape with all of its segments populated for you.
+
+```javascript
+import {AffineShapes} from "kld-intersections";
+
+// create a path from path data
+const path = Shapes.pathData("M0,0 C100,0 100,100 0,100z m20,0 c100,0 100,100 0,100z");
+
+// create a line
+const line = Shapes.line(0, -10, 110, 110);
+
+// intersect
+const result = Intersection.intersect(path, line);
+```
+
 ## Use Your Own Objects
 
-If you have a look at the code, you'll find that the Shapes and Affine Shapes APIs are quite simple. These APIs create instances of the `IntersectionArgs` class. In turn the `IntersectionArgs` class is quite simple too, consisting of two properties: `name` and `args`. `name` is the name of the shape or curve as defined in the table describing the [Intersection API](#intersection-api). Likewise, `args` is an array of the arguments described in the arguments column in that same table. So, you can pass in any object to `Intersection.intersect` as long as it contains those two properties which need to follow the name and argument conventions just described.
+If you have a look at the various API classes, you'll find that they are quite simple. These APIs create instances of the `IntersectionArgs` class. In turn the `IntersectionArgs` class is quite simple too, consisting of two properties: `name` and `args`. `name` is the name of the shape or curve as defined in the table describing the [Intersection API](#intersection-api). Likewise, `args` is an array of the arguments described in the arguments column in that same table. So, you can pass in any object to `Intersection.intersect` as long as it contains those two properties which need to follow the name and argument conventions just described.
 
 # Queries
 
@@ -257,8 +326,13 @@ Note that currently bézier curves are not included in this list. As a workaroun
 
 # Known Issues
 
-Please note that the bézier-bézier intersections are not well-behaved. There is work being done to make these more stable, but no eta is available at this time. As a workaround, bézier shapes can be approximated using polylines and then intersected with an appropriate polyline intersection method. See [tessellate-cubic-beziers.js](examples/tessellate-cubic-beziers.js) as an example of how you might do this.
+Please note that the bézier-bézier intersections may not be well-behaved. There is work being done to make these more stable, but no eta is available at this time. As a workaround, bézier shapes can be approximated using polylines and then intersected with an appropriate polyline intersection method. See [tessellate-cubic-beziers.js](examples/tessellate-cubic-beziers.js) as an example of how you might do this.
 
-# Links
+# Links and Related Projects
 
-- A test page can be found at [http://www.quazistax.com](http://www.quazistax.com/testIntersection.html)
+- [http://www.quazistax.com](http://www.quazistax.com/testIntersection.html)
+- [kld-path-parser](https://github.com/thelonious/kld-path-parser)
+- [kld-transform-parser](https://github.com/thelonious/kld-transform-parser)
+- [kld-affine](https://github.com/thelonious/kld-affine)
+- [kld-polynomial](https://github.com/thelonious/kld-polynomial)
+- [kld-contours](https://github.com/thelonious/kld-contours)
