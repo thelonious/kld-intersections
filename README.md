@@ -302,10 +302,10 @@ Building paths from the other atomic shapes can be tedious and error-prone. In o
 import {AffineShapes} from "kld-intersections";
 
 // create a path from path data
-const path = Shapes.pathData("M0,0 C100,0 100,100 0,100z m20,0 c100,0 100,100 0,100z");
+const path = AffineShapes.pathData("M0,0 C100,0 100,100 0,100z m20,0 c100,0 100,100 0,100z");
 
 // create a line
-const line = Shapes.line(0, -10, 110, 110);
+const line = AffineShapes.line(0, -10, 110, 110);
 
 // intersect
 const result = Intersection.intersect(path, line);
