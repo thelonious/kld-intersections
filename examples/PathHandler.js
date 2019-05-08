@@ -148,15 +148,23 @@ class PathHandler {
      *  @param {number} y
      */
     arcAbs(rx, ry, xAxisRotation, arcFlag, sweepFlag, x, y) {
-        const arcParameters = getArcParameters(
-            new Point2D(this.lastX, this.lastY),
-            new Point2D(x, y),
-            rx, ry,
-            xAxisRotation,
-            arcFlag, sweepFlag
-        );
+        if (rx === 0 || ry === 0) {
+            this.addShape(Shapes.line(
+                this.lastX, this.lastY,
+                x, y
+            ));
+        }
+        else {
+            const arcParameters = getArcParameters(
+                new Point2D(this.lastX, this.lastY),
+                new Point2D(x, y),
+                rx, ry,
+                xAxisRotation,
+                arcFlag, sweepFlag
+            );
 
-        this.addShape(Shapes.arc(...arcParameters));
+            this.addShape(Shapes.arc(...arcParameters));
+        }
 
         this.lastCommand = "A";
         this.lastX = x;
@@ -175,15 +183,23 @@ class PathHandler {
      *  @param {number} y
      */
     arcRel(rx, ry, xAxisRotation, arcFlag, sweepFlag, x, y) {
-        const arcParameters = getArcParameters(
-            new Point2D(this.lastX, this.lastY),
-            new Point2D(this.lastX + x, this.lastY + y),
-            rx, ry,
-            xAxisRotation,
-            arcFlag, sweepFlag
-        );
+        if (rx === 0 || ry === 0) {
+            this.addShape(Shapes.line(
+                this.lastX, this.lastY,
+                this.lastX + x, this.lastY + y
+            ));
+        }
+        else {
+            const arcParameters = getArcParameters(
+                new Point2D(this.lastX, this.lastY),
+                new Point2D(this.lastX + x, this.lastY + y),
+                rx, ry,
+                xAxisRotation,
+                arcFlag, sweepFlag
+            );
 
-        this.addShape(Shapes.arc(...arcParameters));
+            this.addShape(Shapes.arc(...arcParameters));
+        }
 
         this.lastCommand = "a";
         this.lastX += x;
