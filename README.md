@@ -60,6 +60,11 @@ import {AffineShapes, Shapes, Intersection} from './node_modules/kld-intersectio
 
 ```html
 <script src="./node_modules/kld-intersections/dist/index-umd.js"></script>
+<script>
+  var AffineShapes = KldIntersections.AffineShapes;
+  var Shapes = KldIntersections.Shapes;
+  var Intersection = KldIntersections.Intersection;
+</script>
 ```
 
 ## Bundles
