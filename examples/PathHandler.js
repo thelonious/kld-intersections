@@ -21,7 +21,9 @@ function normalizeAngle(radians) {
 }
 
 /**
- * getArcParameters
+ * Based on the SVG 1.1 specification, Appendix F: Implementation Requirements,
+ * Section F.6 "Elliptical arc implementation notes"
+ * {@see https://www.w3.org/TR/SVG11/implnote.html#ArcImplementationNotes}
  *
  * @param {module:kld-affine.Point2D} startPoint
  * @param {module:kld-affine.Point2D} endPoint
@@ -30,7 +32,7 @@ function normalizeAngle(radians) {
  * @param {number} angle
  * @param {boolean} arcFlag
  * @param {boolean} sweepFlag
- * @returns {module:kld-affine.Point2D}
+ * @returns {Array}
  */
 function getArcParameters(startPoint, endPoint, rx, ry, angle, arcFlag, sweepFlag) {
     angle = angle * Math.PI / 180;
@@ -39,14 +41,21 @@ function getArcParameters(startPoint, endPoint, rx, ry, angle, arcFlag, sweepFla
     const s = Math.sin(angle);
     const TOLERANCE = 1e-6;
 
+    // Section (F.6.5.1)
     const halfDiff = startPoint.subtract(endPoint).multiply(0.5);
     const x1p = halfDiff.x * c + halfDiff.y * s;
     const y1p = halfDiff.x * -s + halfDiff.y * c;
 
+    // Section (F.6.6.1)
+    rx = Math.abs(rx);
+    ry = Math.abs(ry);
+
+    // Section (F.6.6.2)
     const x1px1p = x1p * x1p;
     const y1py1p = y1p * y1p;
     const lambda = (x1px1p / (rx * rx)) + (y1py1p / (ry * ry));
 
+    // Section (F.6.6.3)
     if (lambda > 1) {
         const factor = Math.sqrt(lambda);
 
@@ -54,6 +63,7 @@ function getArcParameters(startPoint, endPoint, rx, ry, angle, arcFlag, sweepFla
         ry *= factor;
     }
 
+    // Section (F.6.5.2)
     const rxrx = rx * rx;
     const ryry = ry * ry;
     const rxy1 = rxrx * y1py1p;
@@ -71,10 +81,12 @@ function getArcParameters(startPoint, endPoint, rx, ry, angle, arcFlag, sweepFla
         sq = -sq;
     }
 
+    // Section (F.6.5.3)
     const mid = startPoint.add(endPoint).multiply(0.5);
     const cxp = sq * rx * y1p / ry;
     const cyp = sq * -ry * x1p / rx;
 
+    // Section (F.6.5.5 - F.6.5.6)
     const xcr1 = (x1p - cxp) / rx;
     const xcr2 = (x1p + cxp) / rx;
     const ycr1 = (y1p - cyp) / ry;
