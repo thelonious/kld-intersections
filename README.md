@@ -234,7 +234,7 @@ Intersection {
 
 ### Working with Path Data
 
-Building paths from the other atomic shapes can be tedious and error-prone. In order to simply this process, the Shapes API includes a `pathData` method. Simply pass in a string of path data and you will get a path shape with all of its segments populated for you.
+Building paths from the other atomic shapes can be tedious and error-prone. In order to simplify this process, the Shapes API includes a `pathData` method. Simply pass in a string of path data and you will get a path shape with all of its segments populated for you.
 
 ```javascript
 import {Shapes} from "kld-intersections";
@@ -296,7 +296,7 @@ Intersection {
 
 ### Working with Path Data
 
-Building paths from the other atomic shapes can be tedious and error-prone. In order to simply this process, the AffineShapes API includes a `pathData` method. Simply pass in a string of path data and you will get a path shape with all of its segments populated for you.
+Building paths from the other atomic shapes can be tedious and error-prone. In order to simplify this process, the AffineShapes API includes a `pathData` method. Simply pass in a string of path data and you will get a path shape with all of its segments populated for you.
 
 ```javascript
 import {AffineShapes} from "kld-intersections";
