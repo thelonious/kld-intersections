@@ -1,20 +1,12 @@
-import {PathParser} from "kld-path-parser";
-import PathHandler from "./PathHandler.js";
-import {Intersection, Shapes} from "../index.js";
+import {Shapes, Intersection} from "../index.js";
 
 // parser path data
 const pathData = "M0,0 C100,0 100,100 0,100z m20,0 c100,0 100,100 0,100z";
 // let pathData = 'M0,0 Q100,50 0,100z m10,0 q100,50 0,100z';
 // let pathData = 'M0,0 H100 V100 H0z m5,5 h100 v100 h-100z';
-const parser = new PathParser();
-const handler = new PathHandler();
-
-parser.setHandler(handler);
-parser.parseData(pathData);
 
 // create path
-// console.error(JSON.stringify(handler.shapes, null, 2));
-const path = Shapes.path(handler.shapes);
+const path = Shapes.pathData(pathData);
 
 // create line
 const line = Shapes.line(0, -10, 110, 110);

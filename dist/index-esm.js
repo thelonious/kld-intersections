@@ -24,8 +24,24 @@ function _slicedToArray(arr, i) {
   return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
 }
 
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+}
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+    return arr2;
+  }
+}
+
 function _arrayWithHoles(arr) {
   if (Array.isArray(arr)) return arr;
+}
+
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
 }
 
 function _iterableToArrayLimit(arr, i) {
@@ -52,6 +68,10 @@ function _iterableToArrayLimit(arr, i) {
   }
 
   return _arr;
+}
+
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
 }
 
 function _nonIterableRest() {
@@ -4201,6 +4221,810 @@ function () {
 }();
 
 /**
+ *  PathLexeme.js
+ *
+ *  @copyright 2002, 2013 Kevin Lindsey
+ *  @module PathLexeme
+ */
+
+/**
+ *  PathLexeme
+ */
+var PathLexeme =
+/*#__PURE__*/
+function () {
+  /**
+   *  @param {number} type
+   *  @param {string} text
+   */
+  function PathLexeme(type, text) {
+    _classCallCheck(this, PathLexeme);
+
+    this.type = type;
+    this.text = text;
+  }
+  /**
+   *  typeis
+   *
+   *  @param {number} type
+   *  @returns {boolean}
+   */
+
+
+  _createClass(PathLexeme, [{
+    key: "typeis",
+    value: function typeis(type) {
+      return this.type === type;
+    }
+  }]);
+
+  return PathLexeme;
+}();
+/*
+ * token type enumerations
+ */
+
+
+PathLexeme.UNDEFINED = 0;
+PathLexeme.COMMAND = 1;
+PathLexeme.NUMBER = 2;
+PathLexeme.EOD = 3;
+
+/**
+ *  Create a new instance of PathLexer
+ */
+
+var PathLexer =
+/*#__PURE__*/
+function () {
+  /**
+   *  @param {string} pathData
+   */
+  function PathLexer(pathData) {
+    _classCallCheck(this, PathLexer);
+
+    if (pathData === null || pathData === undefined) {
+      pathData = "";
+    }
+
+    this.setPathData(pathData);
+  }
+  /**
+   *  setPathData
+   *
+   *  @param {string} pathData
+   */
+
+
+  _createClass(PathLexer, [{
+    key: "setPathData",
+    value: function setPathData(pathData) {
+      if (typeof pathData !== "string") {
+        throw new Error("PathLexer.setPathData: The first parameter must be a string");
+      }
+
+      this._pathData = pathData;
+    }
+    /**
+     *  getNextToken
+     */
+
+  }, {
+    key: "getNextToken",
+    value: function getNextToken() {
+      var result = null;
+      var d = this._pathData;
+
+      while (result === null) {
+        if (d === null || d === "") {
+          result = new PathLexeme(PathLexeme.EOD, "");
+        } else if (d.match(/^([ \t\r\n,]+)/)) {
+          d = d.substr(RegExp.$1.length);
+        } // NOTE: Batik seemed to ignore the trailing /i in the following regex,
+        // so I expanded the regex to explicitly list both uppercase and
+        // lowercase commands.
+        else if (d.match(/^([AaCcHhLlMmQqSsTtVvZz])/)) {
+            result = new PathLexeme(PathLexeme.COMMAND, RegExp.$1);
+            d = d.substr(RegExp.$1.length);
+          }
+          /* eslint-disable-next-line unicorn/no-unsafe-regex */
+          else if (d.match(/^(([-+]?\d+(\.\d*)?|[-+]?\.\d+)([eE][-+]?\d+)?)/)) {
+              result = new PathLexeme(PathLexeme.NUMBER, parseFloat(RegExp.$1));
+              d = d.substr(RegExp.$1.length);
+            } else {
+              throw new Error("PathLexer.getNextToken: unrecognized path data " + d);
+            }
+      }
+
+      this._pathData = d;
+      return result;
+    }
+  }]);
+
+  return PathLexer;
+}();
+
+/**
+ *  PathParser
+ */
+
+var PathParser =
+/*#__PURE__*/
+function () {
+  /**
+   * constructor
+   */
+  function PathParser() {
+    _classCallCheck(this, PathParser);
+
+    this._lexer = new PathLexer();
+    this._handler = null;
+  }
+  /**
+   *  parseData
+   *
+   *  @param {string} pathData
+   *  @throws {Error}
+   */
+
+
+  _createClass(PathParser, [{
+    key: "parseData",
+    value: function parseData(pathData) {
+      if (typeof pathData !== "string") {
+        throw new Error("PathParser.parseData: The first parameter must be a string");
+      } // init handler
+
+
+      if (this._handler !== null && typeof this._handler.beginParse === "function") {
+        this._handler.beginParse();
+      } // pass the pathData to the lexer
+
+
+      var lexer = this._lexer;
+      lexer.setPathData(pathData); // set mode to signify new path
+      // NOTE: BOP means Beginning of Path
+
+      var mode = "BOP"; // Process all tokens
+
+      var token = lexer.getNextToken();
+
+      while (token.typeis(PathLexeme.EOD) === false) {
+        var parameterCount = void 0;
+        var params = []; // process current token
+
+        switch (token.type) {
+          case PathLexeme.COMMAND:
+            if (mode === "BOP" && token.text !== "M" && token.text !== "m") {
+              throw new Error("PathParser.parseData: a path must begin with a moveto command");
+            } // Set new parsing mode
+
+
+            mode = token.text; // Get count of numbers that must follow this command
+
+            parameterCount = PathParser.PARAMCOUNT[token.text.toUpperCase()]; // Advance past command token
+
+            token = lexer.getNextToken();
+            break;
+
+          case PathLexeme.NUMBER:
+            // Most commands allow you to keep repeating parameters
+            // without specifying the command again.  We just assume
+            // that is the case and do nothing since the mode remains
+            // the same and param_count is already set
+            break;
+
+          default:
+            throw new Error("PathParser.parseData: unrecognized token type: " + token.type);
+        } // Get parameters
+
+
+        for (var i = 0; i < parameterCount; i++) {
+          switch (token.type) {
+            case PathLexeme.COMMAND:
+              throw new Error("PathParser.parseData: parameter must be a number: " + token.text);
+
+            case PathLexeme.NUMBER:
+              // convert current parameter to a float and add to
+              // parameter list
+              params[i] = parseFloat(token.text);
+              break;
+
+            default:
+              throw new Error("PathParser.parseData: unrecognized token type: " + token.type);
+          }
+
+          token = lexer.getNextToken();
+        } // fire handler
+
+
+        if (this._handler !== null) {
+          var handler = this._handler;
+          var methodName = PathParser.METHODNAME[mode];
+
+          if (handler !== null && typeof handler[methodName] === "function") {
+            handler[methodName].apply(handler, params);
+          }
+        } // Lineto's follow moveto when no command follows moveto params.  Go
+        // ahead and set the mode just in case no command follows the moveto
+        // command
+
+
+        switch (mode) {
+          case "M":
+            mode = "L";
+            break;
+
+          case "m":
+            mode = "l";
+            break;
+
+          default: // ignore for now
+
+        }
+      }
+    }
+    /**
+     *  setHandler
+     *
+     *  @param {Object} handler
+     */
+
+  }, {
+    key: "setHandler",
+    value: function setHandler(handler) {
+      this._handler = handler;
+    }
+  }]);
+
+  return PathParser;
+}();
+/*
+ * class constants
+ */
+
+
+PathParser.PARAMCOUNT = {
+  A: 7,
+  C: 6,
+  H: 1,
+  L: 2,
+  M: 2,
+  Q: 4,
+  S: 4,
+  T: 2,
+  V: 1,
+  Z: 0
+};
+PathParser.METHODNAME = {
+  A: "arcAbs",
+  a: "arcRel",
+  C: "curvetoCubicAbs",
+  c: "curvetoCubicRel",
+  H: "linetoHorizontalAbs",
+  h: "linetoHorizontalRel",
+  L: "linetoAbs",
+  l: "linetoRel",
+  M: "movetoAbs",
+  m: "movetoRel",
+  Q: "curvetoQuadraticAbs",
+  q: "curvetoQuadraticRel",
+  S: "curvetoCubicSmoothAbs",
+  s: "curvetoCubicSmoothRel",
+  T: "curvetoQuadraticSmoothAbs",
+  t: "curvetoQuadraticSmoothRel",
+  V: "linetoVerticalAbs",
+  v: "linetoVerticalRel",
+  Z: "closePath",
+  z: "closePath"
+};
+
+/**
+ *  @module kld-path-parser
+ */
+
+var TWO_PI$1 = 2.0 * Math.PI;
+/**
+ * normalizeAngle
+ *
+ * @param {number} radians
+ * @returns {number}
+ */
+
+function normalizeAngle$1(radians) {
+  var normal = radians % TWO_PI$1;
+  return normal < 0.0 ? normal + TWO_PI$1 : normal;
+}
+/**
+ * Based on the SVG 1.1 specification, Appendix F: Implementation Requirements,
+ * Section F.6 "Elliptical arc implementation notes"
+ * {@see https://www.w3.org/TR/SVG11/implnote.html#ArcImplementationNotes}
+ *
+ * @param {module:kld-affine.Point2D} startPoint
+ * @param {module:kld-affine.Point2D} endPoint
+ * @param {number} rx
+ * @param {number} ry
+ * @param {number} angle
+ * @param {boolean} arcFlag
+ * @param {boolean} sweepFlag
+ * @returns {Array}
+ */
+
+
+function getArcParameters(startPoint, endPoint, rx, ry, angle, arcFlag, sweepFlag) {
+  angle = angle * Math.PI / 180;
+  var c = Math.cos(angle);
+  var s = Math.sin(angle);
+  var TOLERANCE = 1e-6; // Section (F.6.5.1)
+
+  var halfDiff = startPoint.subtract(endPoint).multiply(0.5);
+  var x1p = halfDiff.x * c + halfDiff.y * s;
+  var y1p = halfDiff.x * -s + halfDiff.y * c; // Section (F.6.6.1)
+
+  rx = Math.abs(rx);
+  ry = Math.abs(ry); // Section (F.6.6.2)
+
+  var x1px1p = x1p * x1p;
+  var y1py1p = y1p * y1p;
+  var lambda = x1px1p / (rx * rx) + y1py1p / (ry * ry); // Section (F.6.6.3)
+
+  if (lambda > 1) {
+    var _factor = Math.sqrt(lambda);
+
+    rx *= _factor;
+    ry *= _factor;
+  } // Section (F.6.5.2)
+
+
+  var rxrx = rx * rx;
+  var ryry = ry * ry;
+  var rxy1 = rxrx * y1py1p;
+  var ryx1 = ryry * x1px1p;
+  var factor = (rxrx * ryry - rxy1 - ryx1) / (rxy1 + ryx1);
+
+  if (Math.abs(factor) < TOLERANCE) {
+    factor = 0;
+  }
+
+  var sq = Math.sqrt(factor);
+
+  if (arcFlag === sweepFlag) {
+    sq = -sq;
+  } // Section (F.6.5.3)
+
+
+  var mid = startPoint.add(endPoint).multiply(0.5);
+  var cxp = sq * rx * y1p / ry;
+  var cyp = sq * -ry * x1p / rx; // Section (F.6.5.5 - F.6.5.6)
+
+  var xcr1 = (x1p - cxp) / rx;
+  var xcr2 = (x1p + cxp) / rx;
+  var ycr1 = (y1p - cyp) / ry;
+  var ycr2 = (y1p + cyp) / ry;
+  var theta1 = new Vector2D(1, 0).angleBetween(new Vector2D(xcr1, ycr1));
+  var deltaTheta = normalizeAngle$1(new Vector2D(xcr1, ycr1).angleBetween(new Vector2D(-xcr2, -ycr2)));
+
+  if (sweepFlag === false) {
+    deltaTheta -= TWO_PI$1;
+  }
+
+  return [cxp * c - cyp * s + mid.x, cxp * s + cyp * c + mid.y, rx, ry, theta1, theta1 + deltaTheta];
+}
+/**
+ *  PathHandler
+ */
+
+
+var PathHandler =
+/*#__PURE__*/
+function () {
+  /**
+   * PathHandler
+   */
+  function PathHandler() {
+    _classCallCheck(this, PathHandler);
+
+    this.shapes = [];
+    this.firstX = null;
+    this.firstY = null;
+    this.lastX = null;
+    this.lastY = null;
+    this.lastCommand = null;
+  }
+  /**
+   * beginParse
+   */
+
+
+  _createClass(PathHandler, [{
+    key: "beginParse",
+    value: function beginParse() {
+      // zero out the sub-path array
+      this.shapes = []; // clear firstX, firstY, lastX, and lastY
+
+      this.firstX = null;
+      this.firstY = null;
+      this.lastX = null;
+      this.lastY = null; // need to remember last command type to determine how to handle the
+      // relative Bezier commands
+
+      this.lastCommand = null;
+    }
+    /**
+     *  addShape
+     *
+     *  @param {IntersectionArgs} shape
+     */
+
+  }, {
+    key: "addShape",
+    value: function addShape(shape) {
+      this.shapes.push(shape);
+    }
+    /**
+     *  arcAbs - A
+     *
+     *  @param {number} rx
+     *  @param {number} ry
+     *  @param {number} xAxisRotation
+     *  @param {boolean} arcFlag
+     *  @param {boolean} sweepFlag
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "arcAbs",
+    value: function arcAbs(rx, ry, xAxisRotation, arcFlag, sweepFlag, x, y) {
+      if (rx === 0 || ry === 0) {
+        this.addShape(Shapes.line(this.lastX, this.lastY, x, y));
+      } else {
+        var arcParameters = getArcParameters(new Point2D(this.lastX, this.lastY), new Point2D(x, y), rx, ry, xAxisRotation, arcFlag, sweepFlag);
+        this.addShape(Shapes.arc.apply(Shapes, _toConsumableArray(arcParameters)));
+      }
+
+      this.lastCommand = "A";
+      this.lastX = x;
+      this.lastY = y;
+    }
+    /**
+     *  arcRel - a
+     *
+     *  @param {number} rx
+     *  @param {number} ry
+     *  @param {number} xAxisRotation
+     *  @param {boolean} arcFlag
+     *  @param {boolean} sweepFlag
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "arcRel",
+    value: function arcRel(rx, ry, xAxisRotation, arcFlag, sweepFlag, x, y) {
+      if (rx === 0 || ry === 0) {
+        this.addShape(Shapes.line(this.lastX, this.lastY, this.lastX + x, this.lastY + y));
+      } else {
+        var arcParameters = getArcParameters(new Point2D(this.lastX, this.lastY), new Point2D(this.lastX + x, this.lastY + y), rx, ry, xAxisRotation, arcFlag, sweepFlag);
+        this.addShape(Shapes.arc.apply(Shapes, _toConsumableArray(arcParameters)));
+      }
+
+      this.lastCommand = "a";
+      this.lastX += x;
+      this.lastY += y;
+    }
+    /**
+     *  curvetoCubicAbs - C
+     *
+     *  @param {number} x1
+     *  @param {number} y1
+     *  @param {number} x2
+     *  @param {number} y2
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "curvetoCubicAbs",
+    value: function curvetoCubicAbs(x1, y1, x2, y2, x, y) {
+      this.addShape(Shapes.cubicBezier(this.lastX, this.lastY, x1, y1, x2, y2, x, y));
+      this.lastX = x;
+      this.lastY = y;
+      this.lastCommand = "C";
+    }
+    /**
+     *  curvetoCubicRel - c
+     *
+     *  @param {number} x1
+     *  @param {number} y1
+     *  @param {number} x2
+     *  @param {number} y2
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "curvetoCubicRel",
+    value: function curvetoCubicRel(x1, y1, x2, y2, x, y) {
+      this.addShape(Shapes.cubicBezier(this.lastX, this.lastY, this.lastX + x1, this.lastY + y1, this.lastX + x2, this.lastY + y2, this.lastX + x, this.lastY + y));
+      this.lastX += x;
+      this.lastY += y;
+      this.lastCommand = "c";
+    }
+    /**
+     *  linetoHorizontalAbs - H
+     *
+     *  @param {number} x
+     */
+
+  }, {
+    key: "linetoHorizontalAbs",
+    value: function linetoHorizontalAbs(x) {
+      this.addShape(Shapes.line(this.lastX, this.lastY, x, this.lastY));
+      this.lastX = x;
+      this.lastCommand = "H";
+    }
+    /**
+     *  linetoHorizontalRel - h
+     *
+     *  @param {number} x
+     */
+
+  }, {
+    key: "linetoHorizontalRel",
+    value: function linetoHorizontalRel(x) {
+      this.addShape(Shapes.line(this.lastX, this.lastY, this.lastX + x, this.lastY));
+      this.lastX += x;
+      this.lastCommand = "h";
+    }
+    /**
+     *  linetoAbs - L
+     *
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "linetoAbs",
+    value: function linetoAbs(x, y) {
+      this.addShape(Shapes.line(this.lastX, this.lastY, x, y));
+      this.lastX = x;
+      this.lastY = y;
+      this.lastCommand = "L";
+    }
+    /**
+     *  linetoRel - l
+     *
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "linetoRel",
+    value: function linetoRel(x, y) {
+      this.addShape(Shapes.line(this.lastX, this.lastY, this.lastX + x, this.lastY + y));
+      this.lastX += x;
+      this.lastY += y;
+      this.lastCommand = "l";
+    }
+    /**
+     *  movetoAbs - M
+     *
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "movetoAbs",
+    value: function movetoAbs(x, y) {
+      this.firstX = x;
+      this.firstY = y;
+      this.lastX = x;
+      this.lastY = y;
+      this.lastCommand = "M";
+    }
+    /**
+     *  movetoRel - m
+     *
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "movetoRel",
+    value: function movetoRel(x, y) {
+      this.firstX += x;
+      this.firstY += y;
+      this.lastX += x;
+      this.lastY += y;
+      this.lastCommand = "m";
+    }
+    /**
+     *  curvetoQuadraticAbs - Q
+     *
+     *  @param {number} x1
+     *  @param {number} y1
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "curvetoQuadraticAbs",
+    value: function curvetoQuadraticAbs(x1, y1, x, y) {
+      this.addShape(Shapes.quadraticBezier(this.lastX, this.lastY, x1, y1, x, y));
+      this.lastX = x;
+      this.lastY = y;
+      this.lastCommand = "Q";
+    }
+    /**
+     *  curvetoQuadraticRel - q
+     *
+     *  @param {number} x1
+     *  @param {number} y1
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "curvetoQuadraticRel",
+    value: function curvetoQuadraticRel(x1, y1, x, y) {
+      this.addShape(Shapes.quadraticBezier(this.lastX, this.lastY, this.lastX + x1, this.lastY + y1, this.lastX + x, this.lastY + y));
+      this.lastX += x;
+      this.lastY += y;
+      this.lastCommand = "q";
+    }
+    /**
+     *  curvetoCubicSmoothAbs - S
+     *
+     *  @param {number} x2
+     *  @param {number} y2
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "curvetoCubicSmoothAbs",
+    value: function curvetoCubicSmoothAbs(x2, y2, x, y) {
+      var controlX, controlY;
+
+      if (this.lastCommand.match(/^[SsCc]$/)) {
+        var secondToLast = this.shapes[this.shapes.length - 1].args[2];
+        controlX = 2 * this.lastX - secondToLast.x;
+        controlY = 2 * this.lastX - secondToLast.y;
+      } else {
+        controlX = this.lastX;
+        controlY = this.lastY;
+      }
+
+      this.addShape(Shapes.cubicBezier(this.lastX, this.lastY, controlX, controlY, x2, y2, x, y));
+      this.lastX = x;
+      this.lastY = y;
+      this.lastCommand = "S";
+    }
+    /**
+     *  curvetoCubicSmoothRel - s
+     *
+     *  @param {number} x2
+     *  @param {number} y2
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "curvetoCubicSmoothRel",
+    value: function curvetoCubicSmoothRel(x2, y2, x, y) {
+      var controlX, controlY;
+
+      if (this.lastCommand.match(/^[SsCc]$/)) {
+        var secondToLast = this.shapes[this.shapes.length - 1].args[2];
+        controlX = 2 * this.lastX - secondToLast.x;
+        controlY = 2 * this.lastY - secondToLast.y;
+      } else {
+        controlX = this.lastX;
+        controlY = this.lastY;
+      }
+
+      this.addShape(Shapes.cubicBezier(this.lastX, this.lastY, controlX, controlY, this.lastX + x2, this.lastY + y2, this.lastX + x, this.lastY + y));
+      this.lastX += x;
+      this.lastY += y;
+      this.lastCommand = "s";
+    }
+    /**
+     *  curvetoQuadraticSmoothAbs - T
+     *
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "curvetoQuadraticSmoothAbs",
+    value: function curvetoQuadraticSmoothAbs(x, y) {
+      var controlX, controlY;
+
+      if (this.lastCommand.match(/^[QqTt]$/)) {
+        var secondToLast = this.shapes[this.shapes.length - 1].args[1];
+        controlX = 2 * this.lastX - secondToLast.x;
+        controlY = 2 * this.lastY - secondToLast.y;
+      } else {
+        controlX = this.lastX;
+        controlY = this.lastY;
+      }
+
+      this.addShape(Shapes.quadraticBezier(this.lastX, this.lastY, controlX, controlY, x, y));
+      this.lastX = x;
+      this.lastY = y;
+      this.lastCommand = "T";
+    }
+    /**
+     *  curvetoQuadraticSmoothRel - t
+     *
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "curvetoQuadraticSmoothRel",
+    value: function curvetoQuadraticSmoothRel(x, y) {
+      var controlX, controlY;
+
+      if (this.lastCommand.match(/^[QqTt]$/)) {
+        var secondToLast = this.shapes[this.shapes.length - 1].args[1];
+        controlX = 2 * this.lastX - secondToLast.x;
+        controlY = 2 * this.lastY - secondToLast.y;
+      } else {
+        controlX = this.lastX;
+        controlY = this.lastY;
+      }
+
+      this.addShape(Shapes.quadraticBezier(this.lastX, this.lastY, controlX, controlY, this.lastX + x, this.lastY + y));
+      this.lastX += x;
+      this.lastY += y;
+      this.lastCommand = "t";
+    }
+    /**
+     *  linetoVerticalAbs - V
+     *
+     *  @param {number} y
+     */
+
+  }, {
+    key: "linetoVerticalAbs",
+    value: function linetoVerticalAbs(y) {
+      this.addShape(Shapes.line(this.lastX, this.lastY, this.lastX, y));
+      this.lastY = y;
+      this.lastCommand = "V";
+    }
+    /**
+     *  linetoVerticalRel - v
+     *
+     *  @param {number} y
+     */
+
+  }, {
+    key: "linetoVerticalRel",
+    value: function linetoVerticalRel(y) {
+      this.addShape(Shapes.line(this.lastX, this.lastY, this.lastX, this.lastY + y));
+      this.lastY += y;
+      this.lastCommand = "v";
+    }
+    /**
+     *  closePath - z or Z
+     */
+
+  }, {
+    key: "closePath",
+    value: function closePath() {
+      this.addShape(Shapes.line(this.lastX, this.lastY, this.firstX, this.firstY));
+      this.lastX = this.firstX;
+      this.lastY = this.firstY;
+      this.lastCommand = "z";
+    }
+  }]);
+
+  return PathHandler;
+}();
+
+/**
  *  Shapes
  *
  *  @copyright 2017, Kevin Lindsey
@@ -4311,6 +5135,22 @@ Shapes.line = function (p1x, p1y, p2x, p2y) {
 
 Shapes.path = function (segments) {
   return new IntersectionArgs("Path", segments);
+};
+/**
+ *  pathData
+ *
+ *  @param {string} pathData
+ *  @returns {module:kld-intersections.IntersectionArgs}
+ */
+
+
+Shapes.pathData = function (pathData) {
+  // TODO: cache parser and handler
+  var parser = new PathParser();
+  var handler = new PathHandler();
+  parser.setHandler(handler);
+  parser.parseData(pathData);
+  return Shapes.path(handler.shapes);
 };
 /**
  *  polygon
@@ -4458,7 +5298,23 @@ AffineShapes.line = function (p1, p2) {
 
 
 AffineShapes.path = function (segments) {
-  return new IntersectionArgs("Path", [segments]);
+  return new IntersectionArgs("Path", segments);
+};
+/**
+ *  pathData
+ *
+ *  @param {string} pathData
+ *  @returns {module:kld-intersections.IntersectionArgs}
+ */
+
+
+AffineShapes.pathData = function (pathData) {
+  // TODO: cache parser and handler
+  var parser = new PathParser();
+  var handler = new PathHandler();
+  parser.setHandler(handler);
+  parser.parseData(pathData);
+  return AffineShapes.path(handler.shapes);
 };
 /**
  *  polygon
