@@ -47,7 +47,7 @@
   "dependencies": {
     "kld-affine": "^2.1.1",
     "kld-path-parser": "^0.2.1",
-    "kld-polynomial": "^0.2.0"
+    "kld-polynomial": "^0.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
@@ -69,7 +69,7 @@
     "eslint-plugin-unicorn": "^8.0.2",
     "esm": "^3.2.22",
     "jsdoc": "^3.6.1",
-    "kld-contours": "^0.3.1",
+    "kld-contours": "^0.3.2",
     "mocha": "^6.1.4",
     "node-static": "^0.7.11",
     "opn-cli": "^4.1.0",
