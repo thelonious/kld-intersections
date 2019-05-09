@@ -1,6 +1,5 @@
 # kld-intersections
 
-- [Goals](#goals)
 - [Installation](#installation)
 - [Importing](#importing)
 - [Usage](#usage)
@@ -26,13 +25,6 @@ A library of intersection algorithms covering all permutations for any two of th
 - Polyline
 - Rectangle
 - Paths
-
-# Goals
-
-- Cover intersections for all types of curves and shapes in SVG
-- Minimize external dependencies
-- Make it easier to port to other languages
-- Assume this is a low-level API upon which other APIs will be built
 
 # Installation
 
