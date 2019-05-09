@@ -2,8 +2,8 @@
 
 - [Goals](#goals)
 - [Installation](#installation)
+- [Importing](#importing)
 - [Usage](#usage)
-- [API](#api)
     - [Intersection API](#intersection-api)
     - [Shapes API](#shapes-api)
     - [Affine Shapes API](#affine-shapes-api)
@@ -40,7 +40,7 @@ A library of intersection algorithms covering all permutations for any two of th
 npm install kld-intersections
 ```
 
-# Usage
+# Importing
 
 The following sections indicate how you can import the code for use in various environments.
 
@@ -67,13 +67,13 @@ import {AffineShapes, Shapes, Intersection} from './node_modules/kld-intersectio
 </script>
 ```
 
-## Bundles
+## Bundlers
 
 ```javascript
 import {AffineShapes, Shapes, Intersection} from "kld-intersections";
 ```
 
-# API
+# Usage
 
 kld-intersection allows you to find intersections using two general approaches:
 
