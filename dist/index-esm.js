@@ -4234,6 +4234,8 @@ var PathLexeme =
 /*#__PURE__*/
 function () {
   /**
+   *  PathLexeme
+   *
    *  @param {number} type
    *  @param {string} text
    */
@@ -4244,7 +4246,7 @@ function () {
     this.text = text;
   }
   /**
-   *  typeis
+   *  Determine if this lexeme is of the given type
    *
    *  @param {number} type
    *  @returns {boolean}
@@ -4278,7 +4280,7 @@ var PathLexer =
 /*#__PURE__*/
 function () {
   /**
-   *  @param {string} pathData
+   *  @param {string} [pathData]
    */
   function PathLexer(pathData) {
     _classCallCheck(this, PathLexer);
@@ -4300,13 +4302,15 @@ function () {
     key: "setPathData",
     value: function setPathData(pathData) {
       if (typeof pathData !== "string") {
-        throw new Error("PathLexer.setPathData: The first parameter must be a string");
+        throw new TypeError("The first parameter must be a string");
       }
 
       this._pathData = pathData;
     }
     /**
      *  getNextToken
+     *
+     *  @returns {PathLexeme}
      */
 
   }, {
@@ -4320,20 +4324,17 @@ function () {
           result = new PathLexeme(PathLexeme.EOD, "");
         } else if (d.match(/^([ \t\r\n,]+)/)) {
           d = d.substr(RegExp.$1.length);
-        } // NOTE: Batik seemed to ignore the trailing /i in the following regex,
-        // so I expanded the regex to explicitly list both uppercase and
-        // lowercase commands.
-        else if (d.match(/^([AaCcHhLlMmQqSsTtVvZz])/)) {
-            result = new PathLexeme(PathLexeme.COMMAND, RegExp.$1);
+        } else if (d.match(/^([AaCcHhLlMmQqSsTtVvZz])/)) {
+          result = new PathLexeme(PathLexeme.COMMAND, RegExp.$1);
+          d = d.substr(RegExp.$1.length);
+        }
+        /* eslint-disable-next-line unicorn/no-unsafe-regex */
+        else if (d.match(/^(([-+]?\d+(\.\d*)?|[-+]?\.\d+)([eE][-+]?\d+)?)/)) {
+            result = new PathLexeme(PathLexeme.NUMBER, RegExp.$1);
             d = d.substr(RegExp.$1.length);
+          } else {
+            throw new SyntaxError("Unrecognized path data: ".concat(d));
           }
-          /* eslint-disable-next-line unicorn/no-unsafe-regex */
-          else if (d.match(/^(([-+]?\d+(\.\d*)?|[-+]?\.\d+)([eE][-+]?\d+)?)/)) {
-              result = new PathLexeme(PathLexeme.NUMBER, parseFloat(RegExp.$1));
-              d = d.substr(RegExp.$1.length);
-            } else {
-              throw new Error("PathLexer.getNextToken: unrecognized path data " + d);
-            }
       }
 
       this._pathData = d;
@@ -4344,6 +4345,7 @@ function () {
   return PathLexer;
 }();
 
+var BOP = "BOP";
 /**
  *  PathParser
  */
@@ -4372,7 +4374,7 @@ function () {
     key: "parseData",
     value: function parseData(pathData) {
       if (typeof pathData !== "string") {
-        throw new Error("PathParser.parseData: The first parameter must be a string");
+        throw new TypeError("The first parameter must be a string: ".concat(pathData));
       } // begin parse
 
 
@@ -4382,11 +4384,11 @@ function () {
 
 
       var lexer = this._lexer;
-      lexer.setPathData(pathData); // set mode to signify new path
-      // NOTE: BOP means Beginning of Path
+      lexer.setPathData(pathData); // set mode to signify new path - Beginning Of Path
 
-      var mode = "BOP"; // Process all tokens
+      var mode = BOP; // Process all tokens
 
+      var lastToken = null;
       var token = lexer.getNextToken();
 
       while (token.typeis(PathLexeme.EOD) === false) {
@@ -4395,8 +4397,8 @@ function () {
 
         switch (token.type) {
           case PathLexeme.COMMAND:
-            if (mode === "BOP" && token.text !== "M" && token.text !== "m") {
-              throw new Error("PathParser.parseData: a path must begin with a moveto command");
+            if (mode === BOP && token.text !== "M" && token.text !== "m") {
+              throw new SyntaxError("New paths must begin with a moveto command. Found '".concat(token.text, "'"));
             } // Set new parsing mode
 
 
@@ -4411,18 +4413,24 @@ function () {
             // Most commands allow you to keep repeating parameters
             // without specifying the command again.  We just assume
             // that is the case and do nothing since the mode remains
-            // the same and param_count is already set
+            // the same
+            if (mode === BOP) {
+              throw new SyntaxError("New paths must begin with a moveto command. Found '".concat(token.text, "'"));
+            } else {
+              parameterCount = PathParser.PARAMCOUNT[mode.toUpperCase()];
+            }
+
             break;
 
           default:
-            throw new Error("PathParser.parseData: unrecognized token type: " + token.type);
+            throw new SyntaxError("Unrecognized command type: ".concat(token.type));
         } // Get parameters
 
 
         for (var i = 0; i < parameterCount; i++) {
           switch (token.type) {
             case PathLexeme.COMMAND:
-              throw new Error("PathParser.parseData: parameter must be a number: " + token.text);
+              throw new SyntaxError("Parameter must be a number. Found '".concat(token.text, "'"));
 
             case PathLexeme.NUMBER:
               // convert current parameter to a float and add to
@@ -4430,8 +4438,11 @@ function () {
               params[i] = parseFloat(token.text);
               break;
 
+            case PathLexeme.EOD:
+              throw new SyntaxError("Unexpected end of string");
+
             default:
-              throw new Error("PathParser.parseData: unrecognized token type: " + token.type);
+              throw new SyntaxError("Unrecognized parameter type. Found type '".concat(token.type, "'"));
           }
 
           token = lexer.getNextToken();
@@ -4464,8 +4475,19 @@ function () {
             mode = "l";
             break;
 
+          case "Z":
+          case "z":
+            mode = "BOP";
+            break;
+
           default: // ignore for now
 
+        }
+
+        if (token === lastToken) {
+          throw new SyntaxError("Parser stalled on '".concat(token.text, "'"));
+        } else {
+          lastToken = token;
         }
       } // end parse
 
