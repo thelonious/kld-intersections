@@ -36,13 +36,14 @@
   "keywords": [
     "intersection",
     "svg",
+    "arc",
     "bezier",
     "circle",
     "ellipse",
     "line",
+    "path",
     "polygon",
-    "rectangle",
-    "path"
+    "rectangle"
   ],
   "dependencies": {
     "kld-affine": "^2.1.1",
