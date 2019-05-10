@@ -43,13 +43,7 @@ The following sections indicate how you can import the code for use in various e
 import {AffineShapes, Shapes, Intersection} = require("kld-intersections");
 ```
 
-## ESM in Modern Browsers
-
-```javascript
-import {AffineShapes, Shapes, Intersection} from './node_modules/kld-intersections/dist/index-esm.js';
-```
-
-## Older Browsers
+## Browsers
 
 ```html
 <script src="./node_modules/kld-intersections/dist/index-umd.js"></script>
@@ -58,6 +52,12 @@ import {AffineShapes, Shapes, Intersection} from './node_modules/kld-intersectio
   var Shapes = KldIntersections.Shapes;
   var Intersection = KldIntersections.Intersection;
 </script>
+```
+
+## Modern Browsers (ESM)
+
+```javascript
+import {AffineShapes, Shapes, Intersection} from './node_modules/kld-intersections/dist/index-esm.js';
 ```
 
 ## Bundlers
