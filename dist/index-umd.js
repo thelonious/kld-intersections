@@ -2451,7 +2451,14 @@
 
     var result = new Intersection("No Intersection");
     var startNormal = normalizeAngle(startRadians);
-    var endNormal = normalizeAngle(endRadians);
+    var endNormal = normalizeAngle(endRadians); // Advance end angle one turn if it's lower than the start angle so our interval test will work correctly
+
+    if (endNormal < startNormal) {
+      endNormal += TWO_PI;
+    }
+
+    console.log("[startRadians = ".concat(startRadians, " endRadians = ").concat(endRadians, "]"));
+    console.log("[startNormal = ".concat(startNormal, " endRadians = ").concat(endNormal, "]"));
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
     var _iteratorError = undefined;
