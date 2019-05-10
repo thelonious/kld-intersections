@@ -5252,13 +5252,56 @@ function () {
      *  @param {number} y
      *  @param {number} width
      *  @param {number} height
+     *  @param {number} [rx]
+     *  @param {number} [ry]
      *  @returns {module:kld-intersections.IntersectionArgs}
      */
 
   }, {
     key: "rectangle",
     value: function rectangle(x, y, width, height) {
-      return new IntersectionArgs("Rectangle", [new Point2D(x, y), new Point2D(x + width, y + height)]);
+      var rx = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
+      var ry = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 0;
+
+      if (rx === 0 && ry === 0) {
+        return new IntersectionArgs("Rectangle", [new Point2D(x, y), new Point2D(x + width, y + height)]);
+      }
+
+      if (rx === 0) {
+        rx = ry;
+      }
+
+      if (ry === 0) {
+        ry = rx;
+      }
+
+      if (rx > width * 0.5) {
+        rx = width * 0.5;
+      }
+
+      if (ry > height * 0.5) {
+        ry = height * 0.5;
+      }
+
+      var x0 = x;
+      var y0 = y;
+      var x1 = x + rx;
+      var y1 = y + ry;
+      var x2 = x + width - rx;
+      var y2 = y + height - ry;
+      var x3 = x + width;
+      var y3 = y + height;
+      var degree90 = Math.PI * 0.5;
+      var segments = [];
+      segments.push(Shapes.arc(x1, y1, rx, ry, 2 * degree90, 3 * degree90));
+      segments.push(Shapes.line(x1, y0, x2, y0));
+      segments.push(Shapes.arc(x2, y1, rx, ry, 3 * degree90, 4 * degree90));
+      segments.push(Shapes.line(x3, y1, x3, y2));
+      segments.push(Shapes.arc(x2, y2, rx, ry, 0, degree90));
+      segments.push(Shapes.line(x2, y3, x1, y3));
+      segments.push(Shapes.arc(x1, y2, rx, ry, degree90, 2 * degree90));
+      segments.push(Shapes.line(x0, y2, x0, y1));
+      return Shapes.path(segments);
     }
   }]);
 
@@ -5382,12 +5425,7 @@ function () {
   }, {
     key: "pathData",
     value: function pathData(_pathData) {
-      // TODO: cache parser and handler
-      var parser = new PathParser();
-      var handler = new PathHandler();
-      parser.setHandler(handler);
-      parser.parseData(_pathData);
-      return AffineShapes.path(handler.shapes);
+      return Shapes.pathData(_pathData);
     }
     /**
      *  polygon
@@ -5418,13 +5456,17 @@ function () {
      *
      *  @param {module:kld-intersections.Point2D} topLeft
      *  @param {module:kld-intersections.Vector2D} size
+     *  @param {number} [rx]
+     *  @param {number} [ry]
      *  @returns {module:kld-intersections.IntersectionArgs}
      */
 
   }, {
     key: "rectangle",
     value: function rectangle(topLeft, size) {
-      return new IntersectionArgs("Rectangle", [topLeft, topLeft.add(size)]);
+      var rx = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+      var ry = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+      return Shapes.rectangle(topLeft.x, topLeft.y, size.x, size.y, rx, ry);
     }
   }]);
 
@@ -5491,14 +5533,9 @@ function () {
   }, {
     key: "path",
     value: function path(_path) {
-      var pathData = _path.getAttributeNS(null, "d"); // TODO: cache parser and handler
+      var pathData = _path.getAttributeNS(null, "d");
 
-
-      var parser = new PathParser();
-      var handler = new PathHandler();
-      parser.setHandler(handler);
-      parser.parseData(pathData);
-      return new IntersectionArgs("Path", handler.shapes);
+      return Shapes.pathData(pathData);
     }
     /**
      * polygon
@@ -5550,10 +5587,7 @@ function () {
   }, {
     key: "rect",
     value: function rect(_rect) {
-      // TODO: add support for rounded rectangles
-      var topLeft = new Point2D(_rect.x.baseVal.value, _rect.y.baseVal.value);
-      var size = new Vector2D(_rect.width.baseVal.value, _rect.height.baseVal.value);
-      return new IntersectionArgs("Rectangle", [topLeft, topLeft.add(size)]);
+      return Shapes.rectangle(_rect.x.baseVal.value, _rect.y.baseVal.value, _rect.width.baseVal.value, _rect.height.baseVal.value, _rect.rx.baseVal.value, _rect.ry.baseVal.value);
     }
     /**
      * element
