@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" onload="go(evt)">
+  <script type="text/javascript" xlink:href="../dist/index-umd.js"/>
+  <script type="text/javascript" xlink:href="./show_intersections.js"/>
+  <defs>
+    <g id="intersection">
+      <circle r="3" fill="none" stroke="red" stroke-width="1"/>
+      <circle r="1" fill="black"/>
+    </g>
+  </defs>
+  <g id="shapes">
+    <ellipse cx="100" cy="100" rx="50" ry="40" fill="blue" opacity="0.5"/>
+    <line x1="50" y1="50" x2="150" y2="150" stroke="orange" stroke-width="5" opacity="0.5"/>
+  </g>
+  <g id="result"/>
+</svg>
