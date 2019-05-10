@@ -28,7 +28,7 @@
             <script type="text/javascript" xlink:href="./show_intersections.js"/>
             <xsl:apply-templates select="svg:defs"/>
             <g id="shapes">
-                <xsl:apply-templates select="svg:rect[not(@id='background')]"/>
+                <xsl:apply-templates select="svg:circle|svg:ellipse|svg:line|svg:path|svg:polygon|svg:polyline|svg:rect[not(@id='background')]"/>
             </g>
             <g id="result"/>
         </svg>
@@ -54,6 +54,62 @@
             <xsl:apply-templates select="@cx"/>
             <xsl:apply-templates select="@cy"/>
             <xsl:apply-templates select="@r"/>
+            <xsl:apply-templates select="@fill"/>
+            <xsl:apply-templates select="@stroke"/>
+            <xsl:apply-templates select="@stroke-width"/>
+            <xsl:apply-templates select="@opacity"/>
+        </xsl:element>
+    </xsl:template>
+
+    <xsl:template match="svg:ellipse">
+        <xsl:element name="ellipse">
+            <xsl:apply-templates select="@cx"/>
+            <xsl:apply-templates select="@cy"/>
+            <xsl:apply-templates select="@rx"/>
+            <xsl:apply-templates select="@ry"/>
+            <xsl:apply-templates select="@fill"/>
+            <xsl:apply-templates select="@stroke"/>
+            <xsl:apply-templates select="@stroke-width"/>
+            <xsl:apply-templates select="@opacity"/>
+        </xsl:element>
+    </xsl:template>
+
+    <xsl:template match="svg:line">
+        <xsl:element name="line">
+            <xsl:apply-templates select="@x1"/>
+            <xsl:apply-templates select="@y1"/>
+            <xsl:apply-templates select="@x2"/>
+            <xsl:apply-templates select="@y2"/>
+            <xsl:apply-templates select="@fill"/>
+            <xsl:apply-templates select="@stroke"/>
+            <xsl:apply-templates select="@stroke-width"/>
+            <xsl:apply-templates select="@opacity"/>
+        </xsl:element>
+    </xsl:template>
+
+    <xsl:template match="svg:path">
+        <xsl:element name="path">
+            <xsl:apply-templates select="@d"/>
+            <xsl:apply-templates select="@fill"/>
+            <xsl:apply-templates select="@stroke"/>
+            <xsl:apply-templates select="@stroke-width"/>
+            <xsl:apply-templates select="@opacity"/>
+        </xsl:element>
+    </xsl:template>
+
+    <xsl:template match="svg:polygon">
+        <xsl:element name="polygon">
+            <xsl:apply-templates select="@points"/>
+            <xsl:apply-templates select="@fill"/>
+            <xsl:apply-templates select="@stroke"/>
+            <xsl:apply-templates select="@stroke-width"/>
+            <xsl:apply-templates select="@opacity"/>
+        </xsl:element>
+    </xsl:template>
+
+    <xsl:template match="svg:polyline">
+        <xsl:element name="polyline">
+            <xsl:apply-templates select="@points"/>
             <xsl:apply-templates select="@fill"/>
             <xsl:apply-templates select="@stroke"/>
             <xsl:apply-templates select="@stroke-width"/>
