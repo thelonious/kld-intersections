@@ -5574,11 +5574,31 @@
         /* eslint-disable-next-line prefer-destructuring */
         var tagName = _element.tagName;
 
-        if (typeof SvgShapes[tagName] === "function") {
-          return SvgShapes[tagName](_element);
-        }
+        switch (tagName) {
+          case "circle":
+            return SvgShapes.circle(_element);
 
-        throw new TypeError("Unrecognized element type: '".concat(tagName, "'"));
+          case "ellipse":
+            return SvgShapes.ellipse(_element);
+
+          case "line":
+            return SvgShapes.line(_element);
+
+          case "path":
+            return SvgShapes.path(_element);
+
+          case "polygon":
+            return SvgShapes.polygon(_element);
+
+          case "polyline":
+            return SvgShapes.polyline(_element);
+
+          case "rect":
+            return SvgShapes.rect(_element);
+
+          default:
+            throw new TypeError("Unrecognized element type: '".concat(tagName, "'"));
+        }
       }
     }]);
 
