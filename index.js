@@ -20,6 +20,12 @@ export {default as Shapes} from "./lib/Shapes.js";
 export {default as AffineShapes} from "./lib/AffineShapes.js";
 
 /**
+ * @namespace SvgShapes
+ * @implements {module:SvgShapes~SvgShapes}
+ */
+export {default as SvgShapes} from "./lib/SvgShapes.js";
+
+/**
  * @namespace IntersectionQuery
  * @implements {module:IntersectionQuery~IntersectionQuery}
  */
