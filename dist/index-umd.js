@@ -5104,6 +5104,30 @@
        *  @returns {module:kld-intersections.IntersectionArgs}
        */
       value: function quadraticBezier(p1x, p1y, p2x, p2y, p3x, p3y) {
+        if (isNaN(p1x)) {
+          throw TypeError("Expected p1x to be a number, but found ".concat(p1x));
+        }
+
+        if (isNaN(p1y)) {
+          throw TypeError("Expected p1y to be a number, but found ".concat(p1y));
+        }
+
+        if (isNaN(p2x)) {
+          throw TypeError("Expected p2x to be a number, but found ".concat(p2x));
+        }
+
+        if (isNaN(p2y)) {
+          throw TypeError("Expected p2y to be a number, but found ".concat(p2y));
+        }
+
+        if (isNaN(p3x)) {
+          throw TypeError("Expected p3x to be a number, but found ".concat(p3x));
+        }
+
+        if (isNaN(p3y)) {
+          throw TypeError("Expected p3y to be a number, but found ".concat(p3y));
+        }
+
         return new IntersectionArgs("Bezier2", [new Point2D(p1x, p1y), new Point2D(p2x, p2y), new Point2D(p3x, p3y)]);
       }
       /**
@@ -5123,6 +5147,38 @@
     }, {
       key: "cubicBezier",
       value: function cubicBezier(p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y) {
+        if (isNaN(p1x)) {
+          throw TypeError("Expected p1x to be a number, but found ".concat(p1x));
+        }
+
+        if (isNaN(p1y)) {
+          throw TypeError("Expected p1y to be a number, but found ".concat(p1y));
+        }
+
+        if (isNaN(p2x)) {
+          throw TypeError("Expected p2x to be a number, but found ".concat(p2x));
+        }
+
+        if (isNaN(p2y)) {
+          throw TypeError("Expected p2y to be a number, but found ".concat(p2y));
+        }
+
+        if (isNaN(p3x)) {
+          throw TypeError("Expected p3x to be a number, but found ".concat(p3x));
+        }
+
+        if (isNaN(p3y)) {
+          throw TypeError("Expected p3y to be a number, but found ".concat(p3y));
+        }
+
+        if (isNaN(p4x)) {
+          throw TypeError("Expected p4x to be a number, but found ".concat(p4x));
+        }
+
+        if (isNaN(p4y)) {
+          throw TypeError("Expected p4y to be a number, but found ".concat(p4y));
+        }
+
         return new IntersectionArgs("Bezier3", [new Point2D(p1x, p1y), new Point2D(p2x, p2y), new Point2D(p3x, p3y), new Point2D(p4x, p4y)]);
       }
       /**
@@ -5137,6 +5193,18 @@
     }, {
       key: "circle",
       value: function circle(centerX, centerY, radius) {
+        if (isNaN(centerX)) {
+          throw TypeError("Expected centerX to be a number, but found ".concat(centerX));
+        }
+
+        if (isNaN(centerY)) {
+          throw TypeError("Expected centerY to be a number, but found ".concat(centerY));
+        }
+
+        if (isNaN(radius)) {
+          throw TypeError("Expected radius to be a number, but found ".concat(radius));
+        }
+
         return new IntersectionArgs("Circle", [new Point2D(centerX, centerY), radius]);
       }
       /**
@@ -5152,6 +5220,22 @@
     }, {
       key: "ellipse",
       value: function ellipse(centerX, centerY, radiusX, radiusY) {
+        if (isNaN(centerX)) {
+          throw TypeError("Expected centerX to be a number, but found ".concat(centerX));
+        }
+
+        if (isNaN(centerY)) {
+          throw TypeError("Expected centerY to be a number, but found ".concat(centerY));
+        }
+
+        if (isNaN(radiusX)) {
+          throw TypeError("Expected radiusX to be a number, but found ".concat(radiusX));
+        }
+
+        if (isNaN(radiusY)) {
+          throw TypeError("Expected radiusY to be a number, but found ".concat(radiusY));
+        }
+
         return new IntersectionArgs("Ellipse", [new Point2D(centerX, centerY), radiusX, radiusY]);
       }
       /**
@@ -5169,6 +5253,30 @@
     }, {
       key: "arc",
       value: function arc(centerX, centerY, radiusX, radiusY, startRadians, endRadians) {
+        if (isNaN(centerX)) {
+          throw TypeError("Expected centerX to be a number, but found ".concat(centerX));
+        }
+
+        if (isNaN(centerY)) {
+          throw TypeError("Expected centerY to be a number, but found ".concat(centerY));
+        }
+
+        if (isNaN(radiusX)) {
+          throw TypeError("Expected radiusX to be a number, but found ".concat(radiusX));
+        }
+
+        if (isNaN(radiusY)) {
+          throw TypeError("Expected radiusY to be a number, but found ".concat(radiusY));
+        }
+
+        if (isNaN(startRadians)) {
+          throw TypeError("Expected startRadians to be a number, but found ".concat(startRadians));
+        }
+
+        if (isNaN(endRadians)) {
+          throw TypeError("Expected endRadians to be a number, but found ".concat(endRadians));
+        }
+
         return new IntersectionArgs("Arc", [new Point2D(centerX, centerY), radiusX, radiusY, startRadians, endRadians]);
       }
       /**
@@ -5184,6 +5292,22 @@
     }, {
       key: "line",
       value: function line(p1x, p1y, p2x, p2y) {
+        if (isNaN(p1x)) {
+          throw TypeError("Expected p1x to be a number, but found ".concat(p1x));
+        }
+
+        if (isNaN(p1y)) {
+          throw TypeError("Expected p1y to be a number, but found ".concat(p1y));
+        }
+
+        if (isNaN(p2x)) {
+          throw TypeError("Expected p2x to be a number, but found ".concat(p2x));
+        }
+
+        if (isNaN(p2y)) {
+          throw TypeError("Expected p2y to be a number, but found ".concat(p2y));
+        }
+
         return new IntersectionArgs("Line", [new Point2D(p1x, p1y), new Point2D(p2x, p2y)]);
       }
       /**
@@ -5208,7 +5332,11 @@
     }, {
       key: "pathData",
       value: function pathData(_pathData) {
-        // TODO: cache parser and handler
+        if (typeof _pathData !== "string") {
+          throw TypeError("Expected pathData to be a string, but found ".concat(_pathData));
+        } // TODO: cache parser and handler
+
+
         var parser = new PathParser();
         var handler = new PathHandler();
         parser.setHandler(handler);
@@ -5225,6 +5353,17 @@
     }, {
       key: "polygon",
       value: function polygon(coords) {
+        /* eslint-disable-next-line compat/compat */
+        if (Array.isArray(coords) === false) {
+          throw TypeError("Expected points to be an Array, but found ".concat(coords));
+        }
+
+        if (coords.some(function (c) {
+          return isNaN(c);
+        })) {
+          throw TypeError("Expected all members of coords to be numbers");
+        }
+
         var points = [];
 
         for (var i = 0; i < coords.length; i += 2) {
@@ -5243,6 +5382,17 @@
     }, {
       key: "polyline",
       value: function polyline(coords) {
+        /* eslint-disable-next-line compat/compat */
+        if (Array.isArray(coords) === false) {
+          throw TypeError("Expected points to be an Array, but found ".concat(coords));
+        }
+
+        if (coords.some(function (c) {
+          return isNaN(c);
+        })) {
+          throw TypeError("Expected all members of coords to be numbers");
+        }
+
         var points = [];
 
         for (var i = 0; i < coords.length; i += 2) {
@@ -5268,6 +5418,30 @@
       value: function rectangle(x, y, width, height) {
         var rx = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
         var ry = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 0;
+
+        if (isNaN(x)) {
+          throw TypeError("Expected x to be a number, but found ".concat(x));
+        }
+
+        if (isNaN(y)) {
+          throw TypeError("Expected y to be a number, but found ".concat(y));
+        }
+
+        if (isNaN(width)) {
+          throw TypeError("Expected width to be a number, but found ".concat(width));
+        }
+
+        if (isNaN(height)) {
+          throw TypeError("Expected height to be a number, but found ".concat(height));
+        }
+
+        if (isNaN(rx)) {
+          throw TypeError("Expected rx to be a number, but found ".concat(rx));
+        }
+
+        if (isNaN(ry)) {
+          throw TypeError("Expected ry to be a number, but found ".concat(ry));
+        }
 
         if (rx === 0 && ry === 0) {
           return new IntersectionArgs("Rectangle", [new Point2D(x, y), new Point2D(x + width, y + height)]);
@@ -5336,6 +5510,18 @@
        *  @returns {module:kld-intersections.IntersectionArgs}
        */
       value: function quadraticBezier(p1, p2, p3) {
+        if (p1 instanceof Point2D === false) {
+          throw TypeError("Expected p1 to be a Point2D, but found ".concat(p1));
+        }
+
+        if (p2 instanceof Point2D === false) {
+          throw TypeError("Expected p2 to be a Point2D, but found ".concat(p2));
+        }
+
+        if (p3 instanceof Point2D === false) {
+          throw TypeError("Expected p3 to be a Point2D, but found ".concat(p3));
+        }
+
         return new IntersectionArgs("Bezier2", [p1, p2, p3]);
       }
       /**
@@ -5351,6 +5537,22 @@
     }, {
       key: "cubicBezier",
       value: function cubicBezier(p1, p2, p3, p4) {
+        if (p1 instanceof Point2D === false) {
+          throw TypeError("Expected p1 to be a Point2D, but found ".concat(p1));
+        }
+
+        if (p2 instanceof Point2D === false) {
+          throw TypeError("Expected p2 to be a Point2D, but found ".concat(p2));
+        }
+
+        if (p3 instanceof Point2D === false) {
+          throw TypeError("Expected p3 to be a Point2D, but found ".concat(p3));
+        }
+
+        if (p4 instanceof Point2D === false) {
+          throw TypeError("Expected p4 to be a Point2D, but found ".concat(p4));
+        }
+
         return new IntersectionArgs("Bezier3", [p1, p2, p3, p4]);
       }
       /**
@@ -5364,6 +5566,14 @@
     }, {
       key: "circle",
       value: function circle(center, radius) {
+        if (center instanceof Point2D === false) {
+          throw TypeError("Expected center to be a Point2D, but found ".concat(center));
+        }
+
+        if (isNaN(radius)) {
+          throw TypeError("Expected radius to be a number, but found ".concat(radius));
+        }
+
         return new IntersectionArgs("Circle", [center, radius]);
       }
       /**
@@ -5378,6 +5588,18 @@
     }, {
       key: "ellipse",
       value: function ellipse(center, radiusX, radiusY) {
+        if (center instanceof Point2D === false) {
+          throw TypeError("Expected center to be a Point2D, but found ".concat(center));
+        }
+
+        if (isNaN(radiusX)) {
+          throw TypeError("Expected radiusX to be a number, but found ".concat(radiusX));
+        }
+
+        if (isNaN(radiusY)) {
+          throw TypeError("Expected radiusY to be a number, but found ".concat(radiusY));
+        }
+
         return new IntersectionArgs("Ellipse", [center, radiusX, radiusY]);
       }
       /**
@@ -5394,6 +5616,26 @@
     }, {
       key: "arc",
       value: function arc(center, radiusX, radiusY, startRadians, endRadians) {
+        if (center instanceof Point2D === false) {
+          throw TypeError("Expected center to be a Point2D, but found ".concat(center));
+        }
+
+        if (isNaN(radiusX)) {
+          throw TypeError("Expected radiusX to be a number, but found ".concat(radiusX));
+        }
+
+        if (isNaN(radiusY)) {
+          throw TypeError("Expected radiusY to be a number, but found ".concat(radiusY));
+        }
+
+        if (isNaN(startRadians)) {
+          throw TypeError("Expected startRadians to be a number, but found ".concat(startRadians));
+        }
+
+        if (isNaN(endRadians)) {
+          throw TypeError("Expected endRadians to be a number, but found ".concat(endRadians));
+        }
+
         return new IntersectionArgs("Arc", [center, radiusX, radiusY, startRadians, endRadians]);
       }
       /**
@@ -5407,6 +5649,14 @@
     }, {
       key: "line",
       value: function line(p1, p2) {
+        if (p1 instanceof Point2D === false) {
+          throw TypeError("Expected p1 to be a Point2D, but found ".concat(p1));
+        }
+
+        if (p2 instanceof Point2D === false) {
+          throw TypeError("Expected p2 to be a Point2D, but found ".concat(p2));
+        }
+
         return new IntersectionArgs("Line", [p1, p2]);
       }
       /**
@@ -5443,6 +5693,17 @@
     }, {
       key: "polygon",
       value: function polygon(points) {
+        /* eslint-disable-next-line compat/compat */
+        if (Array.isArray(points) === false) {
+          throw TypeError("Expected points to be an Array, but found ".concat(points));
+        }
+
+        if (points.some(function (p) {
+          return p instanceof Point2D === false;
+        })) {
+          throw TypeError("Expected all members of points to be Point2Ds");
+        }
+
         return new IntersectionArgs("Polygon", [points]);
       }
       /**
@@ -5455,6 +5716,12 @@
     }, {
       key: "polyline",
       value: function polyline(points) {
+        if (points.some(function (p) {
+          return p instanceof Point2D === false;
+        })) {
+          throw TypeError("Expected all members of points to be Point2Ds");
+        }
+
         return new IntersectionArgs("Polyline", [points]);
       }
       /**
@@ -5472,6 +5739,23 @@
       value: function rectangle(topLeft, size) {
         var rx = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
         var ry = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+
+        if (topLeft instanceof Point2D === false) {
+          throw TypeError("Expected topLeft to be a Point2D, but found ".concat(topLeft));
+        }
+
+        if (size instanceof Vector2D === false) {
+          throw TypeError("Expected size to be a Vector2D, but found ".concat(size));
+        }
+
+        if (isNaN(rx)) {
+          throw TypeError("Expected rx to be a number, but found ".concat(rx));
+        }
+
+        if (isNaN(ry)) {
+          throw TypeError("Expected ry to be a number, but found ".concat(ry));
+        }
+
         return Shapes.rectangle(topLeft.x, topLeft.y, size.x, size.y, rx, ry);
       }
     }]);
@@ -5496,6 +5780,10 @@
        * @returns {module:kld-intersections.IntersectionArgs}
        */
       value: function circle(_circle) {
+        if (_circle instanceof SVGCircleElement === false) {
+          throw new TypeError("Expected SVGCircleElement, but found ".concat(_circle));
+        }
+
         var center = new Point2D(_circle.cx.baseVal.value, _circle.cy.baseVal.value);
         var radius = _circle.r.baseVal.value;
         return new IntersectionArgs("Circle", [center, radius]);
@@ -5510,6 +5798,10 @@
     }, {
       key: "ellipse",
       value: function ellipse(_ellipse) {
+        if (_ellipse instanceof SVGEllipseElement === false) {
+          throw new TypeError("Expected SVGEllipseElement, but found ".concat(_ellipse));
+        }
+
         var center = new Point2D(_ellipse.cx.baseVal.value, _ellipse.cy.baseVal.value);
         var radiusX = _ellipse.rx.baseVal.value;
         var radiusY = _ellipse.ry.baseVal.value;
@@ -5525,6 +5817,10 @@
     }, {
       key: "line",
       value: function line(_line) {
+        if (_line instanceof SVGLineElement === false) {
+          throw new TypeError("Expected SVGLineElement, but found ".concat(_line));
+        }
+
         var p1 = new Point2D(_line.x1.baseVal.value, _line.y1.baseVal.value);
         var p2 = new Point2D(_line.x2.baseVal.value, _line.y2.baseVal.value);
         return new IntersectionArgs("Line", [p1, p2]);
@@ -5539,6 +5835,10 @@
     }, {
       key: "path",
       value: function path(_path) {
+        if (_path instanceof SVGPathElement === false) {
+          throw new TypeError("Expected SVGPathElement, but found ".concat(_path));
+        }
+
         var pathData = _path.getAttributeNS(null, "d");
 
         return Shapes.pathData(pathData);
@@ -5553,6 +5853,10 @@
     }, {
       key: "polygon",
       value: function polygon(_polygon) {
+        if (_polygon instanceof SVGPolygonElement === false) {
+          throw new TypeError("Expected SVGPolygonElement, but found ".concat(_polygon));
+        }
+
         var points = [];
 
         for (var i = 0; i < _polygon.points.numberOfItems; i++) {
@@ -5573,6 +5877,10 @@
     }, {
       key: "polyline",
       value: function polyline(_polyline) {
+        if (_polyline instanceof SVGPolylineElement === false) {
+          throw new TypeError("Expected SVGPolylineElement, but found ".concat(_polyline));
+        }
+
         var points = [];
 
         for (var i = 0; i < _polyline.points.numberOfItems; i++) {
@@ -5593,6 +5901,10 @@
     }, {
       key: "rect",
       value: function rect(_rect) {
+        if (_rect instanceof SVGRectElement === false) {
+          throw new TypeError("Expected SVGRectElement, but found ".concat(_rect));
+        }
+
         return Shapes.rectangle(_rect.x.baseVal.value, _rect.y.baseVal.value, _rect.width.baseVal.value, _rect.height.baseVal.value, _rect.rx.baseVal.value, _rect.ry.baseVal.value);
       }
       /**
@@ -5605,7 +5917,12 @@
     }, {
       key: "element",
       value: function element(_element) {
+        if (_element instanceof SVGElement === false) {
+          throw new TypeError("Expected SVGElement, but found ".concat(_element));
+        }
         /* eslint-disable-next-line prefer-destructuring */
+
+
         var tagName = _element.tagName;
 
         switch (tagName) {
