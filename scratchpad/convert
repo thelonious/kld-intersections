@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# batch convert all example SVGs from http://www.kevlindev.com/geometry/2D/intersections/index.htm
+
+for f in ../visual-test-original/*.svg; do
+    filename=$(basename ${f})
+    target=${filename#*_}
+    xsltproc --output "../visual-test/${target}" transform_visual_test.xsl ${f}
+done
