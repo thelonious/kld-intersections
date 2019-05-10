@@ -5512,7 +5512,7 @@ function () {
     value: function polygon(_polygon) {
       var points = [];
 
-      for (var i = 0; i < _polygon.points.length; i++) {
+      for (var i = 0; i < _polygon.points.numberOfItems; i++) {
         var point = _polygon.points.getItem(i);
 
         points.push(new Point2D(point.x, point.y));
@@ -5532,7 +5532,7 @@ function () {
     value: function polyline(_polyline) {
       var points = [];
 
-      for (var i = 0; i < _polyline.points.length; i++) {
+      for (var i = 0; i < _polyline.points.numberOfItems; i++) {
         var point = _polyline.points.getItem(i);
 
         points.push(new Point2D(point.x, point.y));
