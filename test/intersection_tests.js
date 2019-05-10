@@ -355,8 +355,7 @@ describe("Intersections", () => {
             new Point2D(174.0025359682078, 105.3975436409809),
             new Point2D(224.63128285241436, 115.07656878060865),
             new Point2D(278.6635091553598, 125.40625910323052),
-            // new Point2D(335.91913398904643, 136.35218738025884)
-            new Point2D(328.6693264165528, 134.9661947561056) // this should be the above
+            new Point2D(335.91913398904643, 136.35218738025884)
         ];
 
         assertIntersections(shape1, shape2, expected);
@@ -415,7 +414,7 @@ describe("Intersections", () => {
             new Point2D(174.0025359682078, 105.3975436409809),
             new Point2D(224.63128285241436, 115.07656878060865),
             new Point2D(278.6635091553598, 125.40625910323052),
-            new Point2D(335.91913398904643, 136.35218738025884) // this should be the above
+            new Point2D(335.91913398904643, 136.35218738025884)
         ];
 
         assertIntersections(shape1, shape2, expected);

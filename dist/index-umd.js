@@ -4944,7 +4944,7 @@
         if (this.lastCommand.match(/^[SsCc]$/)) {
           var secondToLast = this.shapes[this.shapes.length - 1].args[2];
           controlX = 2 * this.lastX - secondToLast.x;
-          controlY = 2 * this.lastX - secondToLast.y;
+          controlY = 2 * this.lastY - secondToLast.y;
         } else {
           controlX = this.lastX;
           controlY = this.lastY;
