@@ -25,7 +25,7 @@ function go() {
  */
 function getShapes() {
     const container = document.getElementById("shapes");
-    const shapes = container.querySelectorAll("circle,rect");
+    const shapes = container.querySelectorAll("circle,ellipse,line,path,polygon,polyline,rect");
 
     if (shapes.length >= 2) {
         return [
