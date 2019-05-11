@@ -40,7 +40,6 @@ module.exports = {
                 "import/unambiguous": "off",
                 "import/no-unresolved": "off",
                 "node/no-missing-import": "off",
-                "no-unused-vars": ["warn"],
                 "no-unused-vars": ["error", {
                     "varsIgnorePattern": "Point2D"
                 }],
