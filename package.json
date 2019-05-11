@@ -26,7 +26,7 @@
     "cover 100%"
   ],
   "scripts": {
-    "eslint": "eslint .",
+    "eslint": "eslint --ext js,md .",
     "rollup": "rollup -c",
     "test": "npm run eslint && npm run rollup && mocha --require @babel/register",
     "start": "static -p 8055",
