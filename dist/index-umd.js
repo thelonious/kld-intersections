@@ -2337,26 +2337,24 @@
 
   /**
    *
-   *   IntersectionArgs.js
-   *
-   *   @copyright 2002, 2017 Kevin Lindsey
+   *   ShapeInfo.js  @copyright 2002, 2017 Kevin Lindsey
    *
    */
 
   /**
-   *  IntersectionArgs
+   *  ShapeInfo
    * @memberof module:kld-intersections
    */
-  var IntersectionArgs =
+  var ShapeInfo =
   /*#__PURE__*/
   function () {
     /**
      *  @param {string} name
      *  @param {Array<module:kld-intersections.Point2D>} args
-     *  @returns {module:kld-intersections.IntersectionArgs}
+     *  @returns {module:kld-intersections.ShapeInfo}
      */
-    function IntersectionArgs(name, args) {
-      _classCallCheck(this, IntersectionArgs);
+    function ShapeInfo(name, args) {
+      _classCallCheck(this, ShapeInfo);
 
       this.init(name, args);
     }
@@ -2368,7 +2366,7 @@
      */
 
 
-    _createClass(IntersectionArgs, [{
+    _createClass(ShapeInfo, [{
       key: "init",
       value: function init(name, args) {
         this.name = name;
@@ -2376,7 +2374,7 @@
       }
     }]);
 
-    return IntersectionArgs;
+    return ShapeInfo;
   }();
 
   var TWO_PI = 2.0 * Math.PI;
@@ -2541,8 +2539,8 @@
       /**
        *  intersect
        *
-       *  @param {module:kld-intersections.IntersectionArgs} shape1
-       *  @param {module:kld-intersections.IntersectionArgs} shape2
+       *  @param {module:kld-intersections.ShapeInfo} shape1
+       *  @param {module:kld-intersections.ShapeInfo} shape2
        *  @returns {module:kld-intersections.Intersection}
        */
 
@@ -2609,8 +2607,8 @@
       /**
        *  intersectPathShape
        *
-       *  @param {module:kld-intersections.IntersectionArgs} path
-       *  @param {module:kld-intersections.IntersectionArgs} shape
+       *  @param {module:kld-intersections.ShapeInfo} path
+       *  @param {module:kld-intersections.ShapeInfo} shape
        *  @returns {module:kld-intersections.Intersection}
        */
 
@@ -2652,8 +2650,8 @@
       /**
        * intersectArcShape
        *
-       * @param {module:kld-intersections.IntersectionArgs} arc
-       * @param {module:kld-intersections.IntersectionArgs} shape
+       * @param {module:kld-intersections.ShapeInfo} arc
+       * @param {module:kld-intersections.ShapeInfo} shape
        * @returns {module:kld-intersections.Intersection}
        */
 
@@ -2667,7 +2665,7 @@
             startRadians = _arc$args[3],
             endRadians = _arc$args[4];
 
-        var ellipse = new IntersectionArgs("Ellipse", [center, radiusX, radiusY]);
+        var ellipse = new ShapeInfo("Ellipse", [center, radiusX, radiusY]);
         var ellipse_result = Intersection.intersect(ellipse, shape); // return ellipse_result;
 
         return restrictPointsToArc(ellipse_result, center, radiusX, radiusY, startRadians, endRadians);
@@ -4714,7 +4712,7 @@
       /**
        *  addShape
        *
-       *  @param {IntersectionArgs} shape
+       *  @param {ShapeInfo} shape
        */
 
     }, {
@@ -5108,7 +5106,7 @@
        *  @param {number} p2y
        *  @param {number} p3x
        *  @param {number} p3y
-       *  @returns {module:kld-intersections.IntersectionArgs}
+       *  @returns {module:kld-intersections.ShapeInfo}
        */
       value: function quadraticBezier(p1x, p1y, p2x, p2y, p3x, p3y) {
         if (isNaN(p1x)) {
@@ -5135,7 +5133,7 @@
           throw TypeError("Expected p3y to be a number, but found ".concat(p3y));
         }
 
-        return new IntersectionArgs("Bezier2", [new Point2D(p1x, p1y), new Point2D(p2x, p2y), new Point2D(p3x, p3y)]);
+        return new ShapeInfo("Bezier2", [new Point2D(p1x, p1y), new Point2D(p2x, p2y), new Point2D(p3x, p3y)]);
       }
       /**
        *  cubicBezier
@@ -5148,7 +5146,7 @@
        *  @param {number} p3y
        *  @param {number} p4x
        *  @param {number} p4y
-       *  @returns {module:kld-intersections.IntersectionArgs}
+       *  @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5186,7 +5184,7 @@
           throw TypeError("Expected p4y to be a number, but found ".concat(p4y));
         }
 
-        return new IntersectionArgs("Bezier3", [new Point2D(p1x, p1y), new Point2D(p2x, p2y), new Point2D(p3x, p3y), new Point2D(p4x, p4y)]);
+        return new ShapeInfo("Bezier3", [new Point2D(p1x, p1y), new Point2D(p2x, p2y), new Point2D(p3x, p3y), new Point2D(p4x, p4y)]);
       }
       /**
        *  circle
@@ -5194,7 +5192,7 @@
        *  @param {number} centerX
        *  @param {number} centerY
        *  @param {number} radius
-       *  @returns {module:kld-intersections.IntersectionArgs}
+       *  @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5212,7 +5210,7 @@
           throw TypeError("Expected radius to be a number, but found ".concat(radius));
         }
 
-        return new IntersectionArgs("Circle", [new Point2D(centerX, centerY), radius]);
+        return new ShapeInfo("Circle", [new Point2D(centerX, centerY), radius]);
       }
       /**
        *  ellipse
@@ -5221,7 +5219,7 @@
        *  @param {number} centerY
        *  @param {number} radiusX
        *  @param {number} radiusY
-       *  @returns {module:kld-intersections.IntersectionArgs}
+       *  @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5243,7 +5241,7 @@
           throw TypeError("Expected radiusY to be a number, but found ".concat(radiusY));
         }
 
-        return new IntersectionArgs("Ellipse", [new Point2D(centerX, centerY), radiusX, radiusY]);
+        return new ShapeInfo("Ellipse", [new Point2D(centerX, centerY), radiusX, radiusY]);
       }
       /**
        * arc
@@ -5254,7 +5252,7 @@
        * @param {number} radiusY
        * @param {number} startRadians
        * @param {number} endRadians
-       * @returns {module:kld-intersections.IntersectionArgs}
+       * @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5284,7 +5282,7 @@
           throw TypeError("Expected endRadians to be a number, but found ".concat(endRadians));
         }
 
-        return new IntersectionArgs("Arc", [new Point2D(centerX, centerY), radiusX, radiusY, startRadians, endRadians]);
+        return new ShapeInfo("Arc", [new Point2D(centerX, centerY), radiusX, radiusY, startRadians, endRadians]);
       }
       /**
        *  line
@@ -5293,7 +5291,7 @@
        *  @param {number} p1y
        *  @param {number} p2x
        *  @param {number} p2y
-       *  @returns {module:kld-intersections.IntersectionArgs}
+       *  @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5315,25 +5313,25 @@
           throw TypeError("Expected p2y to be a number, but found ".concat(p2y));
         }
 
-        return new IntersectionArgs("Line", [new Point2D(p1x, p1y), new Point2D(p2x, p2y)]);
+        return new ShapeInfo("Line", [new Point2D(p1x, p1y), new Point2D(p2x, p2y)]);
       }
       /**
        *  path
        *
        *  @param {Array<module:kld-intersections.Shapes>} segments
-       *  @returns {module:kld-intersections.IntersectionArgs}
+       *  @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
       key: "path",
       value: function path(segments) {
-        return new IntersectionArgs("Path", segments);
+        return new ShapeInfo("Path", segments);
       }
       /**
        *  pathData
        *
        *  @param {string} pathData
-       *  @returns {module:kld-intersections.IntersectionArgs}
+       *  @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5354,7 +5352,7 @@
        *  polygon
        *
        *  @param {Array<number>} coords
-       *  @returns {module:kld-intersections.IntersectionArgs}
+       *  @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5377,13 +5375,13 @@
           points.push(new Point2D(coords[i], coords[i + 1]));
         }
 
-        return new IntersectionArgs("Polygon", [points]);
+        return new ShapeInfo("Polygon", [points]);
       }
       /**
        *  polyline
        *
        *  @param {Array<number>} coords
-       *  @returns {module:kld-intersections.IntersectionArgs}
+       *  @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5406,7 +5404,7 @@
           points.push(new Point2D(coords[i], coords[i + 1]));
         }
 
-        return new IntersectionArgs("Polyline", [points]);
+        return new ShapeInfo("Polyline", [points]);
       }
       /**
        *  rectangle
@@ -5417,7 +5415,7 @@
        *  @param {number} height
        *  @param {number} [rx]
        *  @param {number} [ry]
-       *  @returns {module:kld-intersections.IntersectionArgs}
+       *  @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5451,7 +5449,7 @@
         }
 
         if (rx === 0 && ry === 0) {
-          return new IntersectionArgs("Rectangle", [new Point2D(x, y), new Point2D(x + width, y + height)]);
+          return new ShapeInfo("Rectangle", [new Point2D(x, y), new Point2D(x + width, y + height)]);
         }
 
         if (rx === 0) {
@@ -5514,7 +5512,7 @@
        *  @param {module:kld-intersections.Point2D} p1
        *  @param {module:kld-intersections.Point2D} p2
        *  @param {module:kld-intersections.Point2D} p3
-       *  @returns {module:kld-intersections.IntersectionArgs}
+       *  @returns {module:kld-intersections.ShapeInfo}
        */
       value: function quadraticBezier(p1, p2, p3) {
         if (p1 instanceof Point2D === false) {
@@ -5529,7 +5527,7 @@
           throw TypeError("Expected p3 to be a Point2D, but found ".concat(p3));
         }
 
-        return new IntersectionArgs("Bezier2", [p1, p2, p3]);
+        return new ShapeInfo("Bezier2", [p1, p2, p3]);
       }
       /**
        *  cubicBezier
@@ -5538,7 +5536,7 @@
        *  @param {module:kld-intersections.Point2D} p2
        *  @param {module:kld-intersections.Point2D} p3
        *  @param {module:kld-intersections.Point2D} p4
-       *  @returns {module:kld-intersections.IntersectionArgs}
+       *  @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5560,14 +5558,14 @@
           throw TypeError("Expected p4 to be a Point2D, but found ".concat(p4));
         }
 
-        return new IntersectionArgs("Bezier3", [p1, p2, p3, p4]);
+        return new ShapeInfo("Bezier3", [p1, p2, p3, p4]);
       }
       /**
        *  circle
        *
        *  @param {module:kld-intersections.Point2D} center
        *  @param {number} radius
-       *  @returns {module:kld-intersections.IntersectionArgs}
+       *  @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5581,7 +5579,7 @@
           throw TypeError("Expected radius to be a number, but found ".concat(radius));
         }
 
-        return new IntersectionArgs("Circle", [center, radius]);
+        return new ShapeInfo("Circle", [center, radius]);
       }
       /**
        *  ellipse
@@ -5589,7 +5587,7 @@
        *  @param {module:kld-intersections.Point2D} center
        *  @param {number} radiusX
        *  @param {number} radiusY
-       *  @returns {module:kld-intersections.IntersectionArgs}
+       *  @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5607,7 +5605,7 @@
           throw TypeError("Expected radiusY to be a number, but found ".concat(radiusY));
         }
 
-        return new IntersectionArgs("Ellipse", [center, radiusX, radiusY]);
+        return new ShapeInfo("Ellipse", [center, radiusX, radiusY]);
       }
       /**
        * arc
@@ -5617,7 +5615,7 @@
        * @param {number} radiusY
        * @param {number} startRadians
        * @param {number} endRadians
-       * @returns {module:kld-intersections.IntersectionArgs}
+       * @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5643,14 +5641,14 @@
           throw TypeError("Expected endRadians to be a number, but found ".concat(endRadians));
         }
 
-        return new IntersectionArgs("Arc", [center, radiusX, radiusY, startRadians, endRadians]);
+        return new ShapeInfo("Arc", [center, radiusX, radiusY, startRadians, endRadians]);
       }
       /**
        *  line
        *
        *  @param {module:kld-intersections.Point2D} p1
        *  @param {module:kld-intersections.Point2D} p2
-       *  @returns {module:kld-intersections.IntersectionArgs}
+       *  @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5664,25 +5662,25 @@
           throw TypeError("Expected p2 to be a Point2D, but found ".concat(p2));
         }
 
-        return new IntersectionArgs("Line", [p1, p2]);
+        return new ShapeInfo("Line", [p1, p2]);
       }
       /**
        *  path
        *
        *  @param {Array<module:kld-intersections.AffineShapes>} segments
-       *  @returns {module:kld-intersections.IntersectionArgs}
+       *  @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
       key: "path",
       value: function path(segments) {
-        return new IntersectionArgs("Path", segments);
+        return new ShapeInfo("Path", segments);
       }
       /**
        *  pathData
        *
        *  @param {string} pathData
-       *  @returns {module:kld-intersections.IntersectionArgs}
+       *  @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5694,7 +5692,7 @@
        *  polygon
        *
        *  @param {Array<module:kld-intersections.Point2D>} points
-       *  @returns {module:kld-intersections.IntersectionArgs}
+       *  @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5711,13 +5709,13 @@
           throw TypeError("Expected all members of points to be Point2Ds");
         }
 
-        return new IntersectionArgs("Polygon", [points]);
+        return new ShapeInfo("Polygon", [points]);
       }
       /**
        *  polyline
        *
        *  @param {Array<module:kld-intersections.Point2D>} points
-       *  @returns {module:kld-intersections.IntersectionArgs}
+       *  @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5729,7 +5727,7 @@
           throw TypeError("Expected all members of points to be Point2Ds");
         }
 
-        return new IntersectionArgs("Polyline", [points]);
+        return new ShapeInfo("Polyline", [points]);
       }
       /**
        *  rectangle
@@ -5738,7 +5736,7 @@
        *  @param {module:kld-intersections.Vector2D} size
        *  @param {number} [rx]
        *  @param {number} [ry]
-       *  @returns {module:kld-intersections.IntersectionArgs}
+       *  @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5784,7 +5782,7 @@
        * circle
        *
        * @param {SVGCircleElement} circle
-       * @returns {module:kld-intersections.IntersectionArgs}
+       * @returns {module:kld-intersections.ShapeInfo}
        */
       value: function circle(_circle) {
         if (_circle instanceof SVGCircleElement === false) {
@@ -5793,13 +5791,13 @@
 
         var center = new Point2D(_circle.cx.baseVal.value, _circle.cy.baseVal.value);
         var radius = _circle.r.baseVal.value;
-        return new IntersectionArgs("Circle", [center, radius]);
+        return new ShapeInfo("Circle", [center, radius]);
       }
       /**
        * ellipse
        *
        * @param {SVGEllipseElement} ellipse
-       * @returns {module:kld-intersections.IntersectionArgs}
+       * @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5812,13 +5810,13 @@
         var center = new Point2D(_ellipse.cx.baseVal.value, _ellipse.cy.baseVal.value);
         var radiusX = _ellipse.rx.baseVal.value;
         var radiusY = _ellipse.ry.baseVal.value;
-        return new IntersectionArgs("Ellipse", [center, radiusX, radiusY]);
+        return new ShapeInfo("Ellipse", [center, radiusX, radiusY]);
       }
       /**
        * line
        *
        * @param {SVGLineElement} line
-       * @returns {module:kld-intersections.IntersectionArgs}
+       * @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5830,13 +5828,13 @@
 
         var p1 = new Point2D(_line.x1.baseVal.value, _line.y1.baseVal.value);
         var p2 = new Point2D(_line.x2.baseVal.value, _line.y2.baseVal.value);
-        return new IntersectionArgs("Line", [p1, p2]);
+        return new ShapeInfo("Line", [p1, p2]);
       }
       /**
        * path
        *
        * @param {SVGPathElement} path
-       * @returns {module:kld-intersections.IntersectionArgs}
+       * @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5854,7 +5852,7 @@
        * polygon
        *
        * @param {SVGPolygonElement} polygon
-       * @returns {module:kld-intersections.IntersectionArgs}
+       * @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5872,13 +5870,13 @@
           points.push(new Point2D(point.x, point.y));
         }
 
-        return new IntersectionArgs("Polygon", [points]);
+        return new ShapeInfo("Polygon", [points]);
       }
       /**
        * polyline
        *
        * @param {SVGPolylineElement} polyline
-       * @returns {module:kld-intersections.IntersectionArgs}
+       * @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5896,13 +5894,13 @@
           points.push(new Point2D(point.x, point.y));
         }
 
-        return new IntersectionArgs("Polygon", [points]);
+        return new ShapeInfo("Polygon", [points]);
       }
       /**
        * rect
        *
        * @param {SVGRectElement} rect
-       * @returns {module:kld-intersections.IntersectionArgs}
+       * @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -5918,7 +5916,7 @@
        * element
        *
        * @param {SVGElement} element
-       * @returns {module:kld-intersections.IntersectionArgs}
+       * @returns {module:kld-intersections.ShapeInfo}
        */
 
     }, {
@@ -6067,7 +6065,7 @@
 
   exports.AffineShapes = AffineShapes;
   exports.Intersection = Intersection;
-  exports.IntersectionArgs = IntersectionArgs;
+  exports.IntersectionArgs = ShapeInfo;
   exports.IntersectionQuery = IntersectionQuery;
   exports.Matrix2D = Matrix2D;
   exports.Point2D = Point2D;

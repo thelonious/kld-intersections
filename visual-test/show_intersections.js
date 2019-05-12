@@ -21,7 +21,7 @@ function go() {
 /**
  * Get the shapes to intersect
  *
- * @returns {null|module:kld-intersections.IntersectionArgs[]}
+ * @returns {null|module:kld-intersections.ShapeInfo[]}
  */
 function getShapes() {
     const container = document.getElementById("shapes");

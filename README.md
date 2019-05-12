@@ -93,7 +93,7 @@ Below is a table listing each of the supported curve types. The `Name` column is
 | Polygon          | Polygon   | **points** : *Array< Point2D >*                                              |
 | Polyline         | Polyline  | **points** : *Array< Point2D >*                                              |
 | Rectangle        | Rectangle | **topLeft** : *Point2D*, **bottomRight** : *Point2D*                         |
-| Path             | Path      | **segments** : *Array< IntersectionArgs >*                                   |
+| Path             | Path      | **segments** : *Array< ShapeInfo >*                                   |
 
 Once you've determined the names and arguments, you can build the intersection method name like so:
 
@@ -338,7 +338,7 @@ For more complete examples, have a look at the SVG files in the `visual-test` di
 
 ## Use Your Own Objects
 
-If you have a look at the various API classes, you'll find that they are quite simple. These APIs create instances of the `IntersectionArgs` class. In turn the `IntersectionArgs` class is quite simple too, consisting of two properties: `name` and `args`. `name` is the name of the shape or curve as defined in the table describing the [Intersection API](#intersection-api). Likewise, `args` is an array of the arguments described in the arguments column in that same table. So, you can pass in any object to `Intersection.intersect` as long as it contains those two properties which need to follow the name and argument conventions just described.
+If you have a look at the various API classes, you'll find that they are quite simple. These APIs create instances of the `ShapeInfo` class. In turn the `ShapeInfo` class is quite simple too, consisting of two properties: `name` and `args`. `name` is the name of the shape or curve as defined in the table describing the [Intersection API](#intersection-api). Likewise, `args` is an array of the arguments described in the arguments column in that same table. So, you can pass in any object to `Intersection.intersect` as long as it contains those two properties which need to follow the name and argument conventions just described.
 
 # Queries
 
