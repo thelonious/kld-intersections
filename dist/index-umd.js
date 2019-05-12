@@ -2457,7 +2457,7 @@
               return false;
 
             case "Number":
-              return isNaN(value) === false;
+              return typeof value !== "number";
 
             case "Point2D":
               return value instanceof Point2D === false;
