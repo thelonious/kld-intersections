@@ -19,7 +19,8 @@ const line = ShapeInfo.fromObject({
     p1: new Point2D(10, 10),
     p2: new Point2D(110, 110)
 });
-// NOTE: path covers arc, bezier2, and bezier3
+// NOTE: path covers arc, bezier2, and bezier3. These will probably never be created directly. Instead
+// PathParser/PathHandler will most likely be used either directly or indirectly.
 const path = ShapeInfo.fromObject({
     type: ShapeInfo.PATH,
     segments: [
