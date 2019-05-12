@@ -2336,90 +2336,299 @@
    */
 
   /**
-   *  ShapeInfo.js
-   *  @copyright 2002, 2017 Kevin Lindsey
-   */
-
-  /**
    *  ShapeInfo
    *  @memberof module:kld-intersections
    */
+
   var ShapeInfo =
-  /**
-   *  @param {string} name
-   *  @param {Array} args
-   *  @returns {module:kld-intersections.ShapeInfo}
-   */
-  function ShapeInfo(name, args) {
-    _classCallCheck(this, ShapeInfo);
+  /*#__PURE__*/
+  function () {
+    /**
+     *  @param {string} name
+     *  @param {Array} args
+     *  @returns {module:kld-intersections.ShapeInfo}
+     */
+    function ShapeInfo(name, args) {
+      _classCallCheck(this, ShapeInfo);
 
-    if (NAMES.has(name) === false) {
-      throw new TypeError("Unrecognized shape type: '".concat(name, "'"));
+      if (name in NAMES === false) {
+        throw new TypeError("Unrecognized shape type: '".concat(name, "'"));
+      }
+
+      if (ARG_COUNTS[name] !== -1 && ARG_COUNTS[name] !== args.length) {
+        throw new RangeError("expected ".concat(ARG_COUNTS[name], " arguments, found ").concat(args.length));
+      }
+
+      this.name = name;
+      this.args = args;
     }
+    /**
+     *  Create a shape info instance from an object-based description
+     *  @param {Object} obj
+     *  @returns {ShapeInfo}
+     */
 
-    if (ARG_COUNTS[name] !== -1 && ARG_COUNTS[name] !== args.length) {
-      throw new RangeError("expected ".concat(ARG_COUNTS[name], " arguments, found ").concat(args.length));
-    }
 
-    this.name = name;
-    this.args = args;
-  }; // Build map of shape name to internal name
+    _createClass(ShapeInfo, null, [{
+      key: "fromObject",
+      value: function fromObject(obj) {
+        if ("type" in obj === false) {
+          throw new TypeError("Missing required 'type' property in object");
+        }
+
+        if (typeof obj.type !== "string") {
+          throw new TypeError("Expected string value for 'type' property");
+        } // normalize type name
+
+
+        var typeName = obj.type.length > 0 ? obj.type[0].toUpperCase() + obj.type.slice(1).toLowerCase() : null;
+
+        if (typeName === null || typeName in NAMES === false) {
+          throw new TypeError("Unrecognized shape type: '".concat(obj.type, "'"));
+        }
+
+        var constantName = NAMES[typeName];
+        var propertyInfos = SHAPE_MAP[constantName].properties;
+        var missingProperties = propertyInfos.filter(function (property) {
+          return property.name in obj === false;
+        });
+
+        if (missingProperties.length > 0) {
+          var names = missingProperties.map(function (property) {
+            return property.name;
+          }).join(", ");
+          throw new TypeError("Missing required properties for ".concat(typeName, ": ").concat(names));
+        }
+
+        var invalidProperties = propertyInfos.filter(function (info) {
+          var name = info.name,
+              type = info.type;
+          var value = obj[name];
+
+          switch (type) {
+            case "Array":
+              /* eslint-disable-next-line compat/compat */
+              if (Array.isArray(value) === false) {
+                return true;
+              }
+
+              var _iteratorNormalCompletion = true;
+              var _didIteratorError = false;
+              var _iteratorError = undefined;
+
+              try {
+                for (var _iterator = value[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                  var element = _step.value;
+
+                  switch (info.elementType) {
+                    case "Point2D":
+                      if (element instanceof Point2D === false) {
+                        return true;
+                      }
+
+                      break;
+
+                    case "ShapeInfo":
+                      if (element instanceof ShapeInfo === false) {
+                        return true;
+                      }
+
+                      break;
+
+                    default:
+                      return true;
+                  }
+                }
+              } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+              } finally {
+                try {
+                  if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+                    _iterator["return"]();
+                  }
+                } finally {
+                  if (_didIteratorError) {
+                    throw _iteratorError;
+                  }
+                }
+              }
+
+              return false;
+
+            case "Number":
+              return isNaN(value);
+
+            case "Point2D":
+              return value instanceof Point2D === false;
+
+            case null:
+            default:
+              return false;
+          }
+        });
+
+        if (invalidProperties.length > 0) {
+          var _names = invalidProperties.map(function (property) {
+            return property.name;
+          }).join(", ");
+
+          if (invalidProperties.length === 1) {
+            throw new TypeError("The following property has an invalid type: ".concat(_names));
+          } else {
+            throw new TypeError("The following properties have invalid types: ".concat(_names));
+          }
+        } // end validation
+
+
+        var args = propertyInfos.map(function (info) {
+          return obj[info.name];
+        });
+        return new ShapeInfo(typeName, args);
+      }
+    }]);
+
+    return ShapeInfo;
+  }(); // Build map of shape name to internal name
   var SHAPE_MAP = {
     ARC: {
       name: "Arc",
+      properties: [{
+        name: "center",
+        type: "Point2D"
+      }, {
+        name: "radiusX",
+        type: "Number"
+      }, {
+        name: "radiusY",
+        type: "Number"
+      }, {
+        name: "startRadians",
+        type: "Number"
+      }, {
+        name: "endRadians",
+        type: "Number"
+      }],
       argCount: 5
     },
     QUADRATIC_BEZIER: {
       name: "Bezier2",
+      properties: [{
+        name: "p1",
+        type: "Point2D"
+      }, {
+        name: "p2",
+        type: "Point2D"
+      }, {
+        name: "p3",
+        type: "Point2D"
+      }],
       argCount: 3
     },
     CUBIC_BEZIER: {
       name: "Bezier3",
+      properties: [{
+        name: "p1",
+        type: "Point2D"
+      }, {
+        name: "p2",
+        type: "Point2D"
+      }, {
+        name: "p3",
+        type: "Point2D"
+      }, {
+        name: "p4",
+        type: "Point2D"
+      }],
       argCount: 4
     },
     CIRCLE: {
       name: "Circle",
+      properties: [{
+        name: "center",
+        type: "Point2D"
+      }, {
+        name: "radius",
+        type: "Number"
+      }],
       argCount: 2
     },
     ELLIPSE: {
       name: "Ellipse",
+      properties: [{
+        name: "center",
+        type: "Point2D"
+      }, {
+        name: "radiusX",
+        type: "Number"
+      }, {
+        name: "radiusY",
+        type: "Number"
+      }],
       argCount: 3
     },
     LINE: {
       name: "Line",
+      properties: [{
+        name: "p1",
+        type: "Point2D"
+      }, {
+        name: "p2",
+        type: "Point2D"
+      }],
       argCount: 2
     },
     PATH: {
       name: "Path",
+      properties: [{
+        name: "segments",
+        type: "Array",
+        elementType: "ShapeInfo"
+      }],
       argCount: -1
     },
     POLYGON: {
       name: "Polygon",
+      properties: [{
+        name: "points",
+        type: "Array",
+        elementType: "Point2D"
+      }],
       argCount: -1
     },
     POLYLINE: {
       name: "Polyline",
+      properties: [{
+        name: "points",
+        type: "Array",
+        elementType: "Point2D"
+      }],
       argCount: -1
     },
     RECTANGLE: {
       name: "Rectangle",
+      properties: [{
+        name: "topLeft",
+        type: "Point2D"
+      }, {
+        name: "bottomRight",
+        type: "Point2D"
+      }],
       argCount: 2
     }
   };
   var ARG_COUNTS = {};
-  /* eslint-disable-next-line compat/compat */
-
-  var NAMES = new Set();
+  var NAMES = {};
   /* eslint-disable-next-line guard-for-in */
 
   for (var name in SHAPE_MAP) {
     var info = SHAPE_MAP[name]; // attach shape names as constants
 
-    ShapeInfo[name] = info.name; // make argument count list for args sanity check in constructor
+    ShapeInfo[name] = info.name; // make argument count table for args sanity check in constructor
 
     ARG_COUNTS[info.name] = info.argCount; // make name list for runtime validation of names passed into constructor
 
-    NAMES.add(info.name);
+    NAMES[info.name] = name;
   }
 
   var TWO_PI = 2.0 * Math.PI;
@@ -5481,7 +5690,7 @@
         }
 
         if (rx === 0 && ry === 0) {
-          return new ShapeInfo("Rectangle", [new Point2D(x, y), new Point2D(x + width, y + height)]);
+          return new ShapeInfo(ShapeInfo.RECTANGLE, [new Point2D(x, y), new Point2D(x + width, y + height)]);
         }
 
         if (rx === 0) {
@@ -6089,6 +6298,7 @@
   exports.IntersectionQuery = IntersectionQuery;
   exports.Matrix2D = Matrix2D;
   exports.Point2D = Point2D;
+  exports.ShapeInfo = ShapeInfo;
   exports.Shapes = Shapes;
   exports.SvgShapes = SvgShapes;
   exports.Vector2D = Vector2D;
