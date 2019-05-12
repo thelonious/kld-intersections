@@ -8,6 +8,12 @@ export {default as Intersection} from "./lib/Intersection.js";
 export {default as IntersectionArgs} from "./lib/ShapeInfo.js";
 
 /**
+ * @namespace ShapeInfo
+ * @implements {module:Shapes~ShapeInfo}
+ */
+export {default as ShapeInfo} from "./lib/ShapeInfo.js";
+
+/**
  * @namespace Shapes
  * @implements {module:Shapes~Shapes}
  */
