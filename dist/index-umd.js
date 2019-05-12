@@ -2347,7 +2347,7 @@
   var ShapeInfo =
   /**
    *  @param {string} name
-   *  @param {Array<module:kld-intersections.Point2D>} args
+   *  @param {Array} args
    *  @returns {module:kld-intersections.ShapeInfo}
    */
   function ShapeInfo(name, args) {
@@ -2357,29 +2357,69 @@
       throw new TypeError("Unrecognized shape type: '".concat(name, "'"));
     }
 
+    if (ARG_COUNTS[name] !== -1 && ARG_COUNTS[name] !== args.length) {
+      throw new RangeError("expected ".concat(ARG_COUNTS[name], " arguments, found ").concat(args.length));
+    }
+
     this.name = name;
     this.args = args;
   }; // Build map of shape name to internal name
   var SHAPE_MAP = {
-    ARC: "Arc",
-    QUADRATIC_BEZIER: "Bezier2",
-    CUBIC_BEZIER: "Bezier3",
-    CIRCLE: "Circle",
-    ELLIPSE: "Ellipse",
-    LINE: "Line",
-    PATH: "Path",
-    POLYGON: "Polygon",
-    POLYLINE: "Polyline",
-    RECTANGLE: "Rectangle"
+    ARC: {
+      name: "Arc",
+      argCount: 5
+    },
+    QUADRATIC_BEZIER: {
+      name: "Bezier2",
+      argCount: 3
+    },
+    CUBIC_BEZIER: {
+      name: "Bezier3",
+      argCount: 4
+    },
+    CIRCLE: {
+      name: "Circle",
+      argCount: 2
+    },
+    ELLIPSE: {
+      name: "Ellipse",
+      argCount: 3
+    },
+    LINE: {
+      name: "Line",
+      argCount: 2
+    },
+    PATH: {
+      name: "Path",
+      argCount: -1
+    },
+    POLYGON: {
+      name: "Polygon",
+      argCount: -1
+    },
+    POLYLINE: {
+      name: "Polyline",
+      argCount: -1
+    },
+    RECTANGLE: {
+      name: "Rectangle",
+      argCount: 2
+    }
   };
+  var ARG_COUNTS = {};
   /* eslint-disable-next-line compat/compat */
 
-  var NAMES = new Set(Object.values(SHAPE_MAP)); // attach shape names as constants
-
+  var NAMES = new Set();
   /* eslint-disable-next-line guard-for-in */
 
   for (var name in SHAPE_MAP) {
-    ShapeInfo[name] = SHAPE_MAP[name];
+    var info = SHAPE_MAP[name]; // attach shape names as constants
+
+    ShapeInfo[name] = info.name; // make argument count list for args sanity check in constructor
+
+    ARG_COUNTS[info.name] = info.argCount; // make name list for runtime validation of names passed into constructor
+
+    NAMES.add(info.name);
   }
 
   var TWO_PI = 2.0 * Math.PI;
@@ -2670,7 +2710,7 @@
             startRadians = _arc$args[3],
             endRadians = _arc$args[4];
 
-        var ellipse = new ShapeInfo("Ellipse", [center, radiusX, radiusY]);
+        var ellipse = new ShapeInfo(ShapeInfo.ELLIPSE, [center, radiusX, radiusY]);
         var ellipse_result = Intersection.intersect(ellipse, shape); // return ellipse_result;
 
         return restrictPointsToArc(ellipse_result, center, radiusX, radiusY, startRadians, endRadians);
