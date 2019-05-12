@@ -2451,7 +2451,7 @@ function () {
             return false;
 
           case "Number":
-            return isNaN(value);
+            return isNaN(value) === false;
 
           case "Point2D":
             return value instanceof Point2D === false;
@@ -2464,13 +2464,14 @@ function () {
 
       if (invalidProperties.length > 0) {
         var _names = invalidProperties.map(function (property) {
-          return property.name;
-        }).join(", ");
+          var propertyType = property.type === "Array" ? "Array<".concat(property.elementType, ">") : property.type;
+          return "  '".concat(property.name, "' should be ").concat(propertyType);
+        }).join("\n");
 
         if (invalidProperties.length === 1) {
-          throw new TypeError("The following property has an invalid type: ".concat(_names));
+          throw new TypeError("The following property has an invalid type:\n".concat(_names));
         } else {
-          throw new TypeError("The following properties have invalid types: ".concat(_names));
+          throw new TypeError("The following properties have invalid types:\n".concat(_names));
         }
       } // end validation
 
