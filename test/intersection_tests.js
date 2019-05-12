@@ -59,8 +59,8 @@ function assertIntersections(shape1, shape2, expected) {
 
 describe("Intersections", () => {
     it("Quadratic Bezier - Quadratic Bezier", () => {
-        const shape1 = Shapes.pathData("M83,214 Q335,173 91,137");
-        const shape2 = Shapes.pathData("M92,233 Q152,30 198,227");
+        const shape1 = Shapes.path("M83,214 Q335,173 91,137");
+        const shape2 = Shapes.path("M92,233 Q152,30 198,227");
         const expected = [
             new Point2D(98.72720538504241, 211.3625905201401),
             new Point2D(129.54187987698563, 143.27285394359626),
@@ -71,8 +71,8 @@ describe("Intersections", () => {
         assertIntersections(shape1, shape2, expected);
     });
     it("Quadratic Bezier - Cubic Bezier", () => {
-        const shape1 = Shapes.pathData("M123,47 Q146,255 188,47");
-        const shape2 = Shapes.pathData("M171,143 C22,132 330,64 107,65");
+        const shape1 = Shapes.path("M123,47 Q146,255 188,47");
+        const shape2 = Shapes.path("M171,143 C22,132 330,64 107,65");
         const expected = [
             new Point2D(125.13460408076253, 65.08475401519482),
             new Point2D(134.49717251169614, 120.3114904768965),
@@ -85,7 +85,7 @@ describe("Intersections", () => {
         assertIntersections(shape1, shape2, expected);
     });
     it("Quadratic Bezier - Circle", () => {
-        const shape1 = Shapes.pathData("M50,20 Q200,300 350,10");
+        const shape1 = Shapes.path("M50,20 Q200,300 350,10");
         const shape2 = Shapes.circle(80, 80, 40);
         const expected = [
             new Point2D(63.27523884077001, 43.66431004966725),
@@ -95,7 +95,7 @@ describe("Intersections", () => {
         assertIntersections(shape1, shape2, expected);
     });
     it("Quadratic Bezier - Ellipse", () => {
-        const shape1 = Shapes.pathData("M50,20 Q200,300 350,10");
+        const shape1 = Shapes.path("M50,20 Q200,300 350,10");
         const shape2 = Shapes.ellipse(80, 80, 30, 40);
         const expected = [
             new Point2D(64.5070161096711, 45.74689113414642),
@@ -105,7 +105,7 @@ describe("Intersections", () => {
         assertIntersections(shape1, shape2, expected);
     });
     it("Quadratic Bezier - Line", () => {
-        const shape1 = Shapes.pathData("M50,20 Q200,300 350,10");
+        const shape1 = Shapes.path("M50,20 Q200,300 350,10");
         const shape2 = Shapes.line(10, 20, 300, 210);
         const expected = [
             new Point2D(74.86365117074867, 62.49687490497326),
@@ -115,7 +115,7 @@ describe("Intersections", () => {
         assertIntersections(shape1, shape2, expected);
     });
     it("Quadratic Bezier - Polygon", () => {
-        const shape1 = Shapes.pathData("M50,20 Q200,300 350,10");
+        const shape1 = Shapes.path("M50,20 Q200,300 350,10");
         const shape2 = Shapes.polygon([58, 30, 110, 27, 135, 108, 74, 145, 28, 108, 26, 53]);
         const expected = [
             new Point2D(56.18558820664384, 31.304108476474752),
@@ -125,7 +125,7 @@ describe("Intersections", () => {
         assertIntersections(shape1, shape2, expected);
     });
     it("Quadratic Bezier - Rectangle", () => {
-        const shape1 = Shapes.pathData("M50,20 Q200,300 350,10");
+        const shape1 = Shapes.path("M50,20 Q200,300 350,10");
         const shape2 = Shapes.rectangle(35, 25, 80, 100);
         const expected = [
             new Point2D(52.70336708542367, 25.000000000000014),
@@ -135,8 +135,8 @@ describe("Intersections", () => {
         assertIntersections(shape1, shape2, expected);
     });
     it("Cubic Bezier - Cubic Bezier", () => {
-        const shape1 = Shapes.pathData("M203,140 C206,359 245,6 248,212");
-        const shape2 = Shapes.pathData("M177,204 C441,204 8,149 265,154");
+        const shape1 = Shapes.path("M203,140 C206,359 245,6 248,212");
+        const shape2 = Shapes.path("M177,204 C441,204 8,149 265,154");
         const expected = [
             new Point2D(203.26720646036085, 154.38186574206628),
             new Point2D(203.80448029878028, 171.0080340325034),
@@ -152,7 +152,7 @@ describe("Intersections", () => {
         assertIntersections(shape1, shape2, expected);
     });
     it("Cubic Bezier - Circle", () => {
-        const shape1 = Shapes.pathData("M50,20 C50,210 250,20 250,210");
+        const shape1 = Shapes.path("M50,20 C50,210 250,20 250,210");
         const shape2 = Shapes.circle(80, 80, 40);
         const expected = [
             new Point2D(52.22352295755968, 51.21689170519913),
@@ -162,7 +162,7 @@ describe("Intersections", () => {
         assertIntersections(shape1, shape2, expected);
     });
     it("Cubic Bezier - Ellipse", () => {
-        const shape1 = Shapes.pathData("M50,20 C50,210 250,20 250,210");
+        const shape1 = Shapes.path("M50,20 C50,210 250,20 250,210");
         const shape2 = Shapes.ellipse(80, 80, 30, 40);
         const expected = [
             new Point2D(53.96110954819515, 60.1348464093258),
@@ -172,7 +172,7 @@ describe("Intersections", () => {
         assertIntersections(shape1, shape2, expected);
     });
     it("Cubic Bezier - Line", () => {
-        const shape1 = Shapes.pathData("M50,20 C50,210 250,20 250,210");
+        const shape1 = Shapes.path("M50,20 C50,210 250,20 250,210");
         const shape2 = Shapes.line(10, 20, 300, 210);
         const expected = [
             new Point2D(51.64783510324115, 47.286512653847666),
@@ -183,7 +183,7 @@ describe("Intersections", () => {
         assertIntersections(shape1, shape2, expected);
     });
     it("Cubic Bezier - Polygon", () => {
-        const shape1 = Shapes.pathData("M50,20 C50,210 250,20 250,210");
+        const shape1 = Shapes.path("M50,20 C50,210 250,20 250,210");
         const shape2 = Shapes.polygon([58, 30, 110, 27, 135, 108, 74, 145, 28, 108, 26, 53]);
         const expected = [
             new Point2D(50.48246685800199, 35.403226945811014),
@@ -193,7 +193,7 @@ describe("Intersections", () => {
         assertIntersections(shape1, shape2, expected);
     });
     it("Cubic Bezier - Rectangle", () => {
-        const shape1 = Shapes.pathData("M50,20 C50,210 250,20 250,210");
+        const shape1 = Shapes.path("M50,20 C50,210 250,20 250,210");
         const shape2 = Shapes.rectangle(35, 25, 80, 100);
         const expected = [
             new Point2D(50.04756726751318, 24.99999999999999),
@@ -323,7 +323,7 @@ describe("Intersections", () => {
         assertIntersections(shape1, shape2, expected);
     });
     it("Path - Circle", () => {
-        const shape1 = Shapes.pathData("M40,70 Q50,150 90,90 T135,130 L160,70 C180,180 280,55 280,140 S400,110 290,100");
+        const shape1 = Shapes.path("M40,70 Q50,150 90,90 T135,130 L160,70 C180,180 280,55 280,140 S400,110 290,100");
         const shape2 = Shapes.circle(80, 80, 40);
         const expected = [
             new Point2D(40.49378036925451, 73.734330802915),
@@ -335,7 +335,7 @@ describe("Intersections", () => {
         assertIntersections(shape1, shape2, expected);
     });
     it("Path - Ellipse", () => {
-        const shape1 = Shapes.pathData("M40,70 Q50,150 90,90 T135,130 L160,70 C180,180 280,55 280,140 S400,110 290,100");
+        const shape1 = Shapes.path("M40,70 Q50,150 90,90 T135,130 L160,70 C180,180 280,55 280,140 S400,110 290,100");
         const shape2 = Shapes.ellipse(80, 80, 30, 40);
         const expected = [
             new Point2D(65.40567989067512, 114.94772783703729),
@@ -345,7 +345,7 @@ describe("Intersections", () => {
         assertIntersections(shape1, shape2, expected);
     });
     it("Path - Line", () => {
-        const shape1 = Shapes.pathData("M40,70 Q50,150 90,90 T135,130 L160,70 C180,180 280,55 280,140 S400,110 290,100");
+        const shape1 = Shapes.path("M40,70 Q50,150 90,90 T135,130 L160,70 C180,180 280,55 280,140 S400,110 290,100");
         const shape2 = Shapes.line(15, 75, 355, 140);
         const expected = [
             new Point2D(41.469363095003175, 80.0603194152212),
@@ -362,7 +362,7 @@ describe("Intersections", () => {
     });
     // it("Path - Path", () => assert.fail());
     it("Path - Polygon", () => {
-        const shape1 = Shapes.pathData("M40,70 Q50,150 90,90 T135,130 L160,70 C180,180 280,55 280,140 S400,110 290,100");
+        const shape1 = Shapes.path("M40,70 Q50,150 90,90 T135,130 L160,70 C180,180 280,55 280,140 S400,110 290,100");
         const shape2 = Shapes.polygon([100, 50, 160, 40, 185, 120, 120, 165, 70, 120, 80, 70]);
         const expected = [
             new Point2D(71.72741550068481, 111.36292249657606),
@@ -372,7 +372,7 @@ describe("Intersections", () => {
         assertIntersections(shape1, shape2, expected);
     });
     it("Path - Rectangle", () => {
-        const shape1 = Shapes.pathData("M40,70 Q50,150 90,90 T135,130 L160,70 C180,180 280,55 280,140 S400,110 290,100");
+        const shape1 = Shapes.path("M40,70 Q50,150 90,90 T135,130 L160,70 C180,180 280,55 280,140 S400,110 290,100");
         const shape2 = Shapes.rectangle(94, 45, 80, 100);
         const expected = [
             new Point2D(94, 84.28119297784802),
@@ -382,7 +382,7 @@ describe("Intersections", () => {
         assertIntersections(shape1, shape2, expected);
     });
     it("Relative Path - Circle", () => {
-        const shape1 = Shapes.pathData("M40,70 q10,80 50,20 t45,40 l25,-60 c20,110 120,-15 120,70 s120,-30 10,-40");
+        const shape1 = Shapes.path("M40,70 q10,80 50,20 t45,40 l25,-60 c20,110 120,-15 120,70 s120,-30 10,-40");
         const shape2 = Shapes.circle(80, 80, 40);
         const expected = [
             new Point2D(40.49378036925451, 73.734330802915),
@@ -394,7 +394,7 @@ describe("Intersections", () => {
         assertIntersections(shape1, shape2, expected);
     });
     it("Relative Path - Ellipse", () => {
-        const shape1 = Shapes.pathData("M40,70 q10,80 50,20 t45,40 l25,-60 c20,110 120,-15 120,70 s120,-30 10,-40");
+        const shape1 = Shapes.path("M40,70 q10,80 50,20 t45,40 l25,-60 c20,110 120,-15 120,70 s120,-30 10,-40");
         const shape2 = Shapes.ellipse(80, 80, 30, 40);
         const expected = [
             new Point2D(65.40567989067512, 114.94772783703729),
@@ -404,7 +404,7 @@ describe("Intersections", () => {
         assertIntersections(shape1, shape2, expected);
     });
     it("Relative Path - Line", () => {
-        const shape1 = Shapes.pathData("M40,70 q10,80 50,20 t45,40 l25,-60 c20,110 120,-15 120,70 s120,-30 10,-40");
+        const shape1 = Shapes.path("M40,70 q10,80 50,20 t45,40 l25,-60 c20,110 120,-15 120,70 s120,-30 10,-40");
         const shape2 = Shapes.line(15, 75, 355, 140);
         const expected = [
             new Point2D(41.469363095003175, 80.0603194152212),
@@ -421,7 +421,7 @@ describe("Intersections", () => {
     });
     // it("Relative Path - Relative Path", () => assert.fail());
     it("Relative Path - Polygon", () => {
-        const shape1 = Shapes.pathData("M40,70 q10,80 50,20 t45,40 l25,-60 c20,110 120,-15 120,70 s120,-30 10,-40");
+        const shape1 = Shapes.path("M40,70 q10,80 50,20 t45,40 l25,-60 c20,110 120,-15 120,70 s120,-30 10,-40");
         const shape2 = Shapes.polygon([100, 50, 160, 40, 185, 120, 120, 165, 70, 120, 80, 70]);
         const expected = [
             new Point2D(71.72741550068481, 111.36292249657606),
@@ -431,7 +431,7 @@ describe("Intersections", () => {
         assertIntersections(shape1, shape2, expected);
     });
     it("Relative Path - Rectangle", () => {
-        const shape1 = Shapes.pathData("M40,70 q10,80 50,20 t45,40 l25,-60 c20,110 120,-15 120,70 s120,-30 10,-40");
+        const shape1 = Shapes.path("M40,70 q10,80 50,20 t45,40 l25,-60 c20,110 120,-15 120,70 s120,-30 10,-40");
         const shape2 = Shapes.rectangle(94, 45, 80, 100);
         const expected = [
             new Point2D(94, 84.28119297784802),

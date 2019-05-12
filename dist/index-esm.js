@@ -2330,46 +2330,51 @@ function () {
  */
 
 /**
- *
- *   ShapeInfo.js  @copyright 2002, 2017 Kevin Lindsey
- *
+ *  ShapeInfo.js
+ *  @copyright 2002, 2017 Kevin Lindsey
  */
 
 /**
  *  ShapeInfo
- * @memberof module:kld-intersections
+ *  @memberof module:kld-intersections
  */
 var ShapeInfo =
-/*#__PURE__*/
-function () {
-  /**
-   *  @param {string} name
-   *  @param {Array<module:kld-intersections.Point2D>} args
-   *  @returns {module:kld-intersections.ShapeInfo}
-   */
-  function ShapeInfo(name, args) {
-    _classCallCheck(this, ShapeInfo);
+/**
+ *  @param {string} name
+ *  @param {Array<module:kld-intersections.Point2D>} args
+ *  @returns {module:kld-intersections.ShapeInfo}
+ */
+function ShapeInfo(name, args) {
+  _classCallCheck(this, ShapeInfo);
 
-    this.init(name, args);
+  if (NAMES.has(name) === false) {
+    throw new TypeError("Unrecognized shape type: '".concat(name, "'"));
   }
-  /**
-   *  init
-   *
-   *  @param {string} name
-   *  @param {Array<module:kld-intersections.Point2D>} args
-   */
 
+  this.name = name;
+  this.args = args;
+}; // Build map of shape name to internal name
+var SHAPE_MAP = {
+  ARC: "Arc",
+  QUADRATIC_BEZIER: "Bezier2",
+  CUBIC_BEZIER: "Bezier3",
+  CIRCLE: "Circle",
+  ELLIPSE: "Ellipse",
+  LINE: "Line",
+  PATH: "Path",
+  POLYGON: "Polygon",
+  POLYLINE: "Polyline",
+  RECTANGLE: "Rectangle"
+};
+/* eslint-disable-next-line compat/compat */
 
-  _createClass(ShapeInfo, [{
-    key: "init",
-    value: function init(name, args) {
-      this.name = name;
-      this.args = args;
-    }
-  }]);
+var NAMES = new Set(Object.values(SHAPE_MAP)); // attach shape names as constants
 
-  return ShapeInfo;
-}();
+/* eslint-disable-next-line guard-for-in */
+
+for (var name in SHAPE_MAP) {
+  ShapeInfo[name] = SHAPE_MAP[name];
+}
 
 var TWO_PI = 2.0 * Math.PI;
 var UNIT_X = new Vector2D(1, 0);
@@ -5077,6 +5082,9 @@ function () {
   return PathHandler;
 }();
 
+var parser = new PathParser();
+var handler = new PathHandler();
+parser.setHandler(handler);
 /**
  * Build shapes for intersection
  */
@@ -5089,8 +5097,46 @@ function () {
   }
 
   _createClass(Shapes, null, [{
-    key: "quadraticBezier",
+    key: "arc",
 
+    /**
+     * arc
+     *
+     * @param {number} centerX
+     * @param {number} centerY
+     * @param {number} radiusX
+     * @param {number} radiusY
+     * @param {number} startRadians
+     * @param {number} endRadians
+     * @returns {module:kld-intersections.ShapeInfo}
+     */
+    value: function arc(centerX, centerY, radiusX, radiusY, startRadians, endRadians) {
+      if (isNaN(centerX)) {
+        throw TypeError("Expected centerX to be a number, but found ".concat(centerX));
+      }
+
+      if (isNaN(centerY)) {
+        throw TypeError("Expected centerY to be a number, but found ".concat(centerY));
+      }
+
+      if (isNaN(radiusX)) {
+        throw TypeError("Expected radiusX to be a number, but found ".concat(radiusX));
+      }
+
+      if (isNaN(radiusY)) {
+        throw TypeError("Expected radiusY to be a number, but found ".concat(radiusY));
+      }
+
+      if (isNaN(startRadians)) {
+        throw TypeError("Expected startRadians to be a number, but found ".concat(startRadians));
+      }
+
+      if (isNaN(endRadians)) {
+        throw TypeError("Expected endRadians to be a number, but found ".concat(endRadians));
+      }
+
+      return new ShapeInfo(ShapeInfo.ARC, [new Point2D(centerX, centerY), radiusX, radiusY, startRadians, endRadians]);
+    }
     /**
      *  quadraticBezier
      *
@@ -5102,6 +5148,9 @@ function () {
      *  @param {number} p3y
      *  @returns {module:kld-intersections.ShapeInfo}
      */
+
+  }, {
+    key: "quadraticBezier",
     value: function quadraticBezier(p1x, p1y, p2x, p2y, p3x, p3y) {
       if (isNaN(p1x)) {
         throw TypeError("Expected p1x to be a number, but found ".concat(p1x));
@@ -5127,7 +5176,7 @@ function () {
         throw TypeError("Expected p3y to be a number, but found ".concat(p3y));
       }
 
-      return new ShapeInfo("Bezier2", [new Point2D(p1x, p1y), new Point2D(p2x, p2y), new Point2D(p3x, p3y)]);
+      return new ShapeInfo(ShapeInfo.QUADRATIC_BEZIER, [new Point2D(p1x, p1y), new Point2D(p2x, p2y), new Point2D(p3x, p3y)]);
     }
     /**
      *  cubicBezier
@@ -5178,7 +5227,7 @@ function () {
         throw TypeError("Expected p4y to be a number, but found ".concat(p4y));
       }
 
-      return new ShapeInfo("Bezier3", [new Point2D(p1x, p1y), new Point2D(p2x, p2y), new Point2D(p3x, p3y), new Point2D(p4x, p4y)]);
+      return new ShapeInfo(ShapeInfo.CUBIC_BEZIER, [new Point2D(p1x, p1y), new Point2D(p2x, p2y), new Point2D(p3x, p3y), new Point2D(p4x, p4y)]);
     }
     /**
      *  circle
@@ -5204,7 +5253,7 @@ function () {
         throw TypeError("Expected radius to be a number, but found ".concat(radius));
       }
 
-      return new ShapeInfo("Circle", [new Point2D(centerX, centerY), radius]);
+      return new ShapeInfo(ShapeInfo.CIRCLE, [new Point2D(centerX, centerY), radius]);
     }
     /**
      *  ellipse
@@ -5235,48 +5284,7 @@ function () {
         throw TypeError("Expected radiusY to be a number, but found ".concat(radiusY));
       }
 
-      return new ShapeInfo("Ellipse", [new Point2D(centerX, centerY), radiusX, radiusY]);
-    }
-    /**
-     * arc
-     *
-     * @param {number} centerX
-     * @param {number} centerY
-     * @param {number} radiusX
-     * @param {number} radiusY
-     * @param {number} startRadians
-     * @param {number} endRadians
-     * @returns {module:kld-intersections.ShapeInfo}
-     */
-
-  }, {
-    key: "arc",
-    value: function arc(centerX, centerY, radiusX, radiusY, startRadians, endRadians) {
-      if (isNaN(centerX)) {
-        throw TypeError("Expected centerX to be a number, but found ".concat(centerX));
-      }
-
-      if (isNaN(centerY)) {
-        throw TypeError("Expected centerY to be a number, but found ".concat(centerY));
-      }
-
-      if (isNaN(radiusX)) {
-        throw TypeError("Expected radiusX to be a number, but found ".concat(radiusX));
-      }
-
-      if (isNaN(radiusY)) {
-        throw TypeError("Expected radiusY to be a number, but found ".concat(radiusY));
-      }
-
-      if (isNaN(startRadians)) {
-        throw TypeError("Expected startRadians to be a number, but found ".concat(startRadians));
-      }
-
-      if (isNaN(endRadians)) {
-        throw TypeError("Expected endRadians to be a number, but found ".concat(endRadians));
-      }
-
-      return new ShapeInfo("Arc", [new Point2D(centerX, centerY), radiusX, radiusY, startRadians, endRadians]);
+      return new ShapeInfo(ShapeInfo.ELLIPSE, [new Point2D(centerX, centerY), radiusX, radiusY]);
     }
     /**
      *  line
@@ -5307,40 +5315,24 @@ function () {
         throw TypeError("Expected p2y to be a number, but found ".concat(p2y));
       }
 
-      return new ShapeInfo("Line", [new Point2D(p1x, p1y), new Point2D(p2x, p2y)]);
+      return new ShapeInfo(ShapeInfo.LINE, [new Point2D(p1x, p1y), new Point2D(p2x, p2y)]);
     }
     /**
      *  path
-     *
-     *  @param {Array<module:kld-intersections.Shapes>} segments
-     *  @returns {module:kld-intersections.ShapeInfo}
-     */
-
-  }, {
-    key: "path",
-    value: function path(segments) {
-      return new ShapeInfo("Path", segments);
-    }
-    /**
-     *  pathData
      *
      *  @param {string} pathData
      *  @returns {module:kld-intersections.ShapeInfo}
      */
 
   }, {
-    key: "pathData",
-    value: function pathData(_pathData) {
-      if (typeof _pathData !== "string") {
-        throw TypeError("Expected pathData to be a string, but found ".concat(_pathData));
-      } // TODO: cache parser and handler
+    key: "path",
+    value: function path(pathData) {
+      if (typeof pathData !== "string") {
+        throw TypeError("Expected pathData to be a string, but found ".concat(pathData));
+      }
 
-
-      var parser = new PathParser();
-      var handler = new PathHandler();
-      parser.setHandler(handler);
-      parser.parseData(_pathData);
-      return Shapes.path(handler.shapes);
+      parser.parseData(pathData);
+      return new ShapeInfo(ShapeInfo.PATH, handler.shapes);
     }
     /**
      *  polygon
@@ -5369,7 +5361,7 @@ function () {
         points.push(new Point2D(coords[i], coords[i + 1]));
       }
 
-      return new ShapeInfo("Polygon", [points]);
+      return new ShapeInfo(ShapeInfo.POLYGON, [points]);
     }
     /**
      *  polyline
@@ -5398,7 +5390,7 @@ function () {
         points.push(new Point2D(coords[i], coords[i + 1]));
       }
 
-      return new ShapeInfo("Polyline", [points]);
+      return new ShapeInfo(ShapeInfo.POLYLINE, [points]);
     }
     /**
      *  rectangle
@@ -5480,7 +5472,7 @@ function () {
       segments.push(Shapes.line(x2, y3, x1, y3));
       segments.push(Shapes.arc(x1, y2, rx, ry, degree90, 2 * degree90));
       segments.push(Shapes.line(x0, y2, x0, y1));
-      return Shapes.path(segments);
+      return ShapeInfo(ShapeInfo.PATH, segments);
     }
   }]);
 
@@ -5499,8 +5491,41 @@ function () {
   }
 
   _createClass(AffineShapes, null, [{
-    key: "quadraticBezier",
+    key: "arc",
 
+    /**
+     * arc
+     *
+     * @param {module:kld-intersections.Point2D} center
+     * @param {number} radiusX
+     * @param {number} radiusY
+     * @param {number} startRadians
+     * @param {number} endRadians
+     * @returns {module:kld-intersections.ShapeInfo}
+     */
+    value: function arc(center, radiusX, radiusY, startRadians, endRadians) {
+      if (center instanceof Point2D === false) {
+        throw TypeError("Expected center to be a Point2D, but found ".concat(center));
+      }
+
+      if (isNaN(radiusX)) {
+        throw TypeError("Expected radiusX to be a number, but found ".concat(radiusX));
+      }
+
+      if (isNaN(radiusY)) {
+        throw TypeError("Expected radiusY to be a number, but found ".concat(radiusY));
+      }
+
+      if (isNaN(startRadians)) {
+        throw TypeError("Expected startRadians to be a number, but found ".concat(startRadians));
+      }
+
+      if (isNaN(endRadians)) {
+        throw TypeError("Expected endRadians to be a number, but found ".concat(endRadians));
+      }
+
+      return new ShapeInfo(ShapeInfo.ARC, [center, radiusX, radiusY, startRadians, endRadians]);
+    }
     /**
      *  quadraticBezier
      *  @param {module:kld-intersections.Point2D} p1
@@ -5508,6 +5533,9 @@ function () {
      *  @param {module:kld-intersections.Point2D} p3
      *  @returns {module:kld-intersections.ShapeInfo}
      */
+
+  }, {
+    key: "quadraticBezier",
     value: function quadraticBezier(p1, p2, p3) {
       if (p1 instanceof Point2D === false) {
         throw TypeError("Expected p1 to be a Point2D, but found ".concat(p1));
@@ -5521,7 +5549,7 @@ function () {
         throw TypeError("Expected p3 to be a Point2D, but found ".concat(p3));
       }
 
-      return new ShapeInfo("Bezier2", [p1, p2, p3]);
+      return new ShapeInfo(ShapeInfo.QUADRATIC_BEZIER, [p1, p2, p3]);
     }
     /**
      *  cubicBezier
@@ -5552,7 +5580,7 @@ function () {
         throw TypeError("Expected p4 to be a Point2D, but found ".concat(p4));
       }
 
-      return new ShapeInfo("Bezier3", [p1, p2, p3, p4]);
+      return new ShapeInfo(ShapeInfo.CUBIC_BEZIER, [p1, p2, p3, p4]);
     }
     /**
      *  circle
@@ -5573,7 +5601,7 @@ function () {
         throw TypeError("Expected radius to be a number, but found ".concat(radius));
       }
 
-      return new ShapeInfo("Circle", [center, radius]);
+      return new ShapeInfo(ShapeInfo.CIRCLE, [center, radius]);
     }
     /**
      *  ellipse
@@ -5599,43 +5627,7 @@ function () {
         throw TypeError("Expected radiusY to be a number, but found ".concat(radiusY));
       }
 
-      return new ShapeInfo("Ellipse", [center, radiusX, radiusY]);
-    }
-    /**
-     * arc
-     *
-     * @param {module:kld-intersections.Point2D} center
-     * @param {number} radiusX
-     * @param {number} radiusY
-     * @param {number} startRadians
-     * @param {number} endRadians
-     * @returns {module:kld-intersections.ShapeInfo}
-     */
-
-  }, {
-    key: "arc",
-    value: function arc(center, radiusX, radiusY, startRadians, endRadians) {
-      if (center instanceof Point2D === false) {
-        throw TypeError("Expected center to be a Point2D, but found ".concat(center));
-      }
-
-      if (isNaN(radiusX)) {
-        throw TypeError("Expected radiusX to be a number, but found ".concat(radiusX));
-      }
-
-      if (isNaN(radiusY)) {
-        throw TypeError("Expected radiusY to be a number, but found ".concat(radiusY));
-      }
-
-      if (isNaN(startRadians)) {
-        throw TypeError("Expected startRadians to be a number, but found ".concat(startRadians));
-      }
-
-      if (isNaN(endRadians)) {
-        throw TypeError("Expected endRadians to be a number, but found ".concat(endRadians));
-      }
-
-      return new ShapeInfo("Arc", [center, radiusX, radiusY, startRadians, endRadians]);
+      return new ShapeInfo(ShapeInfo.ELLIPSE, [center, radiusX, radiusY]);
     }
     /**
      *  line
@@ -5656,31 +5648,19 @@ function () {
         throw TypeError("Expected p2 to be a Point2D, but found ".concat(p2));
       }
 
-      return new ShapeInfo("Line", [p1, p2]);
+      return new ShapeInfo(ShapeInfo.LINE, [p1, p2]);
     }
     /**
      *  path
-     *
-     *  @param {Array<module:kld-intersections.AffineShapes>} segments
-     *  @returns {module:kld-intersections.ShapeInfo}
-     */
-
-  }, {
-    key: "path",
-    value: function path(segments) {
-      return new ShapeInfo("Path", segments);
-    }
-    /**
-     *  pathData
      *
      *  @param {string} pathData
      *  @returns {module:kld-intersections.ShapeInfo}
      */
 
   }, {
-    key: "pathData",
-    value: function pathData(_pathData) {
-      return Shapes.pathData(_pathData);
+    key: "path",
+    value: function path(pathData) {
+      return Shapes.path(pathData);
     }
     /**
      *  polygon
@@ -5703,7 +5683,7 @@ function () {
         throw TypeError("Expected all members of points to be Point2Ds");
       }
 
-      return new ShapeInfo("Polygon", [points]);
+      return new ShapeInfo(ShapeInfo.POLYGON, [points]);
     }
     /**
      *  polyline
@@ -5721,7 +5701,7 @@ function () {
         throw TypeError("Expected all members of points to be Point2Ds");
       }
 
-      return new ShapeInfo("Polyline", [points]);
+      return new ShapeInfo(ShapeInfo.POLYLINE, [points]);
     }
     /**
      *  rectangle
@@ -5785,7 +5765,7 @@ function () {
 
       var center = new Point2D(_circle.cx.baseVal.value, _circle.cy.baseVal.value);
       var radius = _circle.r.baseVal.value;
-      return new ShapeInfo("Circle", [center, radius]);
+      return new ShapeInfo(ShapeInfo.CIRCLE, [center, radius]);
     }
     /**
      * ellipse
@@ -5804,7 +5784,7 @@ function () {
       var center = new Point2D(_ellipse.cx.baseVal.value, _ellipse.cy.baseVal.value);
       var radiusX = _ellipse.rx.baseVal.value;
       var radiusY = _ellipse.ry.baseVal.value;
-      return new ShapeInfo("Ellipse", [center, radiusX, radiusY]);
+      return new ShapeInfo(ShapeInfo.ELLIPSE, [center, radiusX, radiusY]);
     }
     /**
      * line
@@ -5822,7 +5802,7 @@ function () {
 
       var p1 = new Point2D(_line.x1.baseVal.value, _line.y1.baseVal.value);
       var p2 = new Point2D(_line.x2.baseVal.value, _line.y2.baseVal.value);
-      return new ShapeInfo("Line", [p1, p2]);
+      return new ShapeInfo(ShapeInfo.LINE, [p1, p2]);
     }
     /**
      * path
@@ -5840,7 +5820,7 @@ function () {
 
       var pathData = _path.getAttributeNS(null, "d");
 
-      return Shapes.pathData(pathData);
+      return Shapes.path(pathData);
     }
     /**
      * polygon
@@ -5864,7 +5844,7 @@ function () {
         points.push(new Point2D(point.x, point.y));
       }
 
-      return new ShapeInfo("Polygon", [points]);
+      return new ShapeInfo(ShapeInfo.POLYGON, [points]);
     }
     /**
      * polyline
@@ -5888,7 +5868,7 @@ function () {
         points.push(new Point2D(point.x, point.y));
       }
 
-      return new ShapeInfo("Polygon", [points]);
+      return new ShapeInfo(ShapeInfo.POLYLINE, [points]);
     }
     /**
      * rect
