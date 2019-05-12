@@ -2615,14 +2615,16 @@ var ARG_COUNTS = {};
 var NAMES = {};
 /* eslint-disable-next-line guard-for-in */
 
-for (var name in SHAPE_MAP) {
-  var info = SHAPE_MAP[name]; // attach shape names as constants
+for (var constantName in SHAPE_MAP) {
+  var _SHAPE_MAP$constantNa = SHAPE_MAP[constantName],
+      shapeName = _SHAPE_MAP$constantNa.name,
+      argCount = _SHAPE_MAP$constantNa.argCount; // attach shape names as constants
 
-  ShapeInfo[name] = info.name; // make argument count table for args sanity check in constructor
+  ShapeInfo[constantName] = shapeName; // make argument count table for args sanity check in constructor
 
-  ARG_COUNTS[info.name] = info.argCount; // make name list for runtime validation of names passed into constructor
+  ARG_COUNTS[shapeName] = argCount; // make name list for runtime validation of names passed into constructor
 
-  NAMES[info.name] = name;
+  NAMES[shapeName] = constantName;
 }
 
 var TWO_PI = 2.0 * Math.PI;
