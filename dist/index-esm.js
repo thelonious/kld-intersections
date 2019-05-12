@@ -4676,9 +4676,10 @@ function () {
   /**
    * PathHandler
    */
-  function PathHandler() {
+  function PathHandler(generator) {
     _classCallCheck(this, PathHandler);
 
+    this.generator = generator;
     this.shapes = [];
     this.firstX = null;
     this.firstY = null;
@@ -4732,10 +4733,12 @@ function () {
     key: "arcAbs",
     value: function arcAbs(rx, ry, xAxisRotation, arcFlag, sweepFlag, x, y) {
       if (rx === 0 || ry === 0) {
-        this.addShape(Shapes.line(this.lastX, this.lastY, x, y));
+        this.addShape(this.generator.line(this.lastX, this.lastY, x, y));
       } else {
+        var _this$generator;
+
         var arcParameters = getArcParameters(new Point2D(this.lastX, this.lastY), new Point2D(x, y), rx, ry, xAxisRotation, arcFlag, sweepFlag);
-        this.addShape(Shapes.arc.apply(Shapes, _toConsumableArray(arcParameters)));
+        this.addShape((_this$generator = this.generator).arc.apply(_this$generator, _toConsumableArray(arcParameters)));
       }
 
       this.lastCommand = "A";
@@ -4758,10 +4761,12 @@ function () {
     key: "arcRel",
     value: function arcRel(rx, ry, xAxisRotation, arcFlag, sweepFlag, x, y) {
       if (rx === 0 || ry === 0) {
-        this.addShape(Shapes.line(this.lastX, this.lastY, this.lastX + x, this.lastY + y));
+        this.addShape(this.generator.line(this.lastX, this.lastY, this.lastX + x, this.lastY + y));
       } else {
+        var _this$generator2;
+
         var arcParameters = getArcParameters(new Point2D(this.lastX, this.lastY), new Point2D(this.lastX + x, this.lastY + y), rx, ry, xAxisRotation, arcFlag, sweepFlag);
-        this.addShape(Shapes.arc.apply(Shapes, _toConsumableArray(arcParameters)));
+        this.addShape((_this$generator2 = this.generator).arc.apply(_this$generator2, _toConsumableArray(arcParameters)));
       }
 
       this.lastCommand = "a";
@@ -4782,7 +4787,7 @@ function () {
   }, {
     key: "curvetoCubicAbs",
     value: function curvetoCubicAbs(x1, y1, x2, y2, x, y) {
-      this.addShape(Shapes.cubicBezier(this.lastX, this.lastY, x1, y1, x2, y2, x, y));
+      this.addShape(this.generator.cubicBezier(this.lastX, this.lastY, x1, y1, x2, y2, x, y));
       this.lastX = x;
       this.lastY = y;
       this.lastCommand = "C";
@@ -4801,7 +4806,7 @@ function () {
   }, {
     key: "curvetoCubicRel",
     value: function curvetoCubicRel(x1, y1, x2, y2, x, y) {
-      this.addShape(Shapes.cubicBezier(this.lastX, this.lastY, this.lastX + x1, this.lastY + y1, this.lastX + x2, this.lastY + y2, this.lastX + x, this.lastY + y));
+      this.addShape(this.generator.cubicBezier(this.lastX, this.lastY, this.lastX + x1, this.lastY + y1, this.lastX + x2, this.lastY + y2, this.lastX + x, this.lastY + y));
       this.lastX += x;
       this.lastY += y;
       this.lastCommand = "c";
@@ -4815,7 +4820,7 @@ function () {
   }, {
     key: "linetoHorizontalAbs",
     value: function linetoHorizontalAbs(x) {
-      this.addShape(Shapes.line(this.lastX, this.lastY, x, this.lastY));
+      this.addShape(this.generator.line(this.lastX, this.lastY, x, this.lastY));
       this.lastX = x;
       this.lastCommand = "H";
     }
@@ -4828,7 +4833,7 @@ function () {
   }, {
     key: "linetoHorizontalRel",
     value: function linetoHorizontalRel(x) {
-      this.addShape(Shapes.line(this.lastX, this.lastY, this.lastX + x, this.lastY));
+      this.addShape(this.generator.line(this.lastX, this.lastY, this.lastX + x, this.lastY));
       this.lastX += x;
       this.lastCommand = "h";
     }
@@ -4842,7 +4847,7 @@ function () {
   }, {
     key: "linetoAbs",
     value: function linetoAbs(x, y) {
-      this.addShape(Shapes.line(this.lastX, this.lastY, x, y));
+      this.addShape(this.generator.line(this.lastX, this.lastY, x, y));
       this.lastX = x;
       this.lastY = y;
       this.lastCommand = "L";
@@ -4857,7 +4862,7 @@ function () {
   }, {
     key: "linetoRel",
     value: function linetoRel(x, y) {
-      this.addShape(Shapes.line(this.lastX, this.lastY, this.lastX + x, this.lastY + y));
+      this.addShape(this.generator.line(this.lastX, this.lastY, this.lastX + x, this.lastY + y));
       this.lastX += x;
       this.lastY += y;
       this.lastCommand = "l";
@@ -4906,7 +4911,7 @@ function () {
   }, {
     key: "curvetoQuadraticAbs",
     value: function curvetoQuadraticAbs(x1, y1, x, y) {
-      this.addShape(Shapes.quadraticBezier(this.lastX, this.lastY, x1, y1, x, y));
+      this.addShape(this.generator.quadraticBezier(this.lastX, this.lastY, x1, y1, x, y));
       this.lastX = x;
       this.lastY = y;
       this.lastCommand = "Q";
@@ -4923,7 +4928,7 @@ function () {
   }, {
     key: "curvetoQuadraticRel",
     value: function curvetoQuadraticRel(x1, y1, x, y) {
-      this.addShape(Shapes.quadraticBezier(this.lastX, this.lastY, this.lastX + x1, this.lastY + y1, this.lastX + x, this.lastY + y));
+      this.addShape(this.generator.quadraticBezier(this.lastX, this.lastY, this.lastX + x1, this.lastY + y1, this.lastX + x, this.lastY + y));
       this.lastX += x;
       this.lastY += y;
       this.lastCommand = "q";
@@ -4951,7 +4956,7 @@ function () {
         controlY = this.lastY;
       }
 
-      this.addShape(Shapes.cubicBezier(this.lastX, this.lastY, controlX, controlY, x2, y2, x, y));
+      this.addShape(this.generator.cubicBezier(this.lastX, this.lastY, controlX, controlY, x2, y2, x, y));
       this.lastX = x;
       this.lastY = y;
       this.lastCommand = "S";
@@ -4979,7 +4984,7 @@ function () {
         controlY = this.lastY;
       }
 
-      this.addShape(Shapes.cubicBezier(this.lastX, this.lastY, controlX, controlY, this.lastX + x2, this.lastY + y2, this.lastX + x, this.lastY + y));
+      this.addShape(this.generator.cubicBezier(this.lastX, this.lastY, controlX, controlY, this.lastX + x2, this.lastY + y2, this.lastX + x, this.lastY + y));
       this.lastX += x;
       this.lastY += y;
       this.lastCommand = "s";
@@ -5005,7 +5010,7 @@ function () {
         controlY = this.lastY;
       }
 
-      this.addShape(Shapes.quadraticBezier(this.lastX, this.lastY, controlX, controlY, x, y));
+      this.addShape(this.generator.quadraticBezier(this.lastX, this.lastY, controlX, controlY, x, y));
       this.lastX = x;
       this.lastY = y;
       this.lastCommand = "T";
@@ -5031,7 +5036,7 @@ function () {
         controlY = this.lastY;
       }
 
-      this.addShape(Shapes.quadraticBezier(this.lastX, this.lastY, controlX, controlY, this.lastX + x, this.lastY + y));
+      this.addShape(this.generator.quadraticBezier(this.lastX, this.lastY, controlX, controlY, this.lastX + x, this.lastY + y));
       this.lastX += x;
       this.lastY += y;
       this.lastCommand = "t";
@@ -5045,7 +5050,7 @@ function () {
   }, {
     key: "linetoVerticalAbs",
     value: function linetoVerticalAbs(y) {
-      this.addShape(Shapes.line(this.lastX, this.lastY, this.lastX, y));
+      this.addShape(this.generator.line(this.lastX, this.lastY, this.lastX, y));
       this.lastY = y;
       this.lastCommand = "V";
     }
@@ -5058,7 +5063,7 @@ function () {
   }, {
     key: "linetoVerticalRel",
     value: function linetoVerticalRel(y) {
-      this.addShape(Shapes.line(this.lastX, this.lastY, this.lastX, this.lastY + y));
+      this.addShape(this.generator.line(this.lastX, this.lastY, this.lastX, this.lastY + y));
       this.lastY += y;
       this.lastCommand = "v";
     }
@@ -5069,7 +5074,7 @@ function () {
   }, {
     key: "closePath",
     value: function closePath() {
-      this.addShape(Shapes.line(this.lastX, this.lastY, this.firstX, this.firstY));
+      this.addShape(this.generator.line(this.lastX, this.lastY, this.firstX, this.firstY));
       this.lastX = this.firstX;
       this.lastY = this.firstY;
       this.lastCommand = "z";
@@ -5086,13 +5091,57 @@ function () {
 var Shapes =
 /*#__PURE__*/
 function () {
+  /**
+   * Create shape descriptors from primitive values
+   *
+   * @param {module:kld-intersections.Matrix2D} [matrix]
+   */
   function Shapes() {
+    var matrix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Matrix2D.IDENTITY;
+
     _classCallCheck(this, Shapes);
+
+    if (matrix instanceof Matrix2D === false) {
+      throw TypeError("Expected matrix to be a Matrix2D, but found ".concat(matrix));
+    }
+
+    this.transformStack = [];
+    this.currentMatrix = matrix;
+    this.pathParser = new PathParser();
+    this.pathHandler = new PathHandler(this);
+    this.pathParser.setHandler(this.pathHandler);
   }
+  /**
+   * Modify the current transform by multiplying it by the specified transform. The current transform being used
+   * before the call to this method is saved and can be restored with a call to popTransform.
+   *
+   * @param {module:kld-intersections.Matrix2D} matrix
+   */
 
-  _createClass(Shapes, null, [{
-    key: "quadraticBezier",
 
+  _createClass(Shapes, [{
+    key: "pushTransform",
+    value: function pushTransform(matrix) {
+      if (matrix instanceof Matrix2D === false) {
+        throw TypeError("Expected matrix to be a Matrix2D, but found ".concat(matrix));
+      }
+
+      this.transformStack.push(this.currentMatrix);
+      this.currentMatrix = this.currentMatrix.multiply(matrix);
+    }
+    /**
+     * Restore the transform that was active before the last call to pushTransform
+     */
+
+  }, {
+    key: "popTransform",
+    value: function popTransform() {
+      if (this.transformStack.length === 0) {
+        throw RangeError("Tried to pop an empty transformation stack");
+      }
+
+      this.currentMatrix = this.transformStack.pop();
+    }
     /**
      *  quadraticBezier
      *
@@ -5104,6 +5153,9 @@ function () {
      *  @param {number} p3y
      *  @returns {module:kld-intersections.IntersectionArgs}
      */
+
+  }, {
+    key: "quadraticBezier",
     value: function quadraticBezier(p1x, p1y, p2x, p2y, p3x, p3y) {
       if (isNaN(p1x)) {
         throw TypeError("Expected p1x to be a number, but found ".concat(p1x));
@@ -5129,7 +5181,7 @@ function () {
         throw TypeError("Expected p3y to be a number, but found ".concat(p3y));
       }
 
-      return new IntersectionArgs("Bezier2", [new Point2D(p1x, p1y), new Point2D(p2x, p2y), new Point2D(p3x, p3y)]);
+      return new IntersectionArgs("Bezier2", [new Point2D(p1x, p1y).transform(this.currentMatrix), new Point2D(p2x, p2y).transform(this.currentMatrix), new Point2D(p3x, p3y).transform(this.currentMatrix)]);
     }
     /**
      *  cubicBezier
@@ -5180,7 +5232,7 @@ function () {
         throw TypeError("Expected p4y to be a number, but found ".concat(p4y));
       }
 
-      return new IntersectionArgs("Bezier3", [new Point2D(p1x, p1y), new Point2D(p2x, p2y), new Point2D(p3x, p3y), new Point2D(p4x, p4y)]);
+      return new IntersectionArgs("Bezier3", [new Point2D(p1x, p1y).transform(this.currentMatrix), new Point2D(p2x, p2y).transform(this.currentMatrix), new Point2D(p3x, p3y).transform(this.currentMatrix), new Point2D(p4x, p4y).transform(this.currentMatrix)]);
     }
     /**
      *  circle
@@ -5309,40 +5361,24 @@ function () {
         throw TypeError("Expected p2y to be a number, but found ".concat(p2y));
       }
 
-      return new IntersectionArgs("Line", [new Point2D(p1x, p1y), new Point2D(p2x, p2y)]);
+      return new IntersectionArgs("Line", [new Point2D(p1x, p1y).transform(this.currentMatrix), new Point2D(p2x, p2y).transform(this.currentMatrix)]);
     }
     /**
      *  path
-     *
-     *  @param {Array<module:kld-intersections.Shapes>} segments
-     *  @returns {module:kld-intersections.IntersectionArgs}
-     */
-
-  }, {
-    key: "path",
-    value: function path(segments) {
-      return new IntersectionArgs("Path", segments);
-    }
-    /**
-     *  pathData
      *
      *  @param {string} pathData
      *  @returns {module:kld-intersections.IntersectionArgs}
      */
 
   }, {
-    key: "pathData",
-    value: function pathData(_pathData) {
-      if (typeof _pathData !== "string") {
-        throw TypeError("Expected pathData to be a string, but found ".concat(_pathData));
-      } // TODO: cache parser and handler
+    key: "path",
+    value: function path(pathData) {
+      if (typeof pathData !== "string") {
+        throw TypeError("Expected pathData to be a string, but found ".concat(pathData));
+      }
 
-
-      var parser = new PathParser();
-      var handler = new PathHandler();
-      parser.setHandler(handler);
-      parser.parseData(_pathData);
-      return Shapes.path(handler.shapes);
+      this.pathParser.parseData(pathData);
+      return new IntersectionArgs("Path", this.pathHandler.shapes);
     }
     /**
      *  polygon
@@ -5368,7 +5404,7 @@ function () {
       var points = [];
 
       for (var i = 0; i < coords.length; i += 2) {
-        points.push(new Point2D(coords[i], coords[i + 1]));
+        points.push(new Point2D(coords[i], coords[i + 1]).transform(this.currentMatrix));
       }
 
       return new IntersectionArgs("Polygon", [points]);
@@ -5397,7 +5433,7 @@ function () {
       var points = [];
 
       for (var i = 0; i < coords.length; i += 2) {
-        points.push(new Point2D(coords[i], coords[i + 1]));
+        points.push(new Point2D(coords[i], coords[i + 1]).transform(this.currentMatrix));
       }
 
       return new IntersectionArgs("Polyline", [points]);

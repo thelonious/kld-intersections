@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" onload="go(evt)">
+  <script type="text/javascript" xlink:href="../dist/index-umd.js"/>
+  <script type="text/javascript"><![CDATA[
+    const {Shapes, Intersection, Matrix2D} = KldIntersections;
+
+    /**
+     * Intersect some shapes
+     */
+    function go() {
+        const transform = Matrix2D.xSkew(20 * Math.PI / 180);
+        const generator = new Shapes(transform);
+        const a = document.getElementById("a");
+        const b = document.getElementById("b");
+
+        const shape1 = generator.path(a.getAttribute("d"));
+        const shape2 = generator.line(10, 20, 300, 210);
+
+        const result = Intersection.intersect(shape1, shape2);
+
+        const xml = result.points.map(point => {
+            return `<use href="#intersection" x="${point.x}" y="${point.y}"/>`;
+        }).join("\n");
+
+        document.getElementById("result").innerHTML = xml;
+    }
+  ]]></script>
+  <defs>
+    <g id="intersection">
+      <circle r="3" fill="none" stroke="red" stroke-width="1"/>
+      <circle r="1" fill="black"/>
+    </g>
+  </defs>
+  <g id="shapes" transform="skewX(20)">
+    <path id="a" d="M50,20 C50,210 250,20 250,210" fill="none" stroke="blue" stroke-width="5" opacity="0.5"/>
+    <line id="b" x1="10" y1="20" x2="300" y2="210" stroke="orange" stroke-width="5" opacity="0.5"/>
+  </g>
+  <g id="result"/>
+</svg>
