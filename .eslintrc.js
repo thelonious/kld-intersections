@@ -15,7 +15,7 @@ module.exports = {
     "settings": {
         "polyfills": [
             "console",
-            "Error"
+            "JSON"
         ]
     },
     "overrides": [
