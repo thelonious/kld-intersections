@@ -2457,8 +2457,6 @@
       endNormal += TWO_PI;
     }
 
-    console.log("[startRadians = ".concat(startRadians, " endRadians = ").concat(endRadians, "]"));
-    console.log("[startNormal = ".concat(startNormal, " endRadians = ").concat(endNormal, "]"));
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
     var _iteratorError = undefined;
