@@ -72,7 +72,6 @@ module.exports = {
             "error",
             "as-needed"
         ],
-        "no-console": "off",
         "no-multiple-empty-lines": "off",
         "max-len": "off",
         "node/exports-style": "off",
