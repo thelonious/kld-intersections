@@ -5415,8 +5415,8 @@
        *  @param {number} y
        *  @param {number} width
        *  @param {number} height
-       *  @param {number} [rx]
-       *  @param {number} [ry]
+       *  @param {number} [rx=0]
+       *  @param {number} [ry=0]
        *  @returns {module:kld-intersections.IntersectionArgs}
        */
 
@@ -5736,8 +5736,8 @@
        *
        *  @param {module:kld-intersections.Point2D} topLeft
        *  @param {module:kld-intersections.Vector2D} size
-       *  @param {number} [rx]
-       *  @param {number} [ry]
+       *  @param {number} [rx=0]
+       *  @param {number} [ry=0]
        *  @returns {module:kld-intersections.IntersectionArgs}
        */
 

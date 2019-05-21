@@ -32,6 +32,12 @@ module.exports = {
         },
         {
             files: ["**/*.md"],
+            settings: {
+              polyfills: [
+                "console",
+                "document.querySelector"
+              ]
+            },
             rules: {
                 "eol-last": "off",
                 "no-console": "off",
@@ -40,9 +46,10 @@ module.exports = {
                 "import/unambiguous": "off",
                 "import/no-unresolved": "off",
                 "node/no-missing-import": "off",
-                "no-unused-vars": ["warn"],
+                "import/no-commonjs": "off",
+                "no-multi-spaces": "off",
                 "no-unused-vars": ["error", {
-                    "varsIgnorePattern": "Point2D"
+                    "varsIgnorePattern": "Point2D|AffineShapes|Shapes|Intersection|result"
                 }],
                 "node/no-missing-require": ["error", {
                     "allowModules": ["kld-intersections"]
