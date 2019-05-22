@@ -84,8 +84,8 @@ In the original intersection code written for kevlindev.com, there were some fun
 
 * IntersectionQuery.pointInCircle(**point** : Point2D, **center** : Point2D, **radius** : number)
 * IntersectionQuery.pointInEllipse(**point** : Point2D, **center** : Point2D, **radiusX** : number, **radiusY** : number)
-* IntersectionQuery.pointInPolyline(**point** : Point2D, **points** : Array<Point2D>) - **Point2D**, **Array<Point2D>**
-* IntersectionQuery.pointInPolygon(**point** : Point2D, **points** : Array<Point2D>) - **Point2D**, **Array<Point2D>**
+* IntersectionQuery.pointInPolyline(**point** : Point2D, **points** : Array<Point2D>)
+* IntersectionQuery.pointInPolygon(**point** : Point2D, **points** : Array<Point2D>)
 * IntersectionQuery.pointInRectangle(**point** : Point2D, **topLeft** : Point2D, **bottomRight** : Point2D)
 
 The first argument is the point you wish to test. The remaining parameters describe the shape to test against. All methods return a boolean value indicating whether or not the given point is contained within the shape.
