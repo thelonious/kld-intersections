@@ -581,7 +581,7 @@ The x radius may be represented two ways:
 
 The above discussed how an object may be used to describe a Quadratic Bezier. For backward compatibility with older shapes APIs, it is also possible to pass an array or a list of arguments.
 
-There are two support formats:
+There are five supported formats:
 
 - A 4 element array defined as follows:
     - a number element being `x`
