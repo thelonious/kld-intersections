@@ -11,16 +11,16 @@
 
 A library of intersection algorithms covering all permutations for any two of the following SVG shapes:
 
+- Arcs
 - Quadratic Bézier
 - Cubic Bézier
 - Circle
 - Ellipse
-- Arcs
 - Line
+- Paths
 - Polygon
 - Polyline
 - Rectangle
-- Paths
 
 # Installation
 
@@ -62,7 +62,11 @@ import {ShapeInfo, Intersection} from "kld-intersections";
 
 ## Usage
 
-In order to perform an intersection, you need to create descriptions of each shape to intersect. This is done using ShapeInfo. Once you have created your ShapeInfos, pass them into Intersection.intersect and you will get back an Intersection object which contains the intersections, an array of Point2D instances, in its `points` property.
+In order to perform an intersection, you need to create descriptions of each shape to intersect. This is done using ShapeInfo.
+
+Once you have created your ShapeInfos, pass them into Intersection.intersect and you will get back an Intersection object. Intersection objects contain the intersections, an array of Point2D instances, in their `points` property.
+
+The following example creates a path from SVG path data and a line. The two shapes are passed into `Intersection.intersect` and the results are displayed in the console.
 
 ```javascript
 const {ShapeInfo, Intersection} = require("kld-intersections");
@@ -76,7 +80,7 @@ intersections.points.forEach(console.log);
 
 Each of the shape constructors in ShapeInfo supports a wide variety of formats. Be sure to look at the examples in the ![ShapeInfo](./docs/ShapeInfo.md) docs to get an idea of how you can define shapes.
 
-Note that there are some older APIs that have been deprecated. If you wish to work with those APIs or wish to use the Intersection methods directly, you can read about those in [Shapes API](#docs/ShapesApi.md).
+Note that there are some older APIs that have been deprecated. If you need to work with those APIs or wish to use the Intersection methods directly, you can read about those in [Shapes API](#docs/ShapesApi.md).
 
 # Queries
 
@@ -104,3 +108,4 @@ Please note that the bézier-bézier intersections may not be well-behaved. Ther
 - [kld-affine](https://github.com/thelonious/kld-affine)
 - [kld-polynomial](https://github.com/thelonious/kld-polynomial)
 - [kld-contours](https://github.com/thelonious/kld-contours)
+- [kld-data-transformer](https://github.com/thelonious/kld-data-transformer)
