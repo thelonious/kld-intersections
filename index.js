@@ -1,9 +1,13 @@
 /**
  * @module kld-intersections
  */
-// expose module classes
 
 export {default as Intersection} from "./lib/Intersection.js";
+
+/**
+ * @deprecated Use ShapeInfo instead
+ */
+export {default as IntersectionArgs} from "./lib/ShapeInfo.js";
 
 /**
  * @namespace ShapeInfo
