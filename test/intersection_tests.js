@@ -46,8 +46,8 @@ function assertEqualPoints(points1, points2) {
 /**
  * Intersect two shapes and assert the intersection points
  *
- * @param {IntersectoinArgs} shape1
- * @param {IntersectoinArgs} shape2
+ * @param {ShapeInfo} shape1
+ * @param {ShapeInfo} shape2
  * @param {Array<Point2D>} expected
  */
 function assertIntersections(shape1, shape2, expected) {
@@ -61,6 +61,7 @@ describe("Intersections", () => {
     it("Quadratic Bezier - Quadratic Bezier", () => {
         const shape1 = Shapes.path("M83,214 Q335,173 91,137");
         const shape2 = Shapes.path("M92,233 Q152,30 198,227");
+
         const expected = [
             new Point2D(98.72720538504241, 211.3625905201401),
             new Point2D(129.54187987698563, 143.27285394359626),
