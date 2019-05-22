@@ -6055,6 +6055,849 @@ function assign(symbolTable, name, value) {
  */
 
 /**
+ *  PathLexeme.js
+ *
+ *  @copyright 2002, 2013 Kevin Lindsey
+ *  @module PathLexeme
+ */
+
+/**
+ *  PathLexeme
+ */
+var PathLexeme =
+/*#__PURE__*/
+function () {
+  /**
+   *  PathLexeme
+   *
+   *  @param {number} type
+   *  @param {string} text
+   */
+  function PathLexeme(type, text) {
+    _classCallCheck(this, PathLexeme);
+
+    this.type = type;
+    this.text = text;
+  }
+  /**
+   *  Determine if this lexeme is of the given type
+   *
+   *  @param {number} type
+   *  @returns {boolean}
+   */
+
+
+  _createClass(PathLexeme, [{
+    key: "typeis",
+    value: function typeis(type) {
+      return this.type === type;
+    }
+  }]);
+
+  return PathLexeme;
+}();
+/*
+ * token type enumerations
+ */
+
+
+PathLexeme.UNDEFINED = 0;
+PathLexeme.COMMAND = 1;
+PathLexeme.NUMBER = 2;
+PathLexeme.EOD = 3;
+
+/**
+ *  Create a new instance of PathLexer
+ */
+
+var PathLexer =
+/*#__PURE__*/
+function () {
+  /**
+   *  @param {string} [pathData]
+   */
+  function PathLexer(pathData) {
+    _classCallCheck(this, PathLexer);
+
+    if (pathData === null || pathData === undefined) {
+      pathData = "";
+    }
+
+    this.setPathData(pathData);
+  }
+  /**
+   *  setPathData
+   *
+   *  @param {string} pathData
+   */
+
+
+  _createClass(PathLexer, [{
+    key: "setPathData",
+    value: function setPathData(pathData) {
+      if (typeof pathData !== "string") {
+        throw new TypeError("The first parameter must be a string");
+      }
+
+      this._pathData = pathData;
+    }
+    /**
+     *  getNextToken
+     *
+     *  @returns {PathLexeme}
+     */
+
+  }, {
+    key: "getNextToken",
+    value: function getNextToken() {
+      var result = null;
+      var d = this._pathData;
+
+      while (result === null) {
+        if (d === null || d === "") {
+          result = new PathLexeme(PathLexeme.EOD, "");
+        } else if (d.match(/^([ \t\r\n,]+)/)) {
+          d = d.substr(RegExp.$1.length);
+        } else if (d.match(/^([AaCcHhLlMmQqSsTtVvZz])/)) {
+          result = new PathLexeme(PathLexeme.COMMAND, RegExp.$1);
+          d = d.substr(RegExp.$1.length);
+        }
+        /* eslint-disable-next-line unicorn/no-unsafe-regex */
+        else if (d.match(/^(([-+]?\d+(\.\d*)?|[-+]?\.\d+)([eE][-+]?\d+)?)/)) {
+            result = new PathLexeme(PathLexeme.NUMBER, RegExp.$1);
+            d = d.substr(RegExp.$1.length);
+          } else {
+            throw new SyntaxError("Unrecognized path data: ".concat(d));
+          }
+      }
+
+      this._pathData = d;
+      return result;
+    }
+  }]);
+
+  return PathLexer;
+}();
+
+var BOP = "BOP";
+/**
+ *  PathParser
+ */
+
+var PathParser =
+/*#__PURE__*/
+function () {
+  /**
+   * constructor
+   */
+  function PathParser() {
+    _classCallCheck(this, PathParser);
+
+    this._lexer = new PathLexer();
+    this._handler = null;
+  }
+  /**
+   *  parseData
+   *
+   *  @param {string} pathData
+   *  @throws {Error}
+   */
+
+
+  _createClass(PathParser, [{
+    key: "parseData",
+    value: function parseData(pathData) {
+      if (typeof pathData !== "string") {
+        throw new TypeError("The first parameter must be a string: ".concat(pathData));
+      } // begin parse
+
+
+      if (this._handler !== null && typeof this._handler.beginParse === "function") {
+        this._handler.beginParse();
+      } // pass the pathData to the lexer
+
+
+      var lexer = this._lexer;
+      lexer.setPathData(pathData); // set mode to signify new path - Beginning Of Path
+
+      var mode = BOP; // Process all tokens
+
+      var lastToken = null;
+      var token = lexer.getNextToken();
+
+      while (token.typeis(PathLexeme.EOD) === false) {
+        var parameterCount = void 0;
+        var params = []; // process current token
+
+        switch (token.type) {
+          case PathLexeme.COMMAND:
+            if (mode === BOP && token.text !== "M" && token.text !== "m") {
+              throw new SyntaxError("New paths must begin with a moveto command. Found '".concat(token.text, "'"));
+            } // Set new parsing mode
+
+
+            mode = token.text; // Get count of numbers that must follow this command
+
+            parameterCount = PathParser.PARAMCOUNT[token.text.toUpperCase()]; // Advance past command token
+
+            token = lexer.getNextToken();
+            break;
+
+          case PathLexeme.NUMBER:
+            // Most commands allow you to keep repeating parameters
+            // without specifying the command again.  We just assume
+            // that is the case and do nothing since the mode remains
+            // the same
+            if (mode === BOP) {
+              throw new SyntaxError("New paths must begin with a moveto command. Found '".concat(token.text, "'"));
+            } else {
+              parameterCount = PathParser.PARAMCOUNT[mode.toUpperCase()];
+            }
+
+            break;
+
+          default:
+            throw new SyntaxError("Unrecognized command type: ".concat(token.type));
+        } // Get parameters
+
+
+        for (var i = 0; i < parameterCount; i++) {
+          switch (token.type) {
+            case PathLexeme.COMMAND:
+              throw new SyntaxError("Parameter must be a number. Found '".concat(token.text, "'"));
+
+            case PathLexeme.NUMBER:
+              // convert current parameter to a float and add to
+              // parameter list
+              params[i] = parseFloat(token.text);
+              break;
+
+            case PathLexeme.EOD:
+              throw new SyntaxError("Unexpected end of string");
+
+            default:
+              throw new SyntaxError("Unrecognized parameter type. Found type '".concat(token.type, "'"));
+          }
+
+          token = lexer.getNextToken();
+        } // fire handler
+
+
+        if (this._handler !== null) {
+          var handler = this._handler;
+          var methodName = PathParser.METHODNAME[mode]; // convert types for arcs
+
+          if (mode === "a" || mode === "A") {
+            params[3] = params[3] !== 0;
+            params[4] = params[4] !== 0;
+          }
+
+          if (handler !== null && typeof handler[methodName] === "function") {
+            handler[methodName].apply(handler, params);
+          }
+        } // Lineto's follow moveto when no command follows moveto params.  Go
+        // ahead and set the mode just in case no command follows the moveto
+        // command
+
+
+        switch (mode) {
+          case "M":
+            mode = "L";
+            break;
+
+          case "m":
+            mode = "l";
+            break;
+
+          case "Z":
+          case "z":
+            mode = "BOP";
+            break;
+
+          default: // ignore for now
+
+        }
+
+        if (token === lastToken) {
+          throw new SyntaxError("Parser stalled on '".concat(token.text, "'"));
+        } else {
+          lastToken = token;
+        }
+      } // end parse
+
+
+      if (this._handler !== null && typeof this._handler.endParse === "function") {
+        this._handler.endParse();
+      }
+    }
+    /**
+     *  setHandler
+     *
+     *  @param {Object} handler
+     */
+
+  }, {
+    key: "setHandler",
+    value: function setHandler(handler) {
+      this._handler = handler;
+    }
+  }]);
+
+  return PathParser;
+}();
+/*
+ * class constants
+ */
+
+
+PathParser.PARAMCOUNT = {
+  A: 7,
+  C: 6,
+  H: 1,
+  L: 2,
+  M: 2,
+  Q: 4,
+  S: 4,
+  T: 2,
+  V: 1,
+  Z: 0
+};
+PathParser.METHODNAME = {
+  A: "arcAbs",
+  a: "arcRel",
+  C: "curvetoCubicAbs",
+  c: "curvetoCubicRel",
+  H: "linetoHorizontalAbs",
+  h: "linetoHorizontalRel",
+  L: "linetoAbs",
+  l: "linetoRel",
+  M: "movetoAbs",
+  m: "movetoRel",
+  Q: "curvetoQuadraticAbs",
+  q: "curvetoQuadraticRel",
+  S: "curvetoCubicSmoothAbs",
+  s: "curvetoCubicSmoothRel",
+  T: "curvetoQuadraticSmoothAbs",
+  t: "curvetoQuadraticSmoothRel",
+  V: "linetoVerticalAbs",
+  v: "linetoVerticalRel",
+  Z: "closePath",
+  z: "closePath"
+};
+
+/**
+ *  @module kld-path-parser
+ */
+
+var TWO_PI = 2.0 * Math.PI;
+/**
+ * normalizeAngle
+ *
+ * @param {number} radians
+ * @returns {number}
+ */
+
+function normalizeAngle(radians) {
+  var normal = radians % TWO_PI;
+  return normal < 0.0 ? normal + TWO_PI : normal;
+}
+/**
+ * Based on the SVG 1.1 specification, Appendix F: Implementation Requirements,
+ * Section F.6 "Elliptical arc implementation notes"
+ * {@see https://www.w3.org/TR/SVG11/implnote.html#ArcImplementationNotes}
+ *
+ * @param {module:kld-affine.Point2D} startPoint
+ * @param {module:kld-affine.Point2D} endPoint
+ * @param {number} rx
+ * @param {number} ry
+ * @param {number} angle
+ * @param {boolean} arcFlag
+ * @param {boolean} sweepFlag
+ * @returns {Array}
+ */
+
+
+function getArcParameters(startPoint, endPoint, rx, ry, angle, arcFlag, sweepFlag) {
+  angle = angle * Math.PI / 180;
+  var c = Math.cos(angle);
+  var s = Math.sin(angle);
+  var TOLERANCE = 1e-6; // Section (F.6.5.1)
+
+  var halfDiff = startPoint.subtract(endPoint).multiply(0.5);
+  var x1p = halfDiff.x * c + halfDiff.y * s;
+  var y1p = halfDiff.x * -s + halfDiff.y * c; // Section (F.6.6.1)
+
+  rx = Math.abs(rx);
+  ry = Math.abs(ry); // Section (F.6.6.2)
+
+  var x1px1p = x1p * x1p;
+  var y1py1p = y1p * y1p;
+  var lambda = x1px1p / (rx * rx) + y1py1p / (ry * ry); // Section (F.6.6.3)
+
+  if (lambda > 1) {
+    var _factor = Math.sqrt(lambda);
+
+    rx *= _factor;
+    ry *= _factor;
+  } // Section (F.6.5.2)
+
+
+  var rxrx = rx * rx;
+  var ryry = ry * ry;
+  var rxy1 = rxrx * y1py1p;
+  var ryx1 = ryry * x1px1p;
+  var factor = (rxrx * ryry - rxy1 - ryx1) / (rxy1 + ryx1);
+
+  if (Math.abs(factor) < TOLERANCE) {
+    factor = 0;
+  }
+
+  var sq = Math.sqrt(factor);
+
+  if (arcFlag === sweepFlag) {
+    sq = -sq;
+  } // Section (F.6.5.3)
+
+
+  var mid = startPoint.add(endPoint).multiply(0.5);
+  var cxp = sq * rx * y1p / ry;
+  var cyp = sq * -ry * x1p / rx; // Section (F.6.5.5 - F.6.5.6)
+
+  var xcr1 = (x1p - cxp) / rx;
+  var xcr2 = (x1p + cxp) / rx;
+  var ycr1 = (y1p - cyp) / ry;
+  var ycr2 = (y1p + cyp) / ry;
+  var theta1 = new Vector2D(1, 0).angleBetween(new Vector2D(xcr1, ycr1));
+  var deltaTheta = normalizeAngle(new Vector2D(xcr1, ycr1).angleBetween(new Vector2D(-xcr2, -ycr2)));
+
+  if (sweepFlag === false) {
+    deltaTheta -= TWO_PI;
+  }
+
+  return [cxp * c - cyp * s + mid.x, cxp * s + cyp * c + mid.y, rx, ry, theta1, theta1 + deltaTheta];
+}
+/**
+ *  PathHandler
+ */
+
+
+var PathHandler =
+/*#__PURE__*/
+function () {
+  /**
+   * PathHandler
+   *
+   * @param {ShapeInfo} shapeCreator
+   */
+  function PathHandler(shapeCreator) {
+    _classCallCheck(this, PathHandler);
+
+    this.shapeCreator = shapeCreator;
+    this.shapes = [];
+    this.firstX = null;
+    this.firstY = null;
+    this.lastX = null;
+    this.lastY = null;
+    this.lastCommand = null;
+  }
+  /**
+   * beginParse
+   */
+
+
+  _createClass(PathHandler, [{
+    key: "beginParse",
+    value: function beginParse() {
+      // zero out the sub-path array
+      this.shapes = []; // clear firstX, firstY, lastX, and lastY
+
+      this.firstX = null;
+      this.firstY = null;
+      this.lastX = null;
+      this.lastY = null; // need to remember last command type to determine how to handle the
+      // relative Bezier commands
+
+      this.lastCommand = null;
+    }
+    /**
+     *  addShape
+     *
+     *  @param {ShapeInfo} shape
+     */
+
+  }, {
+    key: "addShape",
+    value: function addShape(shape) {
+      this.shapes.push(shape);
+    }
+    /**
+     *  arcAbs - A
+     *
+     *  @param {number} rx
+     *  @param {number} ry
+     *  @param {number} xAxisRotation
+     *  @param {boolean} arcFlag
+     *  @param {boolean} sweepFlag
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "arcAbs",
+    value: function arcAbs(rx, ry, xAxisRotation, arcFlag, sweepFlag, x, y) {
+      if (rx === 0 || ry === 0) {
+        this.addShape(this.shapeCreator.line(this.lastX, this.lastY, x, y));
+      } else {
+        var _this$shapeCreator;
+
+        var arcParameters = getArcParameters(new Point2D(this.lastX, this.lastY), new Point2D(x, y), rx, ry, xAxisRotation, arcFlag, sweepFlag);
+        this.addShape((_this$shapeCreator = this.shapeCreator).arc.apply(_this$shapeCreator, _toConsumableArray(arcParameters)));
+      }
+
+      this.lastCommand = "A";
+      this.lastX = x;
+      this.lastY = y;
+    }
+    /**
+     *  arcRel - a
+     *
+     *  @param {number} rx
+     *  @param {number} ry
+     *  @param {number} xAxisRotation
+     *  @param {boolean} arcFlag
+     *  @param {boolean} sweepFlag
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "arcRel",
+    value: function arcRel(rx, ry, xAxisRotation, arcFlag, sweepFlag, x, y) {
+      if (rx === 0 || ry === 0) {
+        this.addShape(this.shapeCreator.line(this.lastX, this.lastY, this.lastX + x, this.lastY + y));
+      } else {
+        var _this$shapeCreator2;
+
+        var arcParameters = getArcParameters(new Point2D(this.lastX, this.lastY), new Point2D(this.lastX + x, this.lastY + y), rx, ry, xAxisRotation, arcFlag, sweepFlag);
+        this.addShape((_this$shapeCreator2 = this.shapeCreator).arc.apply(_this$shapeCreator2, _toConsumableArray(arcParameters)));
+      }
+
+      this.lastCommand = "a";
+      this.lastX += x;
+      this.lastY += y;
+    }
+    /**
+     *  curvetoCubicAbs - C
+     *
+     *  @param {number} x1
+     *  @param {number} y1
+     *  @param {number} x2
+     *  @param {number} y2
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "curvetoCubicAbs",
+    value: function curvetoCubicAbs(x1, y1, x2, y2, x, y) {
+      this.addShape(this.shapeCreator.cubicBezier(this.lastX, this.lastY, x1, y1, x2, y2, x, y));
+      this.lastX = x;
+      this.lastY = y;
+      this.lastCommand = "C";
+    }
+    /**
+     *  curvetoCubicRel - c
+     *
+     *  @param {number} x1
+     *  @param {number} y1
+     *  @param {number} x2
+     *  @param {number} y2
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "curvetoCubicRel",
+    value: function curvetoCubicRel(x1, y1, x2, y2, x, y) {
+      this.addShape(this.shapeCreator.cubicBezier(this.lastX, this.lastY, this.lastX + x1, this.lastY + y1, this.lastX + x2, this.lastY + y2, this.lastX + x, this.lastY + y));
+      this.lastX += x;
+      this.lastY += y;
+      this.lastCommand = "c";
+    }
+    /**
+     *  linetoHorizontalAbs - H
+     *
+     *  @param {number} x
+     */
+
+  }, {
+    key: "linetoHorizontalAbs",
+    value: function linetoHorizontalAbs(x) {
+      this.addShape(this.shapeCreator.line(this.lastX, this.lastY, x, this.lastY));
+      this.lastX = x;
+      this.lastCommand = "H";
+    }
+    /**
+     *  linetoHorizontalRel - h
+     *
+     *  @param {number} x
+     */
+
+  }, {
+    key: "linetoHorizontalRel",
+    value: function linetoHorizontalRel(x) {
+      this.addShape(this.shapeCreator.line(this.lastX, this.lastY, this.lastX + x, this.lastY));
+      this.lastX += x;
+      this.lastCommand = "h";
+    }
+    /**
+     *  linetoAbs - L
+     *
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "linetoAbs",
+    value: function linetoAbs(x, y) {
+      this.addShape(this.shapeCreator.line(this.lastX, this.lastY, x, y));
+      this.lastX = x;
+      this.lastY = y;
+      this.lastCommand = "L";
+    }
+    /**
+     *  linetoRel - l
+     *
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "linetoRel",
+    value: function linetoRel(x, y) {
+      this.addShape(this.shapeCreator.line(this.lastX, this.lastY, this.lastX + x, this.lastY + y));
+      this.lastX += x;
+      this.lastY += y;
+      this.lastCommand = "l";
+    }
+    /**
+     *  movetoAbs - M
+     *
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "movetoAbs",
+    value: function movetoAbs(x, y) {
+      this.firstX = x;
+      this.firstY = y;
+      this.lastX = x;
+      this.lastY = y;
+      this.lastCommand = "M";
+    }
+    /**
+     *  movetoRel - m
+     *
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "movetoRel",
+    value: function movetoRel(x, y) {
+      this.firstX += x;
+      this.firstY += y;
+      this.lastX += x;
+      this.lastY += y;
+      this.lastCommand = "m";
+    }
+    /**
+     *  curvetoQuadraticAbs - Q
+     *
+     *  @param {number} x1
+     *  @param {number} y1
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "curvetoQuadraticAbs",
+    value: function curvetoQuadraticAbs(x1, y1, x, y) {
+      this.addShape(this.shapeCreator.quadraticBezier(this.lastX, this.lastY, x1, y1, x, y));
+      this.lastX = x;
+      this.lastY = y;
+      this.lastCommand = "Q";
+    }
+    /**
+     *  curvetoQuadraticRel - q
+     *
+     *  @param {number} x1
+     *  @param {number} y1
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "curvetoQuadraticRel",
+    value: function curvetoQuadraticRel(x1, y1, x, y) {
+      this.addShape(this.shapeCreator.quadraticBezier(this.lastX, this.lastY, this.lastX + x1, this.lastY + y1, this.lastX + x, this.lastY + y));
+      this.lastX += x;
+      this.lastY += y;
+      this.lastCommand = "q";
+    }
+    /**
+     *  curvetoCubicSmoothAbs - S
+     *
+     *  @param {number} x2
+     *  @param {number} y2
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "curvetoCubicSmoothAbs",
+    value: function curvetoCubicSmoothAbs(x2, y2, x, y) {
+      var controlX, controlY;
+
+      if (this.lastCommand.match(/^[SsCc]$/)) {
+        var secondToLast = this.shapes[this.shapes.length - 1].args[2];
+        controlX = 2 * this.lastX - secondToLast.x;
+        controlY = 2 * this.lastY - secondToLast.y;
+      } else {
+        controlX = this.lastX;
+        controlY = this.lastY;
+      }
+
+      this.addShape(this.shapeCreator.cubicBezier(this.lastX, this.lastY, controlX, controlY, x2, y2, x, y));
+      this.lastX = x;
+      this.lastY = y;
+      this.lastCommand = "S";
+    }
+    /**
+     *  curvetoCubicSmoothRel - s
+     *
+     *  @param {number} x2
+     *  @param {number} y2
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "curvetoCubicSmoothRel",
+    value: function curvetoCubicSmoothRel(x2, y2, x, y) {
+      var controlX, controlY;
+
+      if (this.lastCommand.match(/^[SsCc]$/)) {
+        var secondToLast = this.shapes[this.shapes.length - 1].args[2];
+        controlX = 2 * this.lastX - secondToLast.x;
+        controlY = 2 * this.lastY - secondToLast.y;
+      } else {
+        controlX = this.lastX;
+        controlY = this.lastY;
+      }
+
+      this.addShape(this.shapeCreator.cubicBezier(this.lastX, this.lastY, controlX, controlY, this.lastX + x2, this.lastY + y2, this.lastX + x, this.lastY + y));
+      this.lastX += x;
+      this.lastY += y;
+      this.lastCommand = "s";
+    }
+    /**
+     *  curvetoQuadraticSmoothAbs - T
+     *
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "curvetoQuadraticSmoothAbs",
+    value: function curvetoQuadraticSmoothAbs(x, y) {
+      var controlX, controlY;
+
+      if (this.lastCommand.match(/^[QqTt]$/)) {
+        var secondToLast = this.shapes[this.shapes.length - 1].args[1];
+        controlX = 2 * this.lastX - secondToLast.x;
+        controlY = 2 * this.lastY - secondToLast.y;
+      } else {
+        controlX = this.lastX;
+        controlY = this.lastY;
+      }
+
+      this.addShape(this.shapeCreator.quadraticBezier(this.lastX, this.lastY, controlX, controlY, x, y));
+      this.lastX = x;
+      this.lastY = y;
+      this.lastCommand = "T";
+    }
+    /**
+     *  curvetoQuadraticSmoothRel - t
+     *
+     *  @param {number} x
+     *  @param {number} y
+     */
+
+  }, {
+    key: "curvetoQuadraticSmoothRel",
+    value: function curvetoQuadraticSmoothRel(x, y) {
+      var controlX, controlY;
+
+      if (this.lastCommand.match(/^[QqTt]$/)) {
+        var secondToLast = this.shapes[this.shapes.length - 1].args[1];
+        controlX = 2 * this.lastX - secondToLast.x;
+        controlY = 2 * this.lastY - secondToLast.y;
+      } else {
+        controlX = this.lastX;
+        controlY = this.lastY;
+      }
+
+      this.addShape(this.shapeCreator.quadraticBezier(this.lastX, this.lastY, controlX, controlY, this.lastX + x, this.lastY + y));
+      this.lastX += x;
+      this.lastY += y;
+      this.lastCommand = "t";
+    }
+    /**
+     *  linetoVerticalAbs - V
+     *
+     *  @param {number} y
+     */
+
+  }, {
+    key: "linetoVerticalAbs",
+    value: function linetoVerticalAbs(y) {
+      this.addShape(this.shapeCreator.line(this.lastX, this.lastY, this.lastX, y));
+      this.lastY = y;
+      this.lastCommand = "V";
+    }
+    /**
+     *  linetoVerticalRel - v
+     *
+     *  @param {number} y
+     */
+
+  }, {
+    key: "linetoVerticalRel",
+    value: function linetoVerticalRel(y) {
+      this.addShape(this.shapeCreator.line(this.lastX, this.lastY, this.lastX, this.lastY + y));
+      this.lastY += y;
+      this.lastCommand = "v";
+    }
+    /**
+     *  closePath - z or Z
+     */
+
+  }, {
+    key: "closePath",
+    value: function closePath() {
+      this.addShape(this.shapeCreator.line(this.lastX, this.lastY, this.firstX, this.firstY));
+      this.lastX = this.firstX;
+      this.lastY = this.firstY;
+      this.lastCommand = "z";
+    }
+  }]);
+
+  return PathHandler;
+}();
+
+/**
  *  ShapeInfo
  *  @memberof module:kld-intersections
  */
@@ -6153,7 +6996,7 @@ function () {
         args[_key9] = arguments[_key9];
       }
 
-      return create(ShapeInfo.POLYLINE, args, ["point"]);
+      return create(ShapeInfo.POLYLINE, args, ["points"]);
     }
   }, {
     key: "rectangle",
@@ -6174,9 +7017,9 @@ function create(type, object, properties) {
 
   if (object.length === 1) {
     object = object[0];
-    transformType = type;
+    transformType = Array.isArray(object) || typeof object === "string" ? type + "Args" : type;
   } else {
-    transformType = type + "Array";
+    transformType = type + "Args";
   } // normalize the data
 
 
@@ -6187,7 +7030,7 @@ function create(type, object, properties) {
   } // pull out the arguments
 
 
-  var args = properties.map(function (name) {
+  var args = properties.length === 1 ? data[properties[0]] : properties.map(function (name) {
     return data[name];
   }); // return a new ShapeInfo
 
@@ -6204,7 +7047,7 @@ ShapeInfo.PATH = "Path";
 ShapeInfo.POLYGON = "Polygon";
 ShapeInfo.POLYLINE = "Polyline";
 ShapeInfo.RECTANGLE = "Rectangle";
-var transformer = Transformer.fromSource("\ntransform Center =\n    Point2D(x, y) <=\n            { center: { x: number as x, y: number as y } }\n        |   { center: [ number as x, number as y ] }\n        |   { cx: number as x, cy: number as y }\n        |   { centerX: number as x, centerY: number as y }\n\ntransform Radii =\n    // the generator could also be _, but I like being explicit\n    { rx, ry } <=\n            { radii: { x: number as rx, y: number as ry } }\n        |   { radii: [ number as rx, number as ry ] }\n        |   { rx: number as rx, ry: number as ry }\n        |   { radiusX: number as rx, radiusY: number as ry }\n        \ntransform P1 =\n    Point2D(x, y) <=\n            { p1: { x: number as x, y: number as y } }\n        |   { p1: [ number as x, number as y ] }\n        \ntransform P2 =\n    Point2D(x, y) <=\n            { p2: { x: number as x, y: number as y } }\n        |   { p2: [ number as x, number as y ] }\n        |   { p2x: number as x, p2y: number as y }\n        \ntransform P3 =\n    Point2D(x, y) <=\n            { p3: { x: number as x, y: number as y } }\n        |   { p3: [ number as x, number as y ] }\n        |   { p3x: number as x, p3y: number as y }\n        \ntransform P4 =\n    Point2D(x, y) <=\n            { p4: { x: number as x, y: number as y } }\n        |   { p4: [ number as x, number as y ] }\n        |   { p4x: number as x, p4y: number as y }\n\ntransform Number =\n    _ <= number\n            \ntype ".concat(ShapeInfo.ARC, " = {\n    // collect some values so we don't have to repeat queries\n    radii = transform Radii;\n    \n    center: transform Center,\n    radiusX: radii.rx,\n    radiusY: radii.ry,\n    startRadians: transform Number,\n    endRadians: transform Number\n}\n\ntype ").concat(ShapeInfo.ARC, "Array = {\n    elements =\n        _ <= [\n            number as centerX,\n            number as centerY,\n            number as radiusX,\n            number as radiusY,\n            number as startRadians,\n            number as endRadians\n        ];\n    \n    center: Point2D(elements.centerX, elements.centerY),\n    radiusX: elements.radiusX,\n    radiusY: elements.radiusY,\n    startRadians: elements.startRadians,\n    endRadians: elements.endRadians\n}\n\ntype ").concat(ShapeInfo.QUADRATIC_BEZIER, " = {\n    p1: transform P1,\n    p2: transform P2,\n    p3: transform P3\n}\n\ntype ").concat(ShapeInfo.CUBIC_BEZIER, " = {\n    p1: transform P1,\n    p2: transform P2,\n    p3: transform P3,\n    p4: transform P4\n}\n\ntype ").concat(ShapeInfo.CIRCLE, " = {\n    center: transform Center,\n    radius: radius <=\n            { r: number as radius}\n        |   { radius: number as radius }\n}\n\ntype ").concat(ShapeInfo.CIRCLE, "Array = {\n    elements =\n        _ <=\n                [ number as centerX, number as centerY, number as radius ]\n            |   [ { x: number as centerX, y: number as centerY }, number as radius ];\n    \n    center: Point2D(elements.centerX, elements.centerY),\n    radius: elements.radius\n}\n\ntype ").concat(ShapeInfo.ELLIPSE, " = {\n    // collect some values so we don't have to repeat queries\n    radii = transform Radii;\n    \n    center: transform Center,\n    radiusX: radii.rx,\n    radiusY: radii.ry\n}\n\ntype ").concat(ShapeInfo.ELLIPSE, "Array = {\n    elements =\n        _ <=\n                [ number as centerX, number as centerY, number as radiusX, number as radiusY ]\n            |   [ { x: number as centerX, y: number as centerY }, number as radiusX, number as radiusY ];\n    \n    center: Point2D(elements.centerX, elements.centerY),\n    radiusX: elements.radiusX,\n    radiusY: elements.radiusY\n}\n\ntype ").concat(ShapeInfo.LINE, " = {\n    p1: transform P1,\n    p2: transform P2\n}\n\ntype ").concat(ShapeInfo.LINE, "Array = {\n    elements =\n        _ <=\n                [ number as p1x, number as p1y, number as p2x, number as p2y ]\n            |   [ { x: number as p1x, y: number as p1y }, { x: number as p2x, y: number as p2y } ];\n        \n    p1: Point2D(elements.p1x, elements.p1y),\n    p2: Point2D(elements.p2x, elements.p2y)\n}\n\ntype ").concat(ShapeInfo.PATH, " = {\n    segments:\n        PathData(data) <= { d: string as data }\n}\n\ntype ").concat(ShapeInfo.POLYGON, " = {\n    points:\n        ListOfCoords(coords) <= { points: [ (number, number); 0..] as coords };\n        ListOfPoints(points) <= { points: [ { x: number, y: number }; 0.. ] as points }\n}\n\ntype ").concat(ShapeInfo.POLYGON, "Array = {\n    elements =\n        ListOfCoords(coords) <=\n                [ (number, number); 0..] as coords;\n        \n    points: elements\n}\n\ntype ").concat(ShapeInfo.POLYLINE, " = {\n    points:\n        ListOfCoords(coords) <= { points: [ (number, number); 0..] as coords };\n        ListOfPoints(points) <= { points: [ { x: number, y: number }; 0.. ] as points }\n}\n\ntype ").concat(ShapeInfo.POLYLINE, "Array = {\n    elements =\n        ListOfCoords(coords) <=\n                [ (number, number); 0..] as coords;\n        \n    points: elements\n}\n\ntype ").concat(ShapeInfo.RECTANGLE, " = {\n    // collect top-left point in case we need to do math with it for\n    // bottom-right\n    topLeft =\n        // could also be _\n        { x, y } <=\n                { topLeft: { x: number as x, y: number as y } }\n            |   { topLeft: [ number as x, number as y ] }\n            |   { x: number as x, y: number as y }\n            |   { top: number as x, left: number as y };\n\n    topLeft:\n        Point2D(topLeft.x, topLeft.y),\n\n    bottomRight:\n        Point2D(x, y) <=\n                { bottomRight: { x: number as x, y: number as y } }\n            |   { bottomRight: [ number as x, number as y ] };\n        Point2D(topLeft.x + w, topLeft.y + h) <=\n                { w: number as w, h: number as h }\n            |   { width: number as w, height: number as h }\n            |   { size: { x: number as w, y: number as h } }\n            |   { size: [ number as w, number as h ] }\n}\n\ntype ").concat(ShapeInfo.RECTANGLE, "Array = {\n    elements =\n        _ <=\n                [ number as x, number as y, number as width, number as height ]\n            |   [ { x: number as x, y: number as y }, { x: number as width, y: number as height } ];\n    \n    topLeft: Point2D(elements.x, elements.y),\n    bottomRight: Point2D(elements.x + elements.width, elements.y + elements.height)\n}\n")); // console.log(util.inspect(normalizer.types.Circle, { depth: Infinity, colors: true }));
+var transformer = Transformer.fromSource("\ntransform Center =\n    Point2D(x, y) <=\n            { center: { x: number as x, y: number as y } }\n        |   { center: [ number as x, number as y ] }\n        |   { cx: number as x, cy: number as y }\n        |   { centerX: number as x, centerY: number as y }\n\ntransform Radii =\n    // the generator could also be _, but I like being explicit\n    { rx, ry } <=\n            { radii: { x: number as rx, y: number as ry } }\n        |   { radii: [ number as rx, number as ry ] }\n        |   { rx: number as rx, ry: number as ry }\n        |   { radiusX: number as rx, radiusY: number as ry }\n        \ntransform P1 =\n    Point2D(x, y) <=\n            { p1: { x: number as x, y: number as y } }\n        |   { p1: [ number as x, number as y ] }\n        \ntransform P2 =\n    Point2D(x, y) <=\n            { p2: { x: number as x, y: number as y } }\n        |   { p2: [ number as x, number as y ] }\n        |   { p2x: number as x, p2y: number as y }\n        \ntransform P3 =\n    Point2D(x, y) <=\n            { p3: { x: number as x, y: number as y } }\n        |   { p3: [ number as x, number as y ] }\n        |   { p3x: number as x, p3y: number as y }\n        \ntransform P4 =\n    Point2D(x, y) <=\n            { p4: { x: number as x, y: number as y } }\n        |   { p4: [ number as x, number as y ] }\n        |   { p4x: number as x, p4y: number as y }\n\ntransform Number =\n    _ <= number\n            \ntype ".concat(ShapeInfo.ARC, " = {\n    // collect some values so we don't have to repeat queries\n    radii = transform Radii;\n    \n    center: transform Center,\n    radiusX: radii.rx,\n    radiusY: radii.ry,\n    startRadians: transform Number,\n    endRadians: transform Number\n}\n\ntype ").concat(ShapeInfo.ARC, "Args = {\n    elements =\n        _ <=\n                [ number as centerX, number as centerY, number as radiusX, number as radiusY, number as startRadians, number as endRadians ]\n            |   [ { x: number as centerX, y: number as centerY }, number as radiusX, number as radiusY, number as startRadians, number as endRadians ];\n    \n    center: Point2D(elements.centerX, elements.centerY),\n    radiusX: elements.radiusX,\n    radiusY: elements.radiusY,\n    startRadians: elements.startRadians,\n    endRadians: elements.endRadians\n}\n\ntype ").concat(ShapeInfo.QUADRATIC_BEZIER, " = {\n    p1: transform P1,\n    p2: transform P2,\n    p3: transform P3\n}\n\ntype ").concat(ShapeInfo.QUADRATIC_BEZIER, "Args = {\n    elements =\n        _ <=\n                [ number as p1x, number as p1y, number as p2x, number as p2y, number as p3x, number as p3y ]\n            |   [ { x: number as p1x, y: number as p1y }, { x: number as p2x, y: number as p2y }, { x: number as p3x, y: number as p3y }];\n    \n    p1: Point2D(elements.p1x, elements.p1y),\n    p2: Point2D(elements.p2x, elements.p2y),\n    p3: Point2D(elements.p3x, elements.p3y)\n}\n\ntype ").concat(ShapeInfo.CUBIC_BEZIER, " = {\n    p1: transform P1,\n    p2: transform P2,\n    p3: transform P3,\n    p4: transform P4\n}\n\ntype ").concat(ShapeInfo.CUBIC_BEZIER, "Args = {\n    elements =\n        _ <=\n                [ number as p1x, number as p1y, number as p2x, number as p2y, number as p3x, number as p3y, number as p4x, number as p4y ]\n            |   [ { x: number as p1x, y: number as p1y }, { x: number as p2x, y: number as p2y }, { x: number as p3x, y: number as p3y }, { x: number as p4x, y: number as p4y }];\n    \n    p1: Point2D(elements.p1x, elements.p1y),\n    p2: Point2D(elements.p2x, elements.p2y),\n    p3: Point2D(elements.p3x, elements.p3y),\n    p4: Point2D(elements.p4x, elements.p4y)\n}\n\ntype ").concat(ShapeInfo.CIRCLE, " = {\n    center: transform Center,\n    radius: radius <=\n            { r: number as radius}\n        |   { radius: number as radius }\n}\n\ntype ").concat(ShapeInfo.CIRCLE, "Args = {\n    elements =\n        _ <=\n                [ number as centerX, number as centerY, number as radius ]\n            |   [ { x: number as centerX, y: number as centerY }, number as radius ];\n    \n    center: Point2D(elements.centerX, elements.centerY),\n    radius: elements.radius\n}\n\ntype ").concat(ShapeInfo.ELLIPSE, " = {\n    // collect some values so we don't have to repeat queries\n    radii = transform Radii;\n    \n    center: transform Center,\n    radiusX: radii.rx,\n    radiusY: radii.ry\n}\n\ntype ").concat(ShapeInfo.ELLIPSE, "Args = {\n    elements =\n        _ <=\n                [ number as centerX, number as centerY, number as radiusX, number as radiusY ]\n            |   [ { x: number as centerX, y: number as centerY }, number as radiusX, number as radiusY ];\n    \n    center: Point2D(elements.centerX, elements.centerY),\n    radiusX: elements.radiusX,\n    radiusY: elements.radiusY\n}\n\ntype ").concat(ShapeInfo.LINE, " = {\n    p1: transform P1,\n    p2: transform P2\n}\n\ntype ").concat(ShapeInfo.LINE, "Args = {\n    elements =\n        _ <=\n                [ number as p1x, number as p1y, number as p2x, number as p2y ]\n            |   [ { x: number as p1x, y: number as p1y }, { x: number as p2x, y: number as p2y } ];\n        \n    p1: Point2D(elements.p1x, elements.p1y),\n    p2: Point2D(elements.p2x, elements.p2y)\n}\n\ntype ").concat(ShapeInfo.PATH, " = {\n    segments:\n        PathData(data) <= { d: string as data }\n}\n\ntype ").concat(ShapeInfo.PATH, "Args = {\n    segments: PathData(data) <= string as data\n}\n\ntype ").concat(ShapeInfo.POLYGON, " = {\n    points:\n        ListOfCoords(coords) <= { points: [ (number, number); 0..] as coords };\n        ListOfPoints(points) <= { points: [ { x: number, y: number }; 0.. ] as points }\n}\n\ntype ").concat(ShapeInfo.POLYGON, "Args = {\n    points:\n         [ ListOfCoords(coords) ] <= [ (number, number); 0..] as coords;\n         [ ListOfPoints(points) ] <= [ { x: number, y: number }; 0.. ] as points\n}\n\ntype ").concat(ShapeInfo.POLYLINE, " = {\n    points:\n        ListOfCoords(coords) <= { points: [ (number, number); 0..] as coords };\n        ListOfPoints(points) <= { points: [ { x: number, y: number }; 0.. ] as points }\n}\n\ntype ").concat(ShapeInfo.POLYLINE, "Args = {\n    points:\n         [ ListOfCoords(coords) ] <= [ (number, number); 0..] as coords;\n         [ ListOfPoints(points) ] <= [ { x: number, y: number }; 0.. ] as points\n}\n\ntype ").concat(ShapeInfo.RECTANGLE, " = {\n    // collect top-left point in case we need to do math with it for\n    // bottom-right\n    topLeft =\n        // could also be _\n        { x, y } <=\n                { topLeft: { x: number as x, y: number as y } }\n            |   { topLeft: [ number as x, number as y ] }\n            |   { x: number as x, y: number as y }\n            |   { top: number as x, left: number as y };\n\n    topLeft:\n        Point2D(topLeft.x, topLeft.y),\n\n    bottomRight:\n        Point2D(x, y) <=\n                { bottomRight: { x: number as x, y: number as y } }\n            |   { bottomRight: [ number as x, number as y ] };\n        Point2D(topLeft.x + w, topLeft.y + h) <=\n                { w: number as w, h: number as h }\n            |   { width: number as w, height: number as h }\n            |   { size: { x: number as w, y: number as h } }\n            |   { size: [ number as w, number as h ] }\n}\n\ntype ").concat(ShapeInfo.RECTANGLE, "Args = {\n    elements =\n        _ <=\n                [ number as x, number as y, number as width, number as height ]\n            |   [ { x: number as x, y: number as y }, { x: number as width, y: number as height } ];\n    \n    topLeft: Point2D(elements.x, elements.y),\n    bottomRight: Point2D(elements.x + elements.width, elements.y + elements.height)\n}\n")); // console.log(util.inspect(normalizer.types.Circle, { depth: Infinity, colors: true }));
 
 transformer.typeCreators.Point2D = function (x, y) {
   return new Point2D(x, y);
@@ -6228,7 +7071,15 @@ transformer.typeCreators.ListOfPoints = function (ps) {
   });
 };
 
-var TWO_PI = 2.0 * Math.PI;
+transformer.typeCreators.PathData = function (pathData) {
+  var parser = new PathParser();
+  var handler = new PathHandler(ShapeInfo);
+  parser.setHandler(handler);
+  parser.parseData(pathData);
+  return handler.shapes;
+};
+
+var TWO_PI$1 = 2.0 * Math.PI;
 var UNIT_X = new Vector2D(1, 0);
 /**
  * @memberof module:kld-intersections.Intersection~
@@ -6276,9 +7127,9 @@ function bezout(e1, e2) {
  */
 
 
-function normalizeAngle(radians) {
-  var normal = radians % TWO_PI;
-  return normal < 0.0 ? normal + TWO_PI : normal;
+function normalizeAngle$1(radians) {
+  var normal = radians % TWO_PI$1;
+  return normal < 0.0 ? normal + TWO_PI$1 : normal;
 }
 /**
  * restrictPointsToArc
@@ -6299,11 +7150,11 @@ function restrictPointsToArc(intersections, center, radiusX, radiusY, startRadia
   }
 
   var result = new Intersection("No Intersection");
-  var startNormal = normalizeAngle(startRadians);
-  var endNormal = normalizeAngle(endRadians); // Advance end angle one turn if it's lower than the start angle so our interval test will work correctly
+  var startNormal = normalizeAngle$1(startRadians);
+  var endNormal = normalizeAngle$1(endRadians); // Advance end angle one turn if it's lower than the start angle so our interval test will work correctly
 
   if (endNormal < startNormal) {
-    endNormal += TWO_PI;
+    endNormal += TWO_PI$1;
   }
 
   console.log("[startRadians = ".concat(startRadians, " endRadians = ").concat(endRadians, "]"));
@@ -6315,7 +7166,7 @@ function restrictPointsToArc(intersections, center, radiusX, radiusY, startRadia
   try {
     for (var _iterator = intersections.points[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
       var p = _step.value;
-      var a = normalizeAngle(UNIT_X.angleBetween(Vector2D.fromPoints(center, p)));
+      var a = normalizeAngle$1(UNIT_X.angleBetween(Vector2D.fromPoints(center, p)));
 
       if (startNormal <= a && a <= endNormal) {
         result.appendPoint(p);
@@ -8099,845 +8950,6 @@ function () {
 }();
 
 /**
- *  PathLexeme.js
- *
- *  @copyright 2002, 2013 Kevin Lindsey
- *  @module PathLexeme
- */
-
-/**
- *  PathLexeme
- */
-var PathLexeme =
-/*#__PURE__*/
-function () {
-  /**
-   *  PathLexeme
-   *
-   *  @param {number} type
-   *  @param {string} text
-   */
-  function PathLexeme(type, text) {
-    _classCallCheck(this, PathLexeme);
-
-    this.type = type;
-    this.text = text;
-  }
-  /**
-   *  Determine if this lexeme is of the given type
-   *
-   *  @param {number} type
-   *  @returns {boolean}
-   */
-
-
-  _createClass(PathLexeme, [{
-    key: "typeis",
-    value: function typeis(type) {
-      return this.type === type;
-    }
-  }]);
-
-  return PathLexeme;
-}();
-/*
- * token type enumerations
- */
-
-
-PathLexeme.UNDEFINED = 0;
-PathLexeme.COMMAND = 1;
-PathLexeme.NUMBER = 2;
-PathLexeme.EOD = 3;
-
-/**
- *  Create a new instance of PathLexer
- */
-
-var PathLexer =
-/*#__PURE__*/
-function () {
-  /**
-   *  @param {string} [pathData]
-   */
-  function PathLexer(pathData) {
-    _classCallCheck(this, PathLexer);
-
-    if (pathData === null || pathData === undefined) {
-      pathData = "";
-    }
-
-    this.setPathData(pathData);
-  }
-  /**
-   *  setPathData
-   *
-   *  @param {string} pathData
-   */
-
-
-  _createClass(PathLexer, [{
-    key: "setPathData",
-    value: function setPathData(pathData) {
-      if (typeof pathData !== "string") {
-        throw new TypeError("The first parameter must be a string");
-      }
-
-      this._pathData = pathData;
-    }
-    /**
-     *  getNextToken
-     *
-     *  @returns {PathLexeme}
-     */
-
-  }, {
-    key: "getNextToken",
-    value: function getNextToken() {
-      var result = null;
-      var d = this._pathData;
-
-      while (result === null) {
-        if (d === null || d === "") {
-          result = new PathLexeme(PathLexeme.EOD, "");
-        } else if (d.match(/^([ \t\r\n,]+)/)) {
-          d = d.substr(RegExp.$1.length);
-        } else if (d.match(/^([AaCcHhLlMmQqSsTtVvZz])/)) {
-          result = new PathLexeme(PathLexeme.COMMAND, RegExp.$1);
-          d = d.substr(RegExp.$1.length);
-        }
-        /* eslint-disable-next-line unicorn/no-unsafe-regex */
-        else if (d.match(/^(([-+]?\d+(\.\d*)?|[-+]?\.\d+)([eE][-+]?\d+)?)/)) {
-            result = new PathLexeme(PathLexeme.NUMBER, RegExp.$1);
-            d = d.substr(RegExp.$1.length);
-          } else {
-            throw new SyntaxError("Unrecognized path data: ".concat(d));
-          }
-      }
-
-      this._pathData = d;
-      return result;
-    }
-  }]);
-
-  return PathLexer;
-}();
-
-var BOP = "BOP";
-/**
- *  PathParser
- */
-
-var PathParser =
-/*#__PURE__*/
-function () {
-  /**
-   * constructor
-   */
-  function PathParser() {
-    _classCallCheck(this, PathParser);
-
-    this._lexer = new PathLexer();
-    this._handler = null;
-  }
-  /**
-   *  parseData
-   *
-   *  @param {string} pathData
-   *  @throws {Error}
-   */
-
-
-  _createClass(PathParser, [{
-    key: "parseData",
-    value: function parseData(pathData) {
-      if (typeof pathData !== "string") {
-        throw new TypeError("The first parameter must be a string: ".concat(pathData));
-      } // begin parse
-
-
-      if (this._handler !== null && typeof this._handler.beginParse === "function") {
-        this._handler.beginParse();
-      } // pass the pathData to the lexer
-
-
-      var lexer = this._lexer;
-      lexer.setPathData(pathData); // set mode to signify new path - Beginning Of Path
-
-      var mode = BOP; // Process all tokens
-
-      var lastToken = null;
-      var token = lexer.getNextToken();
-
-      while (token.typeis(PathLexeme.EOD) === false) {
-        var parameterCount = void 0;
-        var params = []; // process current token
-
-        switch (token.type) {
-          case PathLexeme.COMMAND:
-            if (mode === BOP && token.text !== "M" && token.text !== "m") {
-              throw new SyntaxError("New paths must begin with a moveto command. Found '".concat(token.text, "'"));
-            } // Set new parsing mode
-
-
-            mode = token.text; // Get count of numbers that must follow this command
-
-            parameterCount = PathParser.PARAMCOUNT[token.text.toUpperCase()]; // Advance past command token
-
-            token = lexer.getNextToken();
-            break;
-
-          case PathLexeme.NUMBER:
-            // Most commands allow you to keep repeating parameters
-            // without specifying the command again.  We just assume
-            // that is the case and do nothing since the mode remains
-            // the same
-            if (mode === BOP) {
-              throw new SyntaxError("New paths must begin with a moveto command. Found '".concat(token.text, "'"));
-            } else {
-              parameterCount = PathParser.PARAMCOUNT[mode.toUpperCase()];
-            }
-
-            break;
-
-          default:
-            throw new SyntaxError("Unrecognized command type: ".concat(token.type));
-        } // Get parameters
-
-
-        for (var i = 0; i < parameterCount; i++) {
-          switch (token.type) {
-            case PathLexeme.COMMAND:
-              throw new SyntaxError("Parameter must be a number. Found '".concat(token.text, "'"));
-
-            case PathLexeme.NUMBER:
-              // convert current parameter to a float and add to
-              // parameter list
-              params[i] = parseFloat(token.text);
-              break;
-
-            case PathLexeme.EOD:
-              throw new SyntaxError("Unexpected end of string");
-
-            default:
-              throw new SyntaxError("Unrecognized parameter type. Found type '".concat(token.type, "'"));
-          }
-
-          token = lexer.getNextToken();
-        } // fire handler
-
-
-        if (this._handler !== null) {
-          var handler = this._handler;
-          var methodName = PathParser.METHODNAME[mode]; // convert types for arcs
-
-          if (mode === "a" || mode === "A") {
-            params[3] = params[3] !== 0;
-            params[4] = params[4] !== 0;
-          }
-
-          if (handler !== null && typeof handler[methodName] === "function") {
-            handler[methodName].apply(handler, params);
-          }
-        } // Lineto's follow moveto when no command follows moveto params.  Go
-        // ahead and set the mode just in case no command follows the moveto
-        // command
-
-
-        switch (mode) {
-          case "M":
-            mode = "L";
-            break;
-
-          case "m":
-            mode = "l";
-            break;
-
-          case "Z":
-          case "z":
-            mode = "BOP";
-            break;
-
-          default: // ignore for now
-
-        }
-
-        if (token === lastToken) {
-          throw new SyntaxError("Parser stalled on '".concat(token.text, "'"));
-        } else {
-          lastToken = token;
-        }
-      } // end parse
-
-
-      if (this._handler !== null && typeof this._handler.endParse === "function") {
-        this._handler.endParse();
-      }
-    }
-    /**
-     *  setHandler
-     *
-     *  @param {Object} handler
-     */
-
-  }, {
-    key: "setHandler",
-    value: function setHandler(handler) {
-      this._handler = handler;
-    }
-  }]);
-
-  return PathParser;
-}();
-/*
- * class constants
- */
-
-
-PathParser.PARAMCOUNT = {
-  A: 7,
-  C: 6,
-  H: 1,
-  L: 2,
-  M: 2,
-  Q: 4,
-  S: 4,
-  T: 2,
-  V: 1,
-  Z: 0
-};
-PathParser.METHODNAME = {
-  A: "arcAbs",
-  a: "arcRel",
-  C: "curvetoCubicAbs",
-  c: "curvetoCubicRel",
-  H: "linetoHorizontalAbs",
-  h: "linetoHorizontalRel",
-  L: "linetoAbs",
-  l: "linetoRel",
-  M: "movetoAbs",
-  m: "movetoRel",
-  Q: "curvetoQuadraticAbs",
-  q: "curvetoQuadraticRel",
-  S: "curvetoCubicSmoothAbs",
-  s: "curvetoCubicSmoothRel",
-  T: "curvetoQuadraticSmoothAbs",
-  t: "curvetoQuadraticSmoothRel",
-  V: "linetoVerticalAbs",
-  v: "linetoVerticalRel",
-  Z: "closePath",
-  z: "closePath"
-};
-
-/**
- *  @module kld-path-parser
- */
-
-var TWO_PI$1 = 2.0 * Math.PI;
-/**
- * normalizeAngle
- *
- * @param {number} radians
- * @returns {number}
- */
-
-function normalizeAngle$1(radians) {
-  var normal = radians % TWO_PI$1;
-  return normal < 0.0 ? normal + TWO_PI$1 : normal;
-}
-/**
- * Based on the SVG 1.1 specification, Appendix F: Implementation Requirements,
- * Section F.6 "Elliptical arc implementation notes"
- * {@see https://www.w3.org/TR/SVG11/implnote.html#ArcImplementationNotes}
- *
- * @param {module:kld-affine.Point2D} startPoint
- * @param {module:kld-affine.Point2D} endPoint
- * @param {number} rx
- * @param {number} ry
- * @param {number} angle
- * @param {boolean} arcFlag
- * @param {boolean} sweepFlag
- * @returns {Array}
- */
-
-
-function getArcParameters(startPoint, endPoint, rx, ry, angle, arcFlag, sweepFlag) {
-  angle = angle * Math.PI / 180;
-  var c = Math.cos(angle);
-  var s = Math.sin(angle);
-  var TOLERANCE = 1e-6; // Section (F.6.5.1)
-
-  var halfDiff = startPoint.subtract(endPoint).multiply(0.5);
-  var x1p = halfDiff.x * c + halfDiff.y * s;
-  var y1p = halfDiff.x * -s + halfDiff.y * c; // Section (F.6.6.1)
-
-  rx = Math.abs(rx);
-  ry = Math.abs(ry); // Section (F.6.6.2)
-
-  var x1px1p = x1p * x1p;
-  var y1py1p = y1p * y1p;
-  var lambda = x1px1p / (rx * rx) + y1py1p / (ry * ry); // Section (F.6.6.3)
-
-  if (lambda > 1) {
-    var _factor = Math.sqrt(lambda);
-
-    rx *= _factor;
-    ry *= _factor;
-  } // Section (F.6.5.2)
-
-
-  var rxrx = rx * rx;
-  var ryry = ry * ry;
-  var rxy1 = rxrx * y1py1p;
-  var ryx1 = ryry * x1px1p;
-  var factor = (rxrx * ryry - rxy1 - ryx1) / (rxy1 + ryx1);
-
-  if (Math.abs(factor) < TOLERANCE) {
-    factor = 0;
-  }
-
-  var sq = Math.sqrt(factor);
-
-  if (arcFlag === sweepFlag) {
-    sq = -sq;
-  } // Section (F.6.5.3)
-
-
-  var mid = startPoint.add(endPoint).multiply(0.5);
-  var cxp = sq * rx * y1p / ry;
-  var cyp = sq * -ry * x1p / rx; // Section (F.6.5.5 - F.6.5.6)
-
-  var xcr1 = (x1p - cxp) / rx;
-  var xcr2 = (x1p + cxp) / rx;
-  var ycr1 = (y1p - cyp) / ry;
-  var ycr2 = (y1p + cyp) / ry;
-  var theta1 = new Vector2D(1, 0).angleBetween(new Vector2D(xcr1, ycr1));
-  var deltaTheta = normalizeAngle$1(new Vector2D(xcr1, ycr1).angleBetween(new Vector2D(-xcr2, -ycr2)));
-
-  if (sweepFlag === false) {
-    deltaTheta -= TWO_PI$1;
-  }
-
-  return [cxp * c - cyp * s + mid.x, cxp * s + cyp * c + mid.y, rx, ry, theta1, theta1 + deltaTheta];
-}
-/**
- *  PathHandler
- */
-
-
-var PathHandler =
-/*#__PURE__*/
-function () {
-  /**
-   * PathHandler
-   */
-  function PathHandler() {
-    _classCallCheck(this, PathHandler);
-
-    this.shapes = [];
-    this.firstX = null;
-    this.firstY = null;
-    this.lastX = null;
-    this.lastY = null;
-    this.lastCommand = null;
-  }
-  /**
-   * beginParse
-   */
-
-
-  _createClass(PathHandler, [{
-    key: "beginParse",
-    value: function beginParse() {
-      // zero out the sub-path array
-      this.shapes = []; // clear firstX, firstY, lastX, and lastY
-
-      this.firstX = null;
-      this.firstY = null;
-      this.lastX = null;
-      this.lastY = null; // need to remember last command type to determine how to handle the
-      // relative Bezier commands
-
-      this.lastCommand = null;
-    }
-    /**
-     *  addShape
-     *
-     *  @param {ShapeInfo} shape
-     */
-
-  }, {
-    key: "addShape",
-    value: function addShape(shape) {
-      this.shapes.push(shape);
-    }
-    /**
-     *  arcAbs - A
-     *
-     *  @param {number} rx
-     *  @param {number} ry
-     *  @param {number} xAxisRotation
-     *  @param {boolean} arcFlag
-     *  @param {boolean} sweepFlag
-     *  @param {number} x
-     *  @param {number} y
-     */
-
-  }, {
-    key: "arcAbs",
-    value: function arcAbs(rx, ry, xAxisRotation, arcFlag, sweepFlag, x, y) {
-      if (rx === 0 || ry === 0) {
-        this.addShape(Shapes.line(this.lastX, this.lastY, x, y));
-      } else {
-        var arcParameters = getArcParameters(new Point2D(this.lastX, this.lastY), new Point2D(x, y), rx, ry, xAxisRotation, arcFlag, sweepFlag);
-        this.addShape(Shapes.arc.apply(Shapes, _toConsumableArray(arcParameters)));
-      }
-
-      this.lastCommand = "A";
-      this.lastX = x;
-      this.lastY = y;
-    }
-    /**
-     *  arcRel - a
-     *
-     *  @param {number} rx
-     *  @param {number} ry
-     *  @param {number} xAxisRotation
-     *  @param {boolean} arcFlag
-     *  @param {boolean} sweepFlag
-     *  @param {number} x
-     *  @param {number} y
-     */
-
-  }, {
-    key: "arcRel",
-    value: function arcRel(rx, ry, xAxisRotation, arcFlag, sweepFlag, x, y) {
-      if (rx === 0 || ry === 0) {
-        this.addShape(Shapes.line(this.lastX, this.lastY, this.lastX + x, this.lastY + y));
-      } else {
-        var arcParameters = getArcParameters(new Point2D(this.lastX, this.lastY), new Point2D(this.lastX + x, this.lastY + y), rx, ry, xAxisRotation, arcFlag, sweepFlag);
-        this.addShape(Shapes.arc.apply(Shapes, _toConsumableArray(arcParameters)));
-      }
-
-      this.lastCommand = "a";
-      this.lastX += x;
-      this.lastY += y;
-    }
-    /**
-     *  curvetoCubicAbs - C
-     *
-     *  @param {number} x1
-     *  @param {number} y1
-     *  @param {number} x2
-     *  @param {number} y2
-     *  @param {number} x
-     *  @param {number} y
-     */
-
-  }, {
-    key: "curvetoCubicAbs",
-    value: function curvetoCubicAbs(x1, y1, x2, y2, x, y) {
-      this.addShape(Shapes.cubicBezier(this.lastX, this.lastY, x1, y1, x2, y2, x, y));
-      this.lastX = x;
-      this.lastY = y;
-      this.lastCommand = "C";
-    }
-    /**
-     *  curvetoCubicRel - c
-     *
-     *  @param {number} x1
-     *  @param {number} y1
-     *  @param {number} x2
-     *  @param {number} y2
-     *  @param {number} x
-     *  @param {number} y
-     */
-
-  }, {
-    key: "curvetoCubicRel",
-    value: function curvetoCubicRel(x1, y1, x2, y2, x, y) {
-      this.addShape(Shapes.cubicBezier(this.lastX, this.lastY, this.lastX + x1, this.lastY + y1, this.lastX + x2, this.lastY + y2, this.lastX + x, this.lastY + y));
-      this.lastX += x;
-      this.lastY += y;
-      this.lastCommand = "c";
-    }
-    /**
-     *  linetoHorizontalAbs - H
-     *
-     *  @param {number} x
-     */
-
-  }, {
-    key: "linetoHorizontalAbs",
-    value: function linetoHorizontalAbs(x) {
-      this.addShape(Shapes.line(this.lastX, this.lastY, x, this.lastY));
-      this.lastX = x;
-      this.lastCommand = "H";
-    }
-    /**
-     *  linetoHorizontalRel - h
-     *
-     *  @param {number} x
-     */
-
-  }, {
-    key: "linetoHorizontalRel",
-    value: function linetoHorizontalRel(x) {
-      this.addShape(Shapes.line(this.lastX, this.lastY, this.lastX + x, this.lastY));
-      this.lastX += x;
-      this.lastCommand = "h";
-    }
-    /**
-     *  linetoAbs - L
-     *
-     *  @param {number} x
-     *  @param {number} y
-     */
-
-  }, {
-    key: "linetoAbs",
-    value: function linetoAbs(x, y) {
-      this.addShape(Shapes.line(this.lastX, this.lastY, x, y));
-      this.lastX = x;
-      this.lastY = y;
-      this.lastCommand = "L";
-    }
-    /**
-     *  linetoRel - l
-     *
-     *  @param {number} x
-     *  @param {number} y
-     */
-
-  }, {
-    key: "linetoRel",
-    value: function linetoRel(x, y) {
-      this.addShape(Shapes.line(this.lastX, this.lastY, this.lastX + x, this.lastY + y));
-      this.lastX += x;
-      this.lastY += y;
-      this.lastCommand = "l";
-    }
-    /**
-     *  movetoAbs - M
-     *
-     *  @param {number} x
-     *  @param {number} y
-     */
-
-  }, {
-    key: "movetoAbs",
-    value: function movetoAbs(x, y) {
-      this.firstX = x;
-      this.firstY = y;
-      this.lastX = x;
-      this.lastY = y;
-      this.lastCommand = "M";
-    }
-    /**
-     *  movetoRel - m
-     *
-     *  @param {number} x
-     *  @param {number} y
-     */
-
-  }, {
-    key: "movetoRel",
-    value: function movetoRel(x, y) {
-      this.firstX += x;
-      this.firstY += y;
-      this.lastX += x;
-      this.lastY += y;
-      this.lastCommand = "m";
-    }
-    /**
-     *  curvetoQuadraticAbs - Q
-     *
-     *  @param {number} x1
-     *  @param {number} y1
-     *  @param {number} x
-     *  @param {number} y
-     */
-
-  }, {
-    key: "curvetoQuadraticAbs",
-    value: function curvetoQuadraticAbs(x1, y1, x, y) {
-      this.addShape(Shapes.quadraticBezier(this.lastX, this.lastY, x1, y1, x, y));
-      this.lastX = x;
-      this.lastY = y;
-      this.lastCommand = "Q";
-    }
-    /**
-     *  curvetoQuadraticRel - q
-     *
-     *  @param {number} x1
-     *  @param {number} y1
-     *  @param {number} x
-     *  @param {number} y
-     */
-
-  }, {
-    key: "curvetoQuadraticRel",
-    value: function curvetoQuadraticRel(x1, y1, x, y) {
-      this.addShape(Shapes.quadraticBezier(this.lastX, this.lastY, this.lastX + x1, this.lastY + y1, this.lastX + x, this.lastY + y));
-      this.lastX += x;
-      this.lastY += y;
-      this.lastCommand = "q";
-    }
-    /**
-     *  curvetoCubicSmoothAbs - S
-     *
-     *  @param {number} x2
-     *  @param {number} y2
-     *  @param {number} x
-     *  @param {number} y
-     */
-
-  }, {
-    key: "curvetoCubicSmoothAbs",
-    value: function curvetoCubicSmoothAbs(x2, y2, x, y) {
-      var controlX, controlY;
-
-      if (this.lastCommand.match(/^[SsCc]$/)) {
-        var secondToLast = this.shapes[this.shapes.length - 1].args[2];
-        controlX = 2 * this.lastX - secondToLast.x;
-        controlY = 2 * this.lastY - secondToLast.y;
-      } else {
-        controlX = this.lastX;
-        controlY = this.lastY;
-      }
-
-      this.addShape(Shapes.cubicBezier(this.lastX, this.lastY, controlX, controlY, x2, y2, x, y));
-      this.lastX = x;
-      this.lastY = y;
-      this.lastCommand = "S";
-    }
-    /**
-     *  curvetoCubicSmoothRel - s
-     *
-     *  @param {number} x2
-     *  @param {number} y2
-     *  @param {number} x
-     *  @param {number} y
-     */
-
-  }, {
-    key: "curvetoCubicSmoothRel",
-    value: function curvetoCubicSmoothRel(x2, y2, x, y) {
-      var controlX, controlY;
-
-      if (this.lastCommand.match(/^[SsCc]$/)) {
-        var secondToLast = this.shapes[this.shapes.length - 1].args[2];
-        controlX = 2 * this.lastX - secondToLast.x;
-        controlY = 2 * this.lastY - secondToLast.y;
-      } else {
-        controlX = this.lastX;
-        controlY = this.lastY;
-      }
-
-      this.addShape(Shapes.cubicBezier(this.lastX, this.lastY, controlX, controlY, this.lastX + x2, this.lastY + y2, this.lastX + x, this.lastY + y));
-      this.lastX += x;
-      this.lastY += y;
-      this.lastCommand = "s";
-    }
-    /**
-     *  curvetoQuadraticSmoothAbs - T
-     *
-     *  @param {number} x
-     *  @param {number} y
-     */
-
-  }, {
-    key: "curvetoQuadraticSmoothAbs",
-    value: function curvetoQuadraticSmoothAbs(x, y) {
-      var controlX, controlY;
-
-      if (this.lastCommand.match(/^[QqTt]$/)) {
-        var secondToLast = this.shapes[this.shapes.length - 1].args[1];
-        controlX = 2 * this.lastX - secondToLast.x;
-        controlY = 2 * this.lastY - secondToLast.y;
-      } else {
-        controlX = this.lastX;
-        controlY = this.lastY;
-      }
-
-      this.addShape(Shapes.quadraticBezier(this.lastX, this.lastY, controlX, controlY, x, y));
-      this.lastX = x;
-      this.lastY = y;
-      this.lastCommand = "T";
-    }
-    /**
-     *  curvetoQuadraticSmoothRel - t
-     *
-     *  @param {number} x
-     *  @param {number} y
-     */
-
-  }, {
-    key: "curvetoQuadraticSmoothRel",
-    value: function curvetoQuadraticSmoothRel(x, y) {
-      var controlX, controlY;
-
-      if (this.lastCommand.match(/^[QqTt]$/)) {
-        var secondToLast = this.shapes[this.shapes.length - 1].args[1];
-        controlX = 2 * this.lastX - secondToLast.x;
-        controlY = 2 * this.lastY - secondToLast.y;
-      } else {
-        controlX = this.lastX;
-        controlY = this.lastY;
-      }
-
-      this.addShape(Shapes.quadraticBezier(this.lastX, this.lastY, controlX, controlY, this.lastX + x, this.lastY + y));
-      this.lastX += x;
-      this.lastY += y;
-      this.lastCommand = "t";
-    }
-    /**
-     *  linetoVerticalAbs - V
-     *
-     *  @param {number} y
-     */
-
-  }, {
-    key: "linetoVerticalAbs",
-    value: function linetoVerticalAbs(y) {
-      this.addShape(Shapes.line(this.lastX, this.lastY, this.lastX, y));
-      this.lastY = y;
-      this.lastCommand = "V";
-    }
-    /**
-     *  linetoVerticalRel - v
-     *
-     *  @param {number} y
-     */
-
-  }, {
-    key: "linetoVerticalRel",
-    value: function linetoVerticalRel(y) {
-      this.addShape(Shapes.line(this.lastX, this.lastY, this.lastX, this.lastY + y));
-      this.lastY += y;
-      this.lastCommand = "v";
-    }
-    /**
-     *  closePath - z or Z
-     */
-
-  }, {
-    key: "closePath",
-    value: function closePath() {
-      this.addShape(Shapes.line(this.lastX, this.lastY, this.firstX, this.firstY));
-      this.lastX = this.firstX;
-      this.lastY = this.firstY;
-      this.lastCommand = "z";
-    }
-  }]);
-
-  return PathHandler;
-}();
-
-var parser$1 = new PathParser();
-var handler = new PathHandler();
-parser$1.setHandler(handler);
-/**
  * Build shapes for intersection
  */
 
@@ -8963,31 +8975,7 @@ function () {
      * @returns {module:kld-intersections.ShapeInfo}
      */
     value: function arc(centerX, centerY, radiusX, radiusY, startRadians, endRadians) {
-      if (isNaN(centerX)) {
-        throw TypeError("Expected centerX to be a number, but found ".concat(centerX));
-      }
-
-      if (isNaN(centerY)) {
-        throw TypeError("Expected centerY to be a number, but found ".concat(centerY));
-      }
-
-      if (isNaN(radiusX)) {
-        throw TypeError("Expected radiusX to be a number, but found ".concat(radiusX));
-      }
-
-      if (isNaN(radiusY)) {
-        throw TypeError("Expected radiusY to be a number, but found ".concat(radiusY));
-      }
-
-      if (isNaN(startRadians)) {
-        throw TypeError("Expected startRadians to be a number, but found ".concat(startRadians));
-      }
-
-      if (isNaN(endRadians)) {
-        throw TypeError("Expected endRadians to be a number, but found ".concat(endRadians));
-      }
-
-      return new ShapeInfo(ShapeInfo.ARC, [new Point2D(centerX, centerY), radiusX, radiusY, startRadians, endRadians]);
+      return ShapeInfo.arc.apply(ShapeInfo, arguments);
     }
     /**
      *  quadraticBezier
@@ -9004,31 +8992,7 @@ function () {
   }, {
     key: "quadraticBezier",
     value: function quadraticBezier(p1x, p1y, p2x, p2y, p3x, p3y) {
-      if (isNaN(p1x)) {
-        throw TypeError("Expected p1x to be a number, but found ".concat(p1x));
-      }
-
-      if (isNaN(p1y)) {
-        throw TypeError("Expected p1y to be a number, but found ".concat(p1y));
-      }
-
-      if (isNaN(p2x)) {
-        throw TypeError("Expected p2x to be a number, but found ".concat(p2x));
-      }
-
-      if (isNaN(p2y)) {
-        throw TypeError("Expected p2y to be a number, but found ".concat(p2y));
-      }
-
-      if (isNaN(p3x)) {
-        throw TypeError("Expected p3x to be a number, but found ".concat(p3x));
-      }
-
-      if (isNaN(p3y)) {
-        throw TypeError("Expected p3y to be a number, but found ".concat(p3y));
-      }
-
-      return new ShapeInfo(ShapeInfo.QUADRATIC_BEZIER, [new Point2D(p1x, p1y), new Point2D(p2x, p2y), new Point2D(p3x, p3y)]);
+      return ShapeInfo.quadraticBezier.apply(ShapeInfo, arguments);
     }
     /**
      *  cubicBezier
@@ -9047,39 +9011,7 @@ function () {
   }, {
     key: "cubicBezier",
     value: function cubicBezier(p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y) {
-      if (isNaN(p1x)) {
-        throw TypeError("Expected p1x to be a number, but found ".concat(p1x));
-      }
-
-      if (isNaN(p1y)) {
-        throw TypeError("Expected p1y to be a number, but found ".concat(p1y));
-      }
-
-      if (isNaN(p2x)) {
-        throw TypeError("Expected p2x to be a number, but found ".concat(p2x));
-      }
-
-      if (isNaN(p2y)) {
-        throw TypeError("Expected p2y to be a number, but found ".concat(p2y));
-      }
-
-      if (isNaN(p3x)) {
-        throw TypeError("Expected p3x to be a number, but found ".concat(p3x));
-      }
-
-      if (isNaN(p3y)) {
-        throw TypeError("Expected p3y to be a number, but found ".concat(p3y));
-      }
-
-      if (isNaN(p4x)) {
-        throw TypeError("Expected p4x to be a number, but found ".concat(p4x));
-      }
-
-      if (isNaN(p4y)) {
-        throw TypeError("Expected p4y to be a number, but found ".concat(p4y));
-      }
-
-      return new ShapeInfo(ShapeInfo.CUBIC_BEZIER, [new Point2D(p1x, p1y), new Point2D(p2x, p2y), new Point2D(p3x, p3y), new Point2D(p4x, p4y)]);
+      return ShapeInfo.cubicBezier.apply(ShapeInfo, arguments);
     }
     /**
      *  circle
@@ -9093,19 +9025,7 @@ function () {
   }, {
     key: "circle",
     value: function circle(centerX, centerY, radius) {
-      if (isNaN(centerX)) {
-        throw TypeError("Expected centerX to be a number, but found ".concat(centerX));
-      }
-
-      if (isNaN(centerY)) {
-        throw TypeError("Expected centerY to be a number, but found ".concat(centerY));
-      }
-
-      if (isNaN(radius)) {
-        throw TypeError("Expected radius to be a number, but found ".concat(radius));
-      }
-
-      return new ShapeInfo(ShapeInfo.CIRCLE, [new Point2D(centerX, centerY), radius]);
+      return ShapeInfo.circle.apply(ShapeInfo, arguments);
     }
     /**
      *  ellipse
@@ -9120,23 +9040,7 @@ function () {
   }, {
     key: "ellipse",
     value: function ellipse(centerX, centerY, radiusX, radiusY) {
-      if (isNaN(centerX)) {
-        throw TypeError("Expected centerX to be a number, but found ".concat(centerX));
-      }
-
-      if (isNaN(centerY)) {
-        throw TypeError("Expected centerY to be a number, but found ".concat(centerY));
-      }
-
-      if (isNaN(radiusX)) {
-        throw TypeError("Expected radiusX to be a number, but found ".concat(radiusX));
-      }
-
-      if (isNaN(radiusY)) {
-        throw TypeError("Expected radiusY to be a number, but found ".concat(radiusY));
-      }
-
-      return new ShapeInfo(ShapeInfo.ELLIPSE, [new Point2D(centerX, centerY), radiusX, radiusY]);
+      return ShapeInfo.ellipse.apply(ShapeInfo, arguments);
     }
     /**
      *  line
@@ -9151,23 +9055,7 @@ function () {
   }, {
     key: "line",
     value: function line(p1x, p1y, p2x, p2y) {
-      if (isNaN(p1x)) {
-        throw TypeError("Expected p1x to be a number, but found ".concat(p1x));
-      }
-
-      if (isNaN(p1y)) {
-        throw TypeError("Expected p1y to be a number, but found ".concat(p1y));
-      }
-
-      if (isNaN(p2x)) {
-        throw TypeError("Expected p2x to be a number, but found ".concat(p2x));
-      }
-
-      if (isNaN(p2y)) {
-        throw TypeError("Expected p2y to be a number, but found ".concat(p2y));
-      }
-
-      return new ShapeInfo(ShapeInfo.LINE, [new Point2D(p1x, p1y), new Point2D(p2x, p2y)]);
+      return ShapeInfo.line.apply(ShapeInfo, arguments);
     }
     /**
      *  path
@@ -9179,12 +9067,7 @@ function () {
   }, {
     key: "path",
     value: function path(pathData) {
-      if (typeof pathData !== "string") {
-        throw TypeError("Expected pathData to be a string, but found ".concat(pathData));
-      }
-
-      parser$1.parseData(pathData);
-      return new ShapeInfo(ShapeInfo.PATH, handler.shapes);
+      return ShapeInfo.path.apply(ShapeInfo, arguments);
     }
     /**
      *  polygon
@@ -9196,24 +9079,7 @@ function () {
   }, {
     key: "polygon",
     value: function polygon(coords) {
-      /* eslint-disable-next-line compat/compat */
-      if (Array.isArray(coords) === false) {
-        throw TypeError("Expected points to be an Array, but found ".concat(coords));
-      }
-
-      if (coords.some(function (c) {
-        return isNaN(c);
-      })) {
-        throw TypeError("Expected all members of coords to be numbers");
-      }
-
-      var points = [];
-
-      for (var i = 0; i < coords.length; i += 2) {
-        points.push(new Point2D(coords[i], coords[i + 1]));
-      }
-
-      return new ShapeInfo(ShapeInfo.POLYGON, [points]);
+      return ShapeInfo.polygon.apply(ShapeInfo, arguments);
     }
     /**
      *  polyline
@@ -9225,24 +9091,7 @@ function () {
   }, {
     key: "polyline",
     value: function polyline(coords) {
-      /* eslint-disable-next-line compat/compat */
-      if (Array.isArray(coords) === false) {
-        throw TypeError("Expected points to be an Array, but found ".concat(coords));
-      }
-
-      if (coords.some(function (c) {
-        return isNaN(c);
-      })) {
-        throw TypeError("Expected all members of coords to be numbers");
-      }
-
-      var points = [];
-
-      for (var i = 0; i < coords.length; i += 2) {
-        points.push(new Point2D(coords[i], coords[i + 1]));
-      }
-
-      return new ShapeInfo(ShapeInfo.POLYLINE, [points]);
+      return ShapeInfo.polyline.apply(ShapeInfo, arguments);
     }
     /**
      *  rectangle
@@ -9356,27 +9205,7 @@ function () {
      * @returns {module:kld-intersections.ShapeInfo}
      */
     value: function arc(center, radiusX, radiusY, startRadians, endRadians) {
-      if (center instanceof Point2D === false) {
-        throw TypeError("Expected center to be a Point2D, but found ".concat(center));
-      }
-
-      if (isNaN(radiusX)) {
-        throw TypeError("Expected radiusX to be a number, but found ".concat(radiusX));
-      }
-
-      if (isNaN(radiusY)) {
-        throw TypeError("Expected radiusY to be a number, but found ".concat(radiusY));
-      }
-
-      if (isNaN(startRadians)) {
-        throw TypeError("Expected startRadians to be a number, but found ".concat(startRadians));
-      }
-
-      if (isNaN(endRadians)) {
-        throw TypeError("Expected endRadians to be a number, but found ".concat(endRadians));
-      }
-
-      return new ShapeInfo(ShapeInfo.ARC, [center, radiusX, radiusY, startRadians, endRadians]);
+      return ShapeInfo.arc.apply(ShapeInfo, arguments);
     }
     /**
      *  quadraticBezier
@@ -9389,19 +9218,7 @@ function () {
   }, {
     key: "quadraticBezier",
     value: function quadraticBezier(p1, p2, p3) {
-      if (p1 instanceof Point2D === false) {
-        throw TypeError("Expected p1 to be a Point2D, but found ".concat(p1));
-      }
-
-      if (p2 instanceof Point2D === false) {
-        throw TypeError("Expected p2 to be a Point2D, but found ".concat(p2));
-      }
-
-      if (p3 instanceof Point2D === false) {
-        throw TypeError("Expected p3 to be a Point2D, but found ".concat(p3));
-      }
-
-      return new ShapeInfo(ShapeInfo.QUADRATIC_BEZIER, [p1, p2, p3]);
+      return ShapeInfo.quadraticBezier.apply(ShapeInfo, arguments);
     }
     /**
      *  cubicBezier
@@ -9416,23 +9233,7 @@ function () {
   }, {
     key: "cubicBezier",
     value: function cubicBezier(p1, p2, p3, p4) {
-      if (p1 instanceof Point2D === false) {
-        throw TypeError("Expected p1 to be a Point2D, but found ".concat(p1));
-      }
-
-      if (p2 instanceof Point2D === false) {
-        throw TypeError("Expected p2 to be a Point2D, but found ".concat(p2));
-      }
-
-      if (p3 instanceof Point2D === false) {
-        throw TypeError("Expected p3 to be a Point2D, but found ".concat(p3));
-      }
-
-      if (p4 instanceof Point2D === false) {
-        throw TypeError("Expected p4 to be a Point2D, but found ".concat(p4));
-      }
-
-      return new ShapeInfo(ShapeInfo.CUBIC_BEZIER, [p1, p2, p3, p4]);
+      return ShapeInfo.cubicBezier.apply(ShapeInfo, arguments);
     }
     /**
      *  circle
@@ -9445,15 +9246,7 @@ function () {
   }, {
     key: "circle",
     value: function circle(center, radius) {
-      if (center instanceof Point2D === false) {
-        throw TypeError("Expected center to be a Point2D, but found ".concat(center));
-      }
-
-      if (isNaN(radius)) {
-        throw TypeError("Expected radius to be a number, but found ".concat(radius));
-      }
-
-      return new ShapeInfo(ShapeInfo.CIRCLE, [center, radius]);
+      return ShapeInfo.circle.apply(ShapeInfo, arguments);
     }
     /**
      *  ellipse
@@ -9467,19 +9260,7 @@ function () {
   }, {
     key: "ellipse",
     value: function ellipse(center, radiusX, radiusY) {
-      if (center instanceof Point2D === false) {
-        throw TypeError("Expected center to be a Point2D, but found ".concat(center));
-      }
-
-      if (isNaN(radiusX)) {
-        throw TypeError("Expected radiusX to be a number, but found ".concat(radiusX));
-      }
-
-      if (isNaN(radiusY)) {
-        throw TypeError("Expected radiusY to be a number, but found ".concat(radiusY));
-      }
-
-      return new ShapeInfo(ShapeInfo.ELLIPSE, [center, radiusX, radiusY]);
+      return ShapeInfo.ellipse.apply(ShapeInfo, arguments);
     }
     /**
      *  line
@@ -9492,15 +9273,7 @@ function () {
   }, {
     key: "line",
     value: function line(p1, p2) {
-      if (p1 instanceof Point2D === false) {
-        throw TypeError("Expected p1 to be a Point2D, but found ".concat(p1));
-      }
-
-      if (p2 instanceof Point2D === false) {
-        throw TypeError("Expected p2 to be a Point2D, but found ".concat(p2));
-      }
-
-      return new ShapeInfo(ShapeInfo.LINE, [p1, p2]);
+      return ShapeInfo.line.apply(ShapeInfo, arguments);
     }
     /**
      *  path
@@ -9512,7 +9285,7 @@ function () {
   }, {
     key: "path",
     value: function path(pathData) {
-      return Shapes.path(pathData);
+      return ShapeInfo.path.apply(ShapeInfo, arguments);
     }
     /**
      *  polygon
@@ -9524,18 +9297,7 @@ function () {
   }, {
     key: "polygon",
     value: function polygon(points) {
-      /* eslint-disable-next-line compat/compat */
-      if (Array.isArray(points) === false) {
-        throw TypeError("Expected points to be an Array, but found ".concat(points));
-      }
-
-      if (points.some(function (p) {
-        return p instanceof Point2D === false;
-      })) {
-        throw TypeError("Expected all members of points to be Point2Ds");
-      }
-
-      return new ShapeInfo(ShapeInfo.POLYGON, [points]);
+      return ShapeInfo.polygon.apply(ShapeInfo, arguments);
     }
     /**
      *  polyline
@@ -9547,13 +9309,7 @@ function () {
   }, {
     key: "polyline",
     value: function polyline(points) {
-      if (points.some(function (p) {
-        return p instanceof Point2D === false;
-      })) {
-        throw TypeError("Expected all members of points to be Point2Ds");
-      }
-
-      return new ShapeInfo(ShapeInfo.POLYLINE, [points]);
+      return ShapeInfo.polyline.apply(ShapeInfo, arguments);
     }
     /**
      *  rectangle
@@ -9568,26 +9324,7 @@ function () {
   }, {
     key: "rectangle",
     value: function rectangle(topLeft, size) {
-      var rx = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-      var ry = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
-
-      if (topLeft instanceof Point2D === false) {
-        throw TypeError("Expected topLeft to be a Point2D, but found ".concat(topLeft));
-      }
-
-      if (size instanceof Vector2D === false) {
-        throw TypeError("Expected size to be a Vector2D, but found ".concat(size));
-      }
-
-      if (isNaN(rx)) {
-        throw TypeError("Expected rx to be a number, but found ".concat(rx));
-      }
-
-      if (isNaN(ry)) {
-        throw TypeError("Expected ry to be a number, but found ".concat(ry));
-      }
-
-      return Shapes.rectangle(topLeft.x, topLeft.y, size.x, size.y, rx, ry);
+      return ShapeInfo.rectangle(topLeft.x, topLeft.y, size.x, size.y);
     }
   }]);
 
