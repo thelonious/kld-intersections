@@ -2,9 +2,9 @@
 
 - [Arc](#arc)
     - [Arc Examples](#arc-examples)
-- [Quadratic Bezier](#quadratic bezier)
+- [Quadratic Bezier](#quadratic-bezier)
     - [Quadratic Bezier Examples](#quadratic-bezier-examples)
-- [Cubic Bezier](#cubic bezier)
+- [Cubic Bezier](#cubic-bezier)
     - [Cubic Bezier Examples](#cubic-bezier-examples)
 - [Circle](#circle)
     - [Circle Examples](#circle-examples)
