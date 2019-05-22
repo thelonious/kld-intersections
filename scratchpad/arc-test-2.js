@@ -3,7 +3,7 @@
 import {Shapes, Intersection} from "../index.js";
 
 const pathData = "M100,50 A50 50 0 0 1 0,50";
-const path = Shapes.pathData(pathData);
+const path = Shapes.path(pathData);
 
 const x1 = 0;
 const y1 = 100;
