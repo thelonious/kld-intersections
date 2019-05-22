@@ -508,7 +508,7 @@ A point may be represented two ways:
 
 Each of these representations is concatenated into a single array.
 
-## Polygon Examples
+## Polyline Examples
 
 ```javascript
 const polylines = [
@@ -616,8 +616,8 @@ const lines = [
     ShapeInfo.rectangle({ topLeft: { x: 10, y: 20 }, bottomRight: { x: 5, y: 10 } }),
     ShapeInfo.rectangle({ topLeft: { x: 10, y: 20 }, bottomRight: { x: 5, y: 10 }, radiusX: 10, radiusY: 15 }),
     ShapeInfo.rectangle({ topLeft: [ 10, 20 ], bottomRight: [ 5, 10 ] }),
-    ShapeInfo.rectangle({ topLeft: [ 10, 20 ], bottomRight: [ 5, 10 ], radiusX: 10, radiusY: 15 } }),
-    ShapeInfo.rectangle({ top: 20, left: 10, width: 5, height: 10 } }),
-    ShapeInfo.rectangle({ x: 10, y: 20, w: 5, h: 10, rx: 10, ry: 15 } }),
+    ShapeInfo.rectangle({ topLeft: [ 10, 20 ], bottomRight: [ 5, 10 ], radiusX: 10, radiusY: 15 }),
+    ShapeInfo.rectangle({ top: 20, left: 10, width: 5, height: 10 }),
+    ShapeInfo.rectangle({ x: 10, y: 20, w: 5, h: 10, rx: 10, ry: 15 })
 ];
 ```

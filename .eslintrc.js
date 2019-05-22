@@ -50,7 +50,7 @@ module.exports = {
                 "import/no-commonjs": "off",
                 "no-multi-spaces": "off",
                 "no-unused-vars": ["error", {
-                    "varsIgnorePattern": "Point2D|AffineShapes|Shapes|Intersection|result"
+                    "varsIgnorePattern": "Point2D|ShapeInfo|Intersection|result|centers|radii|arcs|points|beziers|circles|ellipses|lines|paths|polylines|polygons"
                 }],
                 "node/no-missing-require": ["error", {
                     "allowModules": ["kld-intersections"]
