@@ -23,7 +23,7 @@ const x2 = 100;
 const y2 = 0;
 const line = Shapes.line(x1, y1, x2, y2);
 
-console.log(arc);
+// console.log(arc);
 // console.log(line);
 
 const startPoint = toCartesian(centerX, centerY, radiusX, radiusY, startRadians);
