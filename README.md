@@ -82,13 +82,13 @@ Note that there are some older APIs that have been deprecated. If you wish to wo
 
 In the original intersection code written for kevlindev.com, there were some functions that allowed one to determine if a point was contained within a given shape. That code has been extracted into a separate class named `IntersectionQuery`. Those methods are currently limited to the following list:
 
-* IntersectionQuery.pointInCircle(point, center, radius) - Point2D, Point2D, number
-* IntersectionQuery.pointInEllipse(point, center, radiusX, radiusY) - Point2D, Point2D, number, number
-* IntersectionQuery.pointInPolyline(point, points) - Point2D, Array<Point2D>
-* IntersectionQuery.pointInPolygon(point, points) - Point2D, Array<Point2D>
-* IntersectionQuery.pointInRectangle(point, topLeft, bottomRight) - Point2D, Point2D, Point2D
+* IntersectionQuery.pointInCircle(**point** : Point2D, **center** : Point2D, **radius** : number)
+* IntersectionQuery.pointInEllipse(**point** : Point2D, **center** : Point2D, **radiusX** : number, **radiusY** : number)
+* IntersectionQuery.pointInPolyline(**point** : Point2D, **points** : Array<Point2D>)
+* IntersectionQuery.pointInPolygon(**point** : Point2D, **points** : Array<Point2D>)
+* IntersectionQuery.pointInRectangle(**point** : Point2D, **topLeft** : Point2D, **bottomRight** : Point2D)
 
-The first argument is the `Point2D` you wish to test. The remaining parameters following the types as listed after the method names. All methods return a boolean value indicating whether or not the given point is contained within the shape.
+The first argument is the point you wish to test. The remaining parameters describe the shape to test against. All methods return a boolean value indicating whether or not the given point is contained within the shape.
 
 Note that currently bézier curves are not included in this list. As a workaround, bézier shapes can be approximated using polylines and then tested with `pointInPolyline` or `pointInPolygon`. See [tessellate-cubic-beziers.js](examples/tessellate-cubic-beziers.js) as an example of how you might tesselate bézier curves for this purpose.
 
