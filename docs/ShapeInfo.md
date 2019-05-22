@@ -23,26 +23,26 @@
 
 ---
 
-This document describes how to use the ShapeInfo class to describe objects for intersection. This class is built up of the following list of shape creation methods:
+This document describes how to use the ShapeInfo class to describe objects for intersection. This class is built up of the following shape creation methods:
 
-- `ShapeInfo.arc(...)`
-- `ShapeInfo.quadraticBezier(...)`
-- `ShapeInfo.cubicBezier(...)`
-- `ShapeInfo.circle(...)`
-- `ShapeInfo.ellipse(...)`
-- `ShapeInfo.line(...)`
-- `ShapeInfo.path(...)`
-- `ShapeInfo.polygon(...)`
-- `ShapeInfo.polyline(...)`
-- `ShapeInfo.rectangle(...)`
+- ShapeInfo.arc(**...**)
+- ShapeInfo.quadraticBezier(**...**)
+- ShapeInfo.cubicBezier(**...**)
+- ShapeInfo.circle(**...**)
+- ShapeInfo.ellipse(**...**)
+- ShapeInfo.line(**...**)
+- ShapeInfo.path(**...**)
+- ShapeInfo.polygon(**...**)
+- ShapeInfo.polyline(**...**)
+- ShapeInfo.rectangle(**...**)
 
-In place of `...`, you can pass in one of the following:
+In place of **...**, you can pass in one of the following:
 
 - An object describing the shape
 - An array describing the shape
-- A list of arguments, describing the shape. This is the same format as the array, but with the array's elements spread into the method call.
+- A list of arguments, describing the shape. This is the same as the array format; however, the array's elements are spread into the method call.
 
-Each section below gives a description of the various formats that may be employed to describe the given shape.
+Each section below gives a description of the various formats that may be used to describe a given shape type.
 
 # Arc
 
