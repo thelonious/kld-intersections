@@ -40,7 +40,7 @@ The following sections indicate how you can import the code for use in various e
 ## Node
 
 ```javascript
-import {AffineShapes, Shapes, Intersection} = require("kld-intersections");
+const {AffineShapes, Shapes, Intersection} = require("kld-intersections");
 ```
 
 ## Browsers
@@ -57,7 +57,7 @@ import {AffineShapes, Shapes, Intersection} = require("kld-intersections");
 ## Modern Browsers (ESM)
 
 ```javascript
-import {AffineShapes, Shapes, Intersection} from './node_modules/kld-intersections/dist/index-esm.js';
+import {AffineShapes, Shapes, Intersection} from "./node_modules/kld-intersections/dist/index-esm.js";
 ```
 
 ## Bundlers
@@ -327,8 +327,8 @@ The example below shows how you might convert and intersect two arbitrary SVG el
 ```javascript
 const {SvgShapes, Intersection} = require("kld-intersections");
 
-const shape1 = SvgShapes.element(document.getElementById("a"));
-const shape2 = SvgShapes.element(document.getElementById("b"));
+const shape1 = SvgShapes.element(document.querySelector("#a"));
+const shape2 = SvgShapes.element(document.querySelector("#b"));
 const result = Intersection.intersect(shape1, shape2);
 
 console.log(result);

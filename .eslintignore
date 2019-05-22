@@ -1,5 +1,7 @@
 node_modules
 dist
 docs/jsdoc
+examples
 scratchpad
+test
 visual-test
