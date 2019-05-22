@@ -62,7 +62,7 @@ import {ShapeInfo, Intersection} from "kld-intersections";
 
 ## Usage
 
-In order to perform an intersection, you need to build up descriptions of each shape to intersect. This is done using ShapeInfo 
+In order to perform an intersection, you need to create descriptions of each shape to intersect. This is done using ShapeInfo. Once you have created your ShapeInfos, pass them into Intersection.intersect and you will get back an Intersection object which contains the intersections, an array of Point2D instances, in its `points` property.
 
 ```javascript
 const {ShapeInfo, Intersection} = require("kld-intersections");
@@ -71,22 +71,24 @@ const path = ShapeInfo.path("M40,70 Q50,150 90,90 T135,130 L160,70 C180,180 280,
 const line = ShapeInfo.line([15, 75], [355, 140]);
 const intersections = Intersection.intersect(path, line);
 
-console.log(intersections);
+intersections.points.forEach(console.log);
 ```
 
 Each of the shape constructors in ShapeInfo supports a wide variety of formats. Be sure to look at the examples in the ![ShapeInfo](./docs/ShapeInfo.md) docs to get an idea of how you can define shapes.
+
+Note that there are some older APIs that have been deprecated. If you wish to work with the Intersection methods directly, you can read about the low-level API in [Shapes API](#docs/ShapesApi.md).
 
 # Queries
 
 In the original intersection code written for kevlindev.com, there were some functions that allowed one to determine if a point was contained within a given shape. That code has been extracted into a separate class named `IntersectionQuery`. Those methods are currently limited to the following list:
 
-* IntersectionQuery.pointInCircle(point, center, radius)
-* IntersectionQuery.pointInEllipse(point, center, radiusX, radiusY)
-* IntersectionQuery.pointInPolyline(point, points)
-* IntersectionQuery.pointInPolygon(point, points)
-* IntersectionQuery.pointInRectangle(point, topLeft, bottomRight)
+* IntersectionQuery.pointInCircle(point, center, radius) - Point2D, Point2D, number
+* IntersectionQuery.pointInEllipse(point, center, radiusX, radiusY) - Point2D, Point2D, number, number
+* IntersectionQuery.pointInPolyline(point, points) - Point2D, Array<Point2D>
+* IntersectionQuery.pointInPolygon(point, points) - Point2D, Array<Point2D>
+* IntersectionQuery.pointInRectangle(point, topLeft, bottomRight) - Point2D, Point2D, Point2D
 
-The first argument is the `Point2D` you wish to test. The remaining parameters follow the same convention as described in [Intersection API](#intersection-api). All methods return a boolean value indicating whether or not the given point is contained within the shape.
+The first argument is the `Point2D` you wish to test. The remaining parameters following the types as listed after the method names. All methods return a boolean value indicating whether or not the given point is contained within the shape.
 
 Note that currently bézier curves are not included in this list. As a workaround, bézier shapes can be approximated using polylines and then tested with `pointInPolyline` or `pointInPolygon`. See [tessellate-cubic-beziers.js](examples/tessellate-cubic-beziers.js) as an example of how you might tesselate bézier curves for this purpose.
 
