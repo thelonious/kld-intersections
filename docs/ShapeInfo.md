@@ -23,7 +23,7 @@
 
 ---
 
-This document describes how to use the ShapeInfo class to describe objects for intersection. This class is built up of the following shape creation methods:
+This document describes how to use the ShapeInfo class to describe shapes for intersection. This class is built up of the following shape creation methods:
 
 - ShapeInfo.arc(**...**)
 - ShapeInfo.quadraticBezier(**...**)
@@ -76,7 +76,7 @@ const centers = [
 
 ## An X Radius and a Y Radius
 
-The x radius may be represented four ways:
+The radii may be represented four ways:
 
 - A `radii` property that is an object with `x` and `y` number properties
 - A `radii` property that is an array with two number elements, `rx` being the first element and `ry` being the second element
@@ -106,7 +106,7 @@ The ending angle is a `endAngle` number property. This value is measured in radi
 
 The above discussed how an object may be used to describe an Arc. For backward compatibility with older shapes APIs, it is also possible to pass an array or a list of arguments.
 
-There are two support formats:
+There are two supported formats:
 
 - A 6 element array defined as follows:
     - a number element being `centerX`
@@ -164,7 +164,7 @@ const points = [
 
 The above discussed how an object may be used to describe a Quadratic Bezier. For backward compatibility with older shapes APIs, it is also possible to pass an array or a list of arguments.
 
-There are two support formats:
+There are two supported formats:
 
 - A 6 element array defined as follows:
     - a number element being `p1.x`
@@ -218,7 +218,7 @@ const points = [
 
 The above discussed how an object may be used to describe a Quadratic Bezier. For backward compatibility with older shapes APIs, it is also possible to pass an array or a list of arguments.
 
-There are two support formats:
+There are two supported formats:
 
 - A 8 element array defined as follows:
     - a number element being `p1.x`
@@ -296,7 +296,7 @@ const radii = [
 
 The above discussed how an object may be used to describe an Circle. For backward compatibility with older shapes APIs, it is also possible to pass an array or a list of arguments.
 
-There are two support formats:
+There are two supported formats:
 
 - A 3 element array defined as follows:
     - a number element being `centerX`
@@ -351,7 +351,7 @@ const centers = [
 
 ## An X Radius and a Y Radius
 
-The x radius may be represented four ways:
+The radii may be represented four ways:
 
 - A `radii` property that is an object with `x` and `y` number properties
 - A `radii` property that is an array with two number elements, `rx` being the first element and `ry` being the second element
@@ -373,7 +373,7 @@ const radii = [
 
 The above discussed how an object may be used to describe an Ellipse. For backward compatibility with older shapes APIs, it is also possible to pass an array or a list of arguments.
 
-There are two support formats:
+There are two supported formats:
 
 - A 4 element array defined as follows:
     - a number element being `centerX`
@@ -427,7 +427,7 @@ const points = [
 
 The above discussed how an object may be used to describe a Quadratic Bezier. For backward compatibility with older shapes APIs, it is also possible to pass an array or a list of arguments.
 
-There are two support formats:
+There are two supported formats:
 
 - A 4 element array defined as follows:
     - a number element being `p1.x`
