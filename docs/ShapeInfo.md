@@ -66,11 +66,11 @@ The center may be represented four ways:
 
 ```javascript
 const centers = [
-    { center: new Point2D(10, 20) },
-    { center: { x: 10, y: 20 } },
-    { center: [ 10, 20 ] },
-    { cx: 10, cy: 20 },
-    { centerX: 10, centerY: 20 }
+    {center: new Point2D(10, 20)},
+    {center: {x: 10, y: 20}},
+    {center: [10, 20]},
+    {cx: 10, cy: 20},
+    {centerX: 10, centerY: 20}
 ];
 ```
 
@@ -87,10 +87,10 @@ The radii may be represented four ways:
 
 ```javascript
 const radii = [
-    { radii: { x: 5, y: 10 } },
-    { radii: [5, 10] },
-    { rx: 5, ry: 10 },
-    { radiusX: 5, radiusY: 10 }
+    {radii: {x: 5, y: 10}},
+    {radii: [5, 10]},
+    {rx: 5, ry: 10},
+    {radiusX: 5, radiusY: 10}
 ];
 ```
 
@@ -128,12 +128,12 @@ Note that these examples are not exhaustive. You may combine the above descripti
 
 ```javascript
 const arcs = [
-    ShapeInfo.arc({ center: { x: 10, y: 20 }, radii: { x: 5, y: 10 }, startAngle: 0, endAngle: Math.PI }),
-    ShapeInfo.arc({ center: [ 10, 20 ], radii: [5, 10], startAngle: 0, endAngle: Math.PI }),
-    ShapeInfo.arc({ cx: 10, cy: 20, rx: 5, ry: 10, startAngle: 0, endAngle: Math.PI }),
-    ShapeInfo.arc({ centerX: 10, centerY: 20, radiusX: 5, radiusY: 10, startAngle: 0, endAngle: Math.PI }),
-    ShapeInfo.arc([ 10, 20, 5, 10, 0, Math.PI ]),
-    ShapeInfo.arc([{ x: 10, y: 20 }, 5, 10, 0, Math.PI])
+    ShapeInfo.arc({center: {x: 10, y: 20}, radii: {x: 5, y: 10}, startAngle: 0, endAngle: Math.PI}),
+    ShapeInfo.arc({center: [10, 20], radii: [5, 10], startAngle: 0, endAngle: Math.PI}),
+    ShapeInfo.arc({cx: 10, cy: 20, rx: 5, ry: 10, startAngle: 0, endAngle: Math.PI}),
+    ShapeInfo.arc({centerX: 10, centerY: 20, radiusX: 5, radiusY: 10, startAngle: 0, endAngle: Math.PI}),
+    ShapeInfo.arc([10, 20, 5, 10, 0, Math.PI]),
+    ShapeInfo.arc([{x: 10, y: 20}, 5, 10, 0, Math.PI])
 ];
 ```
 
@@ -154,9 +154,9 @@ A control point may be represented two ways:
 
 ```javascript
 const points = [
-    { p1: new Point2D(10, 20) },
-    { p2: { x: 10, y: 20 } },
-    { p3: [ 10, 20 ] }
+    {p1: new Point2D(10, 20)},
+    {p2: {x: 10, y: 20}},
+    {p3: [10, 20]}
 ];
 ```
 
@@ -184,10 +184,10 @@ Note that these examples are not exhaustive. You may combine the above descripti
 
 ```javascript
 const beziers = [
-    ShapeInfo.quadraticBezier({ p1: { x: 10, y: 20 }, p2: { x: 5, y: 10 }, p3: { x: 15, y: 30 } }),
-    ShapeInfo.quadraticBezier({ p1: [10, 20], p2: [5, 10], p3: [15, 30] }),
-    ShapeInfo.quadraticBezier([ 10, 20, 5, 10, 15, 30 ]),
-    ShapeInfo.quadraticBezier([ { x: 10, y: 20 }, { x: 5, y: 10 }, { x: 15, y: 30 } ])
+    ShapeInfo.quadraticBezier({p1: {x: 10, y: 20}, p2: {x: 5, y: 10}, p3: {x: 15, y: 30}}),
+    ShapeInfo.quadraticBezier({p1: [10, 20], p2: [5, 10], p3: [15, 30]}),
+    ShapeInfo.quadraticBezier([10, 20, 5, 10, 15, 30]),
+    ShapeInfo.quadraticBezier([{x: 10, y: 20}, {x: 5, y: 10}, {x: 15, y: 30}])
 ];
 ```
 
@@ -208,9 +208,9 @@ A control point may be represented two ways:
 
 ```javascript
 const points = [
-    { p1: new Point2D(10, 20) },
-    { p2: { x: 10, y: 20 } },
-    { p3: [ 10, 20 ] }
+    {p1: new Point2D(10, 20)},
+    {p2: {x: 10, y: 20}},
+    {p3: [10, 20]}
 ];
 ```
 
@@ -241,10 +241,10 @@ Note that these examples are not exhaustive. You may combine the above descripti
 
 ```javascript
 const beziers = [
-    ShapeInfo.cubicBezier({ p1: { x: 10, y: 20 }, p2: { x: 5, y: 10 }, p3: { x: 15, y: 30 }, p4: { x: 20, y: 15 } }),
-    ShapeInfo.cubicBezier({ p1: [10, 20], p2: [5, 10], p3: [15, 30], p4: [ 20, 15 ] }),
-    ShapeInfo.cubicBezier([ 10, 20, 5, 10, 15, 30, 20, 15 ]),
-    ShapeInfo.cubicBezier([ { x: 10, y: 20 }, { x: 5, y: 10 }, { x: 15, y: 30 }, { x: 20, y: 15 } ])
+    ShapeInfo.cubicBezier({p1: {x: 10, y: 20}, p2: {x: 5, y: 10}, p3: {x: 15, y: 30}, p4: {x: 20, y: 15}}),
+    ShapeInfo.cubicBezier({p1: [10, 20], p2: [5, 10], p3: [15, 30], p4: [20, 15]}),
+    ShapeInfo.cubicBezier([10, 20, 5, 10, 15, 30, 20, 15]),
+    ShapeInfo.cubicBezier([{x: 10, y: 20}, {x: 5, y: 10}, {x: 15, y: 30}, {x: 20, y: 15}])
 ];
 ```
 
@@ -268,11 +268,11 @@ The center may be represented four ways:
 
 ```javascript
 const centers = [
-    { center: new Point2D(10, 20) },
-    { center: { x: 10, y: 20 } },
-    { center: [ 10, 20 ] },
-    { cx: 10, cy: 20 },
-    { centerX: 10, centerY: 20 }
+    {center: new Point2D(10, 20)},
+    {center: {x: 10, y: 20}},
+    {center: [10, 20]},
+    {cx: 10, cy: 20},
+    {centerX: 10, centerY: 20}
 ];
 ```
 
@@ -287,8 +287,8 @@ The radius may be represented two ways:
 
 ```javascript
 const radii = [
-    { r: 5 },
-    { radius: 5 }
+    {r: 5},
+    {radius: 5}
 ];
 ```
 
@@ -312,12 +312,12 @@ Note that these examples are not exhaustive. You may combine the above descripti
 
 ```javascript
 const circles = [
-    ShapeInfo.circle({ center: { x: 10, y: 20 }, radius: 15 }),
-    ShapeInfo.circle({ center: [ 10, 20 ], radius: 15 }),
-    ShapeInfo.circle({ cx: 10, cy: 20, r: 15 }),
-    ShapeInfo.circle({ centerX: 10, centerY: 20, radius: 15 }),
-    ShapeInfo.circle([ 10, 20, 15 ]),
-    ShapeInfo.circle([{ x: 10, y: 20 }, 15])
+    ShapeInfo.circle({center: {x: 10, y: 20}, radius: 15}),
+    ShapeInfo.circle({center: [10, 20], radius: 15}),
+    ShapeInfo.circle({cx: 10, cy: 20, r: 15}),
+    ShapeInfo.circle({centerX: 10, centerY: 20, radius: 15}),
+    ShapeInfo.circle([10, 20, 15]),
+    ShapeInfo.circle([{x: 10, y: 20}, 15])
 ];
 ```
 
@@ -341,11 +341,11 @@ The center may be represented four ways:
 
 ```javascript
 const centers = [
-    { center: new Point2D(10, 20) },
-    { center: { x: 10, y: 20 } },
-    { center: [ 10, 20 ] },
-    { cx: 10, cy: 20 },
-    { centerX: 10, centerY: 20 }
+    {center: new Point2D(10, 20)},
+    {center: {x: 10, y: 20}},
+    {center: [10, 20]},
+    {cx: 10, cy: 20},
+    {centerX: 10, centerY: 20}
 ];
 ```
 
@@ -362,10 +362,10 @@ The radii may be represented four ways:
 
 ```javascript
 const radii = [
-    { radii: { x: 5, y: 10 } },
-    { radii: [5, 10] },
-    { rx: 5, ry: 10 },
-    { radiusX: 5, radiusY: 10 }
+    {radii: {x: 5, y: 10}},
+    {radii: [5, 10]},
+    {rx: 5, ry: 10},
+    {radiusX: 5, radiusY: 10}
 ];
 ```
 
@@ -391,12 +391,12 @@ Note that these examples are not exhaustive. You may combine the above descripti
 
 ```javascript
 const ellipses = [
-    ShapeInfo.ellipse({ center: { x: 10, y: 20 }, radii: { x: 5, y: 10 } }),
-    ShapeInfo.ellipse({ center: [ 10, 20 ], radii: [5, 10] }),
-    ShapeInfo.ellipse({ cx: 10, cy: 20, rx: 5, ry: 10 }),
-    ShapeInfo.ellipse({ centerX: 10, centerY: 20, radiusX: 5, radiusY: 10 }),
-    ShapeInfo.ellipse([ 10, 20, 3, 5 ]),
-    ShapeInfo.ellipse([{ x: 10, y: 20 }, 3, 5 ])
+    ShapeInfo.ellipse({center: {x: 10, y: 20}, radii: {x: 5, y: 10}}),
+    ShapeInfo.ellipse({center: [10, 20], radii: [5, 10]}),
+    ShapeInfo.ellipse({cx: 10, cy: 20, rx: 5, ry: 10}),
+    ShapeInfo.ellipse({centerX: 10, centerY: 20, radiusX: 5, radiusY: 10}),
+    ShapeInfo.ellipse([10, 20, 3, 5]),
+    ShapeInfo.ellipse([{x: 10, y: 20}, 3, 5])
 ];
 ```
 
@@ -417,9 +417,9 @@ A point may be represented two ways:
 
 ```javascript
 const points = [
-    { p1: new Point2D(10, 20) },
-    { p2: { x: 10, y: 20 } },
-    { p1: [ 10, 20 ] }
+    {p1: new Point2D(10, 20)},
+    {p2: {x: 10, y: 20}},
+    {p1: [10, 20]}
 ];
 ```
 
@@ -444,10 +444,10 @@ Note that these examples are not exhaustive. You may combine the above descripti
 
 ```javascript
 const lines = [
-    ShapeInfo.line({ p1: { x: 10, y: 20 }, p2: { x: 5, y: 10 } }),
-    ShapeInfo.line({ p1: [10, 20], p2: [5, 10] }),
-    ShapeInfo.line([ 10, 20, 5, 10 ]),
-    ShapeInfo.line([ { x: 10, y: 20 }, { x: 5, y: 10 } ])
+    ShapeInfo.line({p1: {x: 10, y: 20}, p2: {x: 5, y: 10}}),
+    ShapeInfo.line({p1: [10, 20], p2: [5, 10]}),
+    ShapeInfo.line([10, 20, 5, 10]),
+    ShapeInfo.line([{x: 10, y: 20}, {x: 5, y: 10}])
 ];
 ```
 
@@ -489,7 +489,7 @@ Each of these representations is concatenated into a single array.
 ```javascript
 const polygons = [
     ShapeInfo.polygon([10, 20, 30, 40, 50, 60]),
-    ShapeInfo.polygon([{ x: 10, y: 20 }, { x: 30, y: 40 }, { x: 50, y: 60 }])
+    ShapeInfo.polygon([{x: 10, y: 20}, {x: 30, y: 40}, {x: 50, y: 60}])
 ];
 ```
 
@@ -513,7 +513,7 @@ Each of these representations is concatenated into a single array.
 ```javascript
 const polylines = [
     ShapeInfo.polyline([10, 20, 30, 40, 50, 60]),
-    ShapeInfo.polyline([{ x: 10, y: 20 }, { x: 30, y: 40 }, { x: 50, y: 60 }])
+    ShapeInfo.polyline([{x: 10, y: 20}, {x: 30, y: 40}, {x: 50, y: 60}])
 ];
 ```
 
@@ -556,12 +556,12 @@ The `bottomRight` point may be represented six ways:
 
 ```javascript
 const points = [
-    { topLeft: { x: 10, y: 20 }, bottomRight: { x: 30, y: 40 } },
-    { topLeft: [ 10, 20 ] , bottomRight: [30, 40] },
-    { x: 10, y: 20, w: 20, h: 20 },
-    { top: 20, left: 10, width: 20, height: 20 },
-    { topLeft: { x: 10, y: 20 }, size: { x: 20, y: 20 } },
-    { topLeft: [ 10, 20 ] , size: [20, 20] }
+    {topLeft: {x: 10, y: 20}, bottomRight: {x: 30, y: 40}},
+    {topLeft: [10, 20], bottomRight: [30, 40]},
+    {x: 10, y: 20, w: 20, h: 20},
+    {top: 20, left: 10, width: 20, height: 20},
+    {topLeft: {x: 10, y: 20}, size: {x: 20, y: 20}},
+    {topLeft: [10, 20], size: [20, 20]}
 ];
 ```
 
@@ -613,11 +613,11 @@ Note that these examples are not exhaustive. You may combine the above descripti
 
 ```javascript
 const lines = [
-    ShapeInfo.rectangle({ topLeft: { x: 10, y: 20 }, bottomRight: { x: 5, y: 10 } }),
-    ShapeInfo.rectangle({ topLeft: { x: 10, y: 20 }, bottomRight: { x: 5, y: 10 }, radiusX: 10, radiusY: 15 }),
-    ShapeInfo.rectangle({ topLeft: [ 10, 20 ], bottomRight: [ 5, 10 ] }),
-    ShapeInfo.rectangle({ topLeft: [ 10, 20 ], bottomRight: [ 5, 10 ], radiusX: 10, radiusY: 15 }),
-    ShapeInfo.rectangle({ top: 20, left: 10, width: 5, height: 10 }),
-    ShapeInfo.rectangle({ x: 10, y: 20, w: 5, h: 10, rx: 10, ry: 15 })
+    ShapeInfo.rectangle({topLeft: {x: 10, y: 20}, bottomRight: {x: 5, y: 10}}),
+    ShapeInfo.rectangle({topLeft: {x: 10, y: 20}, bottomRight: {x: 5, y: 10}, radiusX: 10, radiusY: 15}),
+    ShapeInfo.rectangle({topLeft: [10, 20], bottomRight: [5, 10]}),
+    ShapeInfo.rectangle({topLeft: [10, 20], bottomRight: [5, 10], radiusX: 10, radiusY: 15}),
+    ShapeInfo.rectangle({top: 20, left: 10, width: 5, height: 10}),
+    ShapeInfo.rectangle({x: 10, y: 20, w: 5, h: 10, rx: 10, ry: 15})
 ];
 ```
