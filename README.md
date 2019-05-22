@@ -64,9 +64,9 @@ import {ShapeInfo, Intersection} from "kld-intersections";
 
 In order to perform an intersection, you need to create descriptions of each shape to intersect. This is done using ShapeInfo.
 
-Once you have created your ShapeInfos, pass them into Intersection.intersect and you will get back an Intersection object. Intersection objects contain the intersections, an array of Point2D instances, in their `points` property.
+Once you have created your ShapeInfos, pass them into `Intersection.intersect` and you will get back an `Intersection` object. Intersection objects contain the intersections, an array of Point2D instances, in their `points` property.
 
-The following example creates a path from SVG path data and a line. The two shapes are passed into `Intersection.intersect` and the results are displayed in the console.
+The following example creates a path (from SVG path data) and a line. The two shapes are passed into `Intersection.intersect` and the results are displayed in the console.
 
 ```javascript
 const {ShapeInfo, Intersection} = require("kld-intersections");
