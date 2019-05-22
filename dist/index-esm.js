@@ -6897,6 +6897,7 @@ function () {
   return PathHandler;
 }();
 
+var degree90 = Math.PI * 0.5;
 /**
  *  ShapeInfo
  *  @memberof module:kld-intersections
@@ -7005,7 +7006,49 @@ function () {
         args[_key10] = arguments[_key10];
       }
 
-      return create(ShapeInfo.RECTANGLE, args, ["topLeft", "bottomRight"]);
+      var result = create(ShapeInfo.RECTANGLE, args, ["topLeft", "bottomRight", "rx", "ry"]);
+      var ry = result.args.pop();
+      var rx = result.args.pop();
+
+      if (rx === 0 && ry === 0) {
+        return result;
+      }
+
+      var _result$args$ = result.args[0],
+          p1x = _result$args$.p1x,
+          p1y = _result$args$.p1y;
+      var _result$args$2 = result.args[1],
+          p2x = _result$args$2.p2x,
+          p2y = _result$args$2.p2y;
+      var width = p2x - p1x;
+      var height = p2y - p1y;
+
+      if (rx === 0) {
+        rx = ry;
+      }
+
+      if (ry === 0) {
+        ry = rx;
+      }
+
+      if (rx > width * 0.5) {
+        rx = width * 0.5;
+      }
+
+      if (ry > height * 0.5) {
+        ry = height * 0.5;
+      }
+
+      var x0 = p1x;
+      var y0 = p1y;
+      var x1 = p1x + rx;
+      var y1 = p1y + ry;
+      var x2 = p2x - rx;
+      var y2 = p2y - ry;
+      var x3 = p2x;
+      var y3 = p2y;
+      var segments = [ShapeInfo.arc(x1, y1, rx, ry, 2 * degree90, 3 * degree90), ShapeInfo.line(x1, y0, x2, y0), ShapeInfo.arc(x2, y1, rx, ry, 3 * degree90, 4 * degree90), ShapeInfo.line(x3, y1, x3, y2), ShapeInfo.arc(x2, y2, rx, ry, 0, degree90), ShapeInfo.line(x2, y3, x1, y3), ShapeInfo.arc(x1, y2, rx, ry, degree90, 2 * degree90), ShapeInfo.line(x0, y2, x0, y1)];
+      return ShapeInfo(ShapeInfo.PATH, segments);
     }
   }]);
 
@@ -7047,7 +7090,7 @@ ShapeInfo.PATH = "Path";
 ShapeInfo.POLYGON = "Polygon";
 ShapeInfo.POLYLINE = "Polyline";
 ShapeInfo.RECTANGLE = "Rectangle";
-var transformer = Transformer.fromSource("\ntransform Center =\n    Point2D(x, y) <=\n            { center: { x: number as x, y: number as y } }\n        |   { center: [ number as x, number as y ] }\n        |   { cx: number as x, cy: number as y }\n        |   { centerX: number as x, centerY: number as y }\n\ntransform Radii =\n    // the generator could also be _, but I like being explicit\n    { rx, ry } <=\n            { radii: { x: number as rx, y: number as ry } }\n        |   { radii: [ number as rx, number as ry ] }\n        |   { rx: number as rx, ry: number as ry }\n        |   { radiusX: number as rx, radiusY: number as ry }\n        \ntransform P1 =\n    Point2D(x, y) <=\n            { p1: { x: number as x, y: number as y } }\n        |   { p1: [ number as x, number as y ] }\n        \ntransform P2 =\n    Point2D(x, y) <=\n            { p2: { x: number as x, y: number as y } }\n        |   { p2: [ number as x, number as y ] }\n        |   { p2x: number as x, p2y: number as y }\n        \ntransform P3 =\n    Point2D(x, y) <=\n            { p3: { x: number as x, y: number as y } }\n        |   { p3: [ number as x, number as y ] }\n        |   { p3x: number as x, p3y: number as y }\n        \ntransform P4 =\n    Point2D(x, y) <=\n            { p4: { x: number as x, y: number as y } }\n        |   { p4: [ number as x, number as y ] }\n        |   { p4x: number as x, p4y: number as y }\n\ntransform Number =\n    _ <= number\n            \ntype ".concat(ShapeInfo.ARC, " = {\n    // collect some values so we don't have to repeat queries\n    radii = transform Radii;\n    \n    center: transform Center,\n    radiusX: radii.rx,\n    radiusY: radii.ry,\n    startRadians: transform Number,\n    endRadians: transform Number\n}\n\ntype ").concat(ShapeInfo.ARC, "Args = {\n    elements =\n        _ <=\n                [ number as centerX, number as centerY, number as radiusX, number as radiusY, number as startRadians, number as endRadians ]\n            |   [ { x: number as centerX, y: number as centerY }, number as radiusX, number as radiusY, number as startRadians, number as endRadians ];\n    \n    center: Point2D(elements.centerX, elements.centerY),\n    radiusX: elements.radiusX,\n    radiusY: elements.radiusY,\n    startRadians: elements.startRadians,\n    endRadians: elements.endRadians\n}\n\ntype ").concat(ShapeInfo.QUADRATIC_BEZIER, " = {\n    p1: transform P1,\n    p2: transform P2,\n    p3: transform P3\n}\n\ntype ").concat(ShapeInfo.QUADRATIC_BEZIER, "Args = {\n    elements =\n        _ <=\n                [ number as p1x, number as p1y, number as p2x, number as p2y, number as p3x, number as p3y ]\n            |   [ { x: number as p1x, y: number as p1y }, { x: number as p2x, y: number as p2y }, { x: number as p3x, y: number as p3y }];\n    \n    p1: Point2D(elements.p1x, elements.p1y),\n    p2: Point2D(elements.p2x, elements.p2y),\n    p3: Point2D(elements.p3x, elements.p3y)\n}\n\ntype ").concat(ShapeInfo.CUBIC_BEZIER, " = {\n    p1: transform P1,\n    p2: transform P2,\n    p3: transform P3,\n    p4: transform P4\n}\n\ntype ").concat(ShapeInfo.CUBIC_BEZIER, "Args = {\n    elements =\n        _ <=\n                [ number as p1x, number as p1y, number as p2x, number as p2y, number as p3x, number as p3y, number as p4x, number as p4y ]\n            |   [ { x: number as p1x, y: number as p1y }, { x: number as p2x, y: number as p2y }, { x: number as p3x, y: number as p3y }, { x: number as p4x, y: number as p4y }];\n    \n    p1: Point2D(elements.p1x, elements.p1y),\n    p2: Point2D(elements.p2x, elements.p2y),\n    p3: Point2D(elements.p3x, elements.p3y),\n    p4: Point2D(elements.p4x, elements.p4y)\n}\n\ntype ").concat(ShapeInfo.CIRCLE, " = {\n    center: transform Center,\n    radius: radius <=\n            { r: number as radius}\n        |   { radius: number as radius }\n}\n\ntype ").concat(ShapeInfo.CIRCLE, "Args = {\n    elements =\n        _ <=\n                [ number as centerX, number as centerY, number as radius ]\n            |   [ { x: number as centerX, y: number as centerY }, number as radius ];\n    \n    center: Point2D(elements.centerX, elements.centerY),\n    radius: elements.radius\n}\n\ntype ").concat(ShapeInfo.ELLIPSE, " = {\n    // collect some values so we don't have to repeat queries\n    radii = transform Radii;\n    \n    center: transform Center,\n    radiusX: radii.rx,\n    radiusY: radii.ry\n}\n\ntype ").concat(ShapeInfo.ELLIPSE, "Args = {\n    elements =\n        _ <=\n                [ number as centerX, number as centerY, number as radiusX, number as radiusY ]\n            |   [ { x: number as centerX, y: number as centerY }, number as radiusX, number as radiusY ];\n    \n    center: Point2D(elements.centerX, elements.centerY),\n    radiusX: elements.radiusX,\n    radiusY: elements.radiusY\n}\n\ntype ").concat(ShapeInfo.LINE, " = {\n    p1: transform P1,\n    p2: transform P2\n}\n\ntype ").concat(ShapeInfo.LINE, "Args = {\n    elements =\n        _ <=\n                [ number as p1x, number as p1y, number as p2x, number as p2y ]\n            |   [ { x: number as p1x, y: number as p1y }, { x: number as p2x, y: number as p2y } ];\n        \n    p1: Point2D(elements.p1x, elements.p1y),\n    p2: Point2D(elements.p2x, elements.p2y)\n}\n\ntype ").concat(ShapeInfo.PATH, " = {\n    segments:\n        PathData(data) <= { d: string as data }\n}\n\ntype ").concat(ShapeInfo.PATH, "Args = {\n    segments: PathData(data) <= string as data\n}\n\ntype ").concat(ShapeInfo.POLYGON, " = {\n    points:\n        ListOfCoords(coords) <= { points: [ (number, number); 0..] as coords };\n        ListOfPoints(points) <= { points: [ { x: number, y: number }; 0.. ] as points }\n}\n\ntype ").concat(ShapeInfo.POLYGON, "Args = {\n    points:\n         [ ListOfCoords(coords) ] <= [ (number, number); 0..] as coords;\n         [ ListOfPoints(points) ] <= [ { x: number, y: number }; 0.. ] as points\n}\n\ntype ").concat(ShapeInfo.POLYLINE, " = {\n    points:\n        ListOfCoords(coords) <= { points: [ (number, number); 0..] as coords };\n        ListOfPoints(points) <= { points: [ { x: number, y: number }; 0.. ] as points }\n}\n\ntype ").concat(ShapeInfo.POLYLINE, "Args = {\n    points:\n         [ ListOfCoords(coords) ] <= [ (number, number); 0..] as coords;\n         [ ListOfPoints(points) ] <= [ { x: number, y: number }; 0.. ] as points\n}\n\ntype ").concat(ShapeInfo.RECTANGLE, " = {\n    // collect top-left point in case we need to do math with it for\n    // bottom-right\n    topLeft =\n        // could also be _\n        { x, y } <=\n                { topLeft: { x: number as x, y: number as y } }\n            |   { topLeft: [ number as x, number as y ] }\n            |   { x: number as x, y: number as y }\n            |   { top: number as x, left: number as y };\n\n    topLeft:\n        Point2D(topLeft.x, topLeft.y),\n\n    bottomRight:\n        Point2D(x, y) <=\n                { bottomRight: { x: number as x, y: number as y } }\n            |   { bottomRight: [ number as x, number as y ] };\n        Point2D(topLeft.x + w, topLeft.y + h) <=\n                { w: number as w, h: number as h }\n            |   { width: number as w, height: number as h }\n            |   { size: { x: number as w, y: number as h } }\n            |   { size: [ number as w, number as h ] }\n}\n\ntype ").concat(ShapeInfo.RECTANGLE, "Args = {\n    elements =\n        _ <=\n                [ number as x, number as y, number as width, number as height ]\n            |   [ { x: number as x, y: number as y }, { x: number as width, y: number as height } ];\n    \n    topLeft: Point2D(elements.x, elements.y),\n    bottomRight: Point2D(elements.x + elements.width, elements.y + elements.height)\n}\n")); // console.log(util.inspect(normalizer.types.Circle, { depth: Infinity, colors: true }));
+var transformer = Transformer.fromSource("\ntransform Center =\n    Point2D(x, y) <=\n            { center: { x: number as x, y: number as y } }\n        |   { center: [ number as x, number as y ] }\n        |   { cx: number as x, cy: number as y }\n        |   { centerX: number as x, centerY: number as y }\n\ntransform Radii =\n    // the generator could also be _, but I like being explicit\n    { rx, ry } <=\n            { radii: { x: number as rx, y: number as ry } }\n        |   { radii: [ number as rx, number as ry ] }\n        |   { rx: number as rx, ry: number as ry }\n        |   { radiusX: number as rx, radiusY: number as ry }\n        \ntransform P1 =\n    Point2D(x, y) <=\n            { p1: { x: number as x, y: number as y } }\n        |   { p1: [ number as x, number as y ] }\n        \ntransform P2 =\n    Point2D(x, y) <=\n            { p2: { x: number as x, y: number as y } }\n        |   { p2: [ number as x, number as y ] }\n        |   { p2x: number as x, p2y: number as y }\n        \ntransform P3 =\n    Point2D(x, y) <=\n            { p3: { x: number as x, y: number as y } }\n        |   { p3: [ number as x, number as y ] }\n        |   { p3x: number as x, p3y: number as y }\n        \ntransform P4 =\n    Point2D(x, y) <=\n            { p4: { x: number as x, y: number as y } }\n        |   { p4: [ number as x, number as y ] }\n        |   { p4x: number as x, p4y: number as y }\n\ntransform Number =\n    _ <= number\n            \ntype ".concat(ShapeInfo.ARC, " = {\n    // collect some values so we don't have to repeat queries\n    radii = transform Radii;\n    \n    center: transform Center,\n    radiusX: radii.rx,\n    radiusY: radii.ry,\n    startRadians: transform Number,\n    endRadians: transform Number\n}\n\ntype ").concat(ShapeInfo.ARC, "Args = {\n    elements =\n        _ <=\n                [ number as centerX, number as centerY, number as radiusX, number as radiusY, number as startRadians, number as endRadians ]\n            |   [ { x: number as centerX, y: number as centerY }, number as radiusX, number as radiusY, number as startRadians, number as endRadians ];\n    \n    center: Point2D(elements.centerX, elements.centerY),\n    radiusX: elements.radiusX,\n    radiusY: elements.radiusY,\n    startRadians: elements.startRadians,\n    endRadians: elements.endRadians\n}\n\ntype ").concat(ShapeInfo.QUADRATIC_BEZIER, " = {\n    p1: transform P1,\n    p2: transform P2,\n    p3: transform P3\n}\n\ntype ").concat(ShapeInfo.QUADRATIC_BEZIER, "Args = {\n    elements =\n        _ <=\n                [ number as p1x, number as p1y, number as p2x, number as p2y, number as p3x, number as p3y ]\n            |   [ { x: number as p1x, y: number as p1y }, { x: number as p2x, y: number as p2y }, { x: number as p3x, y: number as p3y }];\n    \n    p1: Point2D(elements.p1x, elements.p1y),\n    p2: Point2D(elements.p2x, elements.p2y),\n    p3: Point2D(elements.p3x, elements.p3y)\n}\n\ntype ").concat(ShapeInfo.CUBIC_BEZIER, " = {\n    p1: transform P1,\n    p2: transform P2,\n    p3: transform P3,\n    p4: transform P4\n}\n\ntype ").concat(ShapeInfo.CUBIC_BEZIER, "Args = {\n    elements =\n        _ <=\n                [ number as p1x, number as p1y, number as p2x, number as p2y, number as p3x, number as p3y, number as p4x, number as p4y ]\n            |   [ { x: number as p1x, y: number as p1y }, { x: number as p2x, y: number as p2y }, { x: number as p3x, y: number as p3y }, { x: number as p4x, y: number as p4y }];\n    \n    p1: Point2D(elements.p1x, elements.p1y),\n    p2: Point2D(elements.p2x, elements.p2y),\n    p3: Point2D(elements.p3x, elements.p3y),\n    p4: Point2D(elements.p4x, elements.p4y)\n}\n\ntype ").concat(ShapeInfo.CIRCLE, " = {\n    center: transform Center,\n    radius: radius <=\n            { r: number as radius}\n        |   { radius: number as radius }\n}\n\ntype ").concat(ShapeInfo.CIRCLE, "Args = {\n    elements =\n        _ <=\n                [ number as centerX, number as centerY, number as radius ]\n            |   [ { x: number as centerX, y: number as centerY }, number as radius ];\n    \n    center: Point2D(elements.centerX, elements.centerY),\n    radius: elements.radius\n}\n\ntype ").concat(ShapeInfo.ELLIPSE, " = {\n    // collect some values so we don't have to repeat queries\n    radii = transform Radii;\n    \n    center: transform Center,\n    radiusX: radii.rx,\n    radiusY: radii.ry\n}\n\ntype ").concat(ShapeInfo.ELLIPSE, "Args = {\n    elements =\n        _ <=\n                [ number as centerX, number as centerY, number as radiusX, number as radiusY ]\n            |   [ { x: number as centerX, y: number as centerY }, number as radiusX, number as radiusY ];\n    \n    center: Point2D(elements.centerX, elements.centerY),\n    radiusX: elements.radiusX,\n    radiusY: elements.radiusY\n}\n\ntype ").concat(ShapeInfo.LINE, " = {\n    p1: transform P1,\n    p2: transform P2\n}\n\ntype ").concat(ShapeInfo.LINE, "Args = {\n    elements =\n        _ <=\n                [ number as p1x, number as p1y, number as p2x, number as p2y ]\n            |   [ { x: number as p1x, y: number as p1y }, { x: number as p2x, y: number as p2y } ];\n        \n    p1: Point2D(elements.p1x, elements.p1y),\n    p2: Point2D(elements.p2x, elements.p2y)\n}\n\ntype ").concat(ShapeInfo.PATH, " = {\n    segments:\n        PathData(data) <= { d: string as data }\n}\n\ntype ").concat(ShapeInfo.PATH, "Args = {\n    segments: PathData(data) <= string as data\n}\n\ntype ").concat(ShapeInfo.POLYGON, " = {\n    points:\n        ListOfCoords(coords) <= { points: [ (number, number); 0..] as coords };\n        ListOfPoints(points) <= { points: [ { x: number, y: number }; 0.. ] as points }\n}\n\ntype ").concat(ShapeInfo.POLYGON, "Args = {\n    points:\n         [ ListOfCoords(coords) ] <= [ (number, number); 0..] as coords;\n         [ ListOfPoints(points) ] <= [ { x: number, y: number }; 0.. ] as points\n}\n\ntype ").concat(ShapeInfo.POLYLINE, " = {\n    points:\n        ListOfCoords(coords) <= { points: [ (number, number); 0..] as coords };\n        ListOfPoints(points) <= { points: [ { x: number, y: number }; 0.. ] as points }\n}\n\ntype ").concat(ShapeInfo.POLYLINE, "Args = {\n    points:\n         [ ListOfCoords(coords) ] <= [ (number, number); 0..] as coords;\n         [ ListOfPoints(points) ] <= [ { x: number, y: number }; 0.. ] as points\n}\n\ntype ").concat(ShapeInfo.RECTANGLE, " = {\n    // collect top-left point in case we need to do math with it for\n    // bottom-right\n    topLeft =\n        // could also be _\n        { x, y } <=\n                { topLeft: { x: number as x, y: number as y } }\n            |   { topLeft: [ number as x, number as y ] }\n            |   { x: number as x, y: number as y }\n            |   { top: number as x, left: number as y };\n\n    topLeft:\n        Point2D(topLeft.x, topLeft.y),\n\n    bottomRight:\n        Point2D(x, y) <=\n                { bottomRight: { x: number as x, y: number as y } }\n            |   { bottomRight: [ number as x, number as y ] };\n        Point2D(topLeft.x + w, topLeft.y + h) <=\n                { w: number as w, h: number as h }\n            |   { width: number as w, height: number as h }\n            |   { size: { x: number as w, y: number as h } }\n            |   { size: [ number as w, number as h ] },\n    rx:\n        rx <=\n                { rx: number as rx }\n            |   { radiusX: number as rx };\n        0 <= any,\n    ry:\n        ry <=\n                { ry: number as ry }\n            |   { radiusY: number as ry };\n        0 <= any\n}\n\ntype ").concat(ShapeInfo.RECTANGLE, "Args = {\n    elements =\n        _ <=\n                [ number as x, number as y, number as width, number as height ]\n            |   [ { x: number as x, y: number as y }, { x: number as width, y: number as height } ];\n    \n    topLeft: Point2D(elements.x, elements.y),\n    bottomRight: Point2D(elements.x + elements.width, elements.y + elements.height),\n    rx:\n        rx <=\n                { rx: number as rx }\n            |   { radiusX: number as rx };\n        0,\n    ry:\n        ry <=\n                { ry: number as ry }\n            |   { radiusY: number as ry };\n        0\n}\n")); // console.log(util.inspect(normalizer.types.Circle, { depth: Infinity, colors: true }));
 
 transformer.typeCreators.Point2D = function (x, y) {
   return new Point2D(x, y);
@@ -7157,8 +7200,6 @@ function restrictPointsToArc(intersections, center, radiusX, radiusY, startRadia
     endNormal += TWO_PI$1;
   }
 
-  console.log("[startRadians = ".concat(startRadians, " endRadians = ").concat(endRadians, "]"));
-  console.log("[startNormal = ".concat(startNormal, " endRadians = ").concat(endNormal, "]"));
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
   var _iteratorError = undefined;
@@ -9108,72 +9149,7 @@ function () {
   }, {
     key: "rectangle",
     value: function rectangle(x, y, width, height) {
-      var rx = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
-      var ry = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 0;
-
-      if (isNaN(x)) {
-        throw TypeError("Expected x to be a number, but found ".concat(x));
-      }
-
-      if (isNaN(y)) {
-        throw TypeError("Expected y to be a number, but found ".concat(y));
-      }
-
-      if (isNaN(width)) {
-        throw TypeError("Expected width to be a number, but found ".concat(width));
-      }
-
-      if (isNaN(height)) {
-        throw TypeError("Expected height to be a number, but found ".concat(height));
-      }
-
-      if (isNaN(rx)) {
-        throw TypeError("Expected rx to be a number, but found ".concat(rx));
-      }
-
-      if (isNaN(ry)) {
-        throw TypeError("Expected ry to be a number, but found ".concat(ry));
-      }
-
-      if (rx === 0 && ry === 0) {
-        return new ShapeInfo(ShapeInfo.RECTANGLE, [new Point2D(x, y), new Point2D(x + width, y + height)]);
-      }
-
-      if (rx === 0) {
-        rx = ry;
-      }
-
-      if (ry === 0) {
-        ry = rx;
-      }
-
-      if (rx > width * 0.5) {
-        rx = width * 0.5;
-      }
-
-      if (ry > height * 0.5) {
-        ry = height * 0.5;
-      }
-
-      var x0 = x;
-      var y0 = y;
-      var x1 = x + rx;
-      var y1 = y + ry;
-      var x2 = x + width - rx;
-      var y2 = y + height - ry;
-      var x3 = x + width;
-      var y3 = y + height;
-      var degree90 = Math.PI * 0.5;
-      var segments = [];
-      segments.push(Shapes.arc(x1, y1, rx, ry, 2 * degree90, 3 * degree90));
-      segments.push(Shapes.line(x1, y0, x2, y0));
-      segments.push(Shapes.arc(x2, y1, rx, ry, 3 * degree90, 4 * degree90));
-      segments.push(Shapes.line(x3, y1, x3, y2));
-      segments.push(Shapes.arc(x2, y2, rx, ry, 0, degree90));
-      segments.push(Shapes.line(x2, y3, x1, y3));
-      segments.push(Shapes.arc(x1, y2, rx, ry, degree90, 2 * degree90));
-      segments.push(Shapes.line(x0, y2, x0, y1));
-      return ShapeInfo(ShapeInfo.PATH, segments);
+      return ShapeInfo.rectangle.apply(ShapeInfo, arguments);
     }
   }]);
 
@@ -9324,7 +9300,7 @@ function () {
   }, {
     key: "rectangle",
     value: function rectangle(topLeft, size) {
-      return ShapeInfo.rectangle(topLeft.x, topLeft.y, size.x, size.y);
+      return ShapeInfo.rectangle.apply(ShapeInfo, arguments);
     }
   }]);
 
