@@ -76,7 +76,7 @@ intersections.points.forEach(console.log);
 
 Each of the shape constructors in ShapeInfo supports a wide variety of formats. Be sure to look at the examples in the ![ShapeInfo](./docs/ShapeInfo.md) docs to get an idea of how you can define shapes.
 
-Note that there are some older APIs that have been deprecated. If you wish to work with the Intersection methods directly, you can read about the low-level API in [Shapes API](#docs/ShapesApi.md).
+Note that there are some older APIs that have been deprecated. If you wish to work with those APIs or wish to use the Intersection methods directly, you can read about those in [Shapes API](#docs/ShapesApi.md).
 
 # Queries
 
