@@ -9648,6 +9648,7 @@
 
   exports.AffineShapes = AffineShapes;
   exports.Intersection = Intersection;
+  exports.IntersectionArgs = ShapeInfo;
   exports.IntersectionQuery = IntersectionQuery;
   exports.Matrix2D = Matrix2D;
   exports.Point2D = Point2D;

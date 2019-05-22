@@ -9640,4 +9640,4 @@ IntersectionQuery.pointInRectangle = function (point, topLeft, bottomRight) {
 * @external Polynomial
 */
 
-export { AffineShapes, Intersection, IntersectionQuery, Matrix2D, Point2D, ShapeInfo, Shapes, SvgShapes, Vector2D };
+export { AffineShapes, Intersection, ShapeInfo as IntersectionArgs, IntersectionQuery, Matrix2D, Point2D, ShapeInfo, Shapes, SvgShapes, Vector2D };
