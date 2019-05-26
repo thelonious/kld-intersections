@@ -2424,79 +2424,58 @@ var parser = function () {
 
     return _o;
   },
-      $V0 = [1, 5],
-      $V1 = [1, 11],
-      $V2 = [1, 6],
-      $V3 = [1, 7],
-      $V4 = [1, 8],
-      $V5 = [1, 10],
-      $V6 = [1, 20],
-      $V7 = [1, 21],
-      $V8 = [1, 24],
-      $V9 = [1, 14],
-      $Va = [1, 18],
-      $Vb = [1, 19],
-      $Vc = [1, 23],
-      $Vd = [1, 22],
-      $Ve = [1, 7, 8, 11, 13, 14, 17, 23, 24, 26, 29, 36, 37, 78, 79],
-      $Vf = [1, 7, 8, 11, 13, 14, 17, 23, 24, 26, 28, 29, 36, 37, 38, 41, 42, 78, 79],
+      $V0 = [1, 6],
+      $V1 = [1, 17],
+      $V2 = [1, 7],
+      $V3 = [1, 10],
+      $V4 = [1, 13],
+      $V5 = [1, 28],
+      $V6 = [1, 14],
+      $V7 = [1, 34],
+      $V8 = [1, 15],
+      $V9 = [1, 33],
+      $Va = [1, 21],
+      $Vb = [1, 24],
+      $Vc = [1, 25],
+      $Vd = [1, 29],
+      $Ve = [1, 30],
+      $Vf = [1, 32],
       $Vg = [1, 31],
-      $Vh = [1, 32],
-      $Vi = [1, 33],
-      $Vj = [1, 34],
-      $Vk = [1, 7, 8, 11, 13, 14, 16, 17, 23, 24, 26, 28, 29, 36, 37, 38, 41, 42, 51, 57, 58, 59, 60, 78, 79],
-      $Vl = [2, 50],
-      $Vm = [1, 36],
-      $Vn = [1, 37],
-      $Vo = [1, 7, 8, 11, 13, 14, 16, 17, 23, 24, 26, 28, 29, 36, 37, 38, 41, 42, 49, 51, 57, 58, 59, 60, 65, 78, 79],
-      $Vp = [1, 45],
-      $Vq = [2, 13],
-      $Vr = [2, 14],
-      $Vs = [2, 15],
-      $Vt = [1, 70],
-      $Vu = [1, 68],
-      $Vv = [1, 54],
+      $Vh = [1, 5],
+      $Vi = [1, 5, 14, 16, 24, 28, 41],
+      $Vj = [1, 57],
+      $Vk = [1, 59],
+      $Vl = [1, 58],
+      $Vm = [1, 46],
+      $Vn = [1, 52],
+      $Vo = [1, 41],
+      $Vp = [1, 42],
+      $Vq = [1, 43],
+      $Vr = [1, 44],
+      $Vs = [1, 45],
+      $Vt = [1, 47],
+      $Vu = [1, 49],
+      $Vv = [1, 50],
       $Vw = [1, 55],
       $Vx = [1, 56],
-      $Vy = [1, 57],
-      $Vz = [1, 58],
-      $VA = [1, 69],
-      $VB = [1, 72],
-      $VC = [1, 59],
-      $VD = [1, 60],
-      $VE = [1, 62],
-      $VF = [1, 63],
-      $VG = [1, 65],
-      $VH = [1, 71],
-      $VI = [38, 42],
-      $VJ = [28, 42],
-      $VK = [1, 90],
-      $VL = [1, 91],
-      $VM = [1, 92],
-      $VN = [1, 111],
-      $VO = [1, 7, 8, 11, 13, 14, 17, 23, 24, 26, 28, 29, 36, 37, 38, 41, 42, 65, 78, 79],
-      $VP = [1, 7, 8, 11, 13, 14, 17, 23, 24, 26, 28, 29, 36, 37, 38, 41, 42, 49, 51, 65, 78, 79],
-      $VQ = [1, 120],
-      $VR = [1, 125],
-      $VS = [1, 7, 8, 11, 13, 14, 16, 17, 23, 24, 26, 28, 29, 36, 37, 38, 41, 42, 51, 57, 58, 78, 79],
-      $VT = [42, 51],
-      $VU = [1, 149],
-      $VV = [38, 42, 51],
-      $VW = [38, 42, 49, 51],
-      $VX = [28, 42, 49],
-      $VY = [1, 160],
-      $VZ = [1, 161],
-      $V_ = [1, 163],
-      $V$ = [1, 165],
-      $V01 = [41, 42],
-      $V11 = [1, 166],
-      $V21 = [1, 168],
-      $V31 = [2, 42],
-      $V41 = [1, 170],
-      $V51 = [1, 175],
-      $V61 = [1, 176],
-      $V71 = [1, 189],
-      $V81 = [28, 41, 42];
+      $Vy = [1, 5, 14, 16, 24, 28, 41, 54],
+      $Vz = [1, 5, 14, 16, 24, 28, 31, 32, 33, 34, 41, 54],
+      $VA = [1, 5, 14, 16, 24, 28, 31, 32, 33, 34, 38, 40, 41, 54],
+      $VB = [1, 5, 14, 16, 24, 28, 31, 32, 33, 34, 38, 40, 41, 54, 58],
+      $VC = [1, 5, 14, 16, 24, 28, 41, 58],
+      $VD = [1, 93],
+      $VE = [1, 98],
+      $VF = [1, 112],
+      $VG = [1, 115],
+      $VH = [14, 41],
+      $VI = [14, 28],
+      $VJ = [1, 127],
+      $VK = [14, 24, 41],
+      $VL = [14, 24, 41, 58],
+      $VM = [14, 28, 58],
+      $VN = [14, 24],
+      $VO = [1, 5, 14, 28, 41],
+      $VP = [1, 151];
 
   var parser = {
     trace: function trace() {},
@@ -2505,127 +2484,132 @@ var parser = function () {
       "error": 2,
       "program": 3,
       "statements": 4,
-      "statement": 5,
-      "transform": 6,
-      "GENERATOR": 7,
-      "IDENTIFIER": 8,
-      "=": 9,
-      "generator": 10,
-      "PATTERN": 11,
-      "namedTypePattern": 12,
-      "TRANSFORM": 13,
-      "TYPE": 14,
-      "typeDefinition": 15,
-      "<=": 16,
-      "_": 17,
-      "typePatterns": 18,
-      "ANY_TYPE": 19,
-      "ARRAY_TYPE": 20,
-      "arrayTypeDefinition": 21,
-      "BOOLEAN_TYPE": 22,
-      "TRUE": 23,
-      "FALSE": 24,
-      "ENUMERATION": 25,
+      ";": 5,
+      "statement": 6,
+      "assignment": 7,
+      "sequence": 8,
+      "LET": 9,
+      "IDENTIFIER": 10,
+      "=": 11,
+      "DEF": 12,
+      "sequences": 13,
+      ",": 14,
+      "steps": 15,
+      "|>": 16,
+      "step": 17,
+      "=~": 18,
+      "namedPattern": 19,
+      "expression": 20,
+      "mathExpression": 21,
+      "MAP": 22,
+      "(": 23,
+      ")": 24,
+      "PATTERNS": 25,
       "{": 26,
-      "identifiers": 27,
+      "patterns": 27,
       "}": 28,
-      "NULL_TYPE": 29,
-      "NUMBER_TYPE": 30,
-      "float": 31,
-      "OBJECT_TYPE": 32,
-      "objectTypeDefinition": 33,
-      "STRING_TYPE": 34,
-      "string": 35,
-      "UNDEFINED_TYPE": 36,
-      "[": 37,
-      "]": 38,
-      "transformElements": 39,
-      "assignments": 40,
-      ";": 41,
-      ",": 42,
-      "transformProperties": 43,
-      "transformProperty": 44,
-      ":": 45,
-      "transforms": 46,
-      "assignment": 47,
-      "namedGenerator": 48,
-      "AS": 49,
-      "(": 50,
-      ")": 51,
-      "parameterList": 52,
-      "arrayExpression": 53,
-      "boolean": 54,
-      "objectExpression": 55,
-      ".": 56,
-      "+": 57,
-      "-": 58,
-      "*": 59,
-      "/": 60,
-      "expressionElements": 61,
-      "expressionElement": 62,
-      "expressionProperties": 63,
-      "expressionProperty": 64,
-      "|": 65,
-      "typePattern": 66,
+      "SEQUENCES": 29,
+      "callExpression": 30,
+      "+": 31,
+      "-": 32,
+      "*": 33,
+      "/": 34,
+      "argumentList": 35,
+      "memberExpression": 36,
+      "primaryExpression": 37,
+      ".": 38,
+      "integer": 39,
+      "[": 40,
+      "]": 41,
+      "boolean": 42,
+      "NULL_TYPE": 43,
+      "float": 44,
+      "string": 45,
+      "UNDEFINED_TYPE": 46,
+      "$": 47,
+      "arrayExpression": 48,
+      "objectExpression": 49,
+      "expressionElements": 50,
+      "expressionElement": 51,
+      "expressionProperties": 52,
+      "expressionProperty": 53,
+      ":": 54,
+      "argument": 55,
+      "...": 56,
+      "pattern": 57,
+      "AS": 58,
+      "ANY_TYPE": 59,
+      "ARRAY_TYPE": 60,
+      "BOOLEAN_TYPE": 61,
+      "TRUE": 62,
+      "FALSE": 63,
+      "NUMBER_TYPE": 64,
+      "OBJECT_TYPE": 65,
+      "STRING_TYPE": 66,
       "arrayPattern": 67,
       "objectPattern": 68,
-      "patternElements": 69,
-      "namedPatternElement": 70,
-      "patternElement": 71,
-      "range": 72,
-      "integer": 73,
-      "..": 74,
-      "patternProperties": 75,
-      "namedPatternProperty": 76,
-      "namedProperty": 77,
-      "STRING": 78,
-      "NUMBER": 79,
-      "stringOrIdentifier": 80,
+      "PATTERN": 69,
+      "ENUMERATION": 70,
+      "patternElements": 71,
+      "namedPatternElement": 72,
+      "patternElement": 73,
+      "range": 74,
+      "..": 75,
+      "patternProperties": 76,
+      "namedPatternProperty": 77,
+      "namedProperty": 78,
+      "STRING": 79,
+      "NUMBER": 80,
+      "stringOrIdentifier": 81,
+      "identifiers": 82,
       "$accept": 0,
       "$end": 1
     },
     terminals_: {
       2: "error",
-      7: "GENERATOR",
-      8: "IDENTIFIER",
-      9: "=",
-      11: "PATTERN",
-      13: "TRANSFORM",
-      14: "TYPE",
-      16: "<=",
-      17: "_",
-      19: "ANY_TYPE",
-      20: "ARRAY_TYPE",
-      22: "BOOLEAN_TYPE",
-      23: "TRUE",
-      24: "FALSE",
-      25: "ENUMERATION",
+      5: ";",
+      9: "LET",
+      10: "IDENTIFIER",
+      11: "=",
+      12: "DEF",
+      14: ",",
+      16: "|>",
+      18: "=~",
+      22: "MAP",
+      23: "(",
+      24: ")",
+      25: "PATTERNS",
       26: "{",
       28: "}",
-      29: "NULL_TYPE",
-      30: "NUMBER_TYPE",
-      32: "OBJECT_TYPE",
-      34: "STRING_TYPE",
-      36: "UNDEFINED_TYPE",
-      37: "[",
-      38: "]",
-      41: ";",
-      42: ",",
-      45: ":",
-      49: "AS",
-      50: "(",
-      51: ")",
-      56: ".",
-      57: "+",
-      58: "-",
-      59: "*",
-      60: "/",
-      65: "|",
-      74: "..",
-      78: "STRING",
-      79: "NUMBER"
+      29: "SEQUENCES",
+      31: "+",
+      32: "-",
+      33: "*",
+      34: "/",
+      38: ".",
+      40: "[",
+      41: "]",
+      43: "NULL_TYPE",
+      46: "UNDEFINED_TYPE",
+      47: "$",
+      54: ":",
+      56: "...",
+      58: "AS",
+      59: "ANY_TYPE",
+      60: "ARRAY_TYPE",
+      61: "BOOLEAN_TYPE",
+      62: "TRUE",
+      63: "FALSE",
+      64: "NUMBER_TYPE",
+      65: "OBJECT_TYPE",
+      66: "STRING_TYPE",
+      69: "PATTERN",
+      70: "ENUMERATION",
+      75: "..",
+      79: "STRING",
+      80: "NUMBER"
     },
-    productions_: [0, [3, 1], [4, 2], [4, 1], [5, 1], [5, 4], [5, 4], [5, 4], [5, 4], [6, 1], [6, 3], [6, 3], [6, 3], [6, 2], [6, 2], [6, 2], [15, 1], [15, 1], [15, 1], [15, 1], [15, 1], [15, 1], [15, 4], [15, 1], [15, 1], [15, 1], [15, 1], [15, 1], [15, 1], [15, 1], [15, 1], [21, 2], [21, 3], [21, 5], [39, 3], [39, 1], [33, 2], [33, 3], [33, 5], [43, 3], [43, 1], [44, 3], [44, 1], [40, 3], [40, 1], [47, 3], [46, 3], [46, 1], [48, 1], [48, 3], [10, 1], [10, 3], [10, 4], [10, 1], [10, 1], [10, 1], [10, 1], [10, 1], [10, 1], [10, 1], [10, 3], [10, 3], [10, 3], [10, 3], [10, 3], [53, 2], [53, 3], [61, 3], [61, 1], [62, 1], [55, 2], [55, 3], [63, 3], [63, 1], [64, 3], [64, 1], [52, 3], [52, 1], [18, 3], [18, 1], [12, 1], [12, 3], [66, 1], [66, 1], [66, 1], [66, 1], [66, 1], [66, 1], [66, 1], [66, 1], [66, 1], [66, 1], [66, 1], [66, 1], [66, 1], [66, 1], [66, 2], [66, 2], [66, 1], [67, 2], [67, 3], [69, 3], [69, 1], [70, 1], [70, 3], [71, 1], [71, 3], [71, 3], [71, 5], [72, 3], [72, 2], [72, 2], [72, 1], [68, 2], [68, 3], [75, 3], [75, 1], [76, 1], [76, 3], [77, 3], [77, 1], [54, 1], [54, 1], [35, 1], [73, 1], [31, 1], [80, 1], [80, 1], [27, 3], [27, 1]],
+    productions_: [0, [3, 1], [4, 3], [4, 1], [6, 1], [6, 1], [7, 4], [7, 4], [13, 3], [13, 1], [8, 1], [15, 3], [15, 1], [17, 2], [17, 1], [20, 1], [20, 6], [20, 4], [20, 4], [21, 1], [21, 3], [21, 3], [21, 3], [21, 3], [30, 3], [30, 4], [30, 1], [36, 1], [36, 3], [36, 3], [36, 4], [37, 1], [37, 1], [37, 1], [37, 1], [37, 1], [37, 1], [37, 1], [37, 1], [37, 1], [37, 3], [48, 2], [48, 3], [50, 3], [50, 1], [51, 1], [51, 1], [49, 2], [49, 3], [52, 3], [52, 1], [53, 3], [53, 1], [53, 1], [35, 3], [35, 1], [55, 1], [55, 2], [27, 3], [27, 1], [19, 1], [19, 3], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 2], [57, 2], [57, 1], [67, 2], [67, 3], [71, 3], [71, 1], [72, 1], [72, 3], [73, 1], [73, 3], [73, 3], [73, 5], [74, 3], [74, 2], [74, 2], [74, 1], [68, 2], [68, 3], [76, 3], [76, 1], [77, 1], [77, 3], [78, 3], [78, 1], [42, 1], [42, 1], [45, 1], [39, 1], [44, 1], [81, 1], [81, 1], [82, 3], [82, 1]],
     performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate
     /* action[1] */
     , $$
@@ -2642,306 +2626,52 @@ var parser = function () {
           break;
 
         case 2:
-          $$[$0 - 1].push($$[$0]);
-          this.$ = $$[$0 - 1];
-          break;
-
-        case 3:
-        case 35:
-        case 40:
-        case 44:
-        case 47:
-        case 68:
-        case 73:
-        case 77:
-        case 79:
-        case 102:
-        case 116:
-        case 129:
-          this.$ = [$$[$0]];
-          break;
-
-        case 4:
-        case 18:
-        case 27:
-        case 94:
-        case 95:
-          this.$ = $$[$0];
-          break;
-
-        case 5:
-          this.$ = {
-            type: 'generator-assignment',
-            name: $$[$0 - 2],
-            value: $$[$0]
-          };
-          break;
-
-        case 6:
-          this.$ = {
-            type: 'pattern-assignment',
-            name: $$[$0 - 2],
-            value: $$[$0]
-          };
-          break;
-
-        case 7:
-          this.$ = {
-            type: 'transform-assignment',
-            name: $$[$0 - 2],
-            value: $$[$0]
-          };
-          break;
-
         case 8:
-          this.$ = {
-            type: 'type-assignment',
-            name: $$[$0 - 2],
-            value: $$[$0]
-          };
-          break;
-
-        case 9:
-          this.$ = {
-            type: 'transform',
-            patterns: [{
-              type: 'pattern',
-              patternType: 'any',
-              value: null
-            }],
-            returnValue: $$[$0]
-          };
-          break;
-
-        case 10:
-          this.$ = {
-            type: 'transform',
-            patterns: null,
-            returnValue: $$[$0 - 2]
-          };
-          break;
-
         case 11:
-          this.$ = {
-            type: 'transform',
-            patterns: $$[$0],
-            returnValue: $$[$0 - 2]
-          };
-          break;
-
-        case 12:
-          this.$ = {
-            type: 'transform',
-            patterns: $$[$0],
-            returnValue: null
-          };
-          break;
-
-        case 13:
-          this.$ = {
-            type: 'generator-reference',
-            name: $$[$0]
-          };
-          break;
-
-        case 14:
-          this.$ = {
-            type: 'transform-reference',
-            name: $$[$0]
-          };
-          break;
-
-        case 15:
-          this.$ = {
-            type: 'type-reference',
-            name: $$[$0]
-          };
-          break;
-
-        case 16:
-          this.$ = {
-            type: 'type-definition',
-            definition: 'any',
-            value: null
-          };
-          break;
-
-        case 17:
-          this.$ = {
-            type: 'type-definition',
-            definition: 'array',
-            value: null
-          };
-          break;
-
-        case 19:
-          this.$ = {
-            type: 'type-definition',
-            definition: 'boolean',
-            value: null
-          };
-          break;
-
-        case 20:
-          this.$ = {
-            type: 'type-definition',
-            definition: 'boolean',
-            value: true
-          };
-          break;
-
-        case 21:
-          this.$ = {
-            type: 'type-definition',
-            definition: 'boolean',
-            value: false
-          };
-          break;
-
-        case 22:
-          this.$ = {
-            type: 'type-definition',
-            definition: 'enumeration',
-            value: $$[$0 - 1]
-          };
-          break;
-
-        case 23:
-          this.$ = {
-            type: 'type-definition',
-            definition: 'null',
-            value: null
-          };
-          break;
-
-        case 24:
-          this.$ = {
-            type: 'type-definition',
-            definition: 'number',
-            value: null
-          };
-          break;
-
-        case 25:
-          this.$ = {
-            type: 'type-definition',
-            definition: 'number',
-            value: $$[$0]
-          };
-          break;
-
-        case 26:
-          this.$ = {
-            type: 'type-definition',
-            definition: 'object',
-            value: null
-          };
-          break;
-
-        case 28:
-          this.$ = {
-            type: 'type-definition',
-            definition: 'string',
-            value: null
-          };
-          break;
-
-        case 29:
-          this.$ = {
-            type: 'type-definition',
-            definition: 'string',
-            value: $$[$0]
-          };
-          break;
-
-        case 30:
-          this.$ = {
-            type: 'type-definition',
-            definition: 'undefined',
-            value: null
-          };
-          break;
-
-        case 31:
-          this.$ = {
-            type: 'type-definition',
-            definition: 'array',
-            value: []
-          };
-          break;
-
-        case 32:
-          this.$ = {
-            type: 'type-definition',
-            definition: 'array',
-            value: $$[$0 - 1]
-          };
-          break;
-
-        case 33:
-          this.$ = {
-            type: 'type-definition',
-            definition: 'array',
-            value: $$[$0 - 3].concat($$[$0 - 1])
-          };
-          break;
-
-        case 34:
-        case 39:
         case 43:
-        case 46:
-        case 67:
-        case 72:
-        case 76:
-        case 78:
-        case 101:
-        case 115:
-        case 128:
+        case 49:
+        case 54:
+        case 58:
+        case 81:
+        case 95:
+        case 108:
           $$[$0 - 2].push($$[$0]);
           this.$ = $$[$0 - 2];
           break;
 
-        case 36:
-          this.$ = {
-            type: 'type-definition',
-            definition: 'object',
-            value: []
-          };
+        case 3:
+        case 9:
+        case 12:
+        case 44:
+        case 50:
+        case 55:
+        case 59:
+        case 82:
+        case 96:
+        case 109:
+          this.$ = [$$[$0]];
           break;
 
-        case 37:
-          this.$ = {
-            type: 'type-definition',
-            definition: 'object',
-            value: $$[$0 - 1]
-          };
-          break;
-
+        case 4:
+        case 5:
+        case 13:
+        case 14:
+        case 15:
+        case 19:
+        case 26:
+        case 27:
         case 38:
-          this.$ = {
-            type: 'type-definition',
-            definition: 'object',
-            value: $$[$0 - 3].concat($$[$0 - 1])
-          };
-          break;
-
-        case 41:
-          this.$ = {
-            type: 'type-property',
-            name: $$[$0 - 2],
-            value: $$[$0]
-          };
-          break;
-
-        case 42:
-          this.$ = {
-            type: 'type-property',
-            name: $$[$0],
-            value: null
-          };
-          break;
-
+        case 39:
         case 45:
+        case 46:
+        case 53:
+        case 56:
+        case 97:
+        case 106:
+          this.$ = $$[$0];
+          break;
+
+        case 6:
           this.$ = {
             type: 'assignment',
             name: $$[$0 - 2],
@@ -2949,220 +2679,231 @@ var parser = function () {
           };
           break;
 
-        case 48:
-        case 80:
-        case 103:
-          $$[$0].assignTo = null;
-          this.$ = $$[$0];
-          break;
-
-        case 49:
-        case 81:
-        case 104:
-        case 118:
-          $$[$0 - 2].assignTo = $$[$0];
-          this.$ = $$[$0 - 2];
-          break;
-
-        case 50:
+        case 7:
           this.$ = {
-            type: 'generator',
-            expression: {
-              type: 'get-value',
-              name: $$[$0]
-            }
+            type: 'def',
+            name: $$[$0 - 2],
+            value: $$[$0]
+          };
+          break;
+
+        case 10:
+          this.$ = {
+            type: 'sequence',
+            steps: $$[$0]
+          };
+          break;
+
+        case 16:
+          this.$ = {
+            type: 'map',
+            value: [$$[$0 - 3], $$[$0 - 1]]
+          };
+          break;
+
+        case 17:
+          this.$ = {
+            type: 'patterns',
+            patterns: $$[$0 - 1]
+          };
+          break;
+
+        case 18:
+          this.$ = {
+            type: 'sequences',
+            sequences: $$[$0 - 1]
+          };
+          break;
+
+        case 20:
+          this.$ = {
+            type: 'add',
+            left: $$[$0 - 2],
+            right: $$[$0]
+          };
+          break;
+
+        case 21:
+          this.$ = {
+            type: 'subtract',
+            left: $$[$0 - 2],
+            right: $$[$0]
+          };
+          break;
+
+        case 22:
+          this.$ = {
+            type: 'multiply',
+            left: $$[$0 - 2],
+            right: $$[$0]
+          };
+          break;
+
+        case 23:
+          this.$ = {
+            type: 'divide',
+            left: $$[$0 - 2],
+            right: $$[$0]
+          };
+          break;
+
+        case 24:
+          this.$ = {
+            type: 'invoke',
+            name: $$[$0 - 2],
+            args: []
+          };
+          break;
+
+        case 25:
+          this.$ = {
+            type: 'invoke',
+            name: $$[$0 - 3],
+            args: $$[$0 - 1]
+          };
+          break;
+
+        case 28:
+          this.$ = {
+            type: 'get-property',
+            left: $$[$0 - 2],
+            right: $$[$0]
+          };
+          break;
+
+        case 29:
+          this.$ = {
+            type: 'get-index',
+            left: $$[$0 - 2],
+            right: $$[$0]
+          };
+          break;
+
+        case 30:
+          this.$ = {
+            type: 'get-index',
+            left: $$[$0 - 3],
+            right: $$[$0 - 1]
+          };
+          break;
+
+        case 31:
+          this.$ = {
+            type: 'boolean',
+            value: $$[$0]
+          };
+          break;
+
+        case 32:
+          this.$ = {
+            type: 'boolean',
+            value: null
+          };
+          break;
+
+        case 33:
+          this.$ = {
+            type: 'number',
+            value: $$[$0]
+          };
+          break;
+
+        case 34:
+          this.$ = {
+            type: 'string',
+            value: $$[$0]
+          };
+          break;
+
+        case 35:
+          this.$ = {
+            type: 'undefined',
+            value: undefined
+          };
+          break;
+
+        case 36:
+          this.$ = {
+            type: 'get-value',
+            name: $$[$0]
+          };
+          break;
+
+        case 37:
+          this.$ = {
+            type: 'get-structure'
+          };
+          break;
+
+        case 40:
+          this.$ = $$[$0 - 1];
+          break;
+
+        case 41:
+          this.$ = {
+            type: 'array',
+            value: []
+          };
+          break;
+
+        case 42:
+          this.$ = {
+            type: 'array',
+            value: $$[$0 - 1]
+          };
+          break;
+
+        case 47:
+          this.$ = {
+            type: 'object',
+            value: []
+          };
+          break;
+
+        case 48:
+          this.$ = {
+            type: 'object',
+            value: $$[$0 - 1]
           };
           break;
 
         case 51:
           this.$ = {
-            type: 'generator',
-            expression: {
-              type: 'invoke',
-              name: $$[$0 - 2],
-              args: []
-            }
+            type: 'property',
+            name: $$[$0 - 2],
+            value: $$[$0]
           };
           break;
 
         case 52:
           this.$ = {
-            type: 'generator',
-            expression: {
-              type: 'invoke',
-              name: $$[$0 - 3],
-              args: $$[$0 - 1]
-            }
-          };
-          break;
-
-        case 53:
-        case 58:
-          this.$ = {
-            type: 'generator',
-            expression: $$[$0]
-          };
-          break;
-
-        case 54:
-          this.$ = {
-            type: 'generator',
-            expression: {
-              type: 'boolean',
-              value: $$[$0]
-            }
-          };
-          break;
-
-        case 55:
-          this.$ = {
-            type: 'generator',
-            expression: {
-              type: 'boolean',
-              value: null
-            }
-          };
-          break;
-
-        case 56:
-          this.$ = {
-            type: 'generator',
-            expression: {
-              type: 'number',
-              value: $$[$0]
-            }
+            type: 'property',
+            name: $$[$0],
+            value: null
           };
           break;
 
         case 57:
           this.$ = {
-            type: 'generator',
-            expression: {
-              type: 'string',
-              value: $$[$0]
-            }
-          };
-          break;
-
-        case 59:
-          this.$ = {
-            type: 'generator',
-            expression: {
-              type: 'string',
-              value: undefined
-            }
+            type: 'spread',
+            expression: $$[$0]
           };
           break;
 
         case 60:
-          this.$ = {
-            type: 'generator',
-            expression: {
-              type: 'get-property',
-              left: {
-                type: 'get-value',
-                name: $$[$0 - 2]
-              },
-              right: $$[$0]
-            }
-          };
+        case 83:
+          $$[$0].assignTo = null;
+          this.$ = $$[$0];
           break;
 
         case 61:
-          this.$ = {
-            type: 'generator',
-            expression: {
-              type: 'add',
-              left: $$[$0 - 2],
-              right: $$[$0]
-            }
-          };
+        case 84:
+        case 98:
+          $$[$0 - 2].assignTo = $$[$0];
+          this.$ = $$[$0 - 2];
           break;
 
         case 62:
-          this.$ = {
-            type: 'generator',
-            expression: {
-              type: 'subtract',
-              left: $$[$0 - 2],
-              right: $$[$0]
-            }
-          };
-          break;
-
-        case 63:
-          this.$ = {
-            type: 'generator',
-            expression: {
-              type: 'multiply',
-              left: $$[$0 - 2],
-              right: $$[$0]
-            }
-          };
-          break;
-
-        case 64:
-          this.$ = {
-            type: 'generator',
-            expression: {
-              type: 'divide',
-              left: $$[$0 - 2],
-              right: $$[$0]
-            }
-          };
-          break;
-
-        case 65:
-          this.$ = {
-            type: 'array',
-            value: []
-          };
-          break;
-
-        case 66:
-          this.$ = {
-            type: 'array',
-            value: $$[$0 - 1]
-          };
-          break;
-
-        case 69:
-        case 117:
-        case 126:
-          this.$ = $$[$0];
-          break;
-
-        case 70:
-          this.$ = {
-            type: 'object',
-            value: []
-          };
-          break;
-
-        case 71:
-          this.$ = {
-            type: 'object',
-            value: $$[$0 - 1]
-          };
-          break;
-
-        case 74:
-          $$[$0].name = $$[$0 - 2];
-          this.$ = $$[$0];
-          break;
-
-        case 75:
-          this.$ = {
-            type: 'generator',
-            name: $$[$0],
-            expression: {
-              type: 'get-value',
-              name: $$[$0]
-            }
-          };
-          break;
-
-        case 82:
           this.$ = {
             type: 'pattern',
             patternType: 'any',
@@ -3170,7 +2911,7 @@ var parser = function () {
           };
           break;
 
-        case 83:
+        case 63:
           this.$ = {
             type: 'pattern',
             patternType: 'array',
@@ -3178,7 +2919,7 @@ var parser = function () {
           };
           break;
 
-        case 84:
+        case 64:
           this.$ = {
             type: 'pattern',
             patternType: 'boolean',
@@ -3186,7 +2927,7 @@ var parser = function () {
           };
           break;
 
-        case 85:
+        case 65:
           this.$ = {
             type: 'pattern',
             patternType: 'boolean',
@@ -3194,7 +2935,7 @@ var parser = function () {
           };
           break;
 
-        case 86:
+        case 66:
           this.$ = {
             type: 'pattern',
             patternType: 'boolean',
@@ -3202,7 +2943,7 @@ var parser = function () {
           };
           break;
 
-        case 87:
+        case 67:
           this.$ = {
             type: 'pattern',
             patternType: 'null',
@@ -3210,7 +2951,7 @@ var parser = function () {
           };
           break;
 
-        case 88:
+        case 68:
           this.$ = {
             type: 'pattern',
             patternType: 'number',
@@ -3218,7 +2959,7 @@ var parser = function () {
           };
           break;
 
-        case 89:
+        case 69:
           this.$ = {
             type: 'pattern',
             patternType: 'number',
@@ -3226,7 +2967,7 @@ var parser = function () {
           };
           break;
 
-        case 90:
+        case 70:
           this.$ = {
             type: 'pattern',
             patternType: 'object',
@@ -3234,7 +2975,7 @@ var parser = function () {
           };
           break;
 
-        case 91:
+        case 71:
           this.$ = {
             type: 'pattern',
             patternType: 'string',
@@ -3242,7 +2983,7 @@ var parser = function () {
           };
           break;
 
-        case 92:
+        case 72:
           this.$ = {
             type: 'pattern',
             patternType: 'string',
@@ -3250,7 +2991,7 @@ var parser = function () {
           };
           break;
 
-        case 93:
+        case 73:
           this.$ = {
             type: 'pattern',
             patternType: 'undefined',
@@ -3258,21 +2999,26 @@ var parser = function () {
           };
           break;
 
-        case 96:
+        case 74:
+        case 75:
+          this.$ = $$[$0];
+          break;
+
+        case 76:
           this.$ = {
             type: 'pattern-reference',
             name: $$[$0]
           };
           break;
 
-        case 97:
+        case 77:
           this.$ = {
             type: 'enumeration-reference',
             name: $$[$0]
           };
           break;
 
-        case 98:
+        case 78:
           this.$ = {
             type: 'pattern',
             patternType: 'reference',
@@ -3280,7 +3026,7 @@ var parser = function () {
           };
           break;
 
-        case 99:
+        case 79:
           this.$ = {
             type: 'pattern',
             patternType: 'array-pattern',
@@ -3288,7 +3034,7 @@ var parser = function () {
           };
           break;
 
-        case 100:
+        case 80:
           this.$ = {
             type: 'pattern',
             patternType: 'array-pattern',
@@ -3296,7 +3042,7 @@ var parser = function () {
           };
           break;
 
-        case 105:
+        case 85:
           this.$ = {
             type: 'element',
             pattern: $$[$0],
@@ -3308,7 +3054,7 @@ var parser = function () {
           };
           break;
 
-        case 106:
+        case 86:
           this.$ = {
             type: 'element',
             pattern: $$[$0 - 2],
@@ -3316,7 +3062,7 @@ var parser = function () {
           };
           break;
 
-        case 107:
+        case 87:
           this.$ = {
             type: 'element-group',
             elements: $$[$0 - 1],
@@ -3328,7 +3074,7 @@ var parser = function () {
           };
           break;
 
-        case 108:
+        case 88:
           this.$ = {
             type: 'element-group',
             elements: $$[$0 - 3],
@@ -3336,7 +3082,7 @@ var parser = function () {
           };
           break;
 
-        case 109:
+        case 89:
           this.$ = {
             type: 'range',
             start: $$[$0 - 2],
@@ -3344,7 +3090,7 @@ var parser = function () {
           };
           break;
 
-        case 110:
+        case 90:
           this.$ = {
             type: 'range',
             start: 0,
@@ -3352,7 +3098,7 @@ var parser = function () {
           };
           break;
 
-        case 111:
+        case 91:
           this.$ = {
             type: 'range',
             start: $$[$0 - 1],
@@ -3360,7 +3106,7 @@ var parser = function () {
           };
           break;
 
-        case 112:
+        case 92:
           this.$ = {
             type: 'range',
             start: $$[$0],
@@ -3368,7 +3114,7 @@ var parser = function () {
           };
           break;
 
-        case 113:
+        case 93:
           this.$ = {
             type: 'pattern',
             patternType: 'object',
@@ -3376,7 +3122,7 @@ var parser = function () {
           };
           break;
 
-        case 114:
+        case 94:
           this.$ = {
             type: 'pattern',
             patternType: 'object-pattern',
@@ -3384,7 +3130,7 @@ var parser = function () {
           };
           break;
 
-        case 119:
+        case 99:
           this.$ = {
             type: 'property',
             name: $$[$0 - 2],
@@ -3392,7 +3138,7 @@ var parser = function () {
           };
           break;
 
-        case 120:
+        case 100:
           this.$ = {
             type: 'property',
             name: $$[$0],
@@ -3404,24 +3150,24 @@ var parser = function () {
           };
           break;
 
-        case 121:
+        case 101:
           this.$ = true;
           break;
 
-        case 122:
+        case 102:
           this.$ = false;
           break;
 
-        case 123:
-        case 127:
+        case 103:
+        case 107:
           this.$ = $$[$0].substring(1, $$[$0].length - 1);
           break;
 
-        case 124:
+        case 104:
           this.$ = parseInt($$[$0]);
           break;
 
-        case 125:
+        case 105:
           this.$ = parseFloat($$[$0]);
           break;
       }
@@ -3429,808 +3175,904 @@ var parser = function () {
     table: [{
       3: 1,
       4: 2,
-      5: 3,
-      6: 4,
-      7: $V0,
-      8: $V1,
-      10: 9,
-      11: $V2,
-      13: $V3,
-      14: $V4,
-      17: $V5,
-      23: $V6,
-      24: $V7,
-      26: $V8,
-      29: $V9,
-      31: 15,
-      35: 16,
-      36: $Va,
-      37: $Vb,
-      53: 12,
-      54: 13,
-      55: 17,
-      78: $Vc,
-      79: $Vd
+      6: 3,
+      7: 4,
+      8: 5,
+      9: $V0,
+      10: $V1,
+      12: $V2,
+      15: 8,
+      17: 9,
+      18: $V3,
+      20: 11,
+      21: 12,
+      22: $V4,
+      23: $V5,
+      25: $V6,
+      26: $V7,
+      29: $V8,
+      30: 16,
+      36: 18,
+      37: 19,
+      40: $V9,
+      42: 20,
+      43: $Va,
+      44: 22,
+      45: 23,
+      46: $Vb,
+      47: $Vc,
+      48: 26,
+      49: 27,
+      62: $Vd,
+      63: $Ve,
+      79: $Vf,
+      80: $Vg
     }, {
       1: [3]
     }, {
       1: [2, 1],
-      5: 25,
-      6: 4,
-      7: $V0,
-      8: $V1,
-      10: 9,
-      11: $V2,
-      13: $V3,
-      14: $V4,
-      17: $V5,
-      23: $V6,
-      24: $V7,
-      26: $V8,
-      29: $V9,
-      31: 15,
-      35: 16,
-      36: $Va,
-      37: $Vb,
-      53: 12,
-      54: 13,
-      55: 17,
-      78: $Vc,
-      79: $Vd
-    }, o($Ve, [2, 3]), o($Ve, [2, 4]), {
-      8: [1, 26]
+      5: [1, 35]
+    }, o($Vh, [2, 3]), o($Vh, [2, 4]), o($Vh, [2, 5]), {
+      10: [1, 36]
     }, {
-      8: [1, 27]
-    }, {
-      8: [1, 28]
-    }, {
-      8: [1, 29]
-    }, o($Vf, [2, 9], {
-      16: [1, 30],
-      57: $Vg,
-      58: $Vh,
-      59: $Vi,
-      60: $Vj
+      10: [1, 37]
+    }, o([1, 5, 14, 24, 28, 41], [2, 10], {
+      16: [1, 38]
+    }), o($Vi, [2, 12]), {
+      10: $Vj,
+      19: 39,
+      26: $Vk,
+      40: $Vl,
+      43: $Vm,
+      44: 48,
+      45: 51,
+      46: $Vn,
+      57: 40,
+      59: $Vo,
+      60: $Vp,
+      61: $Vq,
+      62: $Vr,
+      63: $Vs,
+      64: $Vt,
+      65: $Vu,
+      66: $Vv,
+      67: 53,
+      68: 54,
+      69: $Vw,
+      70: $Vx,
+      79: $Vf,
+      80: $Vg
+    }, o($Vi, [2, 14]), o($Vy, [2, 15], {
+      31: [1, 60],
+      32: [1, 61],
+      33: [1, 62],
+      34: [1, 63]
     }), {
-      16: [1, 35]
-    }, o($Vk, $Vl, {
-      50: $Vm,
-      56: $Vn
-    }), o($Vk, [2, 53]), o($Vk, [2, 54]), o($Vk, [2, 55]), o($Vk, [2, 56]), o($Vk, [2, 57]), o($Vk, [2, 58]), o($Vk, [2, 59]), {
-      8: $V1,
-      10: 41,
-      23: $V6,
-      24: $V7,
-      26: $V8,
-      29: $V9,
-      31: 15,
-      35: 16,
-      36: $Va,
-      37: $Vb,
-      38: [1, 38],
-      53: 12,
-      54: 13,
-      55: 17,
-      61: 39,
-      62: 40,
-      78: $Vc,
-      79: $Vd
-    }, o($Vk, [2, 121]), o($Vk, [2, 122]), o($Vo, [2, 125]), o($Vo, [2, 123]), {
-      8: $Vp,
-      28: [1, 42],
-      63: 43,
-      64: 44
-    }, o($Ve, [2, 2]), o($Ve, $Vq, {
-      9: [1, 46]
+      23: [1, 64]
+    }, {
+      26: [1, 65]
+    }, {
+      26: [1, 66]
+    }, o($Vz, [2, 19]), o($VA, [2, 36], {
+      23: [1, 67]
+    }), o($Vz, [2, 26], {
+      38: [1, 68],
+      40: [1, 69]
+    }), o($VA, [2, 27]), o($VA, [2, 31]), o($VA, [2, 32]), o($VA, [2, 33]), o($VA, [2, 34]), o($VA, [2, 35]), o($VA, [2, 37]), o($VA, [2, 38]), o($VA, [2, 39]), {
+      10: $V1,
+      20: 70,
+      21: 12,
+      22: $V4,
+      23: $V5,
+      25: $V6,
+      26: $V7,
+      29: $V8,
+      30: 16,
+      36: 18,
+      37: 19,
+      40: $V9,
+      42: 20,
+      43: $Va,
+      44: 22,
+      45: 23,
+      46: $Vb,
+      47: $Vc,
+      48: 26,
+      49: 27,
+      62: $Vd,
+      63: $Ve,
+      79: $Vf,
+      80: $Vg
+    }, o($VA, [2, 101]), o($VA, [2, 102]), o($VB, [2, 105]), o($VB, [2, 103]), {
+      7: 75,
+      9: $V0,
+      10: $V1,
+      12: $V2,
+      20: 74,
+      21: 12,
+      22: $V4,
+      23: $V5,
+      25: $V6,
+      26: $V7,
+      29: $V8,
+      30: 16,
+      36: 18,
+      37: 19,
+      40: $V9,
+      41: [1, 71],
+      42: 20,
+      43: $Va,
+      44: 22,
+      45: 23,
+      46: $Vb,
+      47: $Vc,
+      48: 26,
+      49: 27,
+      50: 72,
+      51: 73,
+      62: $Vd,
+      63: $Ve,
+      79: $Vf,
+      80: $Vg
+    }, {
+      7: 80,
+      9: $V0,
+      10: $V1,
+      12: $V2,
+      20: 79,
+      21: 12,
+      22: $V4,
+      23: $V5,
+      25: $V6,
+      26: $V7,
+      28: [1, 76],
+      29: $V8,
+      30: 16,
+      36: 18,
+      37: 19,
+      40: $V9,
+      42: 20,
+      43: $Va,
+      44: 22,
+      45: 23,
+      46: $Vb,
+      47: $Vc,
+      48: 26,
+      49: 27,
+      52: 77,
+      53: 78,
+      62: $Vd,
+      63: $Ve,
+      79: $Vf,
+      80: $Vg
+    }, {
+      6: 81,
+      7: 4,
+      8: 5,
+      9: $V0,
+      10: $V1,
+      12: $V2,
+      15: 8,
+      17: 9,
+      18: $V3,
+      20: 11,
+      21: 12,
+      22: $V4,
+      23: $V5,
+      25: $V6,
+      26: $V7,
+      29: $V8,
+      30: 16,
+      36: 18,
+      37: 19,
+      40: $V9,
+      42: 20,
+      43: $Va,
+      44: 22,
+      45: 23,
+      46: $Vb,
+      47: $Vc,
+      48: 26,
+      49: 27,
+      62: $Vd,
+      63: $Ve,
+      79: $Vf,
+      80: $Vg
+    }, {
+      11: [1, 82]
+    }, {
+      11: [1, 83]
+    }, {
+      10: $V1,
+      17: 84,
+      18: $V3,
+      20: 11,
+      21: 12,
+      22: $V4,
+      23: $V5,
+      25: $V6,
+      26: $V7,
+      29: $V8,
+      30: 16,
+      36: 18,
+      37: 19,
+      40: $V9,
+      42: 20,
+      43: $Va,
+      44: 22,
+      45: 23,
+      46: $Vb,
+      47: $Vc,
+      48: 26,
+      49: 27,
+      62: $Vd,
+      63: $Ve,
+      79: $Vf,
+      80: $Vg
+    }, o($Vi, [2, 13]), o($Vi, [2, 60], {
+      58: [1, 85]
+    }), o($VC, [2, 62]), o($VC, [2, 63]), o($VC, [2, 64]), o($VC, [2, 65]), o($VC, [2, 66]), o($VC, [2, 67]), o($VC, [2, 68]), o($VC, [2, 69]), o($VC, [2, 70]), o($VC, [2, 71]), o($VC, [2, 72]), o($VC, [2, 73]), o($VC, [2, 74]), o($VC, [2, 75]), {
+      10: [1, 86]
+    }, {
+      10: [1, 87]
+    }, o($VC, [2, 78]), {
+      10: $Vj,
+      23: $VD,
+      26: $Vk,
+      40: $Vl,
+      41: [1, 88],
+      43: $Vm,
+      44: 48,
+      45: 51,
+      46: $Vn,
+      57: 92,
+      59: $Vo,
+      60: $Vp,
+      61: $Vq,
+      62: $Vr,
+      63: $Vs,
+      64: $Vt,
+      65: $Vu,
+      66: $Vv,
+      67: 53,
+      68: 54,
+      69: $Vw,
+      70: $Vx,
+      71: 89,
+      72: 90,
+      73: 91,
+      79: $Vf,
+      80: $Vg
+    }, {
+      10: $VE,
+      28: [1, 94],
+      76: 95,
+      77: 96,
+      78: 97
+    }, {
+      10: $V1,
+      23: $V5,
+      26: $V7,
+      30: 99,
+      36: 18,
+      37: 19,
+      40: $V9,
+      42: 20,
+      43: $Va,
+      44: 22,
+      45: 23,
+      46: $Vb,
+      47: $Vc,
+      48: 26,
+      49: 27,
+      62: $Vd,
+      63: $Ve,
+      79: $Vf,
+      80: $Vg
+    }, {
+      10: $V1,
+      23: $V5,
+      26: $V7,
+      30: 100,
+      36: 18,
+      37: 19,
+      40: $V9,
+      42: 20,
+      43: $Va,
+      44: 22,
+      45: 23,
+      46: $Vb,
+      47: $Vc,
+      48: 26,
+      49: 27,
+      62: $Vd,
+      63: $Ve,
+      79: $Vf,
+      80: $Vg
+    }, {
+      10: $V1,
+      23: $V5,
+      26: $V7,
+      30: 101,
+      36: 18,
+      37: 19,
+      40: $V9,
+      42: 20,
+      43: $Va,
+      44: 22,
+      45: 23,
+      46: $Vb,
+      47: $Vc,
+      48: 26,
+      49: 27,
+      62: $Vd,
+      63: $Ve,
+      79: $Vf,
+      80: $Vg
+    }, {
+      10: $V1,
+      23: $V5,
+      26: $V7,
+      30: 102,
+      36: 18,
+      37: 19,
+      40: $V9,
+      42: 20,
+      43: $Va,
+      44: 22,
+      45: 23,
+      46: $Vb,
+      47: $Vc,
+      48: 26,
+      49: 27,
+      62: $Vd,
+      63: $Ve,
+      79: $Vf,
+      80: $Vg
+    }, {
+      10: $V1,
+      20: 103,
+      21: 12,
+      22: $V4,
+      23: $V5,
+      25: $V6,
+      26: $V7,
+      29: $V8,
+      30: 16,
+      36: 18,
+      37: 19,
+      40: $V9,
+      42: 20,
+      43: $Va,
+      44: 22,
+      45: 23,
+      46: $Vb,
+      47: $Vc,
+      48: 26,
+      49: 27,
+      62: $Vd,
+      63: $Ve,
+      79: $Vf,
+      80: $Vg
+    }, {
+      10: $Vj,
+      19: 105,
+      26: $Vk,
+      27: 104,
+      40: $Vl,
+      43: $Vm,
+      44: 48,
+      45: 51,
+      46: $Vn,
+      57: 40,
+      59: $Vo,
+      60: $Vp,
+      61: $Vq,
+      62: $Vr,
+      63: $Vs,
+      64: $Vt,
+      65: $Vu,
+      66: $Vv,
+      67: 53,
+      68: 54,
+      69: $Vw,
+      70: $Vx,
+      79: $Vf,
+      80: $Vg
+    }, {
+      8: 107,
+      10: $V1,
+      13: 106,
+      15: 8,
+      17: 9,
+      18: $V3,
+      20: 11,
+      21: 12,
+      22: $V4,
+      23: $V5,
+      25: $V6,
+      26: $V7,
+      29: $V8,
+      30: 16,
+      36: 18,
+      37: 19,
+      40: $V9,
+      42: 20,
+      43: $Va,
+      44: 22,
+      45: 23,
+      46: $Vb,
+      47: $Vc,
+      48: 26,
+      49: 27,
+      62: $Vd,
+      63: $Ve,
+      79: $Vf,
+      80: $Vg
+    }, {
+      10: $V1,
+      20: 111,
+      21: 12,
+      22: $V4,
+      23: $V5,
+      24: [1, 108],
+      25: $V6,
+      26: $V7,
+      29: $V8,
+      30: 16,
+      35: 109,
+      36: 18,
+      37: 19,
+      40: $V9,
+      42: 20,
+      43: $Va,
+      44: 22,
+      45: 23,
+      46: $Vb,
+      47: $Vc,
+      48: 26,
+      49: 27,
+      55: 110,
+      56: $VF,
+      62: $Vd,
+      63: $Ve,
+      79: $Vf,
+      80: $Vg
+    }, {
+      10: [1, 113],
+      39: 114,
+      80: $VG
+    }, {
+      39: 116,
+      80: $VG
+    }, {
+      24: [1, 117]
+    }, o($VA, [2, 41]), {
+      14: [1, 119],
+      41: [1, 118]
+    }, o($VH, [2, 44]), o($VH, [2, 45]), o($VH, [2, 46]), o($VA, [2, 47]), {
+      14: [1, 121],
+      28: [1, 120]
+    }, o($VI, [2, 50]), o($VI, [2, 52], {
+      54: [1, 122]
+    }), o($VI, [2, 53]), o($Vh, [2, 2]), {
+      8: 123,
+      10: $V1,
+      15: 8,
+      17: 9,
+      18: $V3,
+      20: 11,
+      21: 12,
+      22: $V4,
+      23: $V5,
+      25: $V6,
+      26: $V7,
+      29: $V8,
+      30: 16,
+      36: 18,
+      37: 19,
+      40: $V9,
+      42: 20,
+      43: $Va,
+      44: 22,
+      45: 23,
+      46: $Vb,
+      47: $Vc,
+      48: 26,
+      49: 27,
+      62: $Vd,
+      63: $Ve,
+      79: $Vf,
+      80: $Vg
+    }, {
+      8: 124,
+      10: $V1,
+      15: 8,
+      17: 9,
+      18: $V3,
+      20: 11,
+      21: 12,
+      22: $V4,
+      23: $V5,
+      25: $V6,
+      26: $V7,
+      29: $V8,
+      30: 16,
+      36: 18,
+      37: 19,
+      40: $V9,
+      42: 20,
+      43: $Va,
+      44: 22,
+      45: 23,
+      46: $Vb,
+      47: $Vc,
+      48: 26,
+      49: 27,
+      62: $Vd,
+      63: $Ve,
+      79: $Vf,
+      80: $Vg
+    }, o($Vi, [2, 11]), {
+      10: [1, 125]
+    }, o($VC, [2, 76]), o($VC, [2, 77]), o($VC, [2, 79]), {
+      14: $VJ,
+      41: [1, 126]
+    }, o($VK, [2, 82]), o($VK, [2, 83], {
+      58: [1, 128]
+    }), o($VL, [2, 85], {
+      5: [1, 129]
     }), {
-      9: [1, 47]
-    }, o($Ve, $Vr, {
-      9: [1, 48]
-    }), o($Ve, $Vs, {
-      9: [1, 49]
+      10: $Vj,
+      23: $VD,
+      26: $Vk,
+      40: $Vl,
+      43: $Vm,
+      44: 48,
+      45: 51,
+      46: $Vn,
+      57: 92,
+      59: $Vo,
+      60: $Vp,
+      61: $Vq,
+      62: $Vr,
+      63: $Vs,
+      64: $Vt,
+      65: $Vu,
+      66: $Vv,
+      67: 53,
+      68: 54,
+      69: $Vw,
+      70: $Vx,
+      71: 130,
+      72: 90,
+      73: 91,
+      79: $Vf,
+      80: $Vg
+    }, o($VC, [2, 93]), {
+      14: [1, 132],
+      28: [1, 131]
+    }, o($VI, [2, 96]), o($VI, [2, 97], {
+      58: [1, 133]
+    }), o($VM, [2, 100], {
+      54: [1, 134]
+    }), o($Vz, [2, 20]), o($Vz, [2, 21]), o($Vz, [2, 22]), o($Vz, [2, 23]), {
+      14: [1, 135]
+    }, {
+      14: [1, 137],
+      28: [1, 136]
+    }, o($VI, [2, 59]), {
+      14: [1, 139],
+      28: [1, 138]
+    }, o($VI, [2, 9]), o($Vz, [2, 24]), {
+      14: [1, 141],
+      24: [1, 140]
+    }, o($VN, [2, 55]), o($VN, [2, 56]), {
+      10: $V1,
+      20: 142,
+      21: 12,
+      22: $V4,
+      23: $V5,
+      25: $V6,
+      26: $V7,
+      29: $V8,
+      30: 16,
+      36: 18,
+      37: 19,
+      40: $V9,
+      42: 20,
+      43: $Va,
+      44: 22,
+      45: 23,
+      46: $Vb,
+      47: $Vc,
+      48: 26,
+      49: 27,
+      62: $Vd,
+      63: $Ve,
+      79: $Vf,
+      80: $Vg
+    }, o($VA, [2, 28]), o($VA, [2, 29]), o([1, 5, 14, 16, 24, 28, 31, 32, 33, 34, 38, 40, 41, 54, 58, 75], [2, 104]), {
+      41: [1, 143]
+    }, o($VA, [2, 40]), o($VA, [2, 42]), {
+      7: 75,
+      9: $V0,
+      10: $V1,
+      12: $V2,
+      20: 74,
+      21: 12,
+      22: $V4,
+      23: $V5,
+      25: $V6,
+      26: $V7,
+      29: $V8,
+      30: 16,
+      36: 18,
+      37: 19,
+      40: $V9,
+      42: 20,
+      43: $Va,
+      44: 22,
+      45: 23,
+      46: $Vb,
+      47: $Vc,
+      48: 26,
+      49: 27,
+      51: 144,
+      62: $Vd,
+      63: $Ve,
+      79: $Vf,
+      80: $Vg
+    }, o($VA, [2, 48]), {
+      7: 80,
+      9: $V0,
+      10: $V1,
+      12: $V2,
+      20: 79,
+      21: 12,
+      22: $V4,
+      23: $V5,
+      25: $V6,
+      26: $V7,
+      29: $V8,
+      30: 16,
+      36: 18,
+      37: 19,
+      40: $V9,
+      42: 20,
+      43: $Va,
+      44: 22,
+      45: 23,
+      46: $Vb,
+      47: $Vc,
+      48: 26,
+      49: 27,
+      53: 145,
+      62: $Vd,
+      63: $Ve,
+      79: $Vf,
+      80: $Vg
+    }, {
+      8: 146,
+      10: $V1,
+      15: 8,
+      17: 9,
+      18: $V3,
+      20: 11,
+      21: 12,
+      22: $V4,
+      23: $V5,
+      25: $V6,
+      26: $V7,
+      29: $V8,
+      30: 16,
+      36: 18,
+      37: 19,
+      40: $V9,
+      42: 20,
+      43: $Va,
+      44: 22,
+      45: 23,
+      46: $Vb,
+      47: $Vc,
+      48: 26,
+      49: 27,
+      62: $Vd,
+      63: $Ve,
+      79: $Vf,
+      80: $Vg
+    }, o($VO, [2, 6]), o($VO, [2, 7]), o($Vi, [2, 61]), o($VC, [2, 80]), {
+      10: $Vj,
+      23: $VD,
+      26: $Vk,
+      40: $Vl,
+      43: $Vm,
+      44: 48,
+      45: 51,
+      46: $Vn,
+      57: 92,
+      59: $Vo,
+      60: $Vp,
+      61: $Vq,
+      62: $Vr,
+      63: $Vs,
+      64: $Vt,
+      65: $Vu,
+      66: $Vv,
+      67: 53,
+      68: 54,
+      69: $Vw,
+      70: $Vx,
+      72: 147,
+      73: 91,
+      79: $Vf,
+      80: $Vg
+    }, {
+      10: [1, 148]
+    }, {
+      39: 150,
+      74: 149,
+      75: $VP,
+      80: $VG
+    }, {
+      14: $VJ,
+      24: [1, 152]
+    }, o($VC, [2, 94]), {
+      10: $VE,
+      77: 153,
+      78: 97
+    }, {
+      10: [1, 154]
+    }, {
+      10: $Vj,
+      26: $Vk,
+      40: $Vl,
+      43: $Vm,
+      44: 48,
+      45: 51,
+      46: $Vn,
+      57: 155,
+      59: $Vo,
+      60: $Vp,
+      61: $Vq,
+      62: $Vr,
+      63: $Vs,
+      64: $Vt,
+      65: $Vu,
+      66: $Vv,
+      67: 53,
+      68: 54,
+      69: $Vw,
+      70: $Vx,
+      79: $Vf,
+      80: $Vg
+    }, {
+      8: 156,
+      10: $V1,
+      15: 8,
+      17: 9,
+      18: $V3,
+      20: 11,
+      21: 12,
+      22: $V4,
+      23: $V5,
+      25: $V6,
+      26: $V7,
+      29: $V8,
+      30: 16,
+      36: 18,
+      37: 19,
+      40: $V9,
+      42: 20,
+      43: $Va,
+      44: 22,
+      45: 23,
+      46: $Vb,
+      47: $Vc,
+      48: 26,
+      49: 27,
+      62: $Vd,
+      63: $Ve,
+      79: $Vf,
+      80: $Vg
+    }, o($Vy, [2, 17]), {
+      10: $Vj,
+      19: 157,
+      26: $Vk,
+      40: $Vl,
+      43: $Vm,
+      44: 48,
+      45: 51,
+      46: $Vn,
+      57: 40,
+      59: $Vo,
+      60: $Vp,
+      61: $Vq,
+      62: $Vr,
+      63: $Vs,
+      64: $Vt,
+      65: $Vu,
+      66: $Vv,
+      67: 53,
+      68: 54,
+      69: $Vw,
+      70: $Vx,
+      79: $Vf,
+      80: $Vg
+    }, o($Vy, [2, 18]), {
+      8: 158,
+      10: $V1,
+      15: 8,
+      17: 9,
+      18: $V3,
+      20: 11,
+      21: 12,
+      22: $V4,
+      23: $V5,
+      25: $V6,
+      26: $V7,
+      29: $V8,
+      30: 16,
+      36: 18,
+      37: 19,
+      40: $V9,
+      42: 20,
+      43: $Va,
+      44: 22,
+      45: 23,
+      46: $Vb,
+      47: $Vc,
+      48: 26,
+      49: 27,
+      62: $Vd,
+      63: $Ve,
+      79: $Vf,
+      80: $Vg
+    }, o($Vz, [2, 25]), {
+      10: $V1,
+      20: 111,
+      21: 12,
+      22: $V4,
+      23: $V5,
+      25: $V6,
+      26: $V7,
+      29: $V8,
+      30: 16,
+      36: 18,
+      37: 19,
+      40: $V9,
+      42: 20,
+      43: $Va,
+      44: 22,
+      45: 23,
+      46: $Vb,
+      47: $Vc,
+      48: 26,
+      49: 27,
+      55: 159,
+      56: $VF,
+      62: $Vd,
+      63: $Ve,
+      79: $Vf,
+      80: $Vg
+    }, o($VN, [2, 57]), o($VA, [2, 30]), o($VH, [2, 43]), o($VI, [2, 49]), o($VI, [2, 51]), o($VK, [2, 81]), o($VK, [2, 84]), o($VL, [2, 86]), o($VL, [2, 92], {
+      75: [1, 160]
     }), {
-      8: $Vt,
-      11: $Vu,
-      12: 52,
-      17: [1, 50],
-      18: 51,
-      19: $Vv,
-      20: $Vw,
-      22: $Vx,
-      23: $Vy,
-      24: $Vz,
-      25: $VA,
-      26: $VB,
-      29: $VC,
-      30: $VD,
-      31: 61,
-      32: $VE,
-      34: $VF,
-      35: 64,
-      36: $VG,
-      37: $VH,
-      66: 53,
-      67: 66,
-      68: 67,
-      78: $Vc,
-      79: $Vd
-    }, {
-      8: $V1,
-      10: 73,
-      23: $V6,
-      24: $V7,
-      26: $V8,
-      29: $V9,
-      31: 15,
-      35: 16,
-      36: $Va,
-      37: $Vb,
-      53: 12,
-      54: 13,
-      55: 17,
-      78: $Vc,
-      79: $Vd
-    }, {
-      8: $V1,
-      10: 74,
-      23: $V6,
-      24: $V7,
-      26: $V8,
-      29: $V9,
-      31: 15,
-      35: 16,
-      36: $Va,
-      37: $Vb,
-      53: 12,
-      54: 13,
-      55: 17,
-      78: $Vc,
-      79: $Vd
-    }, {
-      8: $V1,
-      10: 75,
-      23: $V6,
-      24: $V7,
-      26: $V8,
-      29: $V9,
-      31: 15,
-      35: 16,
-      36: $Va,
-      37: $Vb,
-      53: 12,
-      54: 13,
-      55: 17,
-      78: $Vc,
-      79: $Vd
-    }, {
-      8: $V1,
-      10: 76,
-      23: $V6,
-      24: $V7,
-      26: $V8,
-      29: $V9,
-      31: 15,
-      35: 16,
-      36: $Va,
-      37: $Vb,
-      53: 12,
-      54: 13,
-      55: 17,
-      78: $Vc,
-      79: $Vd
-    }, {
-      8: $Vt,
-      11: $Vu,
-      12: 52,
-      18: 77,
-      19: $Vv,
-      20: $Vw,
-      22: $Vx,
-      23: $Vy,
-      24: $Vz,
-      25: $VA,
-      26: $VB,
-      29: $VC,
-      30: $VD,
-      31: 61,
-      32: $VE,
-      34: $VF,
-      35: 64,
-      36: $VG,
-      37: $VH,
-      66: 53,
-      67: 66,
-      68: 67,
-      78: $Vc,
-      79: $Vd
-    }, {
-      8: $V1,
-      10: 80,
-      23: $V6,
-      24: $V7,
-      26: $V8,
-      29: $V9,
-      31: 15,
-      35: 16,
-      36: $Va,
-      37: $Vb,
-      51: [1, 78],
-      52: 79,
-      53: 12,
-      54: 13,
-      55: 17,
-      78: $Vc,
-      79: $Vd
-    }, {
-      8: [1, 81]
-    }, o($Vk, [2, 65]), {
-      38: [1, 82],
-      42: [1, 83]
-    }, o($VI, [2, 68]), o($VI, [2, 69], {
-      57: $Vg,
-      58: $Vh,
-      59: $Vi,
-      60: $Vj
-    }), o($Vk, [2, 70]), {
-      28: [1, 84],
-      42: [1, 85]
-    }, o($VJ, [2, 73]), o($VJ, [2, 75], {
-      45: [1, 86]
-    }), {
-      8: $V1,
-      10: 87,
-      23: $V6,
-      24: $V7,
-      26: $V8,
-      29: $V9,
-      31: 15,
-      35: 16,
-      36: $Va,
-      37: $Vb,
-      53: 12,
-      54: 13,
-      55: 17,
-      78: $Vc,
-      79: $Vd
-    }, {
-      8: $Vt,
-      11: $Vu,
-      12: 88,
-      19: $Vv,
-      20: $Vw,
-      22: $Vx,
-      23: $Vy,
-      24: $Vz,
-      25: $VA,
-      26: $VB,
-      29: $VC,
-      30: $VD,
-      31: 61,
-      32: $VE,
-      34: $VF,
-      35: 64,
-      36: $VG,
-      37: $VH,
-      66: 53,
-      67: 66,
-      68: 67,
-      78: $Vc,
-      79: $Vd
-    }, {
-      6: 89,
-      7: $VK,
-      8: $V1,
-      10: 9,
-      13: $VL,
-      14: $VM,
-      17: $V5,
-      23: $V6,
-      24: $V7,
-      26: $V8,
-      29: $V9,
-      31: 15,
-      35: 16,
-      36: $Va,
-      37: $Vb,
-      53: 12,
-      54: 13,
-      55: 17,
-      78: $Vc,
-      79: $Vd
-    }, {
-      15: 93,
-      19: [1, 94],
-      20: [1, 95],
-      21: 96,
-      22: [1, 97],
-      23: [1, 98],
-      24: [1, 99],
-      25: [1, 100],
-      26: [1, 110],
-      29: [1, 101],
-      30: [1, 102],
-      31: 103,
-      32: [1, 104],
-      33: 105,
-      34: [1, 106],
-      35: 107,
-      36: [1, 108],
-      37: [1, 109],
-      78: $Vc,
-      79: $Vd
-    }, o($Vf, [2, 10]), o($Vf, [2, 11], {
-      65: $VN
-    }), o($VO, [2, 79]), o($VO, [2, 80], {
-      49: [1, 112]
-    }), o($VP, [2, 82]), o($VP, [2, 83]), o($VP, [2, 84]), o($VP, [2, 85]), o($VP, [2, 86]), o($VP, [2, 87]), o($VP, [2, 88]), o($VP, [2, 89]), o($VP, [2, 90]), o($VP, [2, 91]), o($VP, [2, 92]), o($VP, [2, 93]), o($VP, [2, 94]), o($VP, [2, 95]), {
-      8: [1, 113]
-    }, {
-      8: [1, 114]
-    }, o($VP, [2, 98]), {
-      8: $Vt,
-      11: $Vu,
-      19: $Vv,
-      20: $Vw,
-      22: $Vx,
-      23: $Vy,
-      24: $Vz,
-      25: $VA,
-      26: $VB,
-      29: $VC,
-      30: $VD,
-      31: 61,
-      32: $VE,
-      34: $VF,
-      35: 64,
-      36: $VG,
-      37: $VH,
-      38: [1, 115],
-      50: $VQ,
-      66: 119,
-      67: 66,
-      68: 67,
-      69: 116,
-      70: 117,
-      71: 118,
-      78: $Vc,
-      79: $Vd
-    }, {
-      8: $VR,
-      28: [1, 121],
-      75: 122,
-      76: 123,
-      77: 124
-    }, o($VS, [2, 61], {
-      59: $Vi,
-      60: $Vj
-    }), o($VS, [2, 62], {
-      59: $Vi,
-      60: $Vj
-    }), o($Vk, [2, 63]), o($Vk, [2, 64]), o($Vf, [2, 12], {
-      65: $VN
-    }), o($Vk, [2, 51]), {
-      42: [1, 127],
-      51: [1, 126]
-    }, o($VT, [2, 77], {
-      57: $Vg,
-      58: $Vh,
-      59: $Vi,
-      60: $Vj
-    }), o($Vk, [2, 60]), o($Vk, [2, 66]), {
-      8: $V1,
-      10: 41,
-      23: $V6,
-      24: $V7,
-      26: $V8,
-      29: $V9,
-      31: 15,
-      35: 16,
-      36: $Va,
-      37: $Vb,
-      53: 12,
-      54: 13,
-      55: 17,
-      62: 128,
-      78: $Vc,
-      79: $Vd
-    }, o($Vk, [2, 71]), {
-      8: $Vp,
-      64: 129
-    }, {
-      8: $V1,
-      10: 130,
-      23: $V6,
-      24: $V7,
-      26: $V8,
-      29: $V9,
-      31: 15,
-      35: 16,
-      36: $Va,
-      37: $Vb,
-      53: 12,
-      54: 13,
-      55: 17,
-      78: $Vc,
-      79: $Vd
-    }, o($Ve, [2, 5], {
-      57: $Vg,
-      58: $Vh,
-      59: $Vi,
-      60: $Vj
-    }), o($Ve, [2, 6]), o($Ve, [2, 7]), {
-      8: [1, 131]
-    }, {
-      8: [1, 132]
-    }, {
-      8: [1, 133]
-    }, o($Ve, [2, 8]), o($Ve, [2, 16]), o($Ve, [2, 17]), o($Ve, [2, 18]), o($Ve, [2, 19]), o($Ve, [2, 20]), o($Ve, [2, 21]), {
-      26: [1, 134]
-    }, o($Ve, [2, 23]), o($Ve, [2, 24]), o($Ve, [2, 25]), o($Ve, [2, 26]), o($Ve, [2, 27]), o($Ve, [2, 28]), o($Ve, [2, 29]), o($Ve, [2, 30]), {
-      6: 138,
-      7: $VK,
-      8: [1, 140],
-      10: 9,
-      13: $VL,
-      14: $VM,
-      17: $V5,
-      23: $V6,
-      24: $V7,
-      26: $V8,
-      29: $V9,
-      31: 15,
-      35: 16,
-      36: $Va,
-      37: $Vb,
-      38: [1, 135],
-      39: 136,
-      40: 137,
-      47: 139,
-      53: 12,
-      54: 13,
-      55: 17,
-      78: $Vc,
-      79: $Vd
-    }, {
-      8: [1, 145],
-      28: [1, 141],
-      40: 143,
-      43: 142,
-      44: 144,
-      47: 139
-    }, {
-      8: $Vt,
-      11: $Vu,
-      12: 146,
-      19: $Vv,
-      20: $Vw,
-      22: $Vx,
-      23: $Vy,
-      24: $Vz,
-      25: $VA,
-      26: $VB,
-      29: $VC,
-      30: $VD,
-      31: 61,
-      32: $VE,
-      34: $VF,
-      35: 64,
-      36: $VG,
-      37: $VH,
-      66: 53,
-      67: 66,
-      68: 67,
-      78: $Vc,
-      79: $Vd
-    }, {
-      8: [1, 147]
-    }, o($VP, [2, 96]), o($VP, [2, 97]), o($VP, [2, 99]), {
-      38: [1, 148],
-      42: $VU
-    }, o($VV, [2, 102]), o($VV, [2, 103], {
-      49: [1, 150]
-    }), o($VW, [2, 105], {
-      41: [1, 151]
-    }), {
-      8: $Vt,
-      11: $Vu,
-      19: $Vv,
-      20: $Vw,
-      22: $Vx,
-      23: $Vy,
-      24: $Vz,
-      25: $VA,
-      26: $VB,
-      29: $VC,
-      30: $VD,
-      31: 61,
-      32: $VE,
-      34: $VF,
-      35: 64,
-      36: $VG,
-      37: $VH,
-      50: $VQ,
-      66: 119,
-      67: 66,
-      68: 67,
-      69: 152,
-      70: 117,
-      71: 118,
-      78: $Vc,
-      79: $Vd
-    }, o($VP, [2, 113]), {
-      28: [1, 153],
-      42: [1, 154]
-    }, o($VJ, [2, 116]), o($VJ, [2, 117], {
-      49: [1, 155]
-    }), o($VX, [2, 120], {
-      45: [1, 156]
-    }), o($Vk, [2, 52]), {
-      8: $V1,
-      10: 157,
-      23: $V6,
-      24: $V7,
-      26: $V8,
-      29: $V9,
-      31: 15,
-      35: 16,
-      36: $Va,
-      37: $Vb,
-      53: 12,
-      54: 13,
-      55: 17,
-      78: $Vc,
-      79: $Vd
-    }, o($VI, [2, 67]), o($VJ, [2, 72]), o($VJ, [2, 74], {
-      57: $Vg,
-      58: $Vh,
-      59: $Vi,
-      60: $Vj
-    }), o($Vf, $Vq), o($Vf, $Vr), o($Vf, $Vs), {
-      8: $VY,
-      27: 158,
-      78: $VZ,
-      80: 159
-    }, o($Ve, [2, 31]), {
-      38: [1, 162],
-      42: $V_
-    }, {
-      41: [1, 164],
-      42: $V$
-    }, o($VI, [2, 35]), o($V01, [2, 44]), o([16, 38, 42, 57, 58, 59, 60], $Vl, {
-      9: $V11,
-      50: $Vm,
-      56: $Vn
-    }), o($Ve, [2, 36]), {
-      28: [1, 167],
-      42: $V21
-    }, {
-      41: [1, 169],
-      42: $V$
-    }, o($VJ, [2, 40]), o($VJ, $V31, {
-      9: $V11,
-      45: $V41
-    }), o($VO, [2, 78]), o($VO, [2, 81]), o($VP, [2, 100]), {
-      8: $Vt,
-      11: $Vu,
-      19: $Vv,
-      20: $Vw,
-      22: $Vx,
-      23: $Vy,
-      24: $Vz,
-      25: $VA,
-      26: $VB,
-      29: $VC,
-      30: $VD,
-      31: 61,
-      32: $VE,
-      34: $VF,
-      35: 64,
-      36: $VG,
-      37: $VH,
-      50: $VQ,
-      66: 119,
-      67: 66,
-      68: 67,
-      70: 171,
-      71: 118,
-      78: $Vc,
-      79: $Vd
-    }, {
-      8: [1, 172]
-    }, {
-      72: 173,
-      73: 174,
-      74: $V51,
-      79: $V61
-    }, {
-      42: $VU,
-      51: [1, 177]
-    }, o($VP, [2, 114]), {
-      8: $VR,
-      76: 178,
-      77: 124
-    }, {
-      8: [1, 179]
-    }, {
-      8: $Vt,
-      11: $Vu,
-      19: $Vv,
-      20: $Vw,
-      22: $Vx,
-      23: $Vy,
-      24: $Vz,
-      25: $VA,
-      26: $VB,
-      29: $VC,
-      30: $VD,
-      31: 61,
-      32: $VE,
-      34: $VF,
-      35: 64,
-      36: $VG,
-      37: $VH,
-      66: 180,
-      67: 66,
-      68: 67,
-      78: $Vc,
-      79: $Vd
-    }, o($VT, [2, 76], {
-      57: $Vg,
-      58: $Vh,
-      59: $Vi,
-      60: $Vj
-    }), {
-      28: [1, 181],
-      42: [1, 182]
-    }, o($VJ, [2, 129]), o($VJ, [2, 126]), o($VJ, [2, 127]), o($Ve, [2, 32]), {
-      6: 183,
-      7: $VK,
-      8: $V1,
-      10: 9,
-      13: $VL,
-      14: $VM,
-      17: $V5,
-      23: $V6,
-      24: $V7,
-      26: $V8,
-      29: $V9,
-      31: 15,
-      35: 16,
-      36: $Va,
-      37: $Vb,
-      53: 12,
-      54: 13,
-      55: 17,
-      78: $Vc,
-      79: $Vd
-    }, {
-      6: 138,
-      7: $VK,
-      8: $V1,
-      10: 9,
-      13: $VL,
-      14: $VM,
-      17: $V5,
-      23: $V6,
-      24: $V7,
-      26: $V8,
-      29: $V9,
-      31: 15,
-      35: 16,
-      36: $Va,
-      37: $Vb,
-      39: 184,
-      53: 12,
-      54: 13,
-      55: 17,
-      78: $Vc,
-      79: $Vd
-    }, {
-      8: [1, 186],
-      47: 185
-    }, {
-      6: 187,
-      7: $VK,
-      8: $V1,
-      10: 9,
-      13: $VL,
-      14: $VM,
-      17: $V5,
-      23: $V6,
-      24: $V7,
-      26: $V8,
-      29: $V9,
-      31: 15,
-      35: 16,
-      36: $Va,
-      37: $Vb,
-      53: 12,
-      54: 13,
-      55: 17,
-      78: $Vc,
-      79: $Vd
-    }, o($Ve, [2, 37]), {
-      8: $V71,
-      44: 188
-    }, {
-      8: $V71,
-      43: 190,
-      44: 144
-    }, {
-      6: 192,
-      7: $VK,
-      8: $V1,
-      10: 9,
-      13: $VL,
-      14: $VM,
-      17: $V5,
-      23: $V6,
-      24: $V7,
-      26: $V8,
-      29: $V9,
-      31: 15,
-      35: 16,
-      36: $Va,
-      37: $Vb,
-      46: 191,
-      53: 12,
-      54: 13,
-      55: 17,
-      78: $Vc,
-      79: $Vd
-    }, o($VV, [2, 101]), o($VV, [2, 104]), o($VW, [2, 106]), o($VW, [2, 112], {
-      74: [1, 193]
-    }), {
-      73: 194,
-      79: $V61
-    }, o([38, 42, 49, 51, 74], [2, 124]), o($VW, [2, 107], {
-      41: [1, 195]
-    }), o($VJ, [2, 115]), o($VJ, [2, 118]), o($VX, [2, 119]), o($Ve, [2, 22]), {
-      8: $VY,
-      78: $VZ,
-      80: 196
-    }, o($VI, [2, 34]), {
-      38: [1, 197],
-      42: $V_
-    }, o($V01, [2, 43]), {
-      9: $V11
-    }, o($V01, [2, 45]), o($VJ, [2, 39]), o($VJ, $V31, {
-      45: $V41
-    }), {
-      28: [1, 198],
-      42: $V21
-    }, o($VJ, [2, 41], {
-      41: [1, 199]
-    }), o($V81, [2, 47]), o($VW, [2, 111], {
-      73: 200,
-      79: $V61
-    }), o($VW, [2, 110]), {
-      72: 201,
-      73: 174,
-      74: $V51,
-      79: $V61
-    }, o($VJ, [2, 128]), o($Ve, [2, 33]), o($Ve, [2, 38]), {
-      6: 202,
-      7: $VK,
-      8: $V1,
-      10: 9,
-      13: $VL,
-      14: $VM,
-      17: $V5,
-      23: $V6,
-      24: $V7,
-      26: $V8,
-      29: $V9,
-      31: 15,
-      35: 16,
-      36: $Va,
-      37: $Vb,
-      53: 12,
-      54: 13,
-      55: 17,
-      78: $Vc,
-      79: $Vd
-    }, o($VW, [2, 109]), o($VW, [2, 108]), o($V81, [2, 46])],
+      39: 161,
+      80: $VG
+    }, o($VL, [2, 87], {
+      5: [1, 162]
+    }), o($VI, [2, 95]), o($VI, [2, 98]), o($VM, [2, 99]), {
+      24: [1, 163]
+    }, o($VI, [2, 58]), o($VI, [2, 8]), o($VN, [2, 54]), o($VL, [2, 91], {
+      39: 164,
+      80: $VG
+    }), o($VL, [2, 90]), {
+      39: 150,
+      74: 165,
+      75: $VP,
+      80: $VG
+    }, o($Vy, [2, 16]), o($VL, [2, 89]), o($VL, [2, 88])],
     defaultActions: {},
     parseError: function parseError(str, hash) {
       if (hash.recoverable) {
@@ -4744,162 +4586,182 @@ var parser = function () {
             break;
 
           case 2:
-            return 19;
-            break;
-
-          case 3:
-            return 20;
-            break;
-
-          case 4:
-            return 49;
-            break;
-
-          case 5:
-            return 22;
-            break;
-
-          case 6:
-            return 25;
-            break;
-
-          case 7:
-            return 24;
-            break;
-
-          case 8:
-            return 7;
-            break;
-
-          case 9:
-            return 29;
-            break;
-
-          case 10:
-            return 30;
-            break;
-
-          case 11:
-            return 32;
-            break;
-
-          case 12:
-            return 11;
-            break;
-
-          case 13:
-            return 34;
-            break;
-
-          case 14:
-            return 13;
-            break;
-
-          case 15:
-            return 23;
-            break;
-
-          case 16:
-            return 14;
-            break;
-
-          case 17:
-            return 36;
-            break;
-
-          case 18:
-            return 50;
-            break;
-
-          case 19:
-            return 51;
-            break;
-
-          case 20:
-            return 26;
-            break;
-
-          case 21:
-            return 28;
-            break;
-
-          case 22:
-            return 37;
-            break;
-
-          case 23:
-            return 38;
-            break;
-
-          case 24:
-            return 65;
-            break;
-
-          case 25:
-            return 42;
-            break;
-
-          case 26:
-            return 45;
-            break;
-
-          case 27:
-            return 41;
-            break;
-
-          case 28:
-            return 9;
-            break;
-
-          case 29:
-            return 16;
-            break;
-
-          case 30:
-            return 74;
-            break;
-
-          case 31:
-            return 56;
-            break;
-
-          case 32:
-            return 17;
-            break;
-
-          case 33:
-            return 57;
-            break;
-
-          case 34:
-            return 58;
-            break;
-
-          case 35:
             return 59;
             break;
 
-          case 36:
+          case 3:
             return 60;
             break;
 
-          case 37:
-            return 8;
+          case 4:
+            return 58;
             break;
 
-          case 38:
+          case 5:
+            return 61;
+            break;
+
+          case 6:
+            return 12;
+            break;
+
+          case 7:
+            return 70;
+            break;
+
+          case 8:
+            return 63;
+            break;
+
+          case 9:
+            return 9;
+            break;
+
+          case 10:
+            return 22;
+            break;
+
+          case 11:
+            return 25;
+            break;
+
+          case 12:
+            return 43;
+            break;
+
+          case 13:
+            return 64;
+            break;
+
+          case 14:
+            return 65;
+            break;
+
+          case 15:
+            return 29;
+            break;
+
+          case 16:
+            return 66;
+            break;
+
+          case 17:
+            return 62;
+            break;
+
+          case 18:
+            return 46;
+            break;
+
+          case 19:
+            return 80;
+            break;
+
+          case 20:
             return 79;
             break;
 
+          case 21:
+            return 23;
+            break;
+
+          case 22:
+            return 24;
+            break;
+
+          case 23:
+            return 26;
+            break;
+
+          case 24:
+            return 28;
+            break;
+
+          case 25:
+            return 40;
+            break;
+
+          case 26:
+            return 41;
+            break;
+
+          case 27:
+            return 16;
+            break;
+
+          case 28:
+            return '|';
+            break;
+
+          case 29:
+            return 14;
+            break;
+
+          case 30:
+            return 54;
+            break;
+
+          case 31:
+            return 5;
+            break;
+
+          case 32:
+            return 18;
+            break;
+
+          case 33:
+            return 11;
+            break;
+
+          case 34:
+            return '<=';
+            break;
+
+          case 35:
+            return 56;
+            break;
+
+          case 36:
+            return 75;
+            break;
+
+          case 37:
+            return 38;
+            break;
+
+          case 38:
+            return '_';
+            break;
+
           case 39:
-            return 78;
+            return 31;
+            break;
+
+          case 40:
+            return 32;
+            break;
+
+          case 41:
+            return 33;
+            break;
+
+          case 42:
+            return 34;
+            break;
+
+          case 43:
+            return 47;
+            break;
+
+          case 44:
+            return 10;
             break;
         }
       },
-      rules: [/^(?:\s+)/, /^(?:\/\/.*)/, /^(?:any)/, /^(?:array)/, /^(?:as)/, /^(?:boolean)/, /^(?:enum)/, /^(?:false)/, /^(?:generator)/, /^(?:null)/, /^(?:number)/, /^(?:object)/, /^(?:pattern)/, /^(?:string)/, /^(?:transform)/, /^(?:true)/, /^(?:type)/, /^(?:undefined)/, /^(?:\()/, /^(?:\))/, /^(?:{)/, /^(?:})/, /^(?:\[)/, /^(?:\])/, /^(?:\|)/, /^(?:,)/, /^(?::)/, /^(?:;)/, /^(?:=)/, /^(?:<=)/, /^(?:\.\.)/, /^(?:\.)/, /^(?:_)/, /^(?:\+)/, /^(?:-)/, /^(?:\*)/, /^(?:\/)/, /^(?:[a-zA-Z_][a-zA-Z0-9_]*)/, /^(?:[-+]?(0|[1-9]\d*)(\.\d+)?)/, /^(?:"[^"\r\n]*")/],
+      rules: [/^(?:\s+)/, /^(?:\/\/.*)/, /^(?:any\b)/, /^(?:array\b)/, /^(?:as\b)/, /^(?:boolean\b)/, /^(?:def\b)/, /^(?:enum\b)/, /^(?:false\b)/, /^(?:let\b)/, /^(?:map\b)/, /^(?:patterns\b)/, /^(?:null\b)/, /^(?:number\b)/, /^(?:object\b)/, /^(?:sequences\b)/, /^(?:string\b)/, /^(?:true\b)/, /^(?:undefined\b)/, /^(?:[-+]?(0|[1-9]\d*)(\.\d+)?)/, /^(?:"[^"\r\n]*")/, /^(?:\()/, /^(?:\))/, /^(?:{)/, /^(?:})/, /^(?:\[)/, /^(?:\])/, /^(?:\|>)/, /^(?:\|)/, /^(?:,)/, /^(?::)/, /^(?:;)/, /^(?:=~)/, /^(?:=)/, /^(?:<=)/, /^(?:\.{3})/, /^(?:\.{2})/, /^(?:\.)/, /^(?:_)/, /^(?:\+)/, /^(?:-)/, /^(?:\*)/, /^(?:\/)/, /^(?:\$)/, /^(?:[a-zA-Z_][a-zA-Z0-9_]*)/],
       conditions: {
         "INITIAL": {
-          "rules": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39],
+          "rules": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44],
           "inclusive": true
         }
       }
@@ -4918,6 +4780,284 @@ var parser = function () {
   return new Parser();
 }();
 
+// General functions
+
+/**
+ * Return the type name of the specified item
+ *
+ * @param {*} item
+ * @returns {string}
+ */
+function typeName(item) {
+  switch (item) {
+    case null:
+      return "null";
+
+    case undefined:
+      return "undefined";
+
+    default:
+      if (Array.isArray(item)) {
+        return "array";
+      }
+
+      return _typeof(item);
+  }
+} // Array related functions
+
+/**
+ * Return the length of an array
+ *
+ * @param {Array} list
+ * @returns {number}
+ */
+
+function length(list) {
+  /* eslint-disable-line no-shadow */
+  return Array.isArray(list) ? list.length : 0;
+}
+/**
+ * Combine multiple arrays into a single array
+ *
+ * @param {Array<Array>} lists
+ * @param {*} [missing=undefined]
+ * @returns {Array}
+ */
+
+function zip(lists) {
+  var missing = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
+  var result = [];
+
+  if (Array.isArray(lists) && lists.length > 0 && lists.every(function (l) {
+    return Array.isArray(l);
+  })) {
+    var maxLength = Math.max.apply(Math, _toConsumableArray(lists.map(function (l) {
+      return l.length;
+    })));
+
+    for (var i = 0; i < maxLength; i++) {
+      var part = [];
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = lists[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var list = _step.value;
+          part.push(i < list.length ? list[i] : missing);
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      result.push(part);
+    }
+  }
+
+  return result;
+}
+/**
+ * Partition an array into multiple arrays
+ *
+ * @param {Array} items
+ * @param {number} count
+ * @param {number} advance
+ * @param {*} [missing=undefined]
+ */
+
+function partition(items, count, advance) {
+  var missing = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : undefined;
+
+  /* eslint-disable-next-line no-shadow */
+  var length = items.length;
+  var result = []; // default advance to count, if its not defined
+
+  advance = advance === undefined ? count : advance; // we can't advance backwards and we always need to advance
+
+  count = Math.max(1, count);
+  advance = Math.max(1, advance);
+
+  for (var i = 0; i < length; i += advance) {
+    var part = [];
+    var index = i;
+
+    for (var j = 0; j < count; j++, index++) {
+      part.push(index < length ? items[index] : missing);
+    }
+
+    result.push(part);
+  }
+
+  return result;
+}
+/**
+ * Return a new array with the original array's content reversed
+ *
+ * @param {Array} items
+ * @returns {Array|undefined}
+ */
+
+function reverse(items) {
+  return Array.isArray(items) ? items.slice().reverse() : undefined;
+}
+/**
+ * Return a new sorted array
+ *
+ * @param {Array} items
+ * @param {Function} comparator
+ * @returns {Array|undefined}
+ */
+
+function sort(items, comparator) {
+  return Array.isArray(items) ? items.slice().sort(comparator) : undefined;
+} // Object related functions
+
+/**
+ * Predicate to determine if an item is an object
+ *
+ * @param {*} item
+ * @returns {boolean}
+ */
+
+function isObject(item) {
+  return item !== null && _typeof(item) === "object";
+}
+/**
+ * Return a list of keys from an object
+ *
+ * @param {Object} item
+ * @returns {string[]}
+ */
+
+
+function keys(item) {
+  /* eslint-disable-next-line compat/compat */
+  return isObject(item) ? Object.keys(item) : [];
+}
+/**
+ * Return a list of values from an object
+ *
+ * @param {Object} item
+ * @returns {any[]}
+ */
+
+function values(item) {
+  /* eslint-disable-next-line compat/compat */
+  return isObject(item) ? Object.values(item) : [];
+}
+/**
+ * Return a list of key/value pairs from an object. Each element in the result is a 2-element array
+ * where the first element is the key and the second element is the value
+ *
+ * @param {Object} item
+ * @returns {Array<Array>}
+ */
+
+function pairs(item) {
+  /* eslint-disable-next-line compat/compat */
+  return isObject(item) ? Object.entries(item) : [];
+}
+/**
+ * Convert a list of key/value pairs into an object. This is the reverse of pairs
+ *
+ * @param {Array<Array>} pairs
+ * @returns {Object}
+ */
+
+function fromPairs(pairs) {
+  /* eslint-disable-line no-shadow */
+  var result = {};
+
+  if (Array.isArray(pairs)) {
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+      for (var _iterator2 = pairs[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var pair = _step2.value;
+
+        if (pair.length >= 2) {
+          var _pair = _slicedToArray(pair, 2),
+              key = _pair[0],
+              value = _pair[1];
+
+          result[key] = value;
+        }
+      }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+          _iterator2["return"]();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
+      }
+    }
+  }
+
+  return result;
+} // Array and Object related
+
+/**
+ * If all items are objects, a new object with all the properties of all objects will be merged. If the same property
+ * exists on multiple objects, the last object with that property wins.
+ *
+ * If the first item is an array, a new array will be created by appending all non-array items and concatenating all
+ * array items.
+ *
+ * @param {Object|Array} items
+ * @returns {Object|Array|undefined}
+ */
+
+function merge() {
+  for (var _len = arguments.length, items = new Array(_len), _key = 0; _key < _len; _key++) {
+    items[_key] = arguments[_key];
+  }
+
+  if (items.length > 0 && Array.isArray(items[0])) {
+    var _items$;
+
+    return (_items$ = items[0]).concat.apply(_items$, _toConsumableArray(items.slice(1)));
+  } else if (items.every(function (item) {
+    return isObject(item);
+  })) {
+    return Object.assign.apply(Object, [{}].concat(items));
+  }
+
+  return undefined;
+}
+
+var StdLib = /*#__PURE__*/Object.freeze({
+  typeName: typeName,
+  length: length,
+  zip: zip,
+  partition: partition,
+  reverse: reverse,
+  sort: sort,
+  keys: keys,
+  values: values,
+  pairs: pairs,
+  fromPairs: fromPairs,
+  merge: merge
+});
+
 var FAILURE_VALUE = {};
 /**
  * Determine if object is something that can have properties
@@ -4926,7 +5066,7 @@ var FAILURE_VALUE = {};
  * @returns {boolean}
  */
 
-function isObject(obj) {
+function isObject$1(obj) {
   return obj !== null && _typeof(obj) === "object";
 }
 /**
@@ -4945,73 +5085,31 @@ function () {
   function Transformer() {
     _classCallCheck(this, Transformer);
 
-    this.types = {};
-    this.transforms = {};
-    this.patterns = {};
-    this.generators = {}; // this.typeCheckers = {};
-
-    this.typeCreators = {};
+    this.symbolTable = {};
+    this.functions = {};
     this.messages = [];
-    this.verbose = false;
+    this.verbose = false; // add standard library
+
+    /* eslint-disable-next-line guard-for-in */
+
+    for (var name in StdLib) {
+      /* eslint-disable-next-line import/namespace */
+      this.functions[name] = StdLib[name];
+    }
   }
   /**
-   * Create a new instance of a Transformer with its type table initially populated from the specified normalizer
-   * source code.
+   * Add function
    *
-   * @param {string} source
-   * @returns {Transformer}
+   * @param {string} name
+   * @param {Function} reference
    */
 
 
   _createClass(Transformer, [{
-    key: "addDefinitionsFromSource",
-
-    /**
-     * Add all type definitions from the specified normalization source code to this Transformer instance. This will
-     * amend the current types with those specified in the code. Note that any type that has been redefined in the
-     * source code will replace any pre-existing version of that type.
-     *
-     * @param {string} source
-     */
-    value: function addDefinitionsFromSource(source) {
-      var table = parser.parse(source);
-      this.addDefinitionsFromTable(table);
-    }
-    /**
-     * Add all type definitions from the specified serialization table to this Transformer instance. This will amend the
-     * current types with those specified in the table. Note that any type that has been redefined in the table will
-     * replace any pre-existing version of that type.
-     *
-     * @param {Array} table
-     */
-
-  }, {
-    key: "addDefinitionsFromTable",
-    value: function addDefinitionsFromTable(table) {
-      var _this = this;
-
-      table.forEach(function (description) {
-        switch (description.type) {
-          case "type-assignment":
-            _this.types[description.name] = description.value;
-            break;
-
-          case "transform-assignment":
-            _this.transforms[description.name] = description.value;
-            break;
-
-          case "generator-assignment":
-            _this.generators[description.name] = description.value;
-            break;
-
-          case "pattern-assignment":
-            _this.patterns[description.name] = description.value;
-            break;
-
-          default: // ignore all other top-level statements
-
-        }
-      });
+    key: "addFunction",
+    value: function addFunction(name, reference) {
+      // TODO: type check
+      this.functions[name] = reference;
     }
     /**
      * Add information
@@ -5071,18 +5169,9 @@ function () {
   }, {
     key: "execute",
     value: function execute(source, structure) {
-      var result = this._execute(source, structure);
-
-      return result !== FAILURE_VALUE ? result : undefined;
-    }
-    /*
-     *
-     */
-
-  }, {
-    key: "_execute",
-    value: function _execute(source, structure) {
       var statements = parser.parse(source);
+      var symbolTable = Array.isArray(structure) || isObject$1(structure) === false ? this.symbolTable : Object.create(structure);
+      this.messages = [];
       var result;
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
@@ -5093,46 +5182,13 @@ function () {
           var statement = _step.value;
 
           switch (statement.type) {
-            case "transform":
-              result = this.executeTransform(statement, structure);
-
-              if (result === FAILURE_VALUE) {
+            case "assignment":
+            case "def":
+            case "sequence":
+              {
+                result = this.executeExpression(statement, structure, symbolTable);
                 break;
               }
-
-              break;
-
-            case "type-reference":
-              if (statement.name in this.types) {
-                var type = this.types[statement.name];
-                var value = this.executeType(type, structure);
-
-                if (value === FAILURE_VALUE) {
-                  this.addError("type ".concat(statement.name, " was unable to transform successfully"));
-                  return FAILURE_VALUE;
-                }
-
-                return value;
-              }
-
-              this.addError("type is not defined: ".concat(statement.name));
-              return FAILURE_VALUE;
-
-            case "generator-assignment":
-              this.generators[statement.name] = statement.value;
-              break;
-
-            case "pattern-assignment":
-              this.patterns[statement.name] = statement.value;
-              break;
-
-            case "transform-assignment":
-              this.transforms[statement.name] = statement.value;
-              break;
-
-            case "type-assignment":
-              this.types[statement.name] = statement.value;
-              break;
 
             default:
               this.addError("unknown statement type: ".concat(statement.type));
@@ -5157,373 +5213,410 @@ function () {
       return result;
     }
     /*
-     * Execute a list of transforms, until the first one succeeds
+     * Execute a method and return its value
      *
-     * @param {Array} transforms
-     * @param {*} structure
-     * @param {Object} symbolTable
-     * @returns {*}
-     */
-
-  }, {
-    key: "executeTransforms",
-    value: function executeTransforms(transforms, structure, symbolTable) {
-      var _iteratorNormalCompletion2 = true;
-      var _didIteratorError2 = false;
-      var _iteratorError2 = undefined;
-
-      try {
-        for (var _iterator2 = transforms[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          var transform = _step2.value;
-          var result = this.executeTransform(transform, structure, symbolTable);
-
-          if (result !== FAILURE_VALUE) {
-            return result;
-          }
-        }
-      } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
-            _iterator2["return"]();
-          }
-        } finally {
-          if (_didIteratorError2) {
-            throw _iteratorError2;
-          }
-        }
-      }
-
-      return FAILURE_VALUE;
-    }
-    /*
-     * Execute a single transform
-     *
-     * @param {Object} transform
-     * @param {*} structure
-     * @param {Object} symbolTable
-     * @returns {*}
-     */
-
-  }, {
-    key: "executeTransform",
-    value: function executeTransform(transform, structure) {
-      var symbolTable = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      var currentObject = structure;
-
-      if (transform.type === "transform-reference") {
-        if (transform.name in this.transforms) {
-          transform = this.transforms[transform.name];
-        } else {
-          this.addError("undefined transform reference: '".concat(transform.name, "'"));
-          return FAILURE_VALUE;
-        }
-      }
-
-      if (transform.patterns !== null) {
-        // try all patterns until one succeeds, else report as failure
-        var result = FAILURE_VALUE;
-        var _iteratorNormalCompletion3 = true;
-        var _didIteratorError3 = false;
-        var _iteratorError3 = undefined;
-
-        try {
-          for (var _iterator3 = transform.patterns[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-            var pattern = _step3.value;
-            var patternSymbolTable = Object.create(symbolTable);
-            result = this.executePattern(pattern, currentObject, patternSymbolTable);
-
-            if (result !== FAILURE_VALUE) {
-              // pattern matched, so we can stop
-              if (transform.returnValue !== null) {
-                currentObject = this.executeGenerator(transform.returnValue.expression, patternSymbolTable);
-              } else {
-                // if we're not massaging the result, then return all captured values (the symbol table)s
-                currentObject = patternSymbolTable;
-              }
-
-              break;
-            }
-          }
-        } catch (err) {
-          _didIteratorError3 = true;
-          _iteratorError3 = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
-              _iterator3["return"]();
-            }
-          } finally {
-            if (_didIteratorError3) {
-              throw _iteratorError3;
-            }
-          }
-        }
-
-        if (result === FAILURE_VALUE) {
-          this.addError("Unable to match any type patterns");
-          return FAILURE_VALUE;
-        }
-      } else {
-        // if currentObject is not an object, then it can't be used as a symbol table
-        if (isObject(currentObject)) {
-          symbolTable = Object.create(Object.assign(symbolTable, currentObject));
-        } // NOTE: assumes we have to have a generator if we don't have a pattern. This is currently
-        // enforced in the parser
-
-
-        var value = this.executeGenerator(transform.returnValue.expression, symbolTable);
-
-        if (value === FAILURE_VALUE) {
-          this.addError("Unable to apply generator to current object");
-          return FAILURE_VALUE;
-        }
-
-        currentObject = value;
-      }
-
-      return currentObject;
-    }
-  }, {
-    key: "executeType",
-    value: function executeType(type, structure) {
-      switch (type.definition) {
-        case "any":
-          return structure;
-
-        case "array":
-          return this.executeArrayType(type, structure);
-
-        case "boolean":
-          if (typeof structure === "boolean") {
-            if (type.value === null || type.value === structure) {
-              return structure;
-            }
-          }
-
-          return FAILURE_VALUE;
-
-        case "enumeration":
-          if (typeof structure === "string") {
-            if (type.value.includes(structure)) {
-              return structure;
-            }
-          }
-
-          return FAILURE_VALUE;
-
-        case "null":
-          if (structure === null) {
-            return structure;
-          }
-
-          return FAILURE_VALUE;
-
-        case "number":
-          if (typeof structure === "number") {
-            if (type.value === null || type.value === structure) {
-              return structure;
-            }
-          }
-
-          return FAILURE_VALUE;
-
-        case "object":
-          return this.executeObjectType(type, structure);
-
-        case "string":
-          if (typeof structure === "string") {
-            if (type.value === null || type.value === structure) {
-              return structure;
-            }
-          }
-
-          return FAILURE_VALUE;
-
-        case "undefined":
-          if (structure === undefined) {
-            return structure;
-          }
-
-          return FAILURE_VALUE;
-
-        default:
-          this.addError("Unrecognized type definition value: '".concat(type.definition, "'"));
-          return FAILURE_VALUE;
-      }
-    }
-    /*
-     * Execute an array type definition
-     *
-     * @param {object} type
-     * @param {*} structure
-     * @returns {*}
-     */
-
-  }, {
-    key: "executeArrayType",
-    value: function executeArrayType(type, structure) {
-      if (type.value === null) {
-        if (Array.isArray(structure)) {
-          return structure;
-        }
-
-        return FAILURE_VALUE;
-      }
-
-      var result = [];
-      var symbolTable = {};
-      var _iteratorNormalCompletion4 = true;
-      var _didIteratorError4 = false;
-      var _iteratorError4 = undefined;
-
-      try {
-        for (var _iterator4 = type.value[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-          var element = _step4.value;
-
-          switch (element.type) {
-            case "transform":
-              {
-                var elementValue = this.executeTransform(element, structure, symbolTable);
-
-                if (elementValue === FAILURE_VALUE) {
-                  return FAILURE_VALUE;
-                }
-
-                result.push(elementValue);
-                break;
-              }
-
-            case "assignment":
-              if (this.executeAssignment(element, structure, symbolTable) === FAILURE_VALUE) {
-                return FAILURE_VALUE;
-              }
-
-              break;
-
-            default:
-              this.addError("Unknown element of array type: '".concat(element.type, "'"));
-              return FAILURE_VALUE;
-          }
-        }
-      } catch (err) {
-        _didIteratorError4 = true;
-        _iteratorError4 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion4 && _iterator4["return"] != null) {
-            _iterator4["return"]();
-          }
-        } finally {
-          if (_didIteratorError4) {
-            throw _iteratorError4;
-          }
-        }
-      }
-
-      return result;
-    }
-    /*
-     * Execute an object type definition
-     *
-     * @param {object} type
-     * @param {*} structure
-     * @returns {*}
-     */
-
-  }, {
-    key: "executeObjectType",
-    value: function executeObjectType(type, structure) {
-      if (type.value === null) {
-        if (isObject(structure)) {
-          return structure;
-        }
-
-        return FAILURE_VALUE;
-      }
-
-      var result = {};
-      var symbolTable = {};
-      var _iteratorNormalCompletion5 = true;
-      var _didIteratorError5 = false;
-      var _iteratorError5 = undefined;
-
-      try {
-        for (var _iterator5 = type.value[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-          var property = _step5.value;
-
-          switch (property.type) {
-            case "type-property":
-              {
-                var propertyValue = FAILURE_VALUE;
-
-                if (property.value === null) {
-                  if (isObject(structure) && property.name in structure) {
-                    propertyValue = structure[property.name];
-                  }
-                } else {
-                  propertyValue = this.executeTransforms(property.value, structure, symbolTable);
-                }
-
-                if (propertyValue === FAILURE_VALUE) {
-                  return FAILURE_VALUE;
-                }
-
-                result[property.name] = propertyValue;
-                break;
-              }
-
-            case "assignment":
-              if (this.executeAssignment(property, structure, symbolTable) === FAILURE_VALUE) {
-                return FAILURE_VALUE;
-              }
-
-              break;
-
-            default:
-              this.addError("Unknown element of object type: '".concat(property.type, "'"));
-              return FAILURE_VALUE;
-          }
-        }
-      } catch (err) {
-        _didIteratorError5 = true;
-        _iteratorError5 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion5 && _iterator5["return"] != null) {
-            _iterator5["return"]();
-          }
-        } finally {
-          if (_didIteratorError5) {
-            throw _iteratorError5;
-          }
-        }
-      }
-
-      return result;
-    }
-    /*
-     * execute an assignment
-     *
-     * @param {object} assignment
-     * @param {*} structure
+     * @param {object} expression
      * @param {object} symbolTable
      * @returns {*}
      */
 
   }, {
-    key: "executeAssignment",
-    value: function executeAssignment(assignment, structure, symbolTable) {
-      var value = this.executeTransform(assignment.value, structure, symbolTable);
+    key: "executeExpression",
+    value: function executeExpression(expression, structure, symbolTable) {
+      var _this = this;
 
-      if (value === FAILURE_VALUE) {
+      var getNumbers = function getNumbers(operation) {
+        var left = _this.executeExpression(expression.left, structure, symbolTable);
+
+        if (left !== FAILURE_VALUE && typeof left === "number") {
+          var right = _this.executeExpression(expression.right, structure, symbolTable);
+
+          if (right !== FAILURE_VALUE && typeof right === "number") {
+            return operation(left, right);
+          }
+        }
+
         return FAILURE_VALUE;
+      };
+
+      switch (expression.type) {
+        case "assignment":
+          {
+            var value = this.executeExpression(expression.value, structure, symbolTable);
+
+            if (value === FAILURE_VALUE) {
+              this.addError("Unable to evaluate assignment value for ".concat(expression.name));
+              return FAILURE_VALUE;
+            }
+
+            symbolTable[expression.name] = value;
+            return value;
+          }
+
+        case "def":
+          symbolTable[expression.name] = expression.value;
+          return undefined;
+
+        case "get-value":
+          if (expression.name in symbolTable) {
+            var _value = symbolTable[expression.name];
+
+            if (isObject$1(_value) && _value.type === "sequence") {
+              var seqValue = this.executeExpression(_value, structure, symbolTable);
+
+              if (seqValue === FAILURE_VALUE) {
+                this.addError("Unable to evaluate sequence ".concat(expression.name));
+                return FAILURE_VALUE;
+              }
+
+              return seqValue;
+            }
+
+            return _value;
+          } else if (expression.name in this.functions) {
+            return this.invokeFunction(expression.name, [structure]);
+          }
+
+          this.addError("Tried to access unbound symbol: ".concat(expression.name));
+          return FAILURE_VALUE;
+
+        case "get-property":
+          {
+            var object = this.executeExpression(expression.left, structure, symbolTable);
+            return isObject$1(object) ? object[expression.right] : FAILURE_VALUE;
+          }
+
+        case "get-index":
+          {
+            var left = expression.left,
+                right = expression.right;
+            var array = this.executeExpression(left, structure, symbolTable);
+
+            if (Array.isArray(array)) {
+              var index = right < 0 ? array.length + right : right;
+              return 0 <= index && index < array.length ? array[index] : FAILURE_VALUE;
+            }
+
+            return FAILURE_VALUE;
+          }
+
+        case "get-structure":
+          return structure;
+
+        case "sequences":
+          {
+            var result = FAILURE_VALUE;
+            var _iteratorNormalCompletion2 = true;
+            var _didIteratorError2 = false;
+            var _iteratorError2 = undefined;
+
+            try {
+              for (var _iterator2 = expression.sequences[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                var sequence = _step2.value;
+                var sequenceSymbolTable = Object.create(symbolTable);
+                result = this.executeExpression(sequence, structure, sequenceSymbolTable);
+
+                if (result !== FAILURE_VALUE) {
+                  Object.assign(symbolTable, sequenceSymbolTable);
+                  break;
+                }
+              }
+            } catch (err) {
+              _didIteratorError2 = true;
+              _iteratorError2 = err;
+            } finally {
+              try {
+                if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+                  _iterator2["return"]();
+                }
+              } finally {
+                if (_didIteratorError2) {
+                  throw _iteratorError2;
+                }
+              }
+            }
+
+            return result;
+          }
+
+        case "sequence":
+          {
+            var currentObject = structure;
+            var _iteratorNormalCompletion3 = true;
+            var _didIteratorError3 = false;
+            var _iteratorError3 = undefined;
+
+            try {
+              for (var _iterator3 = expression.steps[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                var step = _step3.value;
+
+                if (step.type === "pattern") {
+                  currentObject = this.executePattern(step, currentObject, symbolTable);
+                } else {
+                  currentObject = this.executeExpression(step, currentObject, symbolTable);
+                }
+
+                if (currentObject === FAILURE_VALUE) {
+                  return FAILURE_VALUE;
+                }
+              }
+            } catch (err) {
+              _didIteratorError3 = true;
+              _iteratorError3 = err;
+            } finally {
+              try {
+                if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
+                  _iterator3["return"]();
+                }
+              } finally {
+                if (_didIteratorError3) {
+                  throw _iteratorError3;
+                }
+              }
+            }
+
+            return currentObject;
+          }
+
+        case "add":
+          return getNumbers(function (a, b) {
+            return a + b;
+          });
+
+        case "map":
+          {
+            var _expression$value = _slicedToArray(expression.value, 2),
+                valueGenerator = _expression$value[0],
+                transform = _expression$value[1];
+
+            var values = this.executeExpression(valueGenerator, structure, symbolTable);
+
+            if (values !== FAILURE_VALUE) {
+              if (Array.isArray(values) === false) {
+                this.addError("First argument of map must evaluate to an array");
+                return FAILURE_VALUE;
+              }
+
+              var mapSymbolTable = Object.create(symbolTable);
+              return values.map(function (value) {
+                return _this.executeExpression(transform, value, mapSymbolTable);
+              });
+            }
+
+            return FAILURE_VALUE;
+          }
+
+        case "patterns":
+          {
+            var _result = FAILURE_VALUE;
+            var _iteratorNormalCompletion4 = true;
+            var _didIteratorError4 = false;
+            var _iteratorError4 = undefined;
+
+            try {
+              for (var _iterator4 = expression.patterns[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                var pattern = _step4.value;
+                var patternSymbolTable = Object.create(symbolTable);
+                _result = this.executePattern(pattern, structure, patternSymbolTable);
+
+                if (_result !== FAILURE_VALUE) {
+                  Object.assign(symbolTable, patternSymbolTable);
+                  break;
+                }
+              }
+            } catch (err) {
+              _didIteratorError4 = true;
+              _iteratorError4 = err;
+            } finally {
+              try {
+                if (!_iteratorNormalCompletion4 && _iterator4["return"] != null) {
+                  _iterator4["return"]();
+                }
+              } finally {
+                if (_didIteratorError4) {
+                  throw _iteratorError4;
+                }
+              }
+            }
+
+            return _result;
+          }
+
+        case "subtract":
+          return getNumbers(function (a, b) {
+            return a - b;
+          });
+
+        case "multiply":
+          return getNumbers(function (a, b) {
+            return a * b;
+          });
+
+        case "divide":
+          return getNumbers(function (a, b) {
+            return a / b;
+          });
+
+        case "invoke":
+          {
+            var args = expression.args.reduce(function (accum, arg) {
+              if (arg.type === "spread") {
+                var _value2 = _this.executeExpression(arg.expression, structure, symbolTable); // const value = arg.name !== null ? symbolTable[arg.name] : structure;
+
+
+                if (Array.isArray(_value2)) {
+                  accum = accum.concat(_value2);
+                } else {
+                  accum.push(_value2);
+                }
+              } else {
+                accum.push(_this.executeExpression(arg, structure, symbolTable));
+              }
+
+              return accum;
+            }, []);
+
+            if (expression.name in this.functions) {
+              return this.invokeFunction(expression.name, args);
+            }
+
+            this.addError("Tried to access unbound symbol: ".concat(expression.name));
+            return FAILURE_VALUE;
+          }
+
+        case "array":
+          {
+            var results = [];
+            var _iteratorNormalCompletion5 = true;
+            var _didIteratorError5 = false;
+            var _iteratorError5 = undefined;
+
+            try {
+              for (var _iterator5 = expression.value[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+                var element = _step5.value;
+
+                if (element.type === "assignment") {
+                  this.executeExpression(element, structure, symbolTable);
+                } else {
+                  var _value3 = this.executeExpression(element, structure, symbolTable);
+
+                  if (_value3 === FAILURE_VALUE) {
+                    return FAILURE_VALUE;
+                  }
+
+                  results.push(_value3);
+                }
+              }
+            } catch (err) {
+              _didIteratorError5 = true;
+              _iteratorError5 = err;
+            } finally {
+              try {
+                if (!_iteratorNormalCompletion5 && _iterator5["return"] != null) {
+                  _iterator5["return"]();
+                }
+              } finally {
+                if (_didIteratorError5) {
+                  throw _iteratorError5;
+                }
+              }
+            }
+
+            return results;
+          }
+
+        case "boolean":
+        case "null":
+        case "number":
+        case "string":
+        case "undefined":
+          return expression.value;
+
+        case "object":
+          return this.executeObjectExpression(expression, structure, symbolTable);
+
+        default:
+          this.addError("Unrecognized expression type: '".concat(expression.type, "'"));
+          return FAILURE_VALUE;
+      }
+    }
+    /**
+     * Execute an object pattern
+     *
+     * @param {Object} pattern
+     * @param {*} structure
+     * @param {Object} symbolTable
+     * @returns {*}
+     */
+
+  }, {
+    key: "executeObjectExpression",
+    value: function executeObjectExpression(pattern, structure, symbolTable) {
+      var objectSymbolTable = Object.create(symbolTable);
+      var result = {};
+      var _iteratorNormalCompletion6 = true;
+      var _didIteratorError6 = false;
+      var _iteratorError6 = undefined;
+
+      try {
+        for (var _iterator6 = pattern.value[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+          var element = _step6.value;
+
+          switch (element.type) {
+            case "property":
+              {
+                var name = this.executeExpression(element.name, structure, objectSymbolTable);
+
+                if (name === FAILURE_VALUE) {
+                  return FAILURE_VALUE;
+                } else if (typeof name !== "string") {
+                  this.addError("Property names must be string types: ".concat(name));
+                  return FAILURE_VALUE;
+                }
+
+                var value = element.value !== null ? this.executeExpression(element.value, structure, objectSymbolTable) : symbolTable[name];
+
+                if (value === FAILURE_VALUE) {
+                  this.addError("Unable to evaluate value for property ".concat(name));
+                  return FAILURE_VALUE;
+                }
+
+                result[name] = value;
+                break;
+              }
+
+            case "assignment":
+              {
+                var _value4 = this.executeExpression(element, structure, objectSymbolTable);
+
+                if (_value4 === FAILURE_VALUE) {
+                  return FAILURE_VALUE;
+                }
+
+                break;
+              }
+
+            default:
+              this.addError("Unrecognized object expression element type: ".concat(element.type));
+              return FAILURE_VALUE;
+          }
+        }
+      } catch (err) {
+        _didIteratorError6 = true;
+        _iteratorError6 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion6 && _iterator6["return"] != null) {
+            _iterator6["return"]();
+          }
+        } finally {
+          if (_didIteratorError6) {
+            throw _iteratorError6;
+          }
+        }
       }
 
-      assign(symbolTable, assignment.name, value);
-      return value;
+      return result;
     }
     /*
      * Acquire the value of a type pattern from the specified structure. Any named entities will be populated in the
@@ -5540,24 +5633,27 @@ function () {
     value: function executePattern(pattern, structure, symbolTable) {
       switch (pattern.patternType) {
         case "any":
-          assign(symbolTable, pattern.assignTo, structure);
+          this.assign(symbolTable, pattern.assignTo, structure);
           return structure;
 
         case "array":
           if (Array.isArray(structure)) {
-            assign(symbolTable, pattern.assignTo, structure);
+            this.assign(symbolTable, pattern.assignTo, structure);
             return structure;
           }
 
           return FAILURE_VALUE;
 
         case "array-pattern":
-          return this.executeArrayPattern(pattern, structure, symbolTable);
+          {
+            var result = this.executeArrayPattern(pattern, structure, symbolTable);
+            return result === FAILURE_VALUE ? FAILURE_VALUE : symbolTable;
+          }
 
         case "boolean":
           if (typeof structure === "boolean") {
             if (pattern.value === null || pattern.value === structure) {
-              assign(symbolTable, pattern.assignTo, structure);
+              this.assign(symbolTable, pattern.assignTo, structure);
               return structure;
             }
           }
@@ -5566,7 +5662,7 @@ function () {
 
         case "null":
           if (structure === null) {
-            assign(symbolTable, pattern.assignTo, structure);
+            this.assign(symbolTable, pattern.assignTo, structure);
             return structure;
           }
 
@@ -5575,7 +5671,7 @@ function () {
         case "number":
           if (typeof structure === "number") {
             if (pattern.value === null || pattern.value === structure) {
-              assign(symbolTable, pattern.assignTo, structure);
+              this.assign(symbolTable, pattern.assignTo, structure);
               return structure;
             }
           }
@@ -5583,8 +5679,8 @@ function () {
           return FAILURE_VALUE;
 
         case "object":
-          if (isObject(structure)) {
-            assign(symbolTable, pattern.assignTo, structure);
+          if (isObject$1(structure)) {
+            this.assign(symbolTable, pattern.assignTo, structure);
             return structure;
           }
 
@@ -5592,18 +5688,18 @@ function () {
 
         case "object-pattern":
           {
-            if (isObject(structure) === false) {
+            if (isObject$1(structure) === false) {
               return FAILURE_VALUE;
             }
 
-            var result = {};
-            var _iteratorNormalCompletion6 = true;
-            var _didIteratorError6 = false;
-            var _iteratorError6 = undefined;
+            var _result2 = {};
+            var _iteratorNormalCompletion7 = true;
+            var _didIteratorError7 = false;
+            var _iteratorError7 = undefined;
 
             try {
-              for (var _iterator6 = pattern.value[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-                var property = _step6.value;
+              for (var _iterator7 = pattern.value[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+                var property = _step7.value;
                 var name = property.name,
                     propertyPattern = property.pattern,
                     assignTo = property.assignTo;
@@ -5615,42 +5711,42 @@ function () {
                     return FAILURE_VALUE;
                   }
 
-                  assign(symbolTable, property.assignTo, structure[name]);
-                  result[assignTo] = value;
+                  this.assign(symbolTable, assignTo, structure[name]);
+                  this.assign(_result2, assignTo, value);
                 } else {
                   return FAILURE_VALUE;
                 }
               }
             } catch (err) {
-              _didIteratorError6 = true;
-              _iteratorError6 = err;
+              _didIteratorError7 = true;
+              _iteratorError7 = err;
             } finally {
               try {
-                if (!_iteratorNormalCompletion6 && _iterator6["return"] != null) {
-                  _iterator6["return"]();
+                if (!_iteratorNormalCompletion7 && _iterator7["return"] != null) {
+                  _iterator7["return"]();
                 }
               } finally {
-                if (_didIteratorError6) {
-                  throw _iteratorError6;
+                if (_didIteratorError7) {
+                  throw _iteratorError7;
                 }
               }
             }
 
-            assign(symbolTable, pattern.assignTo, structure);
-            return result;
+            this.assign(symbolTable, pattern.assignTo, structure);
+            return _result2;
           }
 
         case "reference":
           if (pattern.value in this.patterns) {
             var referencedPattern = this.patterns[pattern.value];
 
-            var _result = this.executePattern(referencedPattern, structure, symbolTable);
+            var _result3 = this.executePattern(referencedPattern, structure, symbolTable);
 
-            if (_result !== FAILURE_VALUE) {
-              assign(symbolTable, pattern.assignTo, _result);
+            if (_result3 !== FAILURE_VALUE) {
+              this.assign(symbolTable, pattern.assignTo, _result3);
             }
 
-            return _result;
+            return _result3;
           }
 
           return FAILURE_VALUE;
@@ -5658,7 +5754,7 @@ function () {
         case "string":
           if (typeof structure === "string") {
             if (pattern.value === null || pattern.value === structure) {
-              assign(symbolTable, pattern.assignTo, structure);
+              this.assign(symbolTable, pattern.assignTo, structure);
               return structure;
             }
           }
@@ -5670,7 +5766,7 @@ function () {
           // FAILURE_VALUE to be a sigil. I'll just have to be careful to return undefined at the top-most level.
           // I'm leaving this for now as this is probably not going to be used much
           if (structure === undefined) {
-            assign(symbolTable, pattern.assignTo, structure);
+            this.assign(symbolTable, pattern.assignTo, structure);
             return structure;
           }
 
@@ -5698,13 +5794,13 @@ function () {
 
       var result = [];
       var index = 0;
-      var _iteratorNormalCompletion7 = true;
-      var _didIteratorError7 = false;
-      var _iteratorError7 = undefined;
+      var _iteratorNormalCompletion8 = true;
+      var _didIteratorError8 = false;
+      var _iteratorError8 = undefined;
 
       try {
-        for (var _iterator7 = pattern.value[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-          var element = _step7.value;
+        for (var _iterator8 = pattern.value[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+          var element = _step8.value;
           var results = this.executeArrayPatternElement(element, index, structure, symbolTable);
 
           if (results === FAILURE_VALUE) {
@@ -5715,22 +5811,22 @@ function () {
           index += results.length;
         }
       } catch (err) {
-        _didIteratorError7 = true;
-        _iteratorError7 = err;
+        _didIteratorError8 = true;
+        _iteratorError8 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion7 && _iterator7["return"] != null) {
-            _iterator7["return"]();
+          if (!_iteratorNormalCompletion8 && _iterator8["return"] != null) {
+            _iterator8["return"]();
           }
         } finally {
-          if (_didIteratorError7) {
-            throw _iteratorError7;
+          if (_didIteratorError8) {
+            throw _iteratorError8;
           }
         }
       }
 
       if (index === structure.length) {
-        assign(symbolTable, pattern.assignTo, structure);
+        this.assign(symbolTable, pattern.assignTo, structure);
         return result;
       }
 
@@ -5818,7 +5914,12 @@ function () {
         } // save result
 
 
-        assign(symbolTable, element.assignTo, value);
+        if (stop > 1) {
+          this.pushAssign(symbolTable, element.assignTo, value);
+        } else {
+          this.assign(symbolTable, element.assignTo, value);
+        }
+
         result.push(value);
       }
 
@@ -5842,154 +5943,85 @@ function () {
           start = _group$range.start,
           stop = _group$range.stop;
       var result = [];
-      var _iteratorNormalCompletion8 = true;
-      var _didIteratorError8 = false;
-      var _iteratorError8 = undefined;
 
-      try {
-        for (var _iterator8 = elements[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
-          var element = _step8.value;
+      for (var i = 0; i < stop; i++) {
+        var groupResults = []; // all elements must be successful
 
-          for (var i = 0; i < stop; i++) {
-            var results = this.executeArrayPatternElement(element, index, structure, symbolTable);
+        var _iteratorNormalCompletion9 = true;
+        var _didIteratorError9 = false;
+        var _iteratorError9 = undefined;
+
+        try {
+          for (var _iterator9 = elements[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
+            var _element = _step9.value;
+            var elementSymbolTable = Object.create(symbolTable);
+            var results = this.executeArrayPatternElement(_element, index, structure, elementSymbolTable);
 
             if (results === FAILURE_VALUE) {
-              if (i >= start) {
-                return result;
-              }
+              groupResults = FAILURE_VALUE;
+              break;
+            } // copy result into main symbol table
 
-              return FAILURE_VALUE;
-            }
+
+            if (_element.assignTo !== null && _element.assignTo !== undefined && _element.assignTo in elementSymbolTable) {
+              if (stop > 1) {
+                // this.pushAssign(symbolTable, element.assignTo, results);
+                this.pushAssign(symbolTable, _element.assignTo, elementSymbolTable[_element.assignTo]);
+              } else {
+                // this.assign(symbolTable, element.assignTo, results);
+                this.assign(symbolTable, _element.assignTo, elementSymbolTable[_element.assignTo]);
+              }
+            } // collect everything that matched and advance to the next item to match
+
 
             result = result.concat(results);
-            index += results.length;
+            index += results.length; // collect what we've matched in this group so far
+
+            groupResults = groupResults.concat(results);
           }
-        }
-      } catch (err) {
-        _didIteratorError8 = true;
-        _iteratorError8 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion8 && _iterator8["return"] != null) {
-            _iterator8["return"]();
-          }
+        } catch (err) {
+          _didIteratorError9 = true;
+          _iteratorError9 = err;
         } finally {
-          if (_didIteratorError8) {
-            throw _iteratorError8;
-          }
-        }
-      }
-
-      return result;
-    }
-    /*
-     * Execute a method and return its value
-     *
-     * @param {object} expression
-     * @param {object} symbolTable
-     * @returns {*}
-     */
-
-  }, {
-    key: "executeGenerator",
-    value: function executeGenerator(expression, symbolTable) {
-      var _this2 = this;
-
-      var getNumbers = function getNumbers(operation) {
-        var left = _this2.executeGenerator(expression.left.expression, symbolTable);
-
-        if (left !== FAILURE_VALUE && typeof left === "number") {
-          var right = _this2.executeGenerator(expression.right.expression, symbolTable);
-
-          if (right !== FAILURE_VALUE && typeof right === "number") {
-            return operation(left, right);
+          try {
+            if (!_iteratorNormalCompletion9 && _iterator9["return"] != null) {
+              _iterator9["return"]();
+            }
+          } finally {
+            if (_didIteratorError9) {
+              throw _iteratorError9;
+            }
           }
         }
 
-        return FAILURE_VALUE;
-      };
+        if (groupResults === FAILURE_VALUE) {
+          // make sure we met our lower bounds criteria
+          if (i >= start) {
+            // if we didn't process any elements, then we haven't created arrays in the symbol table for this
+            // group or its elements.
+            if (i === 0) {
+              this.assign(symbolTable, group.assignTo, []);
+              var _iteratorNormalCompletion10 = true;
+              var _didIteratorError10 = false;
+              var _iteratorError10 = undefined;
 
-      switch (expression.type) {
-        case "get-value":
-          return symbolTable[expression.name];
-
-        case "get-property":
-          {
-            var object = this.executeGenerator(expression.left, symbolTable);
-            return isObject(object) ? object[expression.right] : FAILURE_VALUE;
-          }
-
-        case "add":
-          {
-            return getNumbers(function (a, b) {
-              return a + b;
-            });
-          }
-
-        case "subtract":
-          {
-            return getNumbers(function (a, b) {
-              return a - b;
-            });
-          }
-
-        case "multiply":
-          {
-            return getNumbers(function (a, b) {
-              return a * b;
-            });
-          }
-
-        case "divide":
-          {
-            return getNumbers(function (a, b) {
-              return a / b;
-            });
-          }
-
-        case "invoke":
-          {
-            var args = expression.args.map(function (arg) {
-              return _this2.executeGenerator(arg.expression, symbolTable);
-            });
-            return this.createType(expression.name, args);
-          }
-
-        case "array":
-          return expression.value.map(function (elementExpression) {
-            return _this2.executeGenerator(elementExpression.expression, symbolTable);
-          });
-
-        case "boolean":
-        case "null":
-        case "number":
-        case "string":
-        case "undefined":
-          return expression.value;
-
-        case "object":
-          {
-            var result = {};
-            var _iteratorNormalCompletion9 = true;
-            var _didIteratorError9 = false;
-            var _iteratorError9 = undefined;
-
-            try {
-              for (var _iterator9 = expression.value[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
-                var propertyExpression = _step9.value;
-                result[propertyExpression.name] = this.executeGenerator(propertyExpression.expression, symbolTable);
-              }
-            } catch (err) {
-              _didIteratorError9 = true;
-              _iteratorError9 = err;
-            } finally {
               try {
-                if (!_iteratorNormalCompletion9 && _iterator9["return"] != null) {
-                  _iterator9["return"]();
+                for (var _iterator10 = elements[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
+                  var element = _step10.value;
+                  this.assign(symbolTable, element.assignTo, []);
                 }
+              } catch (err) {
+                _didIteratorError10 = true;
+                _iteratorError10 = err;
               } finally {
-                if (_didIteratorError9) {
-                  throw _iteratorError9;
+                try {
+                  if (!_iteratorNormalCompletion10 && _iterator10["return"] != null) {
+                    _iterator10["return"]();
+                  }
+                } finally {
+                  if (_didIteratorError10) {
+                    throw _iteratorError10;
+                  }
                 }
               }
             }
@@ -5997,10 +6029,17 @@ function () {
             return result;
           }
 
-        default:
-          this.addError("Unrecognized generator expression type: '".concat(expression.type, "'"));
           return FAILURE_VALUE;
+        }
+
+        if (stop > 1) {
+          this.pushAssign(symbolTable, group.assignTo, groupResults);
+        } else {
+          this.assign(symbolTable, group.assignTo, groupResults);
+        }
       }
+
+      return result;
     }
     /*
      * Invoke a user-defined method and return its value
@@ -6011,55 +6050,64 @@ function () {
      */
 
   }, {
-    key: "createType",
-    value: function createType(type, args) {
-      if (type in this.typeCreators) {
-        var _this$typeCreators;
+    key: "invokeFunction",
+    value: function invokeFunction(type, args) {
+      if (type in this.functions) {
+        var _this$functions;
 
-        return (_this$typeCreators = this.typeCreators)[type].apply(_this$typeCreators, _toConsumableArray(args));
-      } else if ("*" in this.typeCreators) {
-        return this.typeCreators["*"](type, args);
+        return (_this$functions = this.functions)[type].apply(_this$functions, _toConsumableArray(args));
       }
 
       return FAILURE_VALUE;
     }
-  }], [{
-    key: "fromSource",
-    value: function fromSource(source) {
-      var result = new Transformer();
-      result.addDefinitionsFromSource(source);
-      return result;
-    }
     /**
-     * Create a new instance of a Transformer with its type table initially populated from the specified serialization
-     * table. This table can be used to cache a parse normalized file and is the output of Parser.parse()
+     * Add a symbol/value to the symbol table, warning if an overwrite is occurring
      *
-     * @param {Array} table
-     * @returns {Transformer}
+     * @param {Object} symbolTable
+     * @param {string} name
+     * @param {*} value
      */
 
   }, {
-    key: "fromTable",
-    value: function fromTable(table) {
-      var result = new Transformer();
-      result.addDefinitionsFromTable(table);
-      return result;
+    key: "assign",
+    value: function assign(symbolTable, name, value) {
+      if (name !== null && name !== undefined) {
+        /* eslint-disable-next-line no-prototype-builtins */
+        if (symbolTable.hasOwnProperty(name)) {
+          this.addWarning("Overwriting ".concat(name, " with value: ").concat(value));
+        }
+
+        symbolTable[name] = value;
+      }
+    }
+    /**
+     * Push a value onto the array at the name in the symbol table. If the name is not in the table already, an array will
+     * be created and then the value will be pushed to it. This is used for grouped elements.
+     *
+     * @param {Object} symbolTable
+     * @param {string} name
+     * @param {*} value
+     */
+
+  }, {
+    key: "pushAssign",
+    value: function pushAssign(symbolTable, name, value) {
+      if (name !== null && name !== undefined) {
+        /* eslint-disable-next-line no-prototype-builtins */
+        var items = symbolTable.hasOwnProperty(name) ? symbolTable[name] : [];
+
+        if (Array.isArray(items)) {
+          items.push(value);
+          symbolTable[name] = items;
+        } else {
+          this.addWarning("Unable to push to ".concat(name, " because it is not an array: ").concat(items));
+        }
+      }
     }
   }]);
 
   return Transformer;
 }();
-
-function assign(symbolTable, name, value) {
-  if (name !== null && name !== undefined) {
-    if (name in symbolTable) {
-      /* eslint-disable-next-line no-console */
-      console.log("warning: overwriting ".concat(name, " in symbol table"));
-    }
-
-    symbolTable[name] = value;
-  }
-}
 
 /**
  * @module kld-data-transformer
@@ -6908,7 +6956,7 @@ function () {
   return PathHandler;
 }();
 
-var source = "\ntransform Center =\n    Point2D(x, y) <=\n            { center: { x: number as x, y: number as y } }\n        |   { center: [ number as x, number as y ] }\n        |   { cx: number as x, cy: number as y }\n        |   { centerX: number as x, centerY: number as y }\n\ntransform Radii =\n    // the generator could also be _, but I like being explicit\n    { rx, ry } <=\n            { radii: { x: number as rx, y: number as ry } }\n        |   { radii: [ number as rx, number as ry ] }\n        |   { rx: number as rx, ry: number as ry }\n        |   { radiusX: number as rx, radiusY: number as ry }\n        \ntransform P1 =\n    Point2D(x, y) <=\n            { p1: { x: number as x, y: number as y } }\n        |   { p1: [ number as x, number as y ] }\n        \ntransform P2 =\n    Point2D(x, y) <=\n            { p2: { x: number as x, y: number as y } }\n        |   { p2: [ number as x, number as y ] }\n        |   { p2x: number as x, p2y: number as y }\n        \ntransform P3 =\n    Point2D(x, y) <=\n            { p3: { x: number as x, y: number as y } }\n        |   { p3: [ number as x, number as y ] }\n        |   { p3x: number as x, p3y: number as y }\n        \ntransform P4 =\n    Point2D(x, y) <=\n            { p4: { x: number as x, y: number as y } }\n        |   { p4: [ number as x, number as y ] }\n        |   { p4x: number as x, p4y: number as y }\n\ntransform Number =\n    _ <= number\n            \ntype Arc = {\n    // collect some values so we don't have to repeat queries\n    radii = transform Radii;\n    \n    center: transform Center,\n    radiusX: radii.rx,\n    radiusY: radii.ry,\n    startRadians: transform Number,\n    endRadians: transform Number\n}\n\ntype ArcArgs = {\n    elements =\n        _ <=\n                [ number as centerX, number as centerY, number as radiusX, number as radiusY, number as startRadians, number as endRadians ]\n            |   [ { x: number as centerX, y: number as centerY }, number as radiusX, number as radiusY, number as startRadians, number as endRadians ];\n    \n    center: Point2D(elements.centerX, elements.centerY),\n    radiusX: elements.radiusX,\n    radiusY: elements.radiusY,\n    startRadians: elements.startRadians,\n    endRadians: elements.endRadians\n}\n\ntype Bezier2 = {\n    p1: transform P1,\n    p2: transform P2,\n    p3: transform P3\n}\n\ntype Bezier2Args = {\n    elements =\n        _ <=\n                [ number as p1x, number as p1y, number as p2x, number as p2y, number as p3x, number as p3y ]\n            |   [ { x: number as p1x, y: number as p1y }, { x: number as p2x, y: number as p2y }, { x: number as p3x, y: number as p3y }];\n    \n    p1: Point2D(elements.p1x, elements.p1y),\n    p2: Point2D(elements.p2x, elements.p2y),\n    p3: Point2D(elements.p3x, elements.p3y)\n}\n\ntype Bezier3 = {\n    p1: transform P1,\n    p2: transform P2,\n    p3: transform P3,\n    p4: transform P4\n}\n\ntype Bezier3Args = {\n    elements =\n        _ <=\n                [ number as p1x, number as p1y, number as p2x, number as p2y, number as p3x, number as p3y, number as p4x, number as p4y ]\n            |   [ { x: number as p1x, y: number as p1y }, { x: number as p2x, y: number as p2y }, { x: number as p3x, y: number as p3y }, { x: number as p4x, y: number as p4y }];\n    \n    p1: Point2D(elements.p1x, elements.p1y),\n    p2: Point2D(elements.p2x, elements.p2y),\n    p3: Point2D(elements.p3x, elements.p3y),\n    p4: Point2D(elements.p4x, elements.p4y)\n}\n\ntype Circle = {\n    center: transform Center,\n    radius: radius <=\n            { r: number as radius}\n        |   { radius: number as radius }\n}\n\ntype CircleArgs = {\n    elements =\n        _ <=\n                [ number as centerX, number as centerY, number as radius ]\n            |   [ { x: number as centerX, y: number as centerY }, number as radius ];\n    \n    center: Point2D(elements.centerX, elements.centerY),\n    radius: elements.radius\n}\n\ntype Ellipse = {\n    // collect some values so we don't have to repeat queries\n    radii = transform Radii;\n    \n    center: transform Center,\n    radiusX: radii.rx,\n    radiusY: radii.ry\n}\n\ntype EllipseArgs = {\n    elements =\n        _ <=\n                [ number as centerX, number as centerY, number as radiusX, number as radiusY ]\n            |   [ { x: number as centerX, y: number as centerY }, number as radiusX, number as radiusY ];\n    \n    center: Point2D(elements.centerX, elements.centerY),\n    radiusX: elements.radiusX,\n    radiusY: elements.radiusY\n}\n\ntype Line = {\n    p1: transform P1,\n    p2: transform P2\n}\n\ntype LineArgs = {\n    elements =\n        _ <=\n                [ number as p1x, number as p1y, number as p2x, number as p2y ]\n            |   [ { x: number as p1x, y: number as p1y }, { x: number as p2x, y: number as p2y } ];\n        \n    p1: Point2D(elements.p1x, elements.p1y),\n    p2: Point2D(elements.p2x, elements.p2y)\n}\n\ntype Path = {\n    segments:\n        PathData(data) <= { d: string as data }\n}\n\ntype PathArgs = {\n    segments: PathData(data) <= string as data\n}\n\ntype Polygon = {\n    points:\n        ListOfCoords(coords) <= { points: [ (number, number); 0..] as coords };\n        ListOfPoints(points) <= { points: [ { x: number, y: number }; 0.. ] as points }\n}\n\ntype PolygonArgs = {\n    points:\n         [ ListOfCoords(coords) ] <= [ (number, number); 0..] as coords;\n         [ ListOfPoints(points) ] <= [ { x: number, y: number }; 0.. ] as points\n}\n\ntype Polyline = {\n    points:\n        ListOfCoords(coords) <= { points: [ (number, number); 0..] as coords };\n        ListOfPoints(points) <= { points: [ { x: number, y: number }; 0.. ] as points }\n}\n\ntype PolylineArgs = {\n    points:\n         [ ListOfCoords(coords) ] <= [ (number, number); 0..] as coords;\n         [ ListOfPoints(points) ] <= [ { x: number, y: number }; 0.. ] as points\n}\n\ntype Rectangle = {\n    // collect top-left point in case we need to do math with it for\n    // bottom-right\n    topLeft =\n        // could also be _\n        { x, y } <=\n                { topLeft: { x: number as x, y: number as y } }\n            |   { topLeft: [ number as x, number as y ] }\n            |   { x: number as x, y: number as y }\n            |   { top: number as x, left: number as y };\n\n    topLeft:\n        Point2D(topLeft.x, topLeft.y),\n\n    bottomRight:\n        Point2D(x, y) <=\n                { bottomRight: { x: number as x, y: number as y } }\n            |   { bottomRight: [ number as x, number as y ] };\n        Point2D(topLeft.x + w, topLeft.y + h) <=\n                { w: number as w, h: number as h }\n            |   { width: number as w, height: number as h }\n            |   { size: { x: number as w, y: number as h } }\n            |   { size: [ number as w, number as h ] },\n    rx:\n        rx <=\n                { rx: number as rx }\n            |   { radiusX: number as rx };\n        0 <= any,\n    ry:\n        ry <=\n                { ry: number as ry }\n            |   { radiusY: number as ry };\n        0 <= any\n}\n\ntype RectangleArgs = {\n    elements =\n        { x, y, width, height, rx, ry } <=\n                [ number as x, number as y, number as width, number as height ]\n            |   [ number as x, number as y, number as width, number as height, number as rx, number as ry ]\n            |   [ { x: number as x, y: number as y }, { x: number as width, y: number as height } ]\n            |   [ { x: number as x, y: number as y }, { x: number as width, y: number as height }, { rx: number as rx, ry: number as ry } ]\n            |   [ { x: number as x, y: number as y }, { x: number as width, y: number as height }, { radiusX: number as rx, radiusY: number as ry } ];\n\n    topLeft: Point2D(elements.x, elements.y),\n    bottomRight: Point2D(elements.x + elements.width, elements.y + elements.height),\n    rx: elements.rx,\n    ry: elements.ry\n}\n";
+var source = "\ndef Center =\n    patterns {\n        { center: { x: number as x, y: number as y } },\n        { center: [ number as x, number as y ] },\n        { cx: number as x, cy: number as y },\n        { centerX: number as x, centerY: number as y }\n    } |> Point2D(x, y);\n\ndef Radii =\n    patterns {\n        { radii: { x: number as rx, y: number as ry } },\n        { radii: [ number as rx, number as ry ] },\n        { rx: number as rx, ry: number as ry },\n        { radiusX: number as rx, radiusY: number as ry }\n    } |> { \"rx\", \"ry\" };\n\ndef P1 =\n    patterns {\n        { p1: { x: number as x, y: number as y } },\n        { p1: [ number as x, number as y ] },\n        { p1x: number as x, p1y: number as y }\n    } |> Point2D(x, y);\n        \ndef P2 =\n    patterns {\n        { p1: { x: number as x, y: number as y } },\n        { p1: [ number as x, number as y ] },\n        { p1x: number as x, p1y: number as y }\n    } |> Point2D(x, y);\n        \ndef P3 =\n    patterns {\n        { p1: { x: number as x, y: number as y } },\n        { p1: [ number as x, number as y ] },\n        { p1x: number as x, p1y: number as y }\n    } |> Point2D(x, y);\n        \ndef P4 =\n    patterns {\n        { p1: { x: number as x, y: number as y } },\n        { p1: [ number as x, number as y ] },\n        { p1x: number as x, p1y: number as y }\n    } |> Point2D(x, y);\n\n            \ndef Arc = {\n    let radii = Radii,\n\n    \"center\": Center,\n    \"radiusX\": radii.rx,\n    \"radiusY\": radii.ry,\n    \"startRadians\": =~ number,\n    \"endRadians\": =~ number\n};\n\ndef ArcArgs = {\n    let elements =\n        patterns {\n            [ number as centerX, number as centerY, number as radiusX, number as radiusY, number as startRadians, number as endRadians ],\n            [ { x: number as centerX, y: number as centerY }, number as radiusX, number as radiusY, number as startRadians, number as endRadians ]\n        } |> { \"centerX\", \"centerY\", \"radiusX\", \"radiusY\", \"startRadians\", \"endRadians\" },\n    \n    \"center\": Point2D(elements.centerX, elements.centerY),\n    \"radiusX\": elements.radiusX,\n    \"radiusY\": elements.radiusY,\n    \"startRadians\": elements.startRadians,\n    \"endRadians\": elements.endRadians\n};\n\ndef Bezier2 = {\n    \"p1\": P1,\n    \"p2\": P2,\n    \"p3\": P3\n};\n\ndef Bezier2Args = {\n    let elements =\n        patterns {\n            [ number as p1x, number as p1y, number as p2x, number as p2y, number as p3x, number as p3y ],\n            [ { x: number as p1x, y: number as p1y }, { x: number as p2x, y: number as p2y }, { x: number as p3x, y: number as p3y }]\n        } |> { \"p1x\", \"p1y\", \"p2x\", \"p2y\", \"p3x\", \"p3y\" },\n    \n    \"p1\": Point2D(elements.p1x, elements.p1y),\n    \"p2\": Point2D(elements.p2x, elements.p2y),\n    \"p3\": Point2D(elements.p3x, elements.p3y)\n};\n\ndef Bezier3 = {\n    \"p1\": P1,\n    \"p2\": P2,\n    \"p3\": P3,\n    \"p4\": P4\n};\n\ndef Bezier3Args = {\n    let elements =\n        patterns {\n            [ number as p1x, number as p1y, number as p2x, number as p2y, number as p3x, number as p3y, number as p4x, number as p4y ],\n            [ { x: number as p1x, y: number as p1y }, { x: number as p2x, y: number as p2y }, { x: number as p3x, y: number as p3y }, { x: number as p4x, y: number as p4y }]\n        } |> { \"p1x\", \"p1y\", \"p2x\", \"p2y\", \"p3x\", \"p3y\", \"p4x\", \"p4y\" },\n    \n    \"p1\": Point2D(elements.p1x, elements.p1y),\n    \"p2\": Point2D(elements.p2x, elements.p2y),\n    \"p3\": Point2D(elements.p3x, elements.p3y),\n    \"p4\": Point2D(elements.p4x, elements.p4y)\n};\n\ndef Circle = {\n    \"center\": Center,\n    \"radius\":\n        patterns {\n            { r: number as radius},\n            { radius: number as radius }\n        } |> radius\n};\n\ndef CircleArgs = {\n    let elements =\n        patterns {\n            [ number as centerX, number as centerY, number as radius ],\n            [ { x: number as centerX, y: number as centerY }, number as radius ]\n        } |> { \"centerX\", \"centerY\", \"radius\" },\n    \n    \"center\": Point2D(elements.centerX, elements.centerY),\n    \"radius\": elements.radius\n};\n\ndef Ellipse = {\n    let radii = Radii,\n\n    \"center\": Center,\n    \"radiusX\": radii.rx,\n    \"radiusY\": radii.ry\n};\n\ndef EllipseArgs = {\n    let elements =\n       patterns {\n            [ number as centerX, number as centerY, number as radiusX, number as radiusY ],\n            [ { x: number as centerX, y: number as centerY }, number as radiusX, number as radiusY ]\n        } |> { \"centerX\", \"centerY\", \"radiusX\", \"radiusY\" },\n    \n    \"center\": Point2D(elements.centerX, elements.centerY),\n    \"radiusX\": elements.radiusX,\n    \"radiusY\": elements.radiusY\n};\n\ndef Line = {\n    \"p1\": P1,\n    \"p2\": P2\n};\n\ndef LineArgs = {\n    let elements =\n        patterns {\n            [ number as p1x, number as p1y, number as p2x, number as p2y ],\n            [ { x: number as p1x, y: number as p1y }, { x: number as p2x, y: number as p2y } ]\n        } |> { \"p1x\", \"p1y\", \"p2x\", \"p2y\" },\n        \n    \"p1\": Point2D(elements.p1x, elements.p1y),\n    \"p2\": Point2D(elements.p2x, elements.p2y)\n};\n\ndef Path = {\n    \"segments\":\n        =~ { d: string as data } |> PathData(data)\n};\n\ndef PathArgs = {\n    \"segments\":\n        =~ string as data |> PathData(data)\n};\n\ndef Polygon = {\n    \"points\":\n        sequences {\n            =~ { points: [ (number, number); 0.. as coords ] }\n            |> [ map(coords, Point2D(...$)) ],\n\n            =~ { points: [ { x: number, y: number }; 0.. ] as points }\n            |> [ map(points, Point2D($.x, $.y)) ]\n        }\n};\n\ndef PolygonArgs = {\n    \"points\":\n        sequences {\n            =~ [ (number, number); 0.. as coords ]\n            |> [ map(coords, Point2D(...$)) ],\n\n            =~ [ { x: number, y: number }; 0.. ] as points\n            |> [ map(points, Point2D($.x, $.y)) ]\n        }\n};\n\ndef Polyline = {\n    \"points\":\n        sequences {\n            =~ { points: [ (number, number); 0.. as coords ] }\n            |> [ map(coords, Point2D(...$)) ],\n\n            =~ { points: [ { x: number, y: number }; 0.. ] as points }\n            |> [ map(points, Point2D($.x, $.y)) ]\n        }\n};\n\ndef PolylineArgs = {\n    \"points\":\n        sequences {\n            =~ [ (number, number); 0.. as coords ]\n            |> [ map(coords, Point2D(...$)) ],\n\n            =~ [ { x: number, y: number }; 0.. ] as points\n            |> [ map(points, Point2D($.x, $.y)) ]\n        }\n};\n\ndef Rectangle = {\n    let topLeft =\n        patterns {\n            { topLeft: { x: number as x, y: number as y } },\n            { topLeft: [ number as x, number as y ] },\n            { x: number as x, y: number as y },\n            { top: number as x, left: number as y }\n        } |> { \"x\", \"y\" },\n\n    \"topLeft\":\n        Point2D(topLeft.x, topLeft.y),\n\n    \"bottomRight\":\n        sequences {\n            patterns {\n                { bottomRight: { x: number as x, y: number as y } },\n                { bottomRight: [ number as x, number as y ] }\n            } |> Point2D(x, y),\n            patterns {\n                { w: number as w, h: number as h },\n                { width: number as w, height: number as h },\n                { size: { x: number as w, y: number as h } },\n                { size: [ number as w, number as h ] }\n            } |> Point2D(topLeft.x + w, topLeft.y + h)\n        },\n\n    \"rx\":\n        sequences {\n            =~ { rx: number as rx } |> rx,\n            =~ any |> 0\n        },\n    \"ry\":\n        sequences {\n            =~ { ry: number as ry } |> ry,\n            =~ any |> 0\n        }\n};\n\ndef RectangleArgs = {\n    let elements =\n        patterns {\n            [ number as x, number as y, number as width, number as height ],\n            [ number as x, number as y, number as width, number as height, number as rx, number as ry ],\n            [ { x: number as x, y: number as y }, { x: number as width, y: number as height } ],\n            [ { x: number as x, y: number as y }, { x: number as width, y: number as height }, { rx: number as rx, ry: number as ry } ],\n            [ { x: number as x, y: number as y }, { x: number as width, y: number as height }, { radiusX: number as rx, radiusY: number as ry } ]\n        } |> { \"x\", \"y\", \"width\", \"height\", \"rx\", \"ry\" },\n\n    \"topLeft\": Point2D(elements.x, elements.y),\n    \"bottomRight\": Point2D(elements.x + elements.width, elements.y + elements.height),\n    \"rx\": elements.rx,\n    \"ry\": elements.ry\n}\n";
 
 var degree90 = Math.PI * 0.5;
 /**
@@ -7081,9 +7129,33 @@ function create(type, object, properties) {
   } // normalize the data
 
 
-  var data = transformer.execute("type ".concat(transformType), object);
+  var data = transformer.execute(transformType, object);
 
-  if (data === undefined) {
+  if (data === FAILURE_VALUE) {
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = transformer.messages[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var message = _step.value;
+        console.log(message);
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+          _iterator["return"]();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+
     throw new TypeError("".concat(type, " is not in a recognizable format: ").concat(JSON.stringify(object)));
   } // pull out the arguments
 
@@ -7107,37 +7179,19 @@ ShapeInfo.POLYGON = "Polygon";
 ShapeInfo.POLYLINE = "Polyline";
 ShapeInfo.RECTANGLE = "Rectangle"; // create shape argument normalizer
 
-var transformer = Transformer.fromSource(source); // attach custom generators
+var transformer = new Transformer();
+transformer.execute(source); // attach custom generators
 
-transformer.typeCreators.Point2D = function (x, y) {
+transformer.addFunction("Point2D", function (x, y) {
   return new Point2D(x, y);
-};
-
-transformer.typeCreators.ListOfCoords = function (ps) {
-  var result = [];
-
-  for (var i = 0; i < ps.length; i += 2) {
-    var x = ps[i];
-    var y = ps[i + 1];
-    result.push(new Point2D(x, y));
-  }
-
-  return result;
-};
-
-transformer.typeCreators.ListOfPoints = function (ps) {
-  return ps.map(function (p) {
-    return new Point2D(p.x, p.y);
-  });
-};
-
-transformer.typeCreators.PathData = function (pathData) {
+});
+transformer.addFunction("PathData", function (pathData) {
   var parser = new PathParser();
   var handler = new PathHandler(ShapeInfo);
   parser.setHandler(handler);
   parser.parseData(pathData);
   return handler.shapes;
-};
+});
 
 var TWO_PI$1 = 2.0 * Math.PI;
 var UNIT_X = new Vector2D(1, 0);
