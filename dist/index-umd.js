@@ -2615,7 +2615,7 @@
         79: "STRING",
         80: "NUMBER"
       },
-      productions_: [0, [3, 1], [4, 3], [4, 1], [6, 1], [6, 1], [7, 4], [7, 4], [13, 3], [13, 1], [8, 1], [15, 3], [15, 1], [17, 2], [17, 1], [20, 1], [20, 6], [20, 4], [20, 4], [21, 1], [21, 3], [21, 3], [21, 3], [21, 3], [30, 3], [30, 4], [30, 1], [36, 1], [36, 3], [36, 3], [36, 4], [37, 1], [37, 1], [37, 1], [37, 1], [37, 1], [37, 1], [37, 1], [37, 1], [37, 1], [37, 3], [48, 2], [48, 3], [50, 3], [50, 1], [51, 1], [51, 1], [49, 2], [49, 3], [52, 3], [52, 1], [53, 3], [53, 1], [53, 1], [35, 3], [35, 1], [55, 1], [55, 2], [27, 3], [27, 1], [19, 1], [19, 3], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 2], [57, 2], [57, 1], [67, 2], [67, 3], [71, 3], [71, 1], [72, 1], [72, 3], [73, 1], [73, 3], [73, 3], [73, 5], [74, 3], [74, 2], [74, 2], [74, 1], [68, 2], [68, 3], [76, 3], [76, 1], [77, 1], [77, 3], [78, 3], [78, 1], [42, 1], [42, 1], [45, 1], [39, 1], [44, 1], [81, 1], [81, 1], [82, 3], [82, 1]],
+      productions_: [0, [3, 1], [3, 2], [4, 3], [4, 1], [6, 1], [6, 1], [7, 4], [7, 4], [13, 3], [13, 1], [8, 1], [15, 3], [15, 1], [17, 2], [17, 1], [20, 1], [20, 6], [20, 4], [20, 4], [21, 1], [21, 3], [21, 3], [21, 3], [21, 3], [30, 3], [30, 4], [30, 1], [36, 1], [36, 3], [36, 3], [36, 4], [37, 1], [37, 1], [37, 1], [37, 1], [37, 1], [37, 1], [37, 1], [37, 1], [37, 1], [37, 3], [48, 2], [48, 3], [50, 3], [50, 1], [51, 1], [51, 1], [49, 2], [49, 3], [52, 3], [52, 1], [53, 3], [53, 1], [53, 1], [35, 3], [35, 1], [55, 1], [55, 2], [27, 3], [27, 1], [19, 1], [19, 3], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 2], [57, 2], [57, 1], [67, 2], [67, 3], [71, 3], [71, 1], [72, 1], [72, 3], [73, 1], [73, 3], [73, 3], [73, 5], [74, 3], [74, 2], [74, 2], [74, 1], [68, 2], [68, 3], [76, 3], [76, 1], [77, 1], [77, 3], [78, 3], [78, 1], [42, 1], [42, 1], [45, 1], [39, 1], [44, 1], [81, 1], [81, 1], [82, 3], [82, 1]],
       performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate
       /* action[1] */
       , $$
@@ -2632,17 +2632,7 @@
             break;
 
           case 2:
-          case 8:
-          case 11:
-          case 43:
-          case 49:
-          case 54:
-          case 58:
-          case 81:
-          case 95:
-          case 108:
-            $$[$0 - 2].push($$[$0]);
-            this.$ = $$[$0 - 2];
+            return $$[$0 - 1];
             break;
 
           case 3:
@@ -2655,29 +2645,43 @@
           case 82:
           case 96:
           case 109:
-            this.$ = [$$[$0]];
+            $$[$0 - 2].push($$[$0]);
+            this.$ = $$[$0 - 2];
             break;
 
           case 4:
-          case 5:
+          case 10:
           case 13:
+          case 45:
+          case 51:
+          case 56:
+          case 60:
+          case 83:
+          case 97:
+          case 110:
+            this.$ = [$$[$0]];
+            break;
+
+          case 5:
+          case 6:
           case 14:
           case 15:
-          case 19:
-          case 26:
+          case 16:
+          case 20:
           case 27:
-          case 38:
+          case 28:
           case 39:
-          case 45:
+          case 40:
           case 46:
-          case 53:
-          case 56:
-          case 97:
-          case 106:
+          case 47:
+          case 54:
+          case 57:
+          case 98:
+          case 107:
             this.$ = $$[$0];
             break;
 
-          case 6:
+          case 7:
             this.$ = {
               type: 'assignment',
               name: $$[$0 - 2],
@@ -2685,7 +2689,7 @@
             };
             break;
 
-          case 7:
+          case 8:
             this.$ = {
               type: 'def',
               name: $$[$0 - 2],
@@ -2693,35 +2697,35 @@
             };
             break;
 
-          case 10:
+          case 11:
             this.$ = {
               type: 'sequence',
               steps: $$[$0]
             };
             break;
 
-          case 16:
+          case 17:
             this.$ = {
               type: 'map',
               value: [$$[$0 - 3], $$[$0 - 1]]
             };
             break;
 
-          case 17:
+          case 18:
             this.$ = {
               type: 'patterns',
               patterns: $$[$0 - 1]
             };
             break;
 
-          case 18:
+          case 19:
             this.$ = {
               type: 'sequences',
               sequences: $$[$0 - 1]
             };
             break;
 
-          case 20:
+          case 21:
             this.$ = {
               type: 'add',
               left: $$[$0 - 2],
@@ -2729,7 +2733,7 @@
             };
             break;
 
-          case 21:
+          case 22:
             this.$ = {
               type: 'subtract',
               left: $$[$0 - 2],
@@ -2737,7 +2741,7 @@
             };
             break;
 
-          case 22:
+          case 23:
             this.$ = {
               type: 'multiply',
               left: $$[$0 - 2],
@@ -2745,7 +2749,7 @@
             };
             break;
 
-          case 23:
+          case 24:
             this.$ = {
               type: 'divide',
               left: $$[$0 - 2],
@@ -2753,7 +2757,7 @@
             };
             break;
 
-          case 24:
+          case 25:
             this.$ = {
               type: 'invoke',
               name: $$[$0 - 2],
@@ -2761,7 +2765,7 @@
             };
             break;
 
-          case 25:
+          case 26:
             this.$ = {
               type: 'invoke',
               name: $$[$0 - 3],
@@ -2769,17 +2773,9 @@
             };
             break;
 
-          case 28:
-            this.$ = {
-              type: 'get-property',
-              left: $$[$0 - 2],
-              right: $$[$0]
-            };
-            break;
-
           case 29:
             this.$ = {
-              type: 'get-index',
+              type: 'get-property',
               left: $$[$0 - 2],
               right: $$[$0]
             };
@@ -2788,92 +2784,100 @@
           case 30:
             this.$ = {
               type: 'get-index',
-              left: $$[$0 - 3],
-              right: $$[$0 - 1]
+              left: $$[$0 - 2],
+              right: $$[$0]
             };
             break;
 
           case 31:
             this.$ = {
-              type: 'boolean',
-              value: $$[$0]
+              type: 'get-index',
+              left: $$[$0 - 3],
+              right: $$[$0 - 1]
             };
             break;
 
           case 32:
             this.$ = {
               type: 'boolean',
-              value: null
+              value: $$[$0]
             };
             break;
 
           case 33:
+            this.$ = {
+              type: 'boolean',
+              value: null
+            };
+            break;
+
+          case 34:
             this.$ = {
               type: 'number',
               value: $$[$0]
             };
             break;
 
-          case 34:
+          case 35:
             this.$ = {
               type: 'string',
               value: $$[$0]
             };
             break;
 
-          case 35:
+          case 36:
             this.$ = {
               type: 'undefined',
               value: undefined
             };
             break;
 
-          case 36:
+          case 37:
             this.$ = {
               type: 'get-value',
               name: $$[$0]
             };
             break;
 
-          case 37:
+          case 38:
             this.$ = {
               type: 'get-structure'
             };
             break;
 
-          case 40:
-            this.$ = $$[$0 - 1];
-            break;
-
           case 41:
-            this.$ = {
-              type: 'array',
-              value: []
-            };
+            this.$ = $$[$0 - 1];
             break;
 
           case 42:
             this.$ = {
               type: 'array',
-              value: $$[$0 - 1]
+              value: []
             };
             break;
 
-          case 47:
+          case 43:
             this.$ = {
-              type: 'object',
-              value: []
+              type: 'array',
+              value: $$[$0 - 1]
             };
             break;
 
           case 48:
             this.$ = {
               type: 'object',
+              value: []
+            };
+            break;
+
+          case 49:
+            this.$ = {
+              type: 'object',
               value: $$[$0 - 1]
             };
             break;
 
-          case 51:
+          case 52:
             this.$ = {
               type: 'property',
               name: $$[$0 - 2],
@@ -2881,7 +2885,7 @@
             };
             break;
 
-          case 52:
+          case 53:
             this.$ = {
               type: 'property',
               name: $$[$0],
@@ -2889,27 +2893,27 @@
             };
             break;
 
-          case 57:
+          case 58:
             this.$ = {
               type: 'spread',
               expression: $$[$0]
             };
             break;
 
-          case 60:
-          case 83:
+          case 61:
+          case 84:
             $$[$0].assignTo = null;
             this.$ = $$[$0];
             break;
 
-          case 61:
-          case 84:
-          case 98:
+          case 62:
+          case 85:
+          case 99:
             $$[$0 - 2].assignTo = $$[$0];
             this.$ = $$[$0 - 2];
             break;
 
-          case 62:
+          case 63:
             this.$ = {
               type: 'pattern',
               patternType: 'any',
@@ -2917,18 +2921,10 @@
             };
             break;
 
-          case 63:
-            this.$ = {
-              type: 'pattern',
-              patternType: 'array',
-              value: null
-            };
-            break;
-
           case 64:
             this.$ = {
               type: 'pattern',
-              patternType: 'boolean',
+              patternType: 'array',
               value: null
             };
             break;
@@ -2937,7 +2933,7 @@
             this.$ = {
               type: 'pattern',
               patternType: 'boolean',
-              value: true
+              value: null
             };
             break;
 
@@ -2945,22 +2941,22 @@
             this.$ = {
               type: 'pattern',
               patternType: 'boolean',
-              value: false
+              value: true
             };
             break;
 
           case 67:
             this.$ = {
               type: 'pattern',
-              patternType: 'null',
-              value: null
+              patternType: 'boolean',
+              value: false
             };
             break;
 
           case 68:
             this.$ = {
               type: 'pattern',
-              patternType: 'number',
+              patternType: 'null',
               value: null
             };
             break;
@@ -2969,22 +2965,22 @@
             this.$ = {
               type: 'pattern',
               patternType: 'number',
-              value: $$[$0]
+              value: null
             };
             break;
 
           case 70:
             this.$ = {
               type: 'pattern',
-              patternType: 'object',
-              value: null
+              patternType: 'number',
+              value: $$[$0]
             };
             break;
 
           case 71:
             this.$ = {
               type: 'pattern',
-              patternType: 'string',
+              patternType: 'object',
               value: null
             };
             break;
@@ -2993,11 +2989,19 @@
             this.$ = {
               type: 'pattern',
               patternType: 'string',
-              value: $$[$0]
+              value: null
             };
             break;
 
           case 73:
+            this.$ = {
+              type: 'pattern',
+              patternType: 'string',
+              value: $$[$0]
+            };
+            break;
+
+          case 74:
             this.$ = {
               type: 'pattern',
               patternType: 'undefined',
@@ -3005,26 +3009,26 @@
             };
             break;
 
-          case 74:
           case 75:
+          case 76:
             this.$ = $$[$0];
             break;
 
-          case 76:
+          case 77:
             this.$ = {
               type: 'pattern-reference',
               name: $$[$0]
             };
             break;
 
-          case 77:
+          case 78:
             this.$ = {
               type: 'enumeration-reference',
               name: $$[$0]
             };
             break;
 
-          case 78:
+          case 79:
             this.$ = {
               type: 'pattern',
               patternType: 'reference',
@@ -3032,7 +3036,7 @@
             };
             break;
 
-          case 79:
+          case 80:
             this.$ = {
               type: 'pattern',
               patternType: 'array-pattern',
@@ -3040,7 +3044,7 @@
             };
             break;
 
-          case 80:
+          case 81:
             this.$ = {
               type: 'pattern',
               patternType: 'array-pattern',
@@ -3048,7 +3052,7 @@
             };
             break;
 
-          case 85:
+          case 86:
             this.$ = {
               type: 'element',
               pattern: $$[$0],
@@ -3060,7 +3064,7 @@
             };
             break;
 
-          case 86:
+          case 87:
             this.$ = {
               type: 'element',
               pattern: $$[$0 - 2],
@@ -3068,7 +3072,7 @@
             };
             break;
 
-          case 87:
+          case 88:
             this.$ = {
               type: 'element-group',
               elements: $$[$0 - 1],
@@ -3080,7 +3084,7 @@
             };
             break;
 
-          case 88:
+          case 89:
             this.$ = {
               type: 'element-group',
               elements: $$[$0 - 3],
@@ -3088,7 +3092,7 @@
             };
             break;
 
-          case 89:
+          case 90:
             this.$ = {
               type: 'range',
               start: $$[$0 - 2],
@@ -3096,7 +3100,7 @@
             };
             break;
 
-          case 90:
+          case 91:
             this.$ = {
               type: 'range',
               start: 0,
@@ -3104,7 +3108,7 @@
             };
             break;
 
-          case 91:
+          case 92:
             this.$ = {
               type: 'range',
               start: $$[$0 - 1],
@@ -3112,7 +3116,7 @@
             };
             break;
 
-          case 92:
+          case 93:
             this.$ = {
               type: 'range',
               start: $$[$0],
@@ -3120,7 +3124,7 @@
             };
             break;
 
-          case 93:
+          case 94:
             this.$ = {
               type: 'pattern',
               patternType: 'object',
@@ -3128,7 +3132,7 @@
             };
             break;
 
-          case 94:
+          case 95:
             this.$ = {
               type: 'pattern',
               patternType: 'object-pattern',
@@ -3136,7 +3140,7 @@
             };
             break;
 
-          case 99:
+          case 100:
             this.$ = {
               type: 'property',
               name: $$[$0 - 2],
@@ -3144,7 +3148,7 @@
             };
             break;
 
-          case 100:
+          case 101:
             this.$ = {
               type: 'property',
               name: $$[$0],
@@ -3156,24 +3160,24 @@
             };
             break;
 
-          case 101:
+          case 102:
             this.$ = true;
             break;
 
-          case 102:
+          case 103:
             this.$ = false;
             break;
 
-          case 103:
-          case 107:
+          case 104:
+          case 108:
             this.$ = $$[$0].substring(1, $$[$0].length - 1);
             break;
 
-          case 104:
+          case 105:
             this.$ = parseInt($$[$0]);
             break;
 
-          case 105:
+          case 106:
             this.$ = parseFloat($$[$0]);
             break;
         }
@@ -3218,13 +3222,13 @@
       }, {
         1: [2, 1],
         5: [1, 35]
-      }, o($Vh, [2, 3]), o($Vh, [2, 4]), o($Vh, [2, 5]), {
+      }, o($Vh, [2, 4]), o($Vh, [2, 5]), o($Vh, [2, 6]), {
         10: [1, 36]
       }, {
         10: [1, 37]
-      }, o([1, 5, 14, 24, 28, 41], [2, 10], {
+      }, o([1, 5, 14, 24, 28, 41], [2, 11], {
         16: [1, 38]
-      }), o($Vi, [2, 12]), {
+      }), o($Vi, [2, 13]), {
         10: $Vj,
         19: 39,
         26: $Vk,
@@ -3248,7 +3252,7 @@
         70: $Vx,
         79: $Vf,
         80: $Vg
-      }, o($Vi, [2, 14]), o($Vy, [2, 15], {
+      }, o($Vi, [2, 15]), o($Vy, [2, 16], {
         31: [1, 60],
         32: [1, 61],
         33: [1, 62],
@@ -3259,12 +3263,12 @@
         26: [1, 65]
       }, {
         26: [1, 66]
-      }, o($Vz, [2, 19]), o($VA, [2, 36], {
+      }, o($Vz, [2, 20]), o($VA, [2, 37], {
         23: [1, 67]
-      }), o($Vz, [2, 26], {
+      }), o($Vz, [2, 27], {
         38: [1, 68],
         40: [1, 69]
-      }), o($VA, [2, 27]), o($VA, [2, 31]), o($VA, [2, 32]), o($VA, [2, 33]), o($VA, [2, 34]), o($VA, [2, 35]), o($VA, [2, 37]), o($VA, [2, 38]), o($VA, [2, 39]), {
+      }), o($VA, [2, 28]), o($VA, [2, 32]), o($VA, [2, 33]), o($VA, [2, 34]), o($VA, [2, 35]), o($VA, [2, 36]), o($VA, [2, 38]), o($VA, [2, 39]), o($VA, [2, 40]), {
         10: $V1,
         20: 70,
         21: 12,
@@ -3289,7 +3293,7 @@
         63: $Ve,
         79: $Vf,
         80: $Vg
-      }, o($VA, [2, 101]), o($VA, [2, 102]), o($VB, [2, 105]), o($VB, [2, 103]), {
+      }, o($VA, [2, 102]), o($VA, [2, 103]), o($VB, [2, 106]), o($VB, [2, 104]), {
         7: 75,
         9: $V0,
         10: $V1,
@@ -3352,6 +3356,7 @@
         79: $Vf,
         80: $Vg
       }, {
+        1: [2, 2],
         6: 81,
         7: 4,
         8: 5,
@@ -3415,13 +3420,13 @@
         63: $Ve,
         79: $Vf,
         80: $Vg
-      }, o($Vi, [2, 13]), o($Vi, [2, 60], {
+      }, o($Vi, [2, 14]), o($Vi, [2, 61], {
         58: [1, 85]
-      }), o($VC, [2, 62]), o($VC, [2, 63]), o($VC, [2, 64]), o($VC, [2, 65]), o($VC, [2, 66]), o($VC, [2, 67]), o($VC, [2, 68]), o($VC, [2, 69]), o($VC, [2, 70]), o($VC, [2, 71]), o($VC, [2, 72]), o($VC, [2, 73]), o($VC, [2, 74]), o($VC, [2, 75]), {
+      }), o($VC, [2, 63]), o($VC, [2, 64]), o($VC, [2, 65]), o($VC, [2, 66]), o($VC, [2, 67]), o($VC, [2, 68]), o($VC, [2, 69]), o($VC, [2, 70]), o($VC, [2, 71]), o($VC, [2, 72]), o($VC, [2, 73]), o($VC, [2, 74]), o($VC, [2, 75]), o($VC, [2, 76]), {
         10: [1, 86]
       }, {
         10: [1, 87]
-      }, o($VC, [2, 78]), {
+      }, o($VC, [2, 79]), {
         10: $Vj,
         23: $VD,
         26: $Vk,
@@ -3653,15 +3658,15 @@
         80: $VG
       }, {
         24: [1, 117]
-      }, o($VA, [2, 41]), {
+      }, o($VA, [2, 42]), {
         14: [1, 119],
         41: [1, 118]
-      }, o($VH, [2, 44]), o($VH, [2, 45]), o($VH, [2, 46]), o($VA, [2, 47]), {
+      }, o($VH, [2, 45]), o($VH, [2, 46]), o($VH, [2, 47]), o($VA, [2, 48]), {
         14: [1, 121],
         28: [1, 120]
-      }, o($VI, [2, 50]), o($VI, [2, 52], {
+      }, o($VI, [2, 51]), o($VI, [2, 53], {
         54: [1, 122]
-      }), o($VI, [2, 53]), o($Vh, [2, 2]), {
+      }), o($VI, [2, 54]), o($Vh, [2, 3]), {
         8: 123,
         10: $V1,
         15: 8,
@@ -3719,14 +3724,14 @@
         63: $Ve,
         79: $Vf,
         80: $Vg
-      }, o($Vi, [2, 11]), {
+      }, o($Vi, [2, 12]), {
         10: [1, 125]
-      }, o($VC, [2, 76]), o($VC, [2, 77]), o($VC, [2, 79]), {
+      }, o($VC, [2, 77]), o($VC, [2, 78]), o($VC, [2, 80]), {
         14: $VJ,
         41: [1, 126]
-      }, o($VK, [2, 82]), o($VK, [2, 83], {
+      }, o($VK, [2, 83]), o($VK, [2, 84], {
         58: [1, 128]
-      }), o($VL, [2, 85], {
+      }), o($VL, [2, 86], {
         5: [1, 129]
       }), {
         10: $Vj,
@@ -3755,25 +3760,25 @@
         73: 91,
         79: $Vf,
         80: $Vg
-      }, o($VC, [2, 93]), {
+      }, o($VC, [2, 94]), {
         14: [1, 132],
         28: [1, 131]
-      }, o($VI, [2, 96]), o($VI, [2, 97], {
+      }, o($VI, [2, 97]), o($VI, [2, 98], {
         58: [1, 133]
-      }), o($VM, [2, 100], {
+      }), o($VM, [2, 101], {
         54: [1, 134]
-      }), o($Vz, [2, 20]), o($Vz, [2, 21]), o($Vz, [2, 22]), o($Vz, [2, 23]), {
+      }), o($Vz, [2, 21]), o($Vz, [2, 22]), o($Vz, [2, 23]), o($Vz, [2, 24]), {
         14: [1, 135]
       }, {
         14: [1, 137],
         28: [1, 136]
-      }, o($VI, [2, 59]), {
+      }, o($VI, [2, 60]), {
         14: [1, 139],
         28: [1, 138]
-      }, o($VI, [2, 9]), o($Vz, [2, 24]), {
+      }, o($VI, [2, 10]), o($Vz, [2, 25]), {
         14: [1, 141],
         24: [1, 140]
-      }, o($VN, [2, 55]), o($VN, [2, 56]), {
+      }, o($VN, [2, 56]), o($VN, [2, 57]), {
         10: $V1,
         20: 142,
         21: 12,
@@ -3798,9 +3803,9 @@
         63: $Ve,
         79: $Vf,
         80: $Vg
-      }, o($VA, [2, 28]), o($VA, [2, 29]), o([1, 5, 14, 16, 24, 28, 31, 32, 33, 34, 38, 40, 41, 54, 58, 75], [2, 104]), {
+      }, o($VA, [2, 29]), o($VA, [2, 30]), o([1, 5, 14, 16, 24, 28, 31, 32, 33, 34, 38, 40, 41, 54, 58, 75], [2, 105]), {
         41: [1, 143]
-      }, o($VA, [2, 40]), o($VA, [2, 42]), {
+      }, o($VA, [2, 41]), o($VA, [2, 43]), {
         7: 75,
         9: $V0,
         10: $V1,
@@ -3829,7 +3834,7 @@
         63: $Ve,
         79: $Vf,
         80: $Vg
-      }, o($VA, [2, 48]), {
+      }, o($VA, [2, 49]), {
         7: 80,
         9: $V0,
         10: $V1,
@@ -3887,7 +3892,7 @@
         63: $Ve,
         79: $Vf,
         80: $Vg
-      }, o($VO, [2, 6]), o($VO, [2, 7]), o($Vi, [2, 61]), o($VC, [2, 80]), {
+      }, o($VO, [2, 7]), o($VO, [2, 8]), o($Vi, [2, 62]), o($VC, [2, 81]), {
         10: $Vj,
         23: $VD,
         26: $Vk,
@@ -3923,7 +3928,7 @@
       }, {
         14: $VJ,
         24: [1, 152]
-      }, o($VC, [2, 94]), {
+      }, o($VC, [2, 95]), {
         10: $VE,
         77: 153,
         78: 97
@@ -3981,7 +3986,7 @@
         63: $Ve,
         79: $Vf,
         80: $Vg
-      }, o($Vy, [2, 17]), {
+      }, o($Vy, [2, 18]), {
         10: $Vj,
         19: 157,
         26: $Vk,
@@ -4005,7 +4010,7 @@
         70: $Vx,
         79: $Vf,
         80: $Vg
-      }, o($Vy, [2, 18]), {
+      }, o($Vy, [2, 19]), {
         8: 158,
         10: $V1,
         15: 8,
@@ -4034,7 +4039,7 @@
         63: $Ve,
         79: $Vf,
         80: $Vg
-      }, o($Vz, [2, 25]), {
+      }, o($Vz, [2, 26]), {
         10: $V1,
         20: 111,
         21: 12,
@@ -4061,24 +4066,24 @@
         63: $Ve,
         79: $Vf,
         80: $Vg
-      }, o($VN, [2, 57]), o($VA, [2, 30]), o($VH, [2, 43]), o($VI, [2, 49]), o($VI, [2, 51]), o($VK, [2, 81]), o($VK, [2, 84]), o($VL, [2, 86]), o($VL, [2, 92], {
+      }, o($VN, [2, 58]), o($VA, [2, 31]), o($VH, [2, 44]), o($VI, [2, 50]), o($VI, [2, 52]), o($VK, [2, 82]), o($VK, [2, 85]), o($VL, [2, 87]), o($VL, [2, 93], {
         75: [1, 160]
       }), {
         39: 161,
         80: $VG
-      }, o($VL, [2, 87], {
+      }, o($VL, [2, 88], {
         5: [1, 162]
-      }), o($VI, [2, 95]), o($VI, [2, 98]), o($VM, [2, 99]), {
+      }), o($VI, [2, 96]), o($VI, [2, 99]), o($VM, [2, 100]), {
         24: [1, 163]
-      }, o($VI, [2, 58]), o($VI, [2, 8]), o($VN, [2, 54]), o($VL, [2, 91], {
+      }, o($VI, [2, 59]), o($VI, [2, 9]), o($VN, [2, 55]), o($VL, [2, 92], {
         39: 164,
         80: $VG
-      }), o($VL, [2, 90]), {
+      }), o($VL, [2, 91]), {
         39: 150,
         74: 165,
         75: $VP,
         80: $VG
-      }, o($Vy, [2, 16]), o($VL, [2, 89]), o($VL, [2, 88])],
+      }, o($Vy, [2, 17]), o($VL, [2, 90]), o($VL, [2, 89])],
       defaultActions: {},
       parseError: function parseError(str, hash) {
         if (hash.recoverable) {
@@ -4927,6 +4932,17 @@
 
   function sort(items, comparator) {
     return Array.isArray(items) ? items.slice().sort(comparator) : undefined;
+  }
+  /**
+   * Return a string by concatenating a list of strings, delimiting each with another string
+   *
+   * @param {Array<string>} items
+   * @param {string} delimiter
+   * @returns {string}
+   */
+
+  function join(items, delimiter) {
+    return items.join(delimiter);
   } // Object related functions
 
   /**
@@ -5057,6 +5073,7 @@
     partition: partition,
     reverse: reverse,
     sort: sort,
+    join: join,
     keys: keys,
     values: values,
     pairs: pairs,
@@ -5175,9 +5192,12 @@
     }, {
       key: "execute",
       value: function execute(source, structure) {
-        var statements = parser.parse(source);
-        var symbolTable = Array.isArray(structure) || isObject$1(structure) === false ? this.symbolTable : Object.create(structure);
-        this.messages = [];
+        // TODO: cache results using source or source hash as key
+        // parse source
+        var statements = parser.parse(source); // clear any previous messages
+
+        this.messages = []; // process statements
+
         var result;
         var _iteratorNormalCompletion = true;
         var _didIteratorError = false;
@@ -5192,7 +5212,7 @@
               case "def":
               case "sequence":
                 {
-                  result = this.executeExpression(statement, structure, symbolTable);
+                  result = this.executeExpression(statement, structure, this.symbolTable);
                   break;
                 }
 
@@ -6116,7 +6136,7 @@
   }();
 
   /**
-   * @module kld-data-transformer
+   * @module gp-data-transformer
    */
 
   /**
@@ -7138,30 +7158,9 @@
     var data = transformer.execute(transformType, object);
 
     if (data === FAILURE_VALUE) {
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
-
-      try {
-        for (var _iterator = transformer.messages[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var message = _step.value;
-          console.log(message);
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
-      }
-
+      // for (const message of transformer.messages) {
+      //     console.log(message);
+      // }
       throw new TypeError("".concat(type, " is not in a recognizable format: ").concat(JSON.stringify(object)));
     } // pull out the arguments
 
