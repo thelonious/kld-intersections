@@ -133,7 +133,9 @@ const arcs = [
     ShapeInfo.arc({cx: 10, cy: 20, rx: 5, ry: 10, startAngle: 0, endAngle: Math.PI}),
     ShapeInfo.arc({centerX: 10, centerY: 20, radiusX: 5, radiusY: 10, startAngle: 0, endAngle: Math.PI}),
     ShapeInfo.arc([10, 20, 5, 10, 0, Math.PI]),
-    ShapeInfo.arc([{x: 10, y: 20}, 5, 10, 0, Math.PI])
+    ShapeInfo.arc([{x: 10, y: 20}, 5, 10, 0, Math.PI]),
+    ShapeInfo.arc(10, 20, 5, 10, 0, Math.PI),
+    ShapeInfo.arc({x: 10, y: 20}, 5, 10, 0, Math.PI)
 ];
 ```
 
@@ -150,7 +152,7 @@ A control point may be represented two ways:
 - An object with `x` and `y` number properties
 - An array with two number elements, `x` being the first element and `y` being the second element
 
-### Center Examples
+### Control Point Examples
 
 ```javascript
 const points = [
@@ -187,7 +189,9 @@ const beziers = [
     ShapeInfo.quadraticBezier({p1: {x: 10, y: 20}, p2: {x: 5, y: 10}, p3: {x: 15, y: 30}}),
     ShapeInfo.quadraticBezier({p1: [10, 20], p2: [5, 10], p3: [15, 30]}),
     ShapeInfo.quadraticBezier([10, 20, 5, 10, 15, 30]),
-    ShapeInfo.quadraticBezier([{x: 10, y: 20}, {x: 5, y: 10}, {x: 15, y: 30}])
+    ShapeInfo.quadraticBezier([{x: 10, y: 20}, {x: 5, y: 10}, {x: 15, y: 30}]),
+    ShapeInfo.quadraticBezier(10, 20, 5, 10, 15, 30),
+    ShapeInfo.quadraticBezier({x: 10, y: 20}, {x: 5, y: 10}, {x: 15, y: 30})
 ];
 ```
 
@@ -204,7 +208,7 @@ A control point may be represented two ways:
 - An object with `x` and `y` number properties
 - An array with two number elements, `x` being the first element and `y` being the second element
 
-### Center Examples
+### Control Point Examples
 
 ```javascript
 const points = [
@@ -244,7 +248,9 @@ const beziers = [
     ShapeInfo.cubicBezier({p1: {x: 10, y: 20}, p2: {x: 5, y: 10}, p3: {x: 15, y: 30}, p4: {x: 20, y: 15}}),
     ShapeInfo.cubicBezier({p1: [10, 20], p2: [5, 10], p3: [15, 30], p4: [20, 15]}),
     ShapeInfo.cubicBezier([10, 20, 5, 10, 15, 30, 20, 15]),
-    ShapeInfo.cubicBezier([{x: 10, y: 20}, {x: 5, y: 10}, {x: 15, y: 30}, {x: 20, y: 15}])
+    ShapeInfo.cubicBezier([{x: 10, y: 20}, {x: 5, y: 10}, {x: 15, y: 30}, {x: 20, y: 15}]),
+    ShapeInfo.cubicBezier(10, 20, 5, 10, 15, 30, 20, 15),
+    ShapeInfo.cubicBezier({x: 10, y: 20}, {x: 5, y: 10}, {x: 15, y: 30}, {x: 20, y: 15})
 ];
 ```
 
@@ -317,7 +323,9 @@ const circles = [
     ShapeInfo.circle({cx: 10, cy: 20, r: 15}),
     ShapeInfo.circle({centerX: 10, centerY: 20, radius: 15}),
     ShapeInfo.circle([10, 20, 15]),
-    ShapeInfo.circle([{x: 10, y: 20}, 15])
+    ShapeInfo.circle([{x: 10, y: 20}, 15]),
+    ShapeInfo.circle(10, 20, 15),
+    ShapeInfo.circle({x: 10, y: 20}, 15)
 ];
 ```
 
@@ -396,7 +404,9 @@ const ellipses = [
     ShapeInfo.ellipse({cx: 10, cy: 20, rx: 5, ry: 10}),
     ShapeInfo.ellipse({centerX: 10, centerY: 20, radiusX: 5, radiusY: 10}),
     ShapeInfo.ellipse([10, 20, 3, 5]),
-    ShapeInfo.ellipse([{x: 10, y: 20}, 3, 5])
+    ShapeInfo.ellipse([{x: 10, y: 20}, 3, 5]),
+    ShapeInfo.ellipse(10, 20, 3, 5),
+    ShapeInfo.ellipse({x: 10, y: 20}, 3, 5)
 ];
 ```
 
@@ -447,7 +457,9 @@ const lines = [
     ShapeInfo.line({p1: {x: 10, y: 20}, p2: {x: 5, y: 10}}),
     ShapeInfo.line({p1: [10, 20], p2: [5, 10]}),
     ShapeInfo.line([10, 20, 5, 10]),
-    ShapeInfo.line([{x: 10, y: 20}, {x: 5, y: 10}])
+    ShapeInfo.line([{x: 10, y: 20}, {x: 5, y: 10}]),
+    ShapeInfo.line(10, 20, 5, 10),
+    ShapeInfo.line({x: 10, y: 20}, {x: 5, y: 10})
 ];
 ```
 
@@ -612,12 +624,14 @@ There are five supported formats:
 Note that these examples are not exhaustive. You may combine the above descriptions in any way you wish.
 
 ```javascript
-const lines = [
+const rectangles = [
     ShapeInfo.rectangle({topLeft: {x: 10, y: 20}, bottomRight: {x: 5, y: 10}}),
     ShapeInfo.rectangle({topLeft: {x: 10, y: 20}, bottomRight: {x: 5, y: 10}, radiusX: 10, radiusY: 15}),
     ShapeInfo.rectangle({topLeft: [10, 20], bottomRight: [5, 10]}),
     ShapeInfo.rectangle({topLeft: [10, 20], bottomRight: [5, 10], radiusX: 10, radiusY: 15}),
     ShapeInfo.rectangle({top: 20, left: 10, width: 5, height: 10}),
-    ShapeInfo.rectangle({x: 10, y: 20, w: 5, h: 10, rx: 10, ry: 15})
+    ShapeInfo.rectangle({x: 10, y: 20, w: 5, h: 10, rx: 10, ry: 15}),
+    ShapeInfo.rectangle([10, 20, 5, 10, 10, 15]),
+    ShapeInfo.rectangle(10, 20, 5, 10, 10, 15)
 ];
 ```
