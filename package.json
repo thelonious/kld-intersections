@@ -46,8 +46,8 @@
     "rectangle"
   ],
   "dependencies": {
+    "gp-data-transformer": "^0.0.1",
     "kld-affine": "^2.1.1",
-    "kld-data-transformer": "^0.0.1",
     "kld-path-parser": "^0.2.1",
     "kld-polynomial": "^0.3.0"
   },
