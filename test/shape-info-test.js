@@ -8,7 +8,7 @@ function buildPoints(count) {
     let x = 10;
     let y = 20;
 
-    for (var i = 1; i <= count; i++) {
+    for (let i = 1; i <= count; i++) {
         let name = `p${i}`;
         let nameX = `${name}x`;
         let nameY = `${name}y`;
@@ -41,7 +41,7 @@ function buildObject(...parts) {
 describe("Shapes API", () => {
     it("quadratic bezier", () => {
         const points = buildPoints(3);
-        const pointsProduct = new itertools.Product(points, 0);
+        const pointsProduct = new itertools.Product(...points);
         const expected = new ShapeInfo("Bezier2", [
             new Point2D(10, 20),
             new Point2D(30, 40),
@@ -57,13 +57,14 @@ describe("Shapes API", () => {
     });
     it("cubic bezier", () => {
         const points = buildPoints(4);
-        const pointsProduct = new itertools.Product(points, 0);
+        const pointsProduct = new itertools.Product(...points);
         const expected = new ShapeInfo("Bezier3", [
             new Point2D(10, 20),
             new Point2D(30, 40),
             new Point2D(50, 60),
             new Point2D(70, 80)
-        ])
+        ]);
+
         for (let points of pointsProduct) {
             const argObject = buildObject(...points);
             const result = new ShapeInfo.cubicBezier(argObject);

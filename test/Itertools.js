@@ -1,3 +1,6 @@
+// TODO: Consider switching these functions over to using iteration and then
+//  turning into its own module
+
 function zip(...arrays) {
     const lengths = arrays.map(a => a.length);
     const minLength = Math.min(...lengths);
@@ -13,15 +16,29 @@ function zip(...arrays) {
 }
 
 class Product {
-    constructor(items, repeating = 1) {
-        this.items = items;
-        this.repeating = repeating;
+    constructor(...items) {
+        const itemsLength = items.length;
+
+        if (itemsLength > 0) {
+            if (typeof items[itemsLength - 1] === "number" ) {
+                this.repeating = items.pop();
+            }
+            else {
+                this.repeating = 1;
+            }
+
+            this.items = items;
+        }
+        else {
+            this.items = [];
+            this.repeating = 1;
+        }
     }
 
     [Symbol.iterator]() {
         return {
-            indexes: Array(this.repeating === 0 ? this.items.length : this.repeating).fill(0),
-            lists: this.repeating === 0 ? this.items : Array(this.repeating).fill(this.items),
+            indexes: Array(this.items.length * this.repeating).fill(0),
+            lists: Array(this.repeating).fill(this.items).reduce((acc, val) => acc.concat(val), []),
             complete: this.items.count === 0,
 
             next() {
