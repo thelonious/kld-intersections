@@ -1,3 +1,5 @@
+import util from 'util';
+
 function _typeof(obj) {
   if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
     _typeof = function (obj) {
@@ -6918,9 +6920,142 @@ function () {
   return PathHandler;
 }();
 
-var source = "\ndef Center =\n    patterns {\n        { center: { x: number as x, y: number as y } },\n        { center: [ number as x, number as y ] },\n        { cx: number as x, cy: number as y },\n        { centerX: number as x, centerY: number as y }\n    } |> Point2D(x, y);\n\ndef Radii =\n    patterns {\n        { radii: { x: number as rx, y: number as ry } },\n        { radii: [ number as rx, number as ry ] },\n        { rx: number as rx, ry: number as ry },\n        { radiusX: number as rx, radiusY: number as ry }\n    } |> { \"rx\", \"ry\" };\n\ndef P1 =\n    patterns {\n        { p1: { x: number as x, y: number as y } },\n        { p1: [ number as x, number as y ] },\n        { p1x: number as x, p1y: number as y }\n    } |> Point2D(x, y);\n        \ndef P2 =\n    patterns {\n        { p1: { x: number as x, y: number as y } },\n        { p1: [ number as x, number as y ] },\n        { p1x: number as x, p1y: number as y }\n    } |> Point2D(x, y);\n        \ndef P3 =\n    patterns {\n        { p1: { x: number as x, y: number as y } },\n        { p1: [ number as x, number as y ] },\n        { p1x: number as x, p1y: number as y }\n    } |> Point2D(x, y);\n        \ndef P4 =\n    patterns {\n        { p1: { x: number as x, y: number as y } },\n        { p1: [ number as x, number as y ] },\n        { p1x: number as x, p1y: number as y }\n    } |> Point2D(x, y);\n\n            \ndef Arc = {\n    let radii = Radii,\n\n    \"center\": Center,\n    \"radiusX\": radii.rx,\n    \"radiusY\": radii.ry,\n    \"startRadians\": =~ number,\n    \"endRadians\": =~ number\n};\n\ndef ArcArgs = {\n    let elements =\n        patterns {\n            [ number as centerX, number as centerY, number as radiusX, number as radiusY, number as startRadians, number as endRadians ],\n            [ { x: number as centerX, y: number as centerY }, number as radiusX, number as radiusY, number as startRadians, number as endRadians ]\n        } |> { \"centerX\", \"centerY\", \"radiusX\", \"radiusY\", \"startRadians\", \"endRadians\" },\n    \n    \"center\": Point2D(elements.centerX, elements.centerY),\n    \"radiusX\": elements.radiusX,\n    \"radiusY\": elements.radiusY,\n    \"startRadians\": elements.startRadians,\n    \"endRadians\": elements.endRadians\n};\n\ndef Bezier2 = {\n    \"p1\": P1,\n    \"p2\": P2,\n    \"p3\": P3\n};\n\ndef Bezier2Args = {\n    let elements =\n        patterns {\n            [ number as p1x, number as p1y, number as p2x, number as p2y, number as p3x, number as p3y ],\n            [ { x: number as p1x, y: number as p1y }, { x: number as p2x, y: number as p2y }, { x: number as p3x, y: number as p3y }]\n        } |> { \"p1x\", \"p1y\", \"p2x\", \"p2y\", \"p3x\", \"p3y\" },\n    \n    \"p1\": Point2D(elements.p1x, elements.p1y),\n    \"p2\": Point2D(elements.p2x, elements.p2y),\n    \"p3\": Point2D(elements.p3x, elements.p3y)\n};\n\ndef Bezier3 = {\n    \"p1\": P1,\n    \"p2\": P2,\n    \"p3\": P3,\n    \"p4\": P4\n};\n\ndef Bezier3Args = {\n    let elements =\n        patterns {\n            [ number as p1x, number as p1y, number as p2x, number as p2y, number as p3x, number as p3y, number as p4x, number as p4y ],\n            [ { x: number as p1x, y: number as p1y }, { x: number as p2x, y: number as p2y }, { x: number as p3x, y: number as p3y }, { x: number as p4x, y: number as p4y }]\n        } |> { \"p1x\", \"p1y\", \"p2x\", \"p2y\", \"p3x\", \"p3y\", \"p4x\", \"p4y\" },\n    \n    \"p1\": Point2D(elements.p1x, elements.p1y),\n    \"p2\": Point2D(elements.p2x, elements.p2y),\n    \"p3\": Point2D(elements.p3x, elements.p3y),\n    \"p4\": Point2D(elements.p4x, elements.p4y)\n};\n\ndef Circle = {\n    \"center\": Center,\n    \"radius\":\n        patterns {\n            { r: number as radius},\n            { radius: number as radius }\n        } |> radius\n};\n\ndef CircleArgs = {\n    let elements =\n        patterns {\n            [ number as centerX, number as centerY, number as radius ],\n            [ { x: number as centerX, y: number as centerY }, number as radius ]\n        } |> { \"centerX\", \"centerY\", \"radius\" },\n    \n    \"center\": Point2D(elements.centerX, elements.centerY),\n    \"radius\": elements.radius\n};\n\ndef Ellipse = {\n    let radii = Radii,\n\n    \"center\": Center,\n    \"radiusX\": radii.rx,\n    \"radiusY\": radii.ry\n};\n\ndef EllipseArgs = {\n    let elements =\n       patterns {\n            [ number as centerX, number as centerY, number as radiusX, number as radiusY ],\n            [ { x: number as centerX, y: number as centerY }, number as radiusX, number as radiusY ]\n        } |> { \"centerX\", \"centerY\", \"radiusX\", \"radiusY\" },\n    \n    \"center\": Point2D(elements.centerX, elements.centerY),\n    \"radiusX\": elements.radiusX,\n    \"radiusY\": elements.radiusY\n};\n\ndef Line = {\n    \"p1\": P1,\n    \"p2\": P2\n};\n\ndef LineArgs = {\n    let elements =\n        patterns {\n            [ number as p1x, number as p1y, number as p2x, number as p2y ],\n            [ { x: number as p1x, y: number as p1y }, { x: number as p2x, y: number as p2y } ]\n        } |> { \"p1x\", \"p1y\", \"p2x\", \"p2y\" },\n        \n    \"p1\": Point2D(elements.p1x, elements.p1y),\n    \"p2\": Point2D(elements.p2x, elements.p2y)\n};\n\ndef Path = {\n    \"segments\":\n        =~ { d: string as data } |> PathData(data)\n};\n\ndef PathArgs = {\n    \"segments\":\n        =~ string as data |> PathData(data)\n};\n\ndef Polygon = {\n    \"points\":\n        sequences {\n            =~ { points: [ (number, number); 0.. as coords ] }\n            |> [ map(coords, Point2D(...$)) ],\n\n            =~ { points: [ { x: number, y: number }; 0.. ] as points }\n            |> [ map(points, Point2D($.x, $.y)) ]\n        }\n};\n\ndef PolygonArgs = {\n    \"points\":\n        sequences {\n            =~ [ (number, number); 0.. as coords ]\n            |> [ map(coords, Point2D(...$)) ],\n\n            =~ [ { x: number, y: number }; 0.. ] as points\n            |> [ map(points, Point2D($.x, $.y)) ]\n        }\n};\n\ndef Polyline = {\n    \"points\":\n        sequences {\n            =~ { points: [ (number, number); 0.. as coords ] }\n            |> [ map(coords, Point2D(...$)) ],\n\n            =~ { points: [ { x: number, y: number }; 0.. ] as points }\n            |> [ map(points, Point2D($.x, $.y)) ]\n        }\n};\n\ndef PolylineArgs = {\n    \"points\":\n        sequences {\n            =~ [ (number, number); 0.. as coords ]\n            |> [ map(coords, Point2D(...$)) ],\n\n            =~ [ { x: number, y: number }; 0.. ] as points\n            |> [ map(points, Point2D($.x, $.y)) ]\n        }\n};\n\ndef Rectangle = {\n    let topLeft =\n        patterns {\n            { topLeft: { x: number as x, y: number as y } },\n            { topLeft: [ number as x, number as y ] },\n            { x: number as x, y: number as y },\n            { top: number as x, left: number as y }\n        } |> { \"x\", \"y\" },\n\n    \"topLeft\":\n        Point2D(topLeft.x, topLeft.y),\n\n    \"bottomRight\":\n        sequences {\n            patterns {\n                { bottomRight: { x: number as x, y: number as y } },\n                { bottomRight: [ number as x, number as y ] }\n            } |> Point2D(x, y),\n            patterns {\n                { w: number as w, h: number as h },\n                { width: number as w, height: number as h },\n                { size: { x: number as w, y: number as h } },\n                { size: [ number as w, number as h ] }\n            } |> Point2D(topLeft.x + w, topLeft.y + h)\n        },\n\n    \"rx\":\n        sequences {\n            =~ { rx: number as rx } |> rx,\n            =~ any |> 0\n        },\n    \"ry\":\n        sequences {\n            =~ { ry: number as ry } |> ry,\n            =~ any |> 0\n        }\n};\n\ndef RectangleArgs = {\n    let elements =\n        patterns {\n            [ number as x, number as y, number as width, number as height ],\n            [ number as x, number as y, number as width, number as height, number as rx, number as ry ],\n            [ { x: number as x, y: number as y }, { x: number as width, y: number as height } ],\n            [ { x: number as x, y: number as y }, { x: number as width, y: number as height }, { rx: number as rx, ry: number as ry } ],\n            [ { x: number as x, y: number as y }, { x: number as width, y: number as height }, { radiusX: number as rx, radiusY: number as ry } ]\n        } |> { \"x\", \"y\", \"width\", \"height\", \"rx\", \"ry\" },\n\n    \"topLeft\": Point2D(elements.x, elements.y),\n    \"bottomRight\": Point2D(elements.x + elements.width, elements.y + elements.height),\n    \"rx\": elements.rx,\n    \"ry\": elements.ry\n}\n";
+var source = "\ndef Center =\n    patterns {\n        { center: { x: number as x, y: number as y } },\n        { center: [ number as x, number as y ] },\n        { cx: number as x, cy: number as y },\n        { centerX: number as x, centerY: number as y }\n    } |> Point2D(x, y);\n\ndef Radii =\n    patterns {\n        { radii: { x: number as rx, y: number as ry } },\n        { radii: [ number as rx, number as ry ] },\n        { rx: number as rx, ry: number as ry },\n        { radiusX: number as rx, radiusY: number as ry }\n    } |> { \"rx\", \"ry\" };\n\ndef P1 =\n    patterns {\n        { p1: { x: number as x, y: number as y } },\n        { p1: [ number as x, number as y ] },\n        { p1x: number as x, p1y: number as y }\n    } |> Point2D(x, y);\n        \ndef P2 =\n    patterns {\n        { p2: { x: number as x, y: number as y } },\n        { p2: [ number as x, number as y ] },\n        { p2x: number as x, p2y: number as y }\n    } |> Point2D(x, y);\n        \ndef P3 =\n    patterns {\n        { p3: { x: number as x, y: number as y } },\n        { p3: [ number as x, number as y ] },\n        { p3x: number as x, p3y: number as y }\n    } |> Point2D(x, y);\n        \ndef P4 =\n    patterns {\n        { p4: { x: number as x, y: number as y } },\n        { p4: [ number as x, number as y ] },\n        { p4x: number as x, p4y: number as y }\n    } |> Point2D(x, y);\n\n            \ndef Arc = {\n    let radii = Radii,\n\n    \"center\": Center,\n    \"radiusX\": radii.rx,\n    \"radiusY\": radii.ry,\n    \"startRadians\": =~ number,\n    \"endRadians\": =~ number\n};\n\ndef ArcArgs = {\n    let elements =\n        patterns {\n            [ number as centerX, number as centerY, number as radiusX, number as radiusY, number as startRadians, number as endRadians ],\n            [ { x: number as centerX, y: number as centerY }, number as radiusX, number as radiusY, number as startRadians, number as endRadians ]\n        } |> { \"centerX\", \"centerY\", \"radiusX\", \"radiusY\", \"startRadians\", \"endRadians\" },\n    \n    \"center\": Point2D(elements.centerX, elements.centerY),\n    \"radiusX\": elements.radiusX,\n    \"radiusY\": elements.radiusY,\n    \"startRadians\": elements.startRadians,\n    \"endRadians\": elements.endRadians\n};\n\ndef Bezier2 = {\n    \"p1\": P1,\n    \"p2\": P2,\n    \"p3\": P3\n};\n\ndef Bezier2Args = {\n    let elements =\n        patterns {\n            [ number as p1x, number as p1y, number as p2x, number as p2y, number as p3x, number as p3y ],\n            [ { x: number as p1x, y: number as p1y }, { x: number as p2x, y: number as p2y }, { x: number as p3x, y: number as p3y }]\n        } |> { \"p1x\", \"p1y\", \"p2x\", \"p2y\", \"p3x\", \"p3y\" },\n    \n    \"p1\": Point2D(elements.p1x, elements.p1y),\n    \"p2\": Point2D(elements.p2x, elements.p2y),\n    \"p3\": Point2D(elements.p3x, elements.p3y)\n};\n\ndef Bezier3 = {\n    \"p1\": P1,\n    \"p2\": P2,\n    \"p3\": P3,\n    \"p4\": P4\n};\n\ndef Bezier3Args = {\n    let elements =\n        patterns {\n            [ number as p1x, number as p1y, number as p2x, number as p2y, number as p3x, number as p3y, number as p4x, number as p4y ],\n            [ { x: number as p1x, y: number as p1y }, { x: number as p2x, y: number as p2y }, { x: number as p3x, y: number as p3y }, { x: number as p4x, y: number as p4y }]\n        } |> { \"p1x\", \"p1y\", \"p2x\", \"p2y\", \"p3x\", \"p3y\", \"p4x\", \"p4y\" },\n    \n    \"p1\": Point2D(elements.p1x, elements.p1y),\n    \"p2\": Point2D(elements.p2x, elements.p2y),\n    \"p3\": Point2D(elements.p3x, elements.p3y),\n    \"p4\": Point2D(elements.p4x, elements.p4y)\n};\n\ndef Circle = {\n    \"center\": Center,\n    \"radius\":\n        patterns {\n            { r: number as radius},\n            { radius: number as radius }\n        } |> radius\n};\n\ndef CircleArgs = {\n    let elements =\n        patterns {\n            [ number as centerX, number as centerY, number as radius ],\n            [ { x: number as centerX, y: number as centerY }, number as radius ]\n        } |> { \"centerX\", \"centerY\", \"radius\" },\n    \n    \"center\": Point2D(elements.centerX, elements.centerY),\n    \"radius\": elements.radius\n};\n\ndef Ellipse = {\n    let radii = Radii,\n\n    \"center\": Center,\n    \"radiusX\": radii.rx,\n    \"radiusY\": radii.ry\n};\n\ndef EllipseArgs = {\n    let elements =\n       patterns {\n            [ number as centerX, number as centerY, number as radiusX, number as radiusY ],\n            [ { x: number as centerX, y: number as centerY }, number as radiusX, number as radiusY ]\n        } |> { \"centerX\", \"centerY\", \"radiusX\", \"radiusY\" },\n    \n    \"center\": Point2D(elements.centerX, elements.centerY),\n    \"radiusX\": elements.radiusX,\n    \"radiusY\": elements.radiusY\n};\n\ndef Line = {\n    \"p1\": P1,\n    \"p2\": P2\n};\n\ndef LineArgs = {\n    let elements =\n        patterns {\n            [ number as p1x, number as p1y, number as p2x, number as p2y ],\n            [ { x: number as p1x, y: number as p1y }, { x: number as p2x, y: number as p2y } ]\n        } |> { \"p1x\", \"p1y\", \"p2x\", \"p2y\" },\n        \n    \"p1\": Point2D(elements.p1x, elements.p1y),\n    \"p2\": Point2D(elements.p2x, elements.p2y)\n};\n\ndef Path = {\n    \"segments\":\n        =~ { d: string as data } |> PathData(data)\n};\n\ndef PathArgs = {\n    \"segments\":\n        =~ string as data |> PathData(data)\n};\n\ndef Polygon = {\n    \"points\":\n        sequences {\n            =~ { points: [ (number, number); 0.. as coords ] }\n            |> [ map(coords, Point2D(...$)) ],\n\n            =~ { points: [ { x: number, y: number }; 0.. ] as points }\n            |> [ map(points, Point2D($.x, $.y)) ]\n        }\n};\n\ndef PolygonArgs = {\n    \"points\":\n        sequences {\n            =~ [ (number, number); 0.. as coords ]\n            |> [ map(coords, Point2D(...$)) ],\n\n            =~ [ { x: number, y: number }; 0.. ] as points\n            |> [ map(points, Point2D($.x, $.y)) ]\n        }\n};\n\ndef Polyline = {\n    \"points\":\n        sequences {\n            =~ { points: [ (number, number); 0.. as coords ] }\n            |> [ map(coords, Point2D(...$)) ],\n\n            =~ { points: [ { x: number, y: number }; 0.. ] as points }\n            |> [ map(points, Point2D($.x, $.y)) ]\n        }\n};\n\ndef PolylineArgs = {\n    \"points\":\n        sequences {\n            =~ [ (number, number); 0.. as coords ]\n            |> [ map(coords, Point2D(...$)) ],\n\n            =~ [ { x: number, y: number }; 0.. ] as points\n            |> [ map(points, Point2D($.x, $.y)) ]\n        }\n};\n\ndef Rectangle = {\n    let topLeft =\n        patterns {\n            { topLeft: { x: number as x, y: number as y } },\n            { topLeft: [ number as x, number as y ] },\n            { x: number as x, y: number as y },\n            { top: number as x, left: number as y }\n        } |> { \"x\", \"y\" },\n\n    \"topLeft\":\n        Point2D(topLeft.x, topLeft.y),\n\n    \"bottomRight\":\n        sequences {\n            patterns {\n                { bottomRight: { x: number as x, y: number as y } },\n                { bottomRight: [ number as x, number as y ] }\n            } |> Point2D(x, y),\n            patterns {\n                { w: number as w, h: number as h },\n                { width: number as w, height: number as h },\n                { size: { x: number as w, y: number as h } },\n                { size: [ number as w, number as h ] }\n            } |> Point2D(topLeft.x + w, topLeft.y + h)\n        },\n\n    \"rx\":\n        sequences {\n            =~ { rx: number as rx } |> rx,\n            =~ any |> 0\n        },\n    \"ry\":\n        sequences {\n            =~ { ry: number as ry } |> ry,\n            =~ any |> 0\n        }\n};\n\ndef RectangleArgs = {\n    let elements =\n        patterns {\n            [ number as x, number as y, number as width, number as height ],\n            [ number as x, number as y, number as width, number as height, number as rx, number as ry ],\n            [ { x: number as x, y: number as y }, { x: number as width, y: number as height } ],\n            [ { x: number as x, y: number as y }, { x: number as width, y: number as height }, { rx: number as rx, ry: number as ry } ],\n            [ { x: number as x, y: number as y }, { x: number as width, y: number as height }, { radiusX: number as rx, radiusY: number as ry } ]\n        } |> { \"x\", \"y\", \"width\", \"height\", \"rx\", \"ry\" },\n\n    \"topLeft\": Point2D(elements.x, elements.y),\n    \"bottomRight\": Point2D(elements.x + elements.width, elements.y + elements.height),\n    \"rx\": elements.rx,\n    \"ry\": elements.ry\n}\n";
 
 var degree90 = Math.PI * 0.5;
+/**
+ * getValues
+ *
+ * @param types
+ * @param args
+ * @returns {Array}
+ */
+
+function getValues(types, args) {
+  var result = [];
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = types[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var _step$value = _slicedToArray(_step.value, 2),
+          names = _step$value[0],
+          type = _step$value[1];
+
+      var value = null;
+
+      if (type === "Point2D") {
+        // parse point
+        value = parsePoint(names, args);
+      } else if (type === "Number") {// parse Number
+      } else {
+        throw new TypeError("Unrecognized value type: ".concat(type));
+      }
+
+      if (value !== null) {
+        result.push(value);
+      } else {
+        throw new TypeError("Unable to extract value for ".concat(util.inspect(names)));
+      }
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+        _iterator["return"]();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  return result;
+}
+/**
+ * parsePoint
+ *
+ * @param names
+ * @param args
+ * @returns {Array}
+ */
+
+function parsePoint(names, args) {
+  var result = null;
+
+  if (args.length > 0) {
+    (function () {
+      var item = args[0];
+
+      var itemType = _typeof(item);
+
+      if (itemType === "number") {
+        if (args.length > 1) {
+          var x = args.shift();
+          var y = args.shift();
+          result = new Point2D(x, y);
+        }
+      } else if (Array.isArray(item) && item.length > 1) {
+        if (item.length === 2) {
+          var _args$shift = args.shift(),
+              _args$shift2 = _slicedToArray(_args$shift, 2),
+              _x = _args$shift2[0],
+              _y = _args$shift2[1];
+
+          result = new Point2D(_x, _y);
+        } else {
+          console.log("Unhandled array of length ".concat(item.length));
+        }
+      } else if (itemType === "object") {
+        if ("x" in item && "y" in item) {
+          result = new Point2D(item.x, item.y);
+          args.shift();
+        } else {
+          var _iteratorNormalCompletion2 = true;
+          var _didIteratorError2 = false;
+          var _iteratorError2 = undefined;
+
+          try {
+            for (var _iterator2 = names[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+              var props = _step2.value;
+
+              if (Array.isArray(props)) {
+                if (props.every(function (p) {
+                  return p in item;
+                })) {
+                  result = new Point2D(item[props[0]], item[props[1]]);
+                  break;
+                }
+              } else if (props in item) {
+                result = parsePoint([], [item[props]]);
+                break;
+              }
+            }
+          } catch (err) {
+            _didIteratorError2 = true;
+            _iteratorError2 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+                _iterator2["return"]();
+              }
+            } finally {
+              if (_didIteratorError2) {
+                throw _iteratorError2;
+              }
+            }
+          }
+        }
+      }
+    })();
+  }
+
+  return result;
+}
 /**
  *  ShapeInfo
  *  @memberof module:kld-intersections
@@ -6953,20 +7088,28 @@ function () {
   }, {
     key: "quadraticBezier",
     value: function quadraticBezier() {
+      // return create(ShapeInfo.QUADRATIC_BEZIER, args, ["p1", "p2", "p3"]);
+      var types = [[["p1", ["p1x", "p1y"]], "Point2D"], [["p2", ["p2x", "p2y"]], "Point2D"], [["p3", ["p3x", "p3y"]], "Point2D"]];
+
       for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
         args[_key2] = arguments[_key2];
       }
 
-      return create(ShapeInfo.QUADRATIC_BEZIER, args, ["p1", "p2", "p3"]);
+      var values = getValues(types, args);
+      return new ShapeInfo(ShapeInfo.QUADRATIC_BEZIER, values);
     }
   }, {
     key: "cubicBezier",
     value: function cubicBezier() {
+      // return create(ShapeInfo.CUBIC_BEZIER, args, ["p1", "p2", "p3", "p4"]);
+      var types = [[["p1", ["p1x", "p1y"]], "Point2D"], [["p2", ["p2x", "p2y"]], "Point2D"], [["p3", ["p3x", "p3y"]], "Point2D"], [["p4", ["p4x", "p4y"]], "Point2D"]];
+
       for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
         args[_key3] = arguments[_key3];
       }
 
-      return create(ShapeInfo.CUBIC_BEZIER, args, ["p1", "p2", "p3", "p4"]);
+      var values = getValues(types, args);
+      return new ShapeInfo(ShapeInfo.CUBIC_BEZIER, values);
     }
   }, {
     key: "circle",
