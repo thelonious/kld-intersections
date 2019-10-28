@@ -50,6 +50,61 @@ function buildObject(...parts) {
 
 
 describe("Shapes API", () => {
+    describe("Arc", () => {
+       describe("Arc - Objects", () => {
+           const centers = [
+               {center: new Point2D(10, 20)},
+               {center: {x: 10, y: 20}},
+               {center: [10, 20]},
+               {centerX: 10, centerY: 20},
+               {cx: 10, cy: 20}
+           ];
+           const radiusXs = [
+               {radiusX: 30},
+               {rx: 30}
+           ];
+           const radiusYs = [
+               {radiusY: 40},
+               {ry: 40}
+           ];
+           const startRadians = [{startRadians: 50}];
+           const endRadians = [{endRadians: 60}];
+           const argProduct = new itertools.Product(centers, radiusXs, radiusYs, startRadians, endRadians);
+           const expected = new ShapeInfo("Arc", [new Point2D(10, 20), 30, 40, 50, 60]);
+
+           for (let args of argProduct) {
+               const argObject = buildObject(...args);
+               it(util.inspect(argObject, {breakLength: Infinity}), () => {
+                    const result = new ShapeInfo.arc(argObject);
+
+                    assert.deepStrictEqual(result, expected);
+               });
+           }
+       });
+       describe("Arc - Arrays", () => {
+           const centers = [
+               [new Point2D(10, 20)],
+               [{x: 10, y: 20}],
+               [[10, 20]],
+               [10, 20]
+           ];
+           const radiusXs = [30];
+           const radiusYs = [40];
+           const startRadians = [50];
+           const endRadians = [60];
+           const argProduct = new itertools.Product(centers, radiusXs, radiusYs, startRadians, endRadians);
+           const expected = new ShapeInfo("Arc", [new Point2D(10, 20), 30, 40, 50, 60]);
+
+           for (let args of argProduct) {
+               const flattenedArgs = args.reduce((acc, val) => acc.concat(val), []);
+               it(util.inspect(flattenedArgs, {breakLength: Infinity}), () => {
+                    const result = new ShapeInfo.arc(...flattenedArgs);
+
+                    assert.deepStrictEqual(result, expected);
+               });
+           }
+       });
+    });
     describe("Quadratic Bezier", () => {
         describe("Quadratic Bezier - Objects", () => {
             const points = buildPoints(3);
