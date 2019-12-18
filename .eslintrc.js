@@ -86,6 +86,7 @@ module.exports = {
         "unicorn/no-zero-fractions": "off",
         "require-unicode-regexp": "off",
         "yoda": "off",
-        "valid-jsdoc": 0
+        'jsdoc/require-returns': ['error', {forceRequireReturn: false}],
+        "jsdoc/match-description": 0
     }
 };
