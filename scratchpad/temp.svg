@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(25,25)">
+    <path d="M100,50 A50 50 0 0 1 0,50" stroke="blue" fill="none"/>
+    <line x1="0" y1="100" x2="100" y2="0" stroke="green"/>
+    <circle cx="14.645" cy="85.355" r="2" stroke="red" fill="none"/>
+  </g>
+</svg>
