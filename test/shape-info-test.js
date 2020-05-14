@@ -183,4 +183,43 @@ describe("Shapes API", () => {
             }
         });
     });
+    describe("Rounded Rectangle", () => {
+        it("Rounded Rectangle - Object 1", () => {
+            let rr = {
+                x: 10, y: 20,
+                width: 30, height: 40,
+                rx: 3, ry: 4
+            };
+            try {
+                let shape = ShapeInfo.rectangle(rr);
+
+                for (let arg of shape.args) {
+                    // TODO: check segments
+                }
+
+            }
+            catch (e) {
+                assert.fail("Unable to parse object: " + JSON.stringify(rr));
+            }
+        });
+        it("Rounded Rectangle - Object 2", () => {
+            let rr = {
+                x: 10, y: 20,
+                w: 30, h: 40,
+                rx: 3, ry: 4
+            };
+            try {
+                let shape = ShapeInfo.rectangle(rr);
+
+                for (let arg of shape.args) {
+                    // TODO: check segments
+                }
+
+            }
+            catch (e) {
+                assert.fail("Unable to parse object: " + JSON.stringify(rr));
+            }
+
+        });
+    });
 });
