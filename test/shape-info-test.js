@@ -1,7 +1,7 @@
 import assert from "assert";
 import {Point2D} from "kld-affine";
 import ShapeInfo from "../lib/ShapeInfo.js";
-import itertools from "./itertools.js";
+import itertools from "./Itertools.js";
 import util from "util";
 
 function buildPoints(count, useProperties = true) {
