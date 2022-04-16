@@ -1,0 +1,72 @@
+version: 2.1
+
+orbs:
+  blackduck: signavio/blackduck@1.10.0
+  fortify: signavio/fortify@2.0.0
+
+references:
+  ubuntu_image: &ubuntu_image "ubuntu-2004:202107-02"
+
+executors:
+  fortify:
+    machine:
+      image: *ubuntu_image
+    resource_class: 2xlarge
+
+jobs:
+  fortify-translate-and-scan-upload:
+    executor: fortify
+    working_directory: *workspace_root
+    steps:
+      - checkout
+      - fortify/setup
+      - run:
+          name: 'Fortify translate: svg-intersections'
+          command: |
+            set -x
+            sourceanalyzer \
+              -b svg-intersections \
+              -verbose \
+              $(find . -type d -path '*/lib' | paste -s -d ' ')
+
+      - run:
+          name: 'Fortify: scan'
+          command: |
+            sourceanalyzer \
+              -b svg-intersections \
+              -verbose \
+              -scan \
+              -f svg-intersections.fpr
+      - store_artifacts:
+          path: svg-intersections.fpr
+      - run:
+          name: 'Fortify: upload'
+          command: |
+            fortifyclient \
+               -url "$FORTIFY_SSC" \
+               -authtoken "$SSC_API_TOKEN" \
+               uploadFPR \
+               -file svg-intersections.fpr \
+               -project signavio-svg-intersections \
+               -version master
+
+workflows:
+  version: 2
+  full_workflow:
+    jobs:
+      - fortify-translate-and-scan-upload:
+          context:
+            - fortify
+
+  weekly-fortify-scan:
+    triggers:
+      - schedule:
+          cron: "0 0 * * 0"
+          filters:
+            branches:
+              only:
+                - develop
+    jobs:
+      - fortify-translate-and-scan-upload:
+          context:
+            - fortify
