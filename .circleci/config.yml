@@ -65,7 +65,7 @@ workflows:
           filters:
             branches:
               only:
-                - develop
+                - master
     jobs:
       - fortify-translate-and-scan-upload:
           context:
