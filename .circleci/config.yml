@@ -16,14 +16,27 @@ executors:
 
 jobs:
 
-  black_duck_scan:
+  build:
     docker:
-      - image: cimg/node:14.18
-    working_directory: *workspace_root
+      - image: cimg/node:16.13-browsers
     steps:
       - checkout:
           path: *workspace_root
       - run: npm install --only=prod
+      - persist_to_workspace:
+          root: *workspace_root
+          paths:
+            - node_modules
+
+  black_duck_scan:
+    docker:
+      - image: cimg/node:16.13-browsers
+    working_directory: *workspace_root
+    steps:
+      - checkout:
+          path: *workspace_root
+      - attach_workspace:
+          at: *workspace_root
       - blackduck/blackduck-detect:
           blackduck-project-group: SAP_Signavio_Process_Manager
           blackduck-project-name: svg-intersections
@@ -67,14 +80,21 @@ jobs:
 
 workflows:
   version: 2
-  black-duck-scan:
-    # triggers:
-      # - schedule:
-      #     cron: '0 0 * * *'
-      #     filters:
-      #       branches:
-      #         only: master
+  full_workflow:
     jobs:
+      - build
+      - black_duck_scan:
+          context: BlackDuck
+
+  nightly-blackduck-scan:
+    triggers:
+      - schedule:
+          cron: '0 0 * * *'
+          filters:
+            branches:
+              only: master
+    jobs:
+      - build
       - black_duck_scan:
           context: BlackDuck
 
