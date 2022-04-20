@@ -23,6 +23,7 @@ jobs:
     steps:
       - checkout:
           path: *workspace_root
+      - run: sudo apt-get install build-essential # Required by npm, see: https://stackoverflow.com/questions/10075969/problems-installing-express-using-npm
       - run: npm install
       - blackduck/blackduck-detect:
           blackduck-project-group: SAP_Signavio_Process_Manager
