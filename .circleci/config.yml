@@ -8,6 +8,24 @@ references:
   workspace_root: &workspace_root "/home/circleci/workspace"
   ubuntu_image: &ubuntu_image "ubuntu-2004:202107-02"
 
+  # container_config: &container_config
+  #   docker:
+  #     - image: cimg/node:14.18
+
+  # container_config_browser: &container_config_browser
+  #   docker:
+  #     - image: cimg/node:14.18-browsers
+
+  # run_black_duck_scan: &run_black_duck_scan
+  #   steps:
+  #     - checkout:
+  #         path: *workspace_root
+  #     - run: npm install svg-intersections
+  #     - blackduck/blackduck-detect:
+  #         blackduck-project-group: SAP_Signavio_Process_Manager
+  #         blackduck-project-name: svg-intersections
+  #         blackduck-project-path: *workspace_root
+
 executors:
   fortify:
     machine:
@@ -15,6 +33,22 @@ executors:
     resource_class: 2xlarge
 
 jobs:
+
+  black_duck_scan:
+    docker:
+      - image: cimg/node:14.18
+    working_directory: *workspace_root
+    steps:
+      - checkout:
+          path: *workspace_root
+      - run: 
+          name: 'Build'
+          command: npm install svg-intersections
+      - blackduck/blackduck-detect:
+          blackduck-project-group: SAP_Signavio_Process_Manager
+          blackduck-project-name: svg-intersections
+          blackduck-project-path: *workspace_root
+
   fortify-translate-and-scan-upload:
     executor: fortify
     working_directory: *workspace_root
@@ -28,7 +62,7 @@ jobs:
             sourceanalyzer \
               -b svg-intersections \
               -verbose \
-              $(find . -type d -path '*/lib' | paste -s -d ' ')
+              $(find . -type d -path './lib' | paste -s -d ' ')
 
       - run:
           name: 'Fortify: scan'
@@ -53,11 +87,16 @@ jobs:
 
 workflows:
   version: 2
-  full_workflow:
+  black-duck-scan:
+    triggers:
+      - schedule:
+          cron: '0 0 * * *'
+          filters:
+            branches:
+              only: master
     jobs:
-      - fortify-translate-and-scan-upload:
-          context:
-            - fortify
+      - black_duck_scan:
+          context: BlackDuck
 
   weekly-fortify-scan:
     triggers:
