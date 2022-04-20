@@ -23,9 +23,7 @@ jobs:
     steps:
       - checkout:
           path: *workspace_root
-      - run: 
-          name: 'Build'
-          command: npm install
+      - run: npm install
       - blackduck/blackduck-detect:
           blackduck-project-group: SAP_Signavio_Process_Manager
           blackduck-project-name: svg-intersections
