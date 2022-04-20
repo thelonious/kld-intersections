@@ -68,7 +68,7 @@ jobs:
 workflows:
   version: 2
   black-duck-scan:
-    triggers:
+    # triggers:
       # - schedule:
       #     cron: '0 0 * * *'
       #     filters:
