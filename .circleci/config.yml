@@ -15,6 +15,34 @@ executors:
     resource_class: 2xlarge
 
 jobs:
+
+  build:
+    docker:
+      - image: cimg/node:16.13-browsers
+    working_directory: *workspace_root
+    steps:
+      - checkout:
+          path: *workspace_root
+      - run: npm install
+      - persist_to_workspace:
+          root: *workspace_root
+          paths:
+            - node_modules
+
+  black_duck_scan:
+    docker:
+      - image: cimg/node:16.13-browsers
+    working_directory: *workspace_root
+    steps:
+      - checkout:
+          path: *workspace_root
+      - attach_workspace:
+          at: *workspace_root
+      - blackduck/blackduck-detect:
+          blackduck-project-group: SAP_Signavio_Process_Manager
+          blackduck-project-name: svg-intersections
+          blackduck-project-path: *workspace_root
+
   fortify-translate-and-scan-upload:
     executor: fortify
     working_directory: *workspace_root
@@ -55,9 +83,21 @@ workflows:
   version: 2
   full_workflow:
     jobs:
-      - fortify-translate-and-scan-upload:
-          context:
-            - fortify
+      - build
+
+  nightly-blackduck-scan:
+    triggers:
+      - schedule:
+          cron: '0 0 * * *'
+          filters:
+            branches:
+              only: master
+    jobs:
+      - build
+      - black_duck_scan:
+          context: BlackDuck
+          requires:
+            - build
 
   weekly-fortify-scan:
     triggers:
