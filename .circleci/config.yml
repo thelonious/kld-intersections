@@ -84,10 +84,6 @@ workflows:
   full_workflow:
     jobs:
       - build
-      - black_duck_scan:
-          context: BlackDuck
-          requires:
-            - build
 
   nightly-blackduck-scan:
     triggers:
