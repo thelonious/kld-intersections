@@ -5,6 +5,7 @@ orbs:
   fortify: signavio/fortify@2.0.0
 
 references:
+  workspace_root: &workspace_root "/home/circleci/workspace"
   ubuntu_image: &ubuntu_image "ubuntu-2004:202107-02"
 
 executors:
