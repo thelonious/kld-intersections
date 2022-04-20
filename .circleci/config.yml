@@ -62,7 +62,7 @@ jobs:
             sourceanalyzer \
               -b svg-intersections \
               -verbose \
-              $(find . -type d -path './lib' | paste -s -d ' ')
+              $(find . -type d -path '*/lib' | paste -s -d ' ')
 
       - run:
           name: 'Fortify: scan'
@@ -89,11 +89,11 @@ workflows:
   version: 2
   black-duck-scan:
     triggers:
-      - schedule:
-          cron: '0 0 * * *'
-          filters:
-            branches:
-              only: master
+      # - schedule:
+      #     cron: '0 0 * * *'
+      #     filters:
+      #       branches:
+      #         only: master
     jobs:
       - black_duck_scan:
           context: BlackDuck
