@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   blackduck: signavio/blackduck@1.10.0
   fortify: signavio/fortify@2.0.0
+  sonarcloud: sonarsource/sonarcloud@1.1.0
 
 references:
   workspace_root: &workspace_root "/home/circleci/workspace"
@@ -24,6 +25,37 @@ jobs:
       - checkout:
           path: *workspace_root
       - run: npm install
+      - persist_to_workspace:
+          root: *workspace_root
+          paths:
+            - node_modules
+  
+  sonar_qube_scan:
+    docker:
+      - image: cimg/node:16.13
+    working_directory: *workspace_root
+    steps:
+      - checkout:
+          path: *workspace_root
+      - run: npm install
+      - run: npm run test-with-coverage
+      - run:
+          name: Sonar variables
+          command: |
+            if [ -n "$CIRCLE_PULL_REQUEST" ]; then
+              PR_NUMBER=$(echo $CIRCLE_PULL_REQUEST | sed -E "s/.+\/([0-9]+)$/\1/g")
+              SONAR_ARGS="\
+                -Dsonar.pullrequest.key=${PR_NUMBER} \
+                -Dsonar.pullrequest.branch=${CIRCLE_BRANCH} \
+                -Dsonar.pullrequest.base=master"
+            else
+              SONAR_ARGS="\
+                -Dsonar.branch.name=${CIRCLE_BRANCH}"
+            fi
+
+            -Dsonar.projectKey=com.sap.signavio.svg-intersections
+            -Dsonar.host.url=https://sonar.tools.sap
+      - sonarcloud/scan
       - persist_to_workspace:
           root: *workspace_root
           paths:
@@ -84,6 +116,27 @@ workflows:
   full_workflow:
     jobs:
       - build
+
+  nightly-sonar-qube-scan:
+    context:
+      - SonarQubeSAP
+    filters:
+      branches:
+        only:
+          - master
+          - /.*sonar.*/
+    triggers:
+      - schedule:
+          cron: '0 0 * * *'
+          filters:
+            branches:
+              only: master
+    jobs:
+      - build
+      - sonar_qube_scan:
+          context: BlackDuck
+          requires:
+            - build
 
   nightly-blackduck-scan:
     triggers:

@@ -20,7 +20,8 @@
   "main": "index.js",
   "scripts": {
     "eslint": "eslint .",
-    "test": "mocha"
+    "test": "mocha",
+    "test-with-coverage": "nyc --reporter=lcov mocha"
   },
   "keywords": [
     "intersection",
@@ -38,7 +39,8 @@
   },
   "devDependencies": {
     "eslint": "^5.16.0",
-    "mocha": "^9.2.2"
+    "mocha": "^9.2.2",
+    "nyc": "^15.1.0"
   },
   "engines": {
     "node": ">= 0.10.4"
